@@ -8,10 +8,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>matchboard</title>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+	$(function(){
+		$("#matchEnrollBtn").click(function(){
+			location.href = "${path}/match/enrollForm";
+		});
+	});
+	
+</script>
 </head>
 <body>
-
+	<button id="matchEnrollBtn">매치 등록</button>
 </body>
 </html>

@@ -10,51 +10,55 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+
+	Date.prototype.toDateInputValue = (function() {
+	    var local = new Date(this);
+	    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+	    return local.toJSON().slice(0,10);
+	});
+	$(function(){
+		
+		$("input[name=matchDate]").val(new Date().toDateInputValue());
+	});
+</script>
 </head>
 <body>
 <style>
-      div#enroll-container{width:400px; margin:0 auto; text-align:center;}
+      div#enroll-container{width:400px; margin:0 auto;}
       div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
       </style>
 <section>
 	<div id="enroll-container">
-	   <form name="memberUpdateFrm" action="${pageContext.request.contextPath}/memberUpdateEnd.do" method="post" onsubmit="return validate();" >
-	      <input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="userId" id="userId_" readonly value="${m.userId }">
-	      <input type="text" class="form-control" placeholder="이름" name="userName" id="userName" required value="${m.userName }">
-	      <input type="number" class="form-control" placeholder="나이" name="age" id="age" value="${m.age }">
-	      <input type="email" class="form-control" placeholder="이메일" name="email" id="email" required value="${m.email }">
-	      <input type="tel" class="form-control" placeholder="전화번호 (예:01012345678)" name="phone" id="phone" maxlength="11" required value="${m.phone }">
-	      <input type="text" class="form-control" placeholder="주소" name="address" id="address" value="${m.address }">
-	      <select class="form-control" name="gender" required>
-	         <option value="" disabled selected>성별</option>
-	         <option value="M" ${m.gender eq 'M' ? 'selected' : '' }>남</option>
-	         <option value="F" ${m.gender eq 'F' ? 'selected' : '' }>여</option>
-	      </select>
+	   <form name="matchEnrollForm" action="${pageContext.request.contextPath}/match/enroll" method="post" onsubmit="return validate();" >
+	      날짜 <input type="date" placeholder="날짜" name="matchDate"  required> <br>
+	      구장 <input type="text" class="form-control" placeholder="구장" name="playground"> <br>
+	    매치유형   <!-- <input type="text" class="form-control" placeholder="축구/풋살" name="matchType" list="playType">  -->
+	    <select name="matchType">
+	    	<option>축구</option>
+	    	<option>풋살</option>
+	    </select>
+	    <br>
+	     회비 <input type="number" class="form-control" placeholder="회비" name="email" id="email" value="${m.email }"> <br>
+	     유니폼색 <input type="text" class="form-control" placeholder="유니폼색" name="email" id="email" value="${m.email }"> <br>
+	     경기가능지역 <input type="text" class="form-control" placeholder="경기가능지역" name="email" id="email" value="${m.email }"> <br>
+	     내용 <textarea name="memo" cols="50" rows=6" style="resize:none"></textarea>
 	      
 	      <br />
-	      <input type="submit" class="btn btn-outline-success" value="수정" >&nbsp;
-	      <input type="reset" class="btn btn-outline-success" value="탈퇴">
+	      <input type="submit" class="btn btn-outline-success" value="등록" >&nbsp;
+	      <input type="reset" class="btn btn-outline-success" value="취소">
 	   </form>
 	</div>
 	<!-- 패스워드 일치 여부, 아이디 4자리이상 -->
 	<script>
 		$(function(){
-			$("#password2").blur(function(){
-				var pw = $("#password_").val();
-				var pwck = $("#password2").val();
-				
-				if (pw != pwck) {
-					alert("패스워드가 일치하지 않습니다");
-					$("#password2").val("");
-					$("#password_").focus();
-				}
-			});
+		
 		});
 		
 		function validate() {
-			var id = $("#userId_").val().trim();
-			if (id.length < 4) {
-				alert("아이디 4글자 이상 입력하세요");
+			var memo = $("[name=memo]").val().trim();
+			if (memo.length == 0) {
+				alert("내용 입력");
 				return false;
 			}
 		}

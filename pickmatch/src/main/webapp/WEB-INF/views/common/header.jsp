@@ -36,7 +36,7 @@
         <a class="nav-link" href="#">Features</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">match</a>
+        <a class="nav-link" href="${path }/match/view">match</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">About</a>

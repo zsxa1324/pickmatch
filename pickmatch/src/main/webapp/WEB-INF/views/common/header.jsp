@@ -36,7 +36,7 @@
         <a class="nav-link" href="#">Features</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
+        <a class="nav-link" href="${path}/match/matchList.do">매치보드</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">About</a>

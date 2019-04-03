@@ -9,10 +9,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/matchEnroll_kakaoSearch.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/modal.css" />
+<style>
+
+</style>
 
 <script>
 
@@ -24,33 +30,27 @@
 	$(function(){
 		
 		$("input[name=matchDate]").val(new Date().toDateInputValue());
-		
-		// Get the modal
-        var modal = document.getElementById('myModal');
- 
-        // Get the button that opens the modal
-        var btn = document.getElementById("myBtn");
- 
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];                                          
- 
-        // When the user clicks on the button, open the modal 
-        btn.onclick = function() {
-            modal.style.display = "block";
-        }
- 
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
- 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
+		 $("#playgroundSearchBtn").click(function(){
+		        $('div.modal').modal();
+		        
+		    })
+		$(".modal").on("shown.bs.modal", function(){
+			map.relayout();
+		});
+		 
+		$(document).on("click", ".item", function(){
+			/* console.log(this);
+			console.log($(this).children("div").children("input").val()); */
+			var latLng = $(this).children("div").children("input").val().split(" ");
+			var lat = latLng[0];
+			var lng = latLng[1];
+			console.log(lat + " " + lng);
+			// 이동할 위도 경도 위치를 생성합니다 
+		    var moveLatLon = new daum.maps.LatLng(lat, lng);
+		 	// 지도 중심을 이동 시킵니다
+		    map.panTo(moveLatLon); 
+			
+		});
 	});
 
 </script>
@@ -61,54 +61,66 @@
       div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
 </style>
 <section>
-	<div class="map_wrap">
-		    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-		
-		    <div id="menu_wrap" class="bg_white">
-		        <div class="option">
-		            <div>
-		                <form onsubmit="searchPlaces(); return false;">
-		                    키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
-		                    <button type="submit">검색하기</button> 
-		                </form>
-		            </div>
-		        </div>
-		        <hr>
-		        <ul id="placesList"></ul>
-		        <div id="pagination"></div>
-		    </div>
-		</div>
 	
-	<!-- The Modal -->
-    <div id="myModal" class="modal">
- 
-      <!-- Modal content -->
-      <div class="modal-content">
-        <span class="close">&times;</span>                                                               
-        
-      </div>
- 
-    </div>
 	
-
+	<div class="modal fade" id="layerpop" >
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <!-- header -->
+	      <div class="modal-header">
+	        <!-- 닫기(x) 버튼 -->
+	        <button type="button" class="close" data-dismiss="modal">×</button>
+	        <!-- header title -->
+	        <h4 class="modal-title">구장 검색</h4>
+	      </div>
+	      <!-- body -->
+	      <div class="modal-body">
+	      	<div class="map_wrap">
+	      		<div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+			    <div id="menu_wrap" class="bg_white">
+			        <div class="option">
+			            <div>
+			                <form onsubmit="searchPlaces(); return false;">
+			                    키워드 : <input type="text" value="풋살" id="keyword" size="15"> 
+			                    <button type="submit">검색하기</button> 
+			                </form>
+			            </div>
+			        </div>
+			        <hr>
+			        <ul id="placesList"></ul>
+			        <div id="pagination"></div>
+			    </div>
+			</div>
+	      </div>
+	      <!-- Footer -->
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	
 	<div id="enroll-container">
 	   <form name="matchEnrollForm" action="${pageContext.request.contextPath}/match/enroll" method="post" onsubmit="return validate();" >
-	      날짜 <input type="date" placeholder="날짜" name="matchDate"  required> <br>
-	      구장 <input type="text" class="form-control" placeholder="구장" name="playground"> 
-	      <!-- Trigger/Open The Modal -->
-    	<button type="button" id="myBtn">검색</button>
-	      <br>
-	    매치유형   <!-- <input type="text" class="form-control" placeholder="축구/풋살" name="matchType" list="playType">  -->
+	      날짜 <input type="date" placeholder="날짜" name="matchDate"  required><br> 
+	     시간 <input type="time" name="matchTime" required><br>
+	  	 매치유형   <!-- <input type="text" class="form-control" placeholder="축구/풋살" name="matchType" list="playType">  -->
 	    <select name="matchType">
 	    	<option>축구</option>
 	    	<option>풋살</option>
 	    </select>
-	    <br>
-	     회비 <input type="number" class="form-control" placeholder="회비" name="email" id="email" value="${m.email }"> <br>
-	     유니폼색 <input type="text" class="form-control" placeholder="유니폼색" name="email" id="email" value="${m.email }"> <br>
-	     경기가능지역 <input type="text" class="form-control" placeholder="경기가능지역" name="email" id="email" value="${m.email }"> <br>
-	     내용 <textarea name="memo" cols="50" rows=6" style="resize:none"></textarea>
+	    <br>  
+	      <label>구장</label> <input type="text" placeholder="구장" name="playground">
+	      <button type="button" id="playgroundSearchBtn">검색</button><br/>
+    	
+    	<!-- <div id="map" style="width:100%;height:30%;position:relative;overflow:hidden;"></div> -->
+    	<div id="map2" style="width:100%;height:300px;position:relative;overflow:hidden;"></div>    
+	      <br>
+	    
+	     비용 <input type="number" class="form-control" placeholder="비용" name="cost" id="cost" > <br>
+	     유니폼색 <input type="text" class="form-control" placeholder="유니폼색" name="email" id="email"> <br>
+	     경기가능지역 <input type="text" class="form-control" placeholder="경기가능지역" name="email" id="email" > <br>
+	     내용 <textarea name="matchContent" cols="50" rows=6" style="resize:none"></textarea>
 	      
 	      <br />
 	      <input type="submit" class="btn btn-outline-success" value="등록" >&nbsp;
@@ -119,15 +131,23 @@
 <script>
 	// 마커를 담을 배열입니다
 	var markers = [];
+	var markers2 = [];
 	
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = {
 	        center: new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
 	        level: 3 // 지도의 확대 레벨
-	    };  
+	    };
+	
+	var mapContainer2 = document.getElementById('map2'), // 지도를 표시할 div 
+    mapOption2 = {
+        center: new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };
 	
 	// 지도를 생성합니다    
-	var map = new daum.maps.Map(mapContainer, mapOption); 
+	var map = new daum.maps.Map(mapContainer, mapOption);
+	var map2 = new daum.maps.Map(mapContainer2, mapOption2);
 	
 	// 장소 검색 객체를 생성합니다
 	var ps = new daum.maps.services.Places();  
@@ -155,13 +175,13 @@
 	// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
 	function placesSearchCB(data, status, pagination) {
 	    if (status === daum.maps.services.Status.OK) {
-	
 	        // 정상적으로 검색이 완료됐으면
 	        // 검색 목록과 마커를 표출합니다
 	        displayPlaces(data);
 	
 	        // 페이지 번호를 표출합니다
 	        displayPagination(pagination);
+	        
 	
 	    } else if (status === daum.maps.services.Status.ZERO_RESULT) {
 	
@@ -232,6 +252,8 @@
 	
 	    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
 	    map.setBounds(bounds);
+	    map2.setBounds(bounds);
+	   
 	}
 	
 	// 검색결과 항목을 Element로 반환하는 함수입니다
@@ -248,9 +270,10 @@
 	    } else {
 	        itemStr += '    <span>' +  places.address_name  + '</span>'; 
 	    }
-	                 
+	      var latLng = places.y + " " + places.x           
+		  itemStr += '<input type="hidden" class="LatLng" value="' +  latLng + '"/>';
 	      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
-	                '</div>';           
+	                '</div>';
 	
 	    el.innerHTML = itemStr;
 	    el.className = 'item';
@@ -272,9 +295,15 @@
 	            position: position, // 마커의 위치
 	            image: markerImage 
 	        });
+	    var marker2 = new daum.maps.Marker({
+            position: position, // 마커의 위치
+            image: markerImage 
+        })
 	
 	    marker.setMap(map); // 지도 위에 마커를 표출합니다
+	    marker2.setMap(map2); // 지도 위에 마커를 표출합니다
 	    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+	    markers2.push(marker);  // 배열에 생성된 마커를 추가합니다
 	
 	    return marker;
 	}
@@ -283,11 +312,13 @@
 	function removeMarker() {
 	    for ( var i = 0; i < markers.length; i++ ) {
 	        markers[i].setMap(null);
+	        markers2[i].setMap(null);
 	    }   
 	    markers = [];
+	    markers2 = [];
 	}
 	
-	// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
+	// 검색결과 목록 하단에 페이지번호를 표시하는 함수입니다
 	function displayPagination(pagination) {
 	    var paginationEl = document.getElementById('pagination'),
 	        fragment = document.createDocumentFragment(),
@@ -333,6 +364,9 @@
 	        el.removeChild (el.lastChild);
 	    }
 	}
+	
+
+	 
 </script>
 	
 	

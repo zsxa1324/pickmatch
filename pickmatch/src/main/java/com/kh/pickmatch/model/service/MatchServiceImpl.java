@@ -33,6 +33,21 @@ private MatchDao dao;
 		List<Map> list=dao.fMatch();
 		return list;
 	}
+
+	@Override
+	public List<Map> matchContent(String matchDate) {
+		List<Map> list=dao.matchContent(matchDate);
+		return list;
+	}
+
+	@Override
+	public List<Map> incomMatch(String matchDate) {
+		List<Map> list=dao.incomMatch(matchDate);
+		return list;
+	}
+	
+	
+	
 	
 	
 

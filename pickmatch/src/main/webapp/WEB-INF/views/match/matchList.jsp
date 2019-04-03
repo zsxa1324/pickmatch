@@ -59,7 +59,7 @@ $(document).ready(function(){
 		
 		<c:forEach items="${ofMatch}" var="c" varStatus="vs">
 		{
-			
+			"id" : '1',
 			"title":'매치완료경기(${c.C})',
 			"start":'${c.CC}'
 		},
@@ -68,6 +68,7 @@ $(document).ready(function(){
 		
 		<c:forEach items="${icMatch}" var="f">
 		{
+			"id":'2',
 			"color":"#FF0000",
 			"title":'미매치경기(${f.F})',
 			"start":'${f.FF}',
@@ -88,13 +89,27 @@ $(document).ready(function(){
       events: eventData,
 	  eventClick:function(event){
 		
-			console.log(event.event.start);
+			console.log(event.event);
 			var d2=new Date(event.event.start);
 			var fYear2 = d2.getFullYear();
 			var pMonth2 = d2.getMonth()+1;
 			var gDate2 = d2.getDate();
-			var today3 =fYear2+"-"+pMonth2+"-"+gDate2; 
+			var today3 =fYear2+"-"+pMonth2+"-"+gDate2;
+			var id=event.event.id;
+			console.log(id);
 			console.log(today3);
+			
+			$.ajax({
+				url:"${path}/match/matchContent",
+				dataType:"html",
+				type:"POST",
+				data:{"matchDate":today3,"id":id},
+				success:function(data){
+					$("#result").html(data);
+					$("html,section").scrollTop(document.body.scrollHeight);
+				}
+				
+			});
 		
 	}
     });
@@ -114,6 +129,8 @@ $(document).ready(function(){
 </style> 
 <section>
  <div id='calendar'></div>
+ 
+ <div id="result"></div>
 </section>
 
 

@@ -33,5 +33,18 @@ public List<Map> fMatch() {
 	return list;
 }
 
+@Override
+public List<Map> matchContent(String matchDate) {
+	List<Map> list=session.selectList("match.matchContent",matchDate);
+	return list;
+}
+
+@Override
+public List<Map> incomMatch(String matchDate) {
+	List<Map> list=session.selectList("match.incomMatch",matchDate);
+	return list;
+}
+
+
 
 }

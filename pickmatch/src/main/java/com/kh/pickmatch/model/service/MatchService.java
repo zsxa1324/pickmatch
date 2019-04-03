@@ -10,5 +10,8 @@ public interface MatchService {
 	public List<Match> matchList();
 	public List<Map> tmatch();
 	public List<Map> fmatch();
+	public List<Map> matchContent(String matchDate);
+	public List<Map> incomMatch(String matchDate);
+	
 	
 }

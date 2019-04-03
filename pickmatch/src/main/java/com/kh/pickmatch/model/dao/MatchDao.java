@@ -10,6 +10,7 @@ public interface MatchDao {
 	public List<Match> matchList();
 	public List<Map> tMatch();
 	public List<Map> fMatch();
-	
+	public List<Map> matchContent(String matchDate);
+	public List<Map> incomMatch(String matchDate);
 
 }

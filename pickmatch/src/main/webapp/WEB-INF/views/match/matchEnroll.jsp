@@ -76,6 +76,7 @@
 			
 		 	// 지도 중심을 이동 시킵니다
 		    map2.panTo(moveLatLon); 
+		 	$(".close").trigger("click");
 		});
 	});
 

@@ -14,6 +14,11 @@ List<Match> list=(List)request.getAttribute("list");
 	<jsp:param value="Hello Spring" name="title"/>
 </jsp:include>    
     
+<style>
+html,body {
+	scroll-behavior: smooth;
+}
+</style>
 
 <link href='${path }/resources/packages/core/main.css' rel='stylesheet' />
 <link href='${path }/resources/packages/daygrid/main.css' rel='stylesheet' />
@@ -106,7 +111,8 @@ $(document).ready(function(){
 				data:{"matchDate":today3,"id":id},
 				success:function(data){
 					$("#result").html(data);
-					$("html,section").scrollTop(document.body.scrollHeight);
+					document.getElementById('result').scrollIntoView();
+					/* $("html,section").scrollTop(document.body.scrollHeight); */
 				}
 				
 			});

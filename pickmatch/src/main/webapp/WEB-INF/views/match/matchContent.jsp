@@ -14,16 +14,27 @@ section#section-matchContent article#article-matchContent div.div-matchContent{
 text-align:center;
 border: 1px solid red;
 width: 600px;
+height:200px;
 margin : 15px auto;
-
 }
 section#section-matchContent article#article-matchContent{
-margin:auto;
+margin: 0 auto;
 text-align: center;
 }
 section#section-matchContent{
 margin-top: 100px;
 }
+section#section-matchContent article#article-matchContent div.div-away,section#section-matchContent article#article-matchContent div.div-home{
+display: inline-block;
+}
+section#section-matchContent article#article-matchContent div.div-matchVersus{
+height: 100px;
+}
+section#section-matchContent article#article-matchContent .div-matchButton button{
+display: block;
+margin: 0 auto;
+}
+
 </style>
 </head>
 <body>
@@ -38,9 +49,14 @@ $("#dateP").text(date);
 <c:forEach items="${list }" var="c">
 
 <c:if test="${c['TEAMAWAY']!=null }">
-<div class="div-matchContent" style="margin-bottom: 20px;">
+<div class="div-matchContent">
+<div class="div-matchTime">
 <H5>${c['MATCHTIME'] }</H5>
-<h1>${c['TEAMHOME'] } vs ${c['TEAMAWAY'] }</h1>
+</div>
+<div class="div-matchVersus">
+<div class="div-home">
+${c['TEAMHOME'] }</div> vs <div class="div-away">${c['TEAMAWAY'] }</div>
+</div>
 </div>
 </c:if>
 </c:forEach>
@@ -49,9 +65,18 @@ $("#dateP").text(date);
 <c:forEach items="${list }" var="c">
 <c:if test="${c['TEAMAWAY']==null}">
 <div class="div-matchContent">
+<div class="div-matchTime">
 <H5>${c['MATCHTIME'] }</H5>
-<h1>${c['TEAMHOME'] } vs</h1>
+</div>
+<div>
+<div class="div-matchVersus">
+<div class="div-home">${c['TEAMHOME'] }</div> vs
+</div>
+<div class="div-matchButton">
+<button type="button">상세보기</button>
 <button type="button">매치신청</button>
+</div>
+</div>
 </div>
 </c:if>
 </c:forEach>

@@ -61,18 +61,35 @@
 
 		    // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
 		    // marker.setMap(null); 
-		    
+		    $("input[name=playground]").val(playgroundName);
+		    $("input[name=lat]").val(lat);
+		    $("input[name=lng]").val(lng);
 		    var iwContent = '<div style="padding:5px;">' + playgroundName + '</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 		    iwPosition = new daum.maps.LatLng(lat, lng), //인포윈도우 표시 위치입니다
 		    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
 			// 인포윈도우를 생성하고 지도에 표시합니다
+			/* var infowindow = new daum.maps.InfoWindow({zIndex:1}); */
 			var infowindow = new daum.maps.InfoWindow({
 			    map: map2, // 인포윈도우가 표시될 지도
 			    position : iwPosition, 
 			    content : iwContent,
 			    removable : iwRemoveable
 			});
+		    
+			daum.maps.event.addListener(marker, 'mouseover', function() {
+				infowindow.setContent(iwContent);
+			    infowindow.open(map2, marker);
+            });
+
+            daum.maps.event.addListener(marker, 'mouseout', function() {
+                infowindow.close();
+            });
+            
+            daum.maps.event.addListener(marker, 'click', function() {
+            	
+                console.log(marker);
+            });
 			
 		 	// 지도 중심을 이동 시킵니다
 		    map2.panTo(moveLatLon); 
@@ -137,7 +154,10 @@
 	    </select>
 	    <br>  
 	      <label>구장</label> <input type="text" placeholder="구장" name="playground">
-	      <button type="button" id="playgroundSearchBtn">검색</button><br/>
+	      <button type="button" id="playgroundSearchBtn">검색</button>
+	      <input type="hidden" name="lat"/>
+	      <input type="hidden" name="lng"/>
+	      <br/>
     	
     	<!-- <div id="map" style="width:100%;height:30%;position:relative;overflow:hidden;"></div> -->
     	<div id="map2" style="width:100%;height:300px;position:relative;overflow:hidden;"></div>    

@@ -8,11 +8,15 @@ public class Match {
 	private String teamHome;
 	private String teamAway;
 	private Date matchDate;
+	private int matchTime;
 	private String matchType;
 	private String playGround;
 	private int homeScore;
 	private int awayScore;
 	private int cost;
+	private String matchContent;
+	private int lat;
+	private int lng;
 	
 	
 	public Match() {
@@ -20,18 +24,22 @@ public class Match {
 	}
 
 
-	public Match(int matchNo, String teamHome, String teamAway, Date matchDate, String matchType, String playGround,
-			int homeScore, int awayScore, int cost) {
+	public Match(int matchNo, String teamHome, String teamAway, Date matchDate, int matchTime, String matchType,
+			String playGround, int homeScore, int awayScore, int cost, String matchContent, int lat, int lng) {
 		super();
 		this.matchNo = matchNo;
 		this.teamHome = teamHome;
 		this.teamAway = teamAway;
 		this.matchDate = matchDate;
+		this.matchTime = matchTime;
 		this.matchType = matchType;
 		this.playGround = playGround;
 		this.homeScore = homeScore;
 		this.awayScore = awayScore;
 		this.cost = cost;
+		this.matchContent = matchContent;
+		this.lat = lat;
+		this.lng = lng;
 	}
 
 
@@ -72,6 +80,16 @@ public class Match {
 
 	public void setMatchDate(Date matchDate) {
 		this.matchDate = matchDate;
+	}
+
+
+	public int getMatchTime() {
+		return matchTime;
+	}
+
+
+	public void setMatchTime(int matchTime) {
+		this.matchTime = matchTime;
 	}
 
 
@@ -125,12 +143,46 @@ public class Match {
 	}
 
 
+	public String getMatchContent() {
+		return matchContent;
+	}
+
+
+	public void setMatchContent(String matchContent) {
+		this.matchContent = matchContent;
+	}
+
+
+	public int getLat() {
+		return lat;
+	}
+
+
+	public void setLat(int lat) {
+		this.lat = lat;
+	}
+
+
+	public int getLng() {
+		return lng;
+	}
+
+
+	public void setLng(int lng) {
+		this.lng = lng;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Match [matchNo=" + matchNo + ", teamHome=" + teamHome + ", teamAway=" + teamAway + ", matchDate="
-				+ matchDate + ", matchType=" + matchType + ", playGround=" + playGround + ", homeScore=" + homeScore
-				+ ", awayScore=" + awayScore + ", cost=" + cost + "]";
+				+ matchDate + ", matchTime=" + matchTime + ", matchType=" + matchType + ", playGround=" + playGround
+				+ ", homeScore=" + homeScore + ", awayScore=" + awayScore + ", cost=" + cost + ", matchContent="
+				+ matchContent + ", lat=" + lat + ", lng=" + lng + "]";
 	}
+
+
+
 	
 	
 

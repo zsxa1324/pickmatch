@@ -1,8 +1,8 @@
-package com.kh.pickmatch.service;
+package com.kh.pickmatch.dao;
 
 import com.kh.pickmatch.model.vo.Member;
 
-public interface MemberService {
+public interface MemberDao {
 
 	Member selectOne(Member m);
 

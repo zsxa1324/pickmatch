@@ -175,6 +175,8 @@
 							<input type="password" class="form-control" name="password" placeholder="비밀번호" required/>
 						</div>
 						<div class="modal-footer">
+							<a id="kakao-login-btn"></a>
+							<a href="http://developers.kakao.com/logout"></a>
 							<button type="submit" class="btn btn-primary">로그인</button>
 							<button type="button" class="btn btn-secondary"
 								data-dismiss="modal">취소</button>
@@ -185,12 +187,12 @@
 					<form action="${path }/member/memberEnroll.do" method="post">
 						<div class="modal-body">
 							<input type="text" class="form-control"	name="memberId" placeholder="아이디" required/>
-							<input type="password" class="form-control" name="password" placeholder="비밀번호" required/>
-							<input type="password" class="form-control" name="password2" placeholder="비밀번호확인" required/>
+							<input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required/>
+							<input type="password" class="form-control" id="password_" placeholder="비밀번호확인" required/>
 							<input type="text" class="form-control" name="memberName" placeholder="이름" required/>
 							<input type="text" class="form-control" name="nickName" placeholder="닉네임" required/>
-							<input type="tel" class="form-control" name="phone" placeholder="전화번호(예:01012345678)" required/>
-							<input type="email" class="form-control" name="email" placeholder="이메일" required/>
+							<input type="tel" class="form-control" name="phone" placeholder="전화번호(예:01012345678)" maxlength="11" required/>
+							<input type="email" class="form-control" name="email" placeholder="이메일" required/><button type="button" class="btn btn-outline-secondary">인증메일발송</button>
 							<input type="number" class="form-control" name="birth" placeholder="출생년도" required/>
 							성별
 							<label><input type="radio" name="gender" value="M" > 남 </label>
@@ -254,6 +256,29 @@
 		$("#login-login").hide();
 		$("#login-enroll").show();
 	}
+	
+	/* 카카오 로그인 */
+	   /*Kakao.init('c4f0aaa7f32ad43a59ff52dd744b1a3e'); */
+	   /*  */
+	   Kakao.init('2cc490669f217fdbbf6bcdce998539c2');
+	   Kakao.Auth.createLoginButton({
+	      container: '#kakao-login-btn',
+	      success: function(authObj){
+	         Kakao.API.request({
+	            url: '/v1/user/me',
+	            success:function(res){
+	               console.log(res);
+	               
+	               $('#kakaoId').val(res.id);
+	               $('#kakaoNick').val(res.properties['memberNickname']);
+	            
+	              $('#kakaoLoginForm').submit();
+	            }
+	         })      
+	      },
+	      fail:function(err){ alert(JSON.stringify(err));}
+	   });
+
 </script>
 		
 		

@@ -1,16 +1,21 @@
 package com.kh.pickmatch.model.vo;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.sql.Date;
 
-public class Member {
+public class Member implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6534814008227138973L;
 	private String memberId;
 	private String password;
 	private String memberName;
-	private String nickName;
+	private String nickname;
 	private String phone;
 	private String email;
-	private int birth;
+	private String birth;
 	private String gender;
 	private String position;
 	private String location;
@@ -22,14 +27,14 @@ public class Member {
 	
 	public Member() {}
 
-	public Member(String memberId, String password, String memberName, String nickName, String phone, String email,
-			int birth, String gender, String position, String location, Date enrollDate, String status, String profile,
-			String introduce, int activityPoint) {
+	public Member(String memberId, String password, String memberName, String nickname, String phone, String email,
+			String birth, String gender, String position, String location, Date enrollDate, String status,
+			String profile, String introduce, int activityPoint) {
 		super();
 		this.memberId = memberId;
 		this.password = password;
 		this.memberName = memberName;
-		this.nickName = nickName;
+		this.nickname = nickname;
 		this.phone = phone;
 		this.email = email;
 		this.birth = birth;
@@ -67,12 +72,12 @@ public class Member {
 		this.memberName = memberName;
 	}
 
-	public String getNickName() {
-		return nickName;
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public String getPhone() {
@@ -91,11 +96,11 @@ public class Member {
 		this.email = email;
 	}
 
-	public int getBirth() {
+	public String getBirth() {
 		return birth;
 	}
 
-	public void setBirth(int birth) {
+	public void setBirth(String birth) {
 		this.birth = birth;
 	}
 
@@ -165,13 +170,11 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "Member [memberId=" + memberId + ", password=" + password + ", memberName=" + memberName + ", nickName="
-				+ nickName + ", phone=" + phone + ", email=" + email + ", birth=" + birth + ", gender=" + gender
+		return "Member [memberId=" + memberId + ", password=" + password + ", memberName=" + memberName + ", nickname="
+				+ nickname + ", phone=" + phone + ", email=" + email + ", birth=" + birth + ", gender=" + gender
 				+ ", position=" + position + ", location=" + location + ", enrollDate=" + enrollDate + ", status="
 				+ status + ", profile=" + profile + ", introduce=" + introduce + ", activityPoint=" + activityPoint
 				+ "]";
 	}
 	
-	
-
 }

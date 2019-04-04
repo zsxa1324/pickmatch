@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="team">
+	
+	<select id="selectTMemberList" parameterType="map" resultType="map">
+		select m.membername, m.nickname, m.position, mt.authority, mc.status, memberid
+		from memberbyteam mt
+		join member m using(memberid)
+		join moneycheck mc using(memberid)
+		where mt.teamname = #{teamName} and (exitdate is null or exitdate <![CDATA[<=]]> to_date(#{currentDate}))
+	</select>
+	
+	<select id="selectTeamOne" parameterType="string" resultType="string">
+		select teamname from memberbyteam where memberid = #{memberId}
+	</select>
+	
+	<select id="selectAccountOne" parameterType="string" resultType="account">
+		select * from teamoperationaccount where teamname = #{teamName}
+	</select>
+	
+	<select id="selectMoneyHistoryList" parameterType="string" resultType="map">
+		select mh.inouttype, m.membername, m.nickname, mh.money, mh.content, mh.inoutdate
+		from moneyhistory mh
+		join member m using(memberid)
+		where teamname = #{teamName}
+		order by inoutdate desc
+	</select>
+	
+	<update id="updateTeamAccount" parameterType="account">
+		update teamoperationaccount set accountholder = #{accountHolder}, bankname = #{bankName}, accountnumber = #{accountNumber}, money = #{money} where teamname = #{teamName}
+	</update>
+	
+	<insert id="insertTeamAccount" parameterType="account">
+		insert into teamoperationaccount values(#{teamName}, #{accountHolder}, #{bankName}, #{accountNumber}, #{money}, default)
+	</insert>
+	
+	<insert id="insertMHistory" parameterType="mHistory">
+		insert into moneyhistory values(SEQ_MONEYHISTORYNO.nextval, #{teamName}, #{memberId}, #{inoutType}, #{money}, sysdate, #{content})
+	</insert>
+	
+
+</mapper>

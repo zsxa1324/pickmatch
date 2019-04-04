@@ -1,6 +1,7 @@
 package com.kh.pickmatch.controller;
 
-import java.util.Date;
+
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +30,15 @@ private Logger logger = LoggerFactory.getLogger(MemberController.class);
 		return "match/matchEnroll";
 	}
 	
+	/*@RequestMapping("/match/enrollEnd")
+	public String enrollMatch(Date matchDate, String matchTime, String matchType, String playGround, int cost, String possibleLocal, String matchContent, double lat, double lng) {
+		logger.debug("enrollMatch :// " + matchDate + " : " + matchTime + " : " + matchType + " : " + lat + " : " + lng);
+		return "match/matchList";
+	}*/
+	
 	@RequestMapping("/match/enrollEnd")
-	public String enrollMatch(Date matchDate, String matchType, String playGround, int cost, String email, String possibleLocal, String matchContent) {
-		logger.debug("enrollMatch :// " + matchDate + " : " + matchType);
+	public String enrollMatch(Match match) {
+		logger.debug("enrollMatch :// " + match);
 		return "match/matchList";
 	}
 

@@ -39,6 +39,8 @@ private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	@RequestMapping("/match/enrollEnd")
 	public String enrollMatch(Match match) {
 		logger.debug("enrollMatch :// " + match);
+		int result = service.insertMatch(match);
+		logger.debug("insertMatch 결과 : " + result);
 		return "match/matchList";
 	}
 

@@ -22,7 +22,7 @@
 
   <div class="form-group">
   	<label style="margin-right: 30px; margin-left: 20px; display:inline-block;">내용</label>
-  	<textarea class="form-control" rows="3" style="width:300px; margin-right: 30px; margin-left: 20px" readonly>${teamboard.boardContent }</textarea>
+  	<textarea class="form-control" rows="10" style="width:600px; margin-right: 30px; margin-left: 20px" readonly>${teamboard.boardContent }</textarea>
   </div>
 
 

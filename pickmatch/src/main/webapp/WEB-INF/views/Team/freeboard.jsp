@@ -15,6 +15,7 @@
 	<h1 style="text-align: center;">팀 자유게시판</h1>
 </div>
 <br><br>
+
 <div id="team-freeboard">
 	<table id="team-freeboard-table" class="table table-striped table-hover">
 		<tr id="team-freeboard">

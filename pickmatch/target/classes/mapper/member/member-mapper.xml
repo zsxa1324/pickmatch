@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="member">
-<!--   <insert id="insertMember" parameterType="com.kh.spring.model.vo.Member">
-  	insert into member values(#{userId},#{password},
+   <!-- <insert id="insertMember" parameterType="member">
+  	insert into member values(#{memberId},#{password},
   				#{userName},#{gender},#{age},#{email},
   				#{phone},#{address},#{hobby, typeHandler=strArr}
   				,default)
-  </insert>
-  <resultMap id="memberMap" type="member">
+  </insert> -->
+  <!-- <resultMap id="memberMap" type="member">
   	<result column="hobby" property="hobby" typeHandler="strArr"/>
-  </resultMap>
-  <select id="selectOne" parameterType="member" resultMap="memberMap">
-  	select * from member where userid=#{userId}
+  </resultMap> -->
+  <select id="selectOne" parameterType="member" resultType="member">
+  	select * from member where memberid=#{memberId}
   </select>
-  <update id="update" parameterType="member">
+  <!-- <update id="update" parameterType="member">
   	update member set userName=#{userName},gender=#{gender},
   						age=#{age},email=#{email},address=#{address},
   						phone=#{phone}, hobby=#{hobby, typeHandler=strArr}
-  					where userid=#{userId}
-  </update>
-   -->
+  					where memberid=#{memberId}
+  </update> -->
+
   
   
 </mapper>

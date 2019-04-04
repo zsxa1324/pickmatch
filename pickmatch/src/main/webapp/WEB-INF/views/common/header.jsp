@@ -5,12 +5,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" />
+
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<!-- 부트스트랩관련 라이브러리 -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 	<!-- 사용자작성 css -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css" />
+	<link rel="stylesheet" href='${path}/resources/css/team.css'/>
 <meta charset="UTF-8">
 <title>메인화면</title>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -48,7 +54,7 @@
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" 
-							href="${path }/memo/memo.do">메모</a>
+							href="${path}/team/teamOperationInfo">팀 운영정보</a>
 						</li>
 					</ul>
 					<c:if test="${loggedMember==null }">
@@ -66,7 +72,7 @@
 					 </c:if>
 					 <c:if test="${loggedMember!=null }">
 					 	<span>
-					 		<a href="${path }/member/update.do?userId=${loggedMember.userId}">${loggedMember.userName }</a>
+					 		<a href="${path }/member/update.do?memberId=${loggedMember.memberId}">${loggedMember.memberName }</a>
 					 		님 환영합니다!
 					 	</span>
 					 	<button class="btn btn-outline-success my-2 my-sm-0"
@@ -96,7 +102,7 @@
 					<form action="${path }/member/memberLogin.do" method="post">
 					<div class="modal-body">
 						<input type="text" class="form-control" 
-						name="userId" 
+						name="memberId" 
 						placeholder="아이디" required/>
 						<br/>
 						<input type="password" class="form-control"

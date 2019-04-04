@@ -10,28 +10,16 @@ import com.kh.pickmatch.model.vo.Member;
 public class MemberDaoImpl implements MemberDao {
 
 	@Autowired
-	SqlSessionTemplate session;
+	private SqlSessionTemplate session;
 	
-	@Override
-	public int insertMember(Member m) {
-		return 0;
-	}
-
 	@Override
 	public Member selectOne(Member m) {
-		return session.selectOne("member.selectOne", m);
+		return session.selectOne("member.selectOne",m);
 	}
 
 	@Override
-	public int update(Member m) {
-		return session.update("member.update", m);
+	public int insertMember(Member m) {
+		return session.insert("member.insertMember",m);
 	}
 
-	@Override
-	public int delete(Member m) {
-		return session.delete("member.delete", m);
-	}
-
-	
-	
 }

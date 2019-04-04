@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.pickmatch.model.dao.TeamDao;
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
 @Service
@@ -51,6 +52,37 @@ public class TeamServiceImpl implements TeamService {
 		return dao.insertMHistory(mHistory);
 	}
 
+	
+	
+	
+	
+	
+	
+	@Override
+	public Object selectTeamBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return dao.selectTeamBoard(boardNo);
+	}
+
+
+	@Override
+	public Object selectAttachment(int boardNo) {
+		// TODO Auto-generated method stub
+		return dao.selectAttachment(boardNo);
+	}
+
+
+	@Override
+	public int selectCount() {
+		// TODO Auto-generated method stub
+		return dao.selectCount();
+	}
+	
+	@Override
+	public List<TeamBoard> selectList(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectList(cPage, numPerPage);
+	}
 	
 	
 	

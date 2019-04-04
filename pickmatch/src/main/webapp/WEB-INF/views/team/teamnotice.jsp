@@ -43,7 +43,7 @@
 
 <script>
 	function fn_write(){
-		location.href="${path}/Team/teamnoticeWrite";
+		location.href="${path}/team/teamnoticeWrite";
 	}
 </script>
 

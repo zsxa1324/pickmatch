@@ -140,27 +140,36 @@ public class TeamController {
 		return "common/msg";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@RequestMapping("/team.do")
 	public String teaminfo() {
-		return "Team/teaminfo";
+		return "team/teaminfo";
 		
 	}
 	
 	@RequestMapping("/teammercenary.do")
 	public String teammercenaryinfo() {
-		return "Team/teammercenary";
+		return "team/teammercenary";
 		
 	}
 	
 	@RequestMapping("/teamcreate.do")
 	public String teamcreate (){
-		return "Team/teamcreate";
+		return "team/teamcreate";
 		
 	}
 	
 	@RequestMapping("/teamnotice.do")
 	public String teamnotice() {
-		return "Team/teamnotice";
+		return "team/teamnotice";
 	}
 	
 	@RequestMapping("/freeboard.do")
@@ -176,7 +185,7 @@ public class TeamController {
 		mv.addObject("totalList", totalList);
 		System.out.println(totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/Team/freeboard"));
-		mv.setViewName("Team/freeboard");
+		mv.setViewName("team/freeboard");
 		return mv;
 	}
 		
@@ -185,27 +194,27 @@ public class TeamController {
 	
 	@RequestMapping("/teamranking.do")
 	public String teamranking(){
-		return "Team/teamranking";
+		return "team/teamranking";
 	}
 	
 	@RequestMapping("/mercenaryranking.do")
 	public String mercenaryranking() {
-		return "Team/mercenaryranking";
+		return "team/mercenaryranking";
 	}
 	
-	@RequestMapping("/Team/freeboardWrite")
+	@RequestMapping("/team/freeboardWrite")
 	public String freeboardWrite() {
-		return "Team/freeboardWrite";
+		return "team/freeboardWrite";
 	}
 	
-	@RequestMapping("/Team/teamnoticeWrite")
+	@RequestMapping("/team/teamnoticeWrite")
 	public String teamnoticeWrite(){
-		return "Team/teamnoticeWrite";
+		return "team/teamnoticeWrite";
 	}
 	
 	@RequestMapping("/freeboardView.do")
 	public String freeboardView() {
-		return "Team/teamboardView";
+		return "team/teamboardView";
 	}
 	
 	@RequestMapping("/team/teamView.do")
@@ -214,7 +223,7 @@ public class TeamController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("teamboard", service.selectTeamBoard(boardNo));
 		mv.addObject("attachmentList", service.selectAttachment(boardNo));
-		mv.setViewName("Team/teamboardView");
+		mv.setViewName("team/teamboardView");
 		return mv;
 	}
 	

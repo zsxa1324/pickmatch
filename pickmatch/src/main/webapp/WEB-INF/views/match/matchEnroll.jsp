@@ -17,7 +17,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/playgroundSearch.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/modal.css" />
 <style>
-
 </style>
 
 <script>
@@ -36,6 +35,7 @@
 		        
 		    })
 		$(".modal").on("shown.bs.modal", function(){
+			searchPlaces();
 			map.relayout();
 		});
 		 
@@ -45,8 +45,8 @@
 			/* console.log($(this).children("div").children("h5").html()); */
 			var playgroundName = $(this).children("div").children("h5").html();
 			var latLng = $(this).children("div").children("input").val().split(" ");
-			var lat = latLng[0];
-			var lng = latLng[1];
+			var lat = parseFloat(latLng[0]);
+			var lng = parseFloat(latLng[1]);
 			console.log(lat + " " + lng);
 			// 이동할 위도 경도 위치를 생성합니다 
 		    var moveLatLon = new daum.maps.LatLng(lat, lng);
@@ -61,7 +61,8 @@
 
 		    // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
 		    // marker.setMap(null); 
-		    $("input[name=playground]").val(playgroundName);
+		    $("#keyword").val(playgroundName);
+		    $("input[name=playGround]").val(playgroundName);
 		    $("input[name=lat]").val(lat);
 		    $("input[name=lng]").val(lng);
 		    var iwContent = '<div style="padding:5px;">' + playgroundName + '</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -144,7 +145,7 @@
 	</div>
 	
 	<div id="enroll-container">
-	   <form name="matchEnrollForm" action="${pageContext.request.contextPath}/match/enroll" method="post" onsubmit="return validate();" >
+	   <form name="matchEnrollForm" action="${pageContext.request.contextPath}/match/enrollEnd" method="post" onsubmit="return validate();" >
 	      날짜 <input type="date" placeholder="날짜" name="matchDate"  required><br> 
 	     시간 <input type="time" name="matchTime" required><br>
 	  	 매치유형   <!-- <input type="text" class="form-control" placeholder="축구/풋살" name="matchType" list="playType">  -->
@@ -153,7 +154,7 @@
 	    	<option>풋살</option>
 	    </select>
 	    <br>  
-	      <label>구장</label> <input type="text" placeholder="구장" name="playground">
+	      <label>구장</label> <input type="text" placeholder="구장" name="playGround">
 	      <button type="button" id="playgroundSearchBtn">검색</button>
 	      <input type="hidden" name="lat"/>
 	      <input type="hidden" name="lng"/>
@@ -163,9 +164,9 @@
     	<div id="map2" style="width:100%;height:300px;position:relative;overflow:hidden;"></div>    
 	      <br>
 	    
-	     비용 <input type="number" class="form-control" placeholder="비용" name="cost" id="cost" > <br>
+	     비용 <input type="number" class="form-control" placeholder="비용" name="cost" id="cost" value="0" step="10000"> <br>
 	     유니폼색 <input type="text" class="form-control" placeholder="유니폼색" name="email" id="email"> <br>
-	     경기가능지역 <input type="text" class="form-control" placeholder="경기가능지역" name="email" id="email" > <br>
+	     경기가능지역 <input type="text" class="form-control" placeholder="경기가능지역" name="possibleLocal" id="email" > <br>
 	     내용 <textarea name="matchContent" cols="50" rows=6" style="resize:none"></textarea>
 	      
 	      <br />

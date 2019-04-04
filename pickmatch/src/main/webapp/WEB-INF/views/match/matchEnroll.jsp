@@ -30,6 +30,7 @@
 		
 		$("input[name=matchDate]").val(new Date().toDateInputValue());
 		 $("#playgroundSearchBtn").click(function(){
+			 	$("#keyword").val($("input[name=playGround]").val());
 		        $('div.modal').modal(); 
 		         
 		        
@@ -154,7 +155,7 @@
 	    	<option>풋살</option>
 	    </select>
 	    <br>  
-	      <label>구장</label> <input type="text" placeholder="구장" name="playGround">
+	      <label>구장</label> <input type="text" placeholder="구장" name="playGround" value="구장">
 	      <button type="button" id="playgroundSearchBtn">검색</button>
 	      <input type="hidden" name="lat"/>
 	      <input type="hidden" name="lng"/>
@@ -165,8 +166,8 @@
 	      <br>
 	    
 	     비용 <input type="number" class="form-control" placeholder="비용" name="cost" id="cost" value="0" step="10000"> <br>
-	     유니폼색 <input type="text" class="form-control" placeholder="유니폼색" name="email" id="email"> <br>
-	     경기가능지역 <input type="text" class="form-control" placeholder="경기가능지역" name="possibleLocal" id="email" > <br>
+	    
+	     <!-- 경기가능지역 <input type="text" class="form-control" placeholder="경기가능지역" name="possibleLocal"> <br> -->
 	     내용 <textarea name="matchContent" cols="50" rows=6" style="resize:none"></textarea>
 	      
 	      <br />

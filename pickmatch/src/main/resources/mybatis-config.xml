@@ -3,6 +3,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.kh.pickmatch.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.Match" alias="match"/>
 		<!-- <typeAlias type="com.kh.spring.common.StringArrTypeHandler" alias="strArr"/>
 		<typeAlias type="com.kh.spring.model.vo.Member" alias="member"/> -->
 		<typeAlias type="com.kh.pickmatch.model.vo.TeamBoard" alias="team"/>

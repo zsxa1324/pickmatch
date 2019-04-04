@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="match">
 
+	<insert id="insertMatch" parameterType="match">
+	insert into match values(seq_matchno.nextval, #{teamHome}, #{teamAway}, #{matchDate}, #{matchTime}, #{matchType}, #{playGround}, #{homeScore}, #{awayScore}, #{cost}, #{matchContent}, #{lag}, #{lng})
+	</insert>
+
 	<select id="matchList" resultType="com.kh.pickmatch.model.vo.Match">
 	select * from match
 	</select>

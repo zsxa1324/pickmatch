@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
 public interface TeamService {
@@ -15,5 +16,16 @@ public interface TeamService {
 	int updateTeamAccount(TeamOperationAccount toAccount);
 	int insertTeamAccount(TeamOperationAccount toAccount);
 	int insertMHistory(MoneyHistory mHistory);
+	
+	
+	
+	
+	List<TeamBoard> selectList(int cPage, int numPerPage);
+
+	int selectCount();
+
+	Object selectTeamBoard(int boardNo);
+
+	Object selectAttachment(int boardNo);
 
 }

@@ -1,11 +1,11 @@
 package com.kh.pickmatch.controller;
 
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.pickmatch.model.service.MatchService;
+import com.kh.pickmatch.model.service.TeamService;
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.Member;
 
 @Controller
 public class MatchController {
 
 @Autowired
-private MatchService service;	
+private MatchService service;
+@Autowired
+private TeamService teamService;
 
 private Logger logger = LoggerFactory.getLogger(MemberController.class);
 
@@ -37,10 +41,13 @@ private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	}*/
 	
 	@RequestMapping("/match/enrollEnd")
-	public String enrollMatch(Match match) {
-		logger.debug("enrollMatch :// " + match);
+	public String enrollMatch(Match match, HttpSession session) {
+		Member m = (Member) session.getAttribute("loggedMember");
+		logger.debug("loggedMember : " + m);
+		String teamHome = teamService.selectTeamOne(m.getMemberId());
+		match.setTeamHome(teamHome);
+		
 		int result = service.insertMatch(match);
-		logger.debug("insertMatch 결과 : " + result);
 		return "match/matchList";
 	}
 

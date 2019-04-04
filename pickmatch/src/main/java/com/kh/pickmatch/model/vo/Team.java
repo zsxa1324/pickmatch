@@ -1,10 +1,14 @@
 package com.kh.pickmatch.model.vo;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.sql.Date;
 
-public class Team {
-
+public class Team implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8890263015785295768L;
 	private String teamName;
 	private int teamRating;
 	private String teamLocation;
@@ -14,16 +18,12 @@ public class Team {
 	private String teamContent;
 	private Date openingDate;
 	private String teamEmblem;
-	private String teamstatus;
+	private String teamStatus;
 	
-	
-	public Team() {
-		// TODO Auto-generated constructor stub
-	}
-
+	public Team() {}
 
 	public Team(String teamName, int teamRating, String teamLocation, String teamField, String teamType,
-			String teamColor, String teamContent, Date openingDate, String teamEmblem, String teamstatus) {
+			String teamColor, String teamContent, Date openingDate, String teamEmblem, String teamStatus) {
 		super();
 		this.teamName = teamName;
 		this.teamRating = teamRating;
@@ -34,122 +34,95 @@ public class Team {
 		this.teamContent = teamContent;
 		this.openingDate = openingDate;
 		this.teamEmblem = teamEmblem;
-		this.teamstatus = teamstatus;
+		this.teamStatus = teamStatus;
 	}
-
 
 	public String getTeamName() {
 		return teamName;
 	}
 
-
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
 	}
-
 
 	public int getTeamRating() {
 		return teamRating;
 	}
 
-
 	public void setTeamRating(int teamRating) {
 		this.teamRating = teamRating;
 	}
-
 
 	public String getTeamLocation() {
 		return teamLocation;
 	}
 
-
 	public void setTeamLocation(String teamLocation) {
 		this.teamLocation = teamLocation;
 	}
-
 
 	public String getTeamField() {
 		return teamField;
 	}
 
-
 	public void setTeamField(String teamField) {
 		this.teamField = teamField;
 	}
-
 
 	public String getTeamType() {
 		return teamType;
 	}
 
-
 	public void setTeamType(String teamType) {
 		this.teamType = teamType;
 	}
-
 
 	public String getTeamColor() {
 		return teamColor;
 	}
 
-
 	public void setTeamColor(String teamColor) {
 		this.teamColor = teamColor;
 	}
-
 
 	public String getTeamContent() {
 		return teamContent;
 	}
 
-
 	public void setTeamContent(String teamContent) {
 		this.teamContent = teamContent;
 	}
-
 
 	public Date getOpeningDate() {
 		return openingDate;
 	}
 
-
 	public void setOpeningDate(Date openingDate) {
 		this.openingDate = openingDate;
 	}
-
 
 	public String getTeamEmblem() {
 		return teamEmblem;
 	}
 
-
 	public void setTeamEmblem(String teamEmblem) {
 		this.teamEmblem = teamEmblem;
 	}
 
-
-	public String getTeamstatus() {
-		return teamstatus;
+	public String getTeamStatus() {
+		return teamStatus;
 	}
 
-
-	public void setTeamstatus(String teamstatus) {
-		this.teamstatus = teamstatus;
+	public void setTeamStatus(String teamStatus) {
+		this.teamStatus = teamStatus;
 	}
-
 
 	@Override
 	public String toString() {
 		return "Team [teamName=" + teamName + ", teamRating=" + teamRating + ", teamLocation=" + teamLocation
 				+ ", teamField=" + teamField + ", teamType=" + teamType + ", teamColor=" + teamColor + ", teamContent="
-				+ teamContent + ", openingDate=" + openingDate + ", teamEmblem=" + teamEmblem + ", teamstatus="
-				+ teamstatus + "]";
+				+ teamContent + ", openingDate=" + openingDate + ", teamEmblem=" + teamEmblem + ", teamStatus="
+				+ teamStatus + "]";
 	}
-	
-	
-	
-	
-	
-	
 	
 }

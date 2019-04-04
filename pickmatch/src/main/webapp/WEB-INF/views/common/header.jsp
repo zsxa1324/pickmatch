@@ -120,19 +120,23 @@
 			<div class="collapse navbar-collapse header-nav-bar" id="navbarColor03">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="#">내팀정보
+						<a class="nav-link" href="${pageContext.request.contextPath }/team.do">내팀정보
 							<span class="sr-only">(current)</span>
 						</a>
 						<div class="dropdown">
-							<a href="#">팀 개설</a>
-							<a href="#">팀 일정</a>
-							<a href="#">내 팀 정보</a>
-							<a href="#">내 용병팀 정보</a>
+							<a href="${pageContext.request.contextPath }/teamcreate.do">팀 개설</a>
+							<a href="${pageContext.request.contextPath }/freeboard.do">팀 자유게시판</a>
+							<a href="${pageContext.request.contextPath }/teamnotice.do">팀 공지사항</a>
+							<a href="${pageContext.request.contextPath }/teammercenary.do">내 용병팀 정보</a>
 						</div>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">공지사항</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#">매치보드</a>
+					<li class="nav-item"><a class="nav-link" href="${path }/match/matchList.do">매치보드</a>
+						<div class="dropdown">
+							<a href="${path }/match/matchList.do">매치 조회</a>
+							<a href="${path }/match/enrollForm">매치 등록</a>
+						</div>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a>
 						<div class="dropdown">
@@ -142,8 +146,8 @@
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">랭킹</a>
 						<div class="dropdown">
-							<a href="#">팀 랭킹</a>
-							<a href="#">용병 랭킹</a>
+							<a href="${pageContext.request.contextPath }/teamranking.do">팀 랭킹</a>
+							<a href="${pageContext.request.contextPath }/mercenaryranking.do">용병 랭킹</a>
 						</div>
 					</li>
 				</ul>

@@ -11,8 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.kh.pickmatch.model.service.MemberService;
 import com.kh.pickmatch.model.vo.Member;
-import com.kh.pickmatch.service.MemberService;
 
 @Controller
 public class MemberController {

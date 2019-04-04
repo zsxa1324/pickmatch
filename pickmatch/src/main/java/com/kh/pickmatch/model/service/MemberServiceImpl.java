@@ -1,9 +1,9 @@
-package com.kh.pickmatch.service;
+package com.kh.pickmatch.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.pickmatch.dao.MemberDao;
+import com.kh.pickmatch.model.dao.MemberDao;
 import com.kh.pickmatch.model.vo.Member;
 
 @Service

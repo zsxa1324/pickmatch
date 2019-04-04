@@ -45,9 +45,12 @@ private MatchDao dao;
 		List<Map> list=dao.incomMatch(matchDate);
 		return list;
 	}
-	
-	
-	
+
+	@Override
+	public int insertMatch(Match match) {
+		int result = dao.insertMatch(match);
+		return result;
+	}
 	
 	
 

@@ -1,31 +1,31 @@
 package com.kh.pickmatch.model.vo;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.sql.Date;
 
-public class MemberByTeam {
-
+public class MemberByTeam implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2595431962416789635L;
 	private String memberId;
 	private String teamName;
 	private String authority;
 	private Date enrollDate;
 	private Date exitDate;
-	private int playCount;
 	private int goalCount;
 	
-	public MemberByTeam() {
-		// TODO Auto-generated constructor stub
-	}
+	public MemberByTeam() {}
 
 	public MemberByTeam(String memberId, String teamName, String authority, Date enrollDate, Date exitDate,
-			int playCount, int goalCount) {
+			int goalCount) {
 		super();
 		this.memberId = memberId;
 		this.teamName = teamName;
 		this.authority = authority;
 		this.enrollDate = enrollDate;
 		this.exitDate = exitDate;
-		this.playCount = playCount;
 		this.goalCount = goalCount;
 	}
 
@@ -69,14 +69,6 @@ public class MemberByTeam {
 		this.exitDate = exitDate;
 	}
 
-	public int getPlayCount() {
-		return playCount;
-	}
-
-	public void setPlayCount(int playCount) {
-		this.playCount = playCount;
-	}
-
 	public int getGoalCount() {
 		return goalCount;
 	}
@@ -88,15 +80,7 @@ public class MemberByTeam {
 	@Override
 	public String toString() {
 		return "MemberByTeam [memberId=" + memberId + ", teamName=" + teamName + ", authority=" + authority
-				+ ", enrollDate=" + enrollDate + ", exitDate=" + exitDate + ", playCount=" + playCount + ", goalCount="
-				+ goalCount + "]";
+				+ ", enrollDate=" + enrollDate + ", exitDate=" + exitDate + ", goalCount=" + goalCount + "]";
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 }

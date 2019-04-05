@@ -45,6 +45,14 @@ public List<Map> incomMatch(String matchDate) {
 	return list;
 }
 
+@Override
+public int matchRequest(Map<String,Object> map) {
+	int result=session.insert("match.matchRequest",map);
+	return result;
+}
+
+
+
 
 
 }

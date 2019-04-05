@@ -1,5 +1,7 @@
 package com.kh.pickmatch.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +48,16 @@ public ModelAndView matchContent(String matchDate,String id) {
 	mv.setViewName("/match/matchContent");
 	
 	return mv;
+}
+@RequestMapping("/match.matchRequest")
+public String matchRequest(String team,int no) {
+	Map<String,Object> map=new HashMap();
+	map.put("team",team);
+	map.put("no",no);
+	
+	int result=service.matchRequest(map);
+	
+	return null;
 }
 	
 }

@@ -132,7 +132,7 @@
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">공지사항</a>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#">매치보드</a>
+					<li class="nav-item"><a class="nav-link" href="${path }/match/matchList.do">매치보드</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a>
 						<div class="dropdown">

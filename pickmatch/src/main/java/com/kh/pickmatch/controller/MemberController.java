@@ -1,4 +1,4 @@
-package com.kh.pickmatch.controller;
+﻿package com.kh.pickmatch.controller;
 
 import javax.servlet.http.HttpSession;
 
@@ -51,12 +51,12 @@ public class MemberController {
 			}
 			else
 			{
-				msg = "패스워드가 일치하지 않습니다.";
+				msg = "?⑥뒪?뚮뱶媛 ?쇱튂?섏? ?딆뒿?덈떎.";
 			}
 		}
 		else
 		{
-			msg = "존재하지 않는 아이디입니다.";
+			msg = "議댁옱?섏? ?딅뒗 ?꾩씠?붿엯?덈떎.";
 		}
 		model.addAttribute("msg",msg);
 		model.addAttribute("loc",loc);
@@ -83,11 +83,11 @@ public class MemberController {
 		int result = service.insertMember(m);
 		if(result == 0)
 		{
-			msg = "회원가입에 실패하였습니다.";			
+			msg = "?뚯썝媛?낆뿉 ?ㅽ뙣?섏??듬땲??";			
 		}
 		else
 		{
-			msg = m.getMemberId()+"님 회원가입되었습니다.";
+			msg = m.getMemberId()+"???뚯썝媛?낅릺?덉뒿?덈떎.";
 		}
 		model.addAttribute("msg",msg);
 		model.addAttribute("loc",loc);

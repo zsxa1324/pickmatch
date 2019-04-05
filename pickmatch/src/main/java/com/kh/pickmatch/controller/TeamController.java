@@ -1,4 +1,4 @@
-package com.kh.pickmatch.controller;
+﻿package com.kh.pickmatch.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,7 +39,7 @@ public class TeamController {
 		String memberId = "";
 		
 		if(session.getAttribute("loggedMember") == null) {
-			msg = "로그인 후 이용가능합니다.";
+			msg = "濡쒓렇?????댁슜媛?ν빀?덈떎.";
 			loc = "/";
 			
 			mv.setViewName("common/msg");
@@ -52,7 +52,7 @@ public class TeamController {
 			memberId = m.getMemberId();
 			teamName = service.selectTeamOne(memberId);
 			if(teamName == null) {
-				msg = "소속된 팀이 없습니다.";
+				msg = "?뚯냽??????놁뒿?덈떎.";
 				loc = "/";
 				
 				mv.setViewName("common/msg");
@@ -100,8 +100,8 @@ public class TeamController {
 		String msg = "";
 		String loc = "/team/teamOperationInfo";
 		
-		if(result > 0) msg = "계좌정보가 수정완료 되었습니다!";
-		else msg = "계좌 수정중에 오류가 발생하였습니다!";
+		if(result > 0) msg = "怨꾩쥖?뺣낫媛 ?섏젙?꾨즺 ?섏뿀?듬땲??";
+		else msg = "怨꾩쥖 ?섏젙以묒뿉 ?ㅻ쪟媛 諛쒖깮?섏??듬땲??";
 		
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);
@@ -115,8 +115,8 @@ public class TeamController {
 		String msg = "";
 		String loc = "/team/teamOperationInfo";
 		
-		if(result > 0) msg = "계좌가 등록 되었습니다!";
-		else msg = "계좌 등록중에 오류가 발생하였습니다!";
+		if(result > 0) msg = "怨꾩쥖媛 ?깅줉 ?섏뿀?듬땲??";
+		else msg = "怨꾩쥖 ?깅줉以묒뿉 ?ㅻ쪟媛 諛쒖깮?섏??듬땲??";
 		
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);
@@ -132,8 +132,8 @@ public class TeamController {
 		String msg = "";
 		String loc = "/team/teamOperationInfo";
 
-		if(result > 0) msg = "내역서가 작성되었습니다.";
-		else msg = "내역서 작성중 오류발생!";
+		if(result > 0) msg = "?댁뿭?쒓? ?묒꽦?섏뿀?듬땲??";
+		else msg = "?댁뿭???묒꽦以??ㅻ쪟諛쒖깮!";
 		
 		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);

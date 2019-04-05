@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.TeamBoard;
+import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
 public interface TeamDao {
@@ -19,10 +20,20 @@ public interface TeamDao {
 	
 	
 	
-	
+	//도원
 	int selectCount();
 	List<TeamBoard> selectList(int cPage, int numPerPage);
 	Object selectTeamBoard(int boardNo);
 	Object selectAttachment(int boardNo);
+	List<TeamNotice> selectListN(int cPage, int numPerPage);
+	int selectCountN();
+	Object selectNoticeView(int noticeNo);
+	
+	//팀 공지사항 글쓰기
+	int InsertNotice(TeamNotice teamnotice);
+	//팀 공지사항 글삭제
+	int deleteNotice(int noticeNo);
+	//팀 공지사항 수정
+	TeamNotice selectOne(int noticeNo);
 	
 }

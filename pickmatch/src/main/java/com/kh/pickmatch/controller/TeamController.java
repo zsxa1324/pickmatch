@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,15 +18,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.pickmatch.common.PageBarFactory;
+import com.kh.pickmatch.model.dao.TeamDaoImpl;
 import com.kh.pickmatch.model.service.TeamService;
 import com.kh.pickmatch.model.vo.Member;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.TeamBoard;
+import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
 @Controller
 public class TeamController {
 
+	private Logger logger = LoggerFactory.getLogger(TeamController.class);
+	
+	
 	@Autowired
 	TeamService service;
 	
@@ -140,6 +147,14 @@ public class TeamController {
 		return "common/msg";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	//도원
 	@RequestMapping("/team.do")
 	public String teaminfo() {
 		return "Team/teaminfo";
@@ -158,13 +173,11 @@ public class TeamController {
 		
 	}
 	
-	@RequestMapping("/teamnotice.do")
-	public String teamnotice() {
-		return "Team/teamnotice";
-	}
 	
+	
+	//팀 게시판 리스트보기
 	@RequestMapping("/freeboard.do")
-	public ModelAndView teamranking(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
+	public ModelAndView freeboard(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
 		int numPerPage = 10;
 		ModelAndView mv = new ModelAndView();
 		List<TeamBoard> list = service.selectList(cPage, numPerPage);
@@ -175,7 +188,7 @@ public class TeamController {
 		mv.addObject("list", list);
 		mv.addObject("totalList", totalList);
 		System.out.println(totalList);
-		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/Team/freeboard"));
+		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/Team/freeboard.do"));
 		mv.setViewName("Team/freeboard");
 		return mv;
 	}
@@ -193,11 +206,13 @@ public class TeamController {
 		return "Team/mercenaryranking";
 	}
 	
+	//팀 게시판 글쓰기
 	@RequestMapping("/Team/freeboardWrite")
 	public String freeboardWrite() {
 		return "Team/freeboardWrite";
 	}
 	
+	//팀 공지사항 글쓰기
 	@RequestMapping("/Team/teamnoticeWrite")
 	public String teamnoticeWrite(){
 		return "Team/teamnoticeWrite";
@@ -208,6 +223,7 @@ public class TeamController {
 		return "Team/teamboardView";
 	}
 	
+	//팀 게시판 상세보기
 	@RequestMapping("/team/teamView.do")
 	public ModelAndView selectOne(@RequestParam(value="boardNo",defaultValue="1") int boardNo) {
 		
@@ -217,5 +233,94 @@ public class TeamController {
 		mv.setViewName("Team/teamboardView");
 		return mv;
 	}
+	
+	//팀 공지사항 보기
+	@RequestMapping("/teamnotice.do")
+	public ModelAndView teamnotice(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
+		int numPerPage = 10;
+		ModelAndView mv = new ModelAndView();
+		List<TeamNotice> list = service.selectListN(cPage, numPerPage);
+		int totalList = service.selectCountN();
+		
+		System.out.println(list);
+		
+		mv.addObject("list", list);
+		mv.addObject("totalList", totalList);
+		System.out.println(totalList);
+		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/teamnotice.do"));
+		mv.setViewName("Team/teamnotice");
+		return mv;
+	}
+	
+	//팀 공지사항 상세보기
+	@RequestMapping("/team/noticeView.do")
+	public ModelAndView selectOneN(@RequestParam(value="noticeNo",defaultValue="1") int noticeNo) {
+		
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("teamnotice", service.selectNoticeView(noticeNo));
+		mv.setViewName("Team/teamnoticeView");
+		return mv;
+	}
+	
+	//팀 공지사항 글쓰기
+	@RequestMapping("/team/teamnotice")
+	public String InsertNotice(TeamNotice teamnotice, Model m) {
+		
+		
+		String msg = "";
+		String loc="/teamnotice.do"; //이동할 매핑값 써야됨
+		int result = service.InsertNotice(teamnotice); 
+		
+		if(result > 0) {
+			msg = "작성이 완료되었습니다.";
+		}
+		else {
+			msg = "작성을 실패하였습니다";
+		}
+		
+		//msg loc 쓸려면 model같은거 필요함! 그리고 이렇게 넣어줘야함
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
+		
+	}
+	
+	//팀 공지사항 글 삭제
+	@RequestMapping("/deleteNotice.do")
+	public String deleteNotice(@RequestParam(value="noticeNo",defaultValue="1") int noticeNo, Model m) {
+		
+		
+		String msg = "";
+		String loc = "/teamnotice.do";
+		int result = service.deleteNocice(noticeNo);
+		
+		if(result>0) {
+			msg="삭제되었습니다";
+		}
+		else {
+			msg="실패하였습니다";
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
+		
+	}
+	
+	@RequestMapping("/team/updateNotice")
+	public String updateNotice(int noticeNo, Model m) {
+		
+		TeamNotice teamnotice = service.selectOne(noticeNo);
+		m.addAttribute("teamNotice", teamnotice);
+		return "Team/updateNotice";
+		
+	}
+		
+		
+		
+	
+	
 	
 }

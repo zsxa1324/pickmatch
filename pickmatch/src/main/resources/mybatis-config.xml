@@ -9,6 +9,7 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.MemberByTeam" alias="mt"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.TeamOperationAccount" alias="account"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.MoneyHistory" alias="mHistory"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.TeamNotice" alias="teamnotice"/>
 		
 	</typeAliases>
 </configuration>

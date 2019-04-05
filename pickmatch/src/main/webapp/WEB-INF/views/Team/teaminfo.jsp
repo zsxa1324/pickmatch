@@ -30,10 +30,10 @@
         <a class="nav-link" href="#">팀 자유게시판</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="#">팀 운영정보</a>
+        <a class="nav-lin" href="#">팀 운영정보</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="#">팀 관리</a>
+        <a class="nav-link" href="#">팀 관리</a>
       </li>
     </ul>
   </div>

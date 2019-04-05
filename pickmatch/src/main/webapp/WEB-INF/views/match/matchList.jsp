@@ -36,6 +36,9 @@ var gDate = d.getDate();
 var today1 =fYear+"-"+pMonth+"-"+gDate; 
 $(document).ready(function(){
 	
+	$("#matchEnrollFormBtn").click(function(){
+		location.href = "${path}/match/enrollForm";
+	})
 	
 
 	var eventData=[

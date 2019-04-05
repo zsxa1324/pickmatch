@@ -51,6 +51,11 @@ private MatchDao dao;
 		int result=dao.matchRequest(map);
 		return result;
 	}
+	@Override
+	public int insertMatch(Match match) {
+		int result = dao.insertMatch(match);
+		return result;
+	}
 	
 	
 	

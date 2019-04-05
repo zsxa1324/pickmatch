@@ -50,7 +50,11 @@ public int matchRequest(Map<String,Object> map) {
 	int result=session.insert("match.matchRequest",map);
 	return result;
 }
-
+	@Override
+	public int insertMatch(Match match) {
+		int result = session.insert("match.insertMatch", match);
+		return result;
+	}
 
 
 

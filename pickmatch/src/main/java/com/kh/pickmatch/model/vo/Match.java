@@ -1,31 +1,24 @@
-package com.kh.pickmatch.model.vo;
+﻿package com.kh.pickmatch.model.vo;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Match {
-	
 	private int matchNo;
-	private String teamHome;
-	private String teamAway;
+	private String teamHome, teamAway;
 	private Date matchDate;
-	private int matchTime;
-	private String matchType;
-	private String playGround;
-	private int homeScore;
-	private int awayScore;
+	private String matchTime;
+	private String matchType, playGround;
+	private int homeScore, awayScore;
 	private int cost;
 	private String matchContent;
-	private int lat;
-	private int lng;
-	
+	private double lat, lng;
 	
 	public Match() {
 		// TODO Auto-generated constructor stub
 	}
 
-
-	public Match(int matchNo, String teamHome, String teamAway, Date matchDate, int matchTime, String matchType,
-			String playGround, int homeScore, int awayScore, int cost, String matchContent, int lat, int lng) {
+	public Match(int matchNo, String teamHome, String teamAway, Date matchDate, String matchTime, String matchType,
+			String playGround, int homeScore, int awayScore, int cost, String matchContent, double lat, double lng) {
 		super();
 		this.matchNo = matchNo;
 		this.teamHome = teamHome;
@@ -42,136 +35,109 @@ public class Match {
 		this.lng = lng;
 	}
 
-
 	public int getMatchNo() {
 		return matchNo;
 	}
-
 
 	public void setMatchNo(int matchNo) {
 		this.matchNo = matchNo;
 	}
 
-
 	public String getTeamHome() {
 		return teamHome;
 	}
-
 
 	public void setTeamHome(String teamHome) {
 		this.teamHome = teamHome;
 	}
 
-
 	public String getTeamAway() {
 		return teamAway;
 	}
-
 
 	public void setTeamAway(String teamAway) {
 		this.teamAway = teamAway;
 	}
 
-
 	public Date getMatchDate() {
 		return matchDate;
 	}
-
 
 	public void setMatchDate(Date matchDate) {
 		this.matchDate = matchDate;
 	}
 
-
-	public int getMatchTime() {
+	public String getMatchTime() {
 		return matchTime;
 	}
 
-
-	public void setMatchTime(int matchTime) {
+	public void setMatchTime(String matchTime) {
 		this.matchTime = matchTime;
 	}
-
 
 	public String getMatchType() {
 		return matchType;
 	}
 
-
 	public void setMatchType(String matchType) {
 		this.matchType = matchType;
 	}
-
 
 	public String getPlayGround() {
 		return playGround;
 	}
 
-
 	public void setPlayGround(String playGround) {
 		this.playGround = playGround;
 	}
-
 
 	public int getHomeScore() {
 		return homeScore;
 	}
 
-
 	public void setHomeScore(int homeScore) {
 		this.homeScore = homeScore;
 	}
-
 
 	public int getAwayScore() {
 		return awayScore;
 	}
 
-
 	public void setAwayScore(int awayScore) {
 		this.awayScore = awayScore;
 	}
-
 
 	public int getCost() {
 		return cost;
 	}
 
-
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
-
 
 	public String getMatchContent() {
 		return matchContent;
 	}
 
-
 	public void setMatchContent(String matchContent) {
 		this.matchContent = matchContent;
 	}
 
-
-	public int getLat() {
+	public double getLat() {
 		return lat;
 	}
 
-
-	public void setLat(int lat) {
+	public void setLat(double lat) {
 		this.lat = lat;
 	}
 
-
-	public int getLng() {
+	public double getLng() {
 		return lng;
 	}
 
-
-	public void setLng(int lng) {
+	public void setLng(double lng) {
 		this.lng = lng;
 	}
-
 
 	@Override
 	public String toString() {
@@ -180,10 +146,6 @@ public class Match {
 				+ ", homeScore=" + homeScore + ", awayScore=" + awayScore + ", cost=" + cost + ", matchContent="
 				+ matchContent + ", lat=" + lat + ", lng=" + lng + "]";
 	}
-
-
-
 	
 	
-
 }

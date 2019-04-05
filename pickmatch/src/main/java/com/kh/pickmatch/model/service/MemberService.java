@@ -1,4 +1,4 @@
-package com.kh.pickmatch.service;
+﻿package com.kh.pickmatch.model.service;
 
 import com.kh.pickmatch.model.vo.Member;
 

@@ -1,9 +1,10 @@
-package com.kh.pickmatch.dao;
+package com.kh.pickmatch.model.dao;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.pickmatch.model.vo.EmailAuthkey;
 import com.kh.pickmatch.model.vo.Member;
 
 @Repository
@@ -20,6 +21,22 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public int insertMember(Member m) {
 		return session.insert("member.insertMember",m);
+	}
+
+	@Override
+	public int insertAuthkey(Member m) {
+		return session.insert("member.insertAuthkey",m);
+	}
+
+	
+	@Override
+	public String selectAuthkey(EmailAuthkey ea) {
+		return session.selectOne("member.selectAuthkey",ea);
+	}
+
+	@Override
+	public Member checkMail(String email) {
+		return session.selectOne("member.checkMail",email);
 	}
 
 }

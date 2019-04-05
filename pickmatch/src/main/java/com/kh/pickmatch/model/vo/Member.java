@@ -19,6 +19,7 @@ public class Member {
 	private String profile;
 	private String introduce;
 	private int activityPoint;
+	private String authkey;
 	
 	public Member() {}
 
@@ -41,6 +42,29 @@ public class Member {
 		this.profile = profile;
 		this.introduce = introduce;
 		this.activityPoint = activityPoint;
+	}
+
+	
+	public Member(String memberId, String password, String memberName, String nickName, String phone, String email,
+			int birth, String gender, String position, String location, Date enrollDate, String status, String profile,
+			String introduce, int activityPoint, String authkey) {
+		super();
+		this.memberId = memberId;
+		this.password = password;
+		this.memberName = memberName;
+		this.nickName = nickName;
+		this.phone = phone;
+		this.email = email;
+		this.birth = birth;
+		this.gender = gender;
+		this.position = position;
+		this.location = location;
+		this.enrollDate = enrollDate;
+		this.status = status;
+		this.profile = profile;
+		this.introduce = introduce;
+		this.activityPoint = activityPoint;
+		this.authkey = authkey;
 	}
 
 	public String getMemberId() {
@@ -163,6 +187,15 @@ public class Member {
 		this.activityPoint = activityPoint;
 	}
 
+	
+	public String getAuthkey() {
+		return authkey;
+	}
+
+	public void setAuthkey(String authkey) {
+		this.authkey = authkey;
+	}
+
 	@Override
 	public String toString() {
 		return "Member [memberId=" + memberId + ", password=" + password + ", memberName=" + memberName + ", nickName="
@@ -171,7 +204,6 @@ public class Member {
 				+ status + ", profile=" + profile + ", introduce=" + introduce + ", activityPoint=" + activityPoint
 				+ "]";
 	}
-	
-	
 
+	
 }

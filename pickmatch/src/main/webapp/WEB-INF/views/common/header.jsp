@@ -93,6 +93,17 @@
 		text-decoration : none;
 		display : block;
 	}
+	
+	#alarm {
+		background-color : red;
+		color : white;
+		width : 35px;
+		height : 35px;
+		/* border: 1px solid black; */
+		border-radius : 30px;
+		margin-right : 5px;
+		text-align : center
+	}
 </style>
 </head>
 <body>
@@ -111,6 +122,7 @@
 		
 		<c:if test="${loggedMember!=null }">
 		<div id="login-modal">
+			<div id="alarm" data-toggle="modal" data-target="#alarmModal">1</div>
 			<a href="${path }/member/mypage.jsp"><img src="${path }/resources/images/user.png" width='35px' height='35px' title="마이페이지"/></a>
 			<span onclick="location.href='${path}/member/logout.do'">로그아웃</span>
 		</div>
@@ -248,6 +260,31 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" id="alarmModal" >
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <!-- header -->
+	      <div class="modal-header">
+	      	<!-- header title -->
+	        <h4 class="modal-title">알림</h4>
+	        <!-- 닫기(x) 버튼 -->
+	        <button type="button" class="close" data-dismiss="modal">×</button>
+	      </div>
+	      <!-- body -->
+	      <div class="modal-body">
+	            <div id="result"></div>
+	      </div>
+	      <!-- Footer -->
+	      <div class="modal-footer">
+	        
+	        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
 
 
 <script>

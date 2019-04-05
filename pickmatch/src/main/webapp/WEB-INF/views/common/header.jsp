@@ -11,6 +11,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Baloo|Baloo+Chettan|Changa|Concert+One|Cuprum|Days+One|Fredoka+One|Fugaz+One|Iceberg|Maven+Pro:700|Mitr|Passion+One|Permanent+Marker|Racing+Sans+One|Righteous|Viga|ZCOOL+XiaoWei" rel="stylesheet">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/team.css" />
 <meta charset="UTF-8">
 <title>메인화면</title>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>

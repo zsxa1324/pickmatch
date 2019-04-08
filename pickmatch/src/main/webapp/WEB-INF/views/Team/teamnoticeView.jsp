@@ -16,6 +16,11 @@
     <label for="memberId" style=" margin-top: 50px;">작성자</label>
     <input type="text" class="form-control" id="memberId" value="${teamnotice.memberId }"  style="width:300px;" readonly >
   </div>
+  
+  <div class="form-group form-group-sm">
+    <label for="title">제목</label>
+    <input type="text" class="form-control" id="memberId" value="${teamnotice.noticeTitle }"  style="width:600px;" readonly >
+  </div>
 
 
   <div class="form-group">

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.pickmatch.model.dao.TeamDao;
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
@@ -71,6 +72,18 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
+	public Team selectTeamCheck(String teamname) {
+		// TODO Auto-generated method stub
+		return dao.selectTeamCheck(teamname);
+	}
+
+	@Override
+	public int InsertTeam(Team team) {
+		// TODO Auto-generated method stub
+		return dao.insertTeam(team);
+	}
+
+	@Override
 	public TeamNotice selectOne(int noticeNo) {
 		// TODO Auto-generated method stub
 		return dao.selectOne(noticeNo);
@@ -124,6 +137,13 @@ public class TeamServiceImpl implements TeamService {
 	public int InsertNotice(TeamNotice teamnotice) {
 		// TODO Auto-generated method stub
 		return dao.InsertNotice(teamnotice);
+	}
+
+	//팀 공지사항 수정
+	@Override
+	public int updateNotice(String noticeTitle, String noticeContent, int noticeNo) {
+		// TODO Auto-generated method stub
+		return dao.updateNotice(noticeTitle, noticeContent, noticeNo);
 	}
 	
 	

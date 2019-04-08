@@ -1,20 +1,27 @@
 ﻿package com.kh.pickmatch.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.pickmatch.common.PageBarFactory;
@@ -22,6 +29,7 @@ import com.kh.pickmatch.model.dao.TeamDaoImpl;
 import com.kh.pickmatch.model.service.TeamService;
 import com.kh.pickmatch.model.vo.Member;
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
@@ -318,9 +326,94 @@ public class TeamController {
 		
 	}
 		
+	@RequestMapping("/team/whiteNotice")
+	public String whiteNotice(String noticeTitle,  String noticeContent,int noticeNo, Model m) {
+		
+		int result = service.updateNotice(noticeTitle, noticeContent, noticeNo);
+		String msg="";
+		String loc="";
+		
+		if(result>0) {
+			msg="수정되었습니다";
+		}
+		else {
+			msg="실패하였습니다";
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
+		
+	}
+		
+	@RequestMapping("/team/teamCreate.do")
+	public String insertTeam(String teamName, String teamLocation, String teamField, String teamType,MultipartFile teamEmblem,
+			String teamColor, String teamContent, Model m,HttpServletRequest re) {
 		
 		
+		logger.debug("teamName:::::::::::" + teamName);
+		logger.debug("teamLocation:::::::::::" + teamLocation);
+		logger.debug("teamField:::::::::::" + teamField);
+		logger.debug("teamColor:::::::::::" + teamType);
+		logger.debug("teamColor:::::::::::" + teamColor);
+		logger.debug("teamContent:::::::::::" + teamContent);
+/*		logger.debug("teamEmblem:::::::::::" + teamEmblem);*/
+		
+		Team team = new Team(teamName,0, teamLocation, teamField, teamType,teamColor, teamContent,null, "",null);
 	
+		
+		String saveDir = re.getSession().getServletContext().getRealPath("/resources/upload/team-logo");
+		File dir = new File(saveDir);
+		
+		if(!dir.exists()) {
+			dir.mkdirs();
+		}
+		
+		
+		//단일 파일 입출력
+		if(!teamEmblem.isEmpty()) {
+			String oriFileName = teamEmblem.getOriginalFilename();
+			String ext = oriFileName.substring(oriFileName.indexOf("."));
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HHmmssSSS");
+			int rndNum = (int)(Math.random()*1000);
+			String reNamedFile = sdf.format(new Date(System.currentTimeMillis()))+"_"+rndNum+ext;
+			
+			try {
+				teamEmblem.transferTo(new File(saveDir + "/" + reNamedFile));//파일입출력은 체크드익셉션이기 때문에 try
+				team.setTeamEmblem(reNamedFile);
+			
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		int result = service.InsertTeam(team);
+		String msg="";
+		String loc="/";
+		if(result > 0) {
+			msg="팀 생성 완료!";
+		}else{
+			msg="팀 생성 실패!";  
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
+	}
+	
+	@RequestMapping("/team/checkteamname.do")
+	public ModelAndView checkteamName(String teamname) throws UnsupportedEncodingException{
+		ModelAndView mv = new ModelAndView();
+		Team t = new Team();
+		t.setTeamName(teamname);
+		Team result = service.selectTeamCheck(teamname);
+		boolean isOk = result!=null?false:true;
+		mv.addObject("isOk", isOk);
+		mv.setViewName("jsonView");
+		return mv;
+	}
 	
 	
 }

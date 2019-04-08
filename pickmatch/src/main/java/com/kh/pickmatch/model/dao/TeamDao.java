@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
@@ -35,5 +36,11 @@ public interface TeamDao {
 	int deleteNotice(int noticeNo);
 	//팀 공지사항 수정
 	TeamNotice selectOne(int noticeNo);
+	//팀 공지사항 수정
+	int updateNotice(String noticeTitle, String noticeContent, int noticeNo);
+	int insertTeam(Team team);
+	
+	//팀 생성 팀명 중복검사
+	Team selectTeamCheck(String teamname);
 	
 }

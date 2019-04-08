@@ -58,7 +58,16 @@
  		select * from teamnotice where noticeno=#{noticeNo}
  	</select>
  	
+ 	<update id="updateNotice" parameterType="teamnotice">
+ 		update teamnotice set noticetitle=#{noticeTitle}, noticecontent=#{noticeContent} where noticeno=#{noticeNo}
+ 	</update>
  	
+ 	<!-- 팀 생성 -->
+ 	<insert id="InsertTeam" parameterType="teamcreate">
+ 		insert into team values(#{teamName},default,#{teamLocation},#{teamField},#{teamType},#{teamColor},#{teamContent},default,#{teamEmblem},default)
+ 	</insert>
  	
- 	
+ 	<select id="selectTeamCheck" resultType="teamcreate">
+ 		select * from team where teamname=#{teamname}
+ 	</select>
 </mapper>

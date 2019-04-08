@@ -3,6 +3,8 @@
 import java.io.Serializable;
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Team implements Serializable{
 	
 	/**
@@ -36,6 +38,7 @@ public class Team implements Serializable{
 		this.teamEmblem = teamEmblem;
 		this.teamStatus = teamStatus;
 	}
+
 
 	public String getTeamName() {
 		return teamName;

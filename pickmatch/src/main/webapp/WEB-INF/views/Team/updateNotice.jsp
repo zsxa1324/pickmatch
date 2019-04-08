@@ -9,18 +9,23 @@
 
 <section id="team-notice-update">
 
-<form>
+ <form name="noticeupdate" action="${pageContext.request.contextPath}/team/whiteNotice" method="post" onsubmit="return validate();">
+
 
 <div id="updateNotice-container">
   <div class="form-group form-group-sm">
     <label for="memberId" style=" margin-top: 50px;">작성자</label>
     <input type="text" class="form-control" id="memberId" value="${teamNotice.memberId }"  style="width:300px;" readonly >
   </div>
-
+    <div class="form-group form-group-sm">
+    <label for="noticetitle">제목</label>
+    <input type="text" class="form-control" id="noticetitle" name="noticeTitle" value="${teamNotice.noticeTitle }"  style="width:600px;" >
+  </div>
+	<input type="hidden" value="${teamNotice.noticeNo }" name="noticeNo">
 
   <div class="form-group">
   	<label style="display:inline-block;">내용</label>
-  	<textarea rows=10px  class="form-control" id="title-area">${teamNotice.noticeContent }</textarea>
+  	<textarea rows=10px  class="form-control" id="title-area" name="noticeContent">${teamNotice.noticeContent }</textarea>
   </div>
   
   

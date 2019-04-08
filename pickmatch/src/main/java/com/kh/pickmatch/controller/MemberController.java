@@ -1,5 +1,9 @@
 package com.kh.pickmatch.controller;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -9,10 +13,10 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.pickmatch.model.service.MemberService;
 import com.kh.pickmatch.model.vo.EmailAuthkey;
@@ -79,11 +83,46 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/memberEnroll.do")
-	public String memberEnroll(Member m, Model model) throws Exception
+	public ModelAndView memberEnroll(String memberId, String password, String memberName, String nickname, String phone, String email, String birth, String gender, String position, String location, MultipartFile profile, HttpServletRequest re)
 	{
-		String rawPw = m.getPassword();
+		ModelAndView mv = new ModelAndView();
+		Member m = new Member(memberId, bcEncoder.encode(password), memberName, nickname, phone, email, birth, gender, position, location, null, "", "", "", 0);
+		/*String rawPw = m.getPassword();
 		String enPw = bcEncoder.encode(rawPw);
 		m.setPassword(enPw);
+		logger.info("memberEnroll : "+ m);*/
+		logger.info(m.getMemberId());
+		logger.info(m.getPassword());
+		logger.info(memberName);
+		logger.info(nickname);
+		logger.info(phone);
+		logger.info(email);
+		logger.info(birth);
+		logger.info(gender);
+		logger.info(position);
+		logger.info(profile+"");
+		
+		String saveDir = re.getSession().getServletContext().getRealPath("/resources/upload/member-profile");
+
+		File dir = new File(saveDir);
+		if(!dir.exists())
+		{
+			dir.mkdirs();
+		}
+		
+		if(!profile.isEmpty())
+		{
+			String oriFileName = profile.getOriginalFilename();
+			String ext = oriFileName.substring(oriFileName.indexOf("."));
+			String renamedFile = m.getMemberId()+ext;
+			m.setProfile(renamedFile);
+			try {
+				profile.transferTo(new File(saveDir + "/" + renamedFile));
+			}catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
 		
 		String msg = "";
 		String loc = "/";
@@ -97,9 +136,10 @@ public class MemberController {
 		{
 			msg = m.getMemberId()+"님 회원가입되었습니다.";
 		}
-		model.addAttribute("msg",msg);
-		model.addAttribute("loc",loc);
-		return "common/msg";
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.setViewName("common/msg");
+		return mv;
 	}
 	
 	@RequestMapping("/member/checkMail.do")

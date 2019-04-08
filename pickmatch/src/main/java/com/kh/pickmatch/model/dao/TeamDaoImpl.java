@@ -5,16 +5,23 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
+import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
+
 
 @Repository
 public class TeamDaoImpl implements TeamDao {
 
+	private Logger logger = LoggerFactory.getLogger(TeamDaoImpl.class);
+	
 	@Autowired
 	SqlSessionTemplate session;
 	
@@ -57,8 +64,57 @@ public class TeamDaoImpl implements TeamDao {
 
 	
 	
+	//도원
 	
 	
+
+
+	@Override
+	public List<TeamNotice> selectListN(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return session.selectList("team.selectListN", null, new RowBounds((cPage-1)*numPerPage, numPerPage));
+	}
+
+	@Override
+	public Team selectTeamCheck(String teamname) {
+		// TODO Auto-generated method stub
+		return session.selectOne("team.selectTeamCheck", teamname);
+	}
+
+	@Override
+	public int insertTeam(Team team) {
+		// TODO Auto-generated method stub
+		return session.insert("team.InsertTeam", team);
+	}
+
+	@Override
+	public int updateNotice(String noticeTitle, String noticeContent, int noticeNo) {
+		// TODO Auto-generated method stub
+		
+		TeamNotice notice = new TeamNotice();
+		notice.setNoticeContent(noticeContent);
+		notice.setNoticeTitle(noticeTitle);
+		notice.setNoticeNo(noticeNo);
+		return session.update("team.updateNotice", notice);
+	}
+
+	@Override
+	public TeamNotice selectOne(int noticeNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("team.selectOne", noticeNo);
+	}
+
+	@Override
+	public int deleteNotice(int noticeNo) {
+		// TODO Auto-generated method stub
+		return session.delete("team.deleteNotice", noticeNo);
+	}
+
+	@Override
+	public int selectCountN() {
+		// TODO Auto-generated method stub
+		return session.selectOne("team.selectCountN");
+	}
 	
 	@Override
 	public Object selectTeamBoard(int boardNo) {
@@ -82,6 +138,24 @@ public class TeamDaoImpl implements TeamDao {
 	public List<TeamBoard> selectList(int cPage, int numPerPage) {
 		// TODO Auto-generated method stub;
 		return session.selectList("team.selectList", null, new RowBounds((cPage-1)*numPerPage, numPerPage));
+	}
+
+	@Override
+	public Object selectNoticeView(int noticeNo) {
+		// TODO Auto-generated method stub
+		return session.selectOne("team.selectNoticeView", noticeNo);
+	}
+
+	//팀 공지사항 글쓰기
+	@Override
+	public int InsertNotice(TeamNotice teamnotice) {
+		// TODO Auto-generated method stub
+		
+		//logger.debug("before teamnotice"+teamnotice);
+		String teamname = session.selectOne("team.selectTeamOne",teamnotice.getMemberId());
+		teamnotice.setTeamName(teamname);
+		//logger.debug("after teamnotice"+teamnotice);
+		return session.insert("team.insertNotice",teamnotice);
 	}
 	
 	

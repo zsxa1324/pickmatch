@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.kh.pickmatch.model.dao.TeamDao;
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
+import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
 @Service
@@ -56,21 +58,66 @@ public class TeamServiceImpl implements TeamService {
 	
 	
 	
+	//도원
 	
 	
+	
+
+
+
 	@Override
-	public Object selectTeamBoard(int boardNo) {
+	public List<TeamNotice> selectListN(int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
-		return dao.selectTeamBoard(boardNo);
+		return dao.selectListN(cPage, numPerPage);
 	}
 
+	@Override
+	public Team selectTeamCheck(String teamname) {
+		// TODO Auto-generated method stub
+		return dao.selectTeamCheck(teamname);
+	}
+
+	@Override
+	public int InsertTeam(Team team) {
+		// TODO Auto-generated method stub
+		return dao.insertTeam(team);
+	}
+
+	@Override
+	public TeamNotice selectOne(int noticeNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOne(noticeNo);
+	}
+
+	@Override
+	public int deleteNocice(int noticeNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteNotice(noticeNo);
+	}
+
+	@Override
+	public Object selectNoticeView(int noticeNo) {
+		// TODO Auto-generated method stub
+		return dao.selectNoticeView(noticeNo);
+	}
+
+	@Override
+	public int selectCountN() {
+		// TODO Auto-generated method stub
+		return dao.selectCountN();
+	}
 
 	@Override
 	public Object selectAttachment(int boardNo) {
 		// TODO Auto-generated method stub
 		return dao.selectAttachment(boardNo);
 	}
-
+	
+	@Override
+	public Object selectTeamBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return dao.selectTeamBoard(boardNo);
+	}
 
 	@Override
 	public int selectCount() {
@@ -82,6 +129,21 @@ public class TeamServiceImpl implements TeamService {
 	public List<TeamBoard> selectList(int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
 		return dao.selectList(cPage, numPerPage);
+	}
+
+	
+	//팀 공지사항 글쓰기
+	@Override
+	public int InsertNotice(TeamNotice teamnotice) {
+		// TODO Auto-generated method stub
+		return dao.InsertNotice(teamnotice);
+	}
+
+	//팀 공지사항 수정
+	@Override
+	public int updateNotice(String noticeTitle, String noticeContent, int noticeNo) {
+		// TODO Auto-generated method stub
+		return dao.updateNotice(noticeTitle, noticeContent, noticeNo);
 	}
 	
 	

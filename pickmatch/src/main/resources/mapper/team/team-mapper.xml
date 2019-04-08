@@ -18,4 +18,56 @@
 	</select>
  	
  	
+ 	<!-- 팀 공지사항 -->
+ 	<select id="selectCountN" resultType="_int">
+ 		select count(*) from TeamNotice
+ 	</select>
+ 	<select id="selectListN" resultType="teamnotice">
+ 		select * from teamnotice order by noticedate desc
+ 	</select>
+ 	
+ 	<!-- 팀 공지사항 상세보기 -->
+ 	<resultMap id="teamnoticemap" type="teamnotice">
+		<result column="noticeno" property="noticeNo"/>
+		<result column="noticetitle" property="noticeTitle"/>
+		<result column="memberid" property="memberId"/>
+		<result column="noticedate" property="noticeDate"/>
+		<result column="noticereadcount" property="noticeReadCount"/>
+		<result column="teamname" property="teamName"/>
+	</resultMap>
+ 	
+ 	
+ 	<select id="selectNoticeView" parameterType="teamnotice" resultMap="teamnoticemap">
+		select * from teamnotice where noticeno=#{noticeNo}
+	</select>
+ 	
+ 	
+ 	
+ 	<!-- 팀 공지사항 글쓰기 -->
+ 	<insert id="insertNotice"  parameterType="teamnotice">
+ 		insert into teamnotice values(seq_teamnoticeno.nextval,#{noticeTitle},#{memberId},#{noticeContent},default,default,#{teamName})
+ 	</insert>
+
+ 	<!-- 팀 공지사항 글삭제 -->
+ 	<delete id="deleteNotice">
+ 		delete from teamnotice where noticeno=#{noticeNo}
+ 	</delete>
+ 	
+ 	<!-- 팀 공지사항 수정 -->
+ 	<select id="selectOne" resultType="teamnotice">
+ 		select * from teamnotice where noticeno=#{noticeNo}
+ 	</select>
+ 	
+ 	<update id="updateNotice" parameterType="teamnotice">
+ 		update teamnotice set noticetitle=#{noticeTitle}, noticecontent=#{noticeContent} where noticeno=#{noticeNo}
+ 	</update>
+ 	
+ 	<!-- 팀 생성 -->
+ 	<insert id="InsertTeam" parameterType="teamcreate">
+ 		insert into team values(#{teamName},default,#{teamLocation},#{teamField},#{teamType},#{teamColor},#{teamContent},default,#{teamEmblem},default)
+ 	</insert>
+ 	
+ 	<select id="selectTeamCheck" resultType="teamcreate">
+ 		select * from team where teamname=#{teamname}
+ 	</select>
 </mapper>

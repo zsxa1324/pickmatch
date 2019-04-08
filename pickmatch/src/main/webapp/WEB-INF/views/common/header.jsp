@@ -17,7 +17,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
 <title>메인화면</title>
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<!-- <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> -->
 <style>
 	.form-control
 	{
@@ -125,7 +125,7 @@
 		
 		<c:if test="${loggedMember!=null }">
 		<div id="login-modal">
-			<div id="alarm" data-toggle="modal" data-target="#alarmModal">1</div>
+			<div id="alarm">1</div>
 			<a href="${path }/member/mypage.jsp"><img src="${path }/resources/images/user.png" width='35px' height='35px' title="마이페이지"/></a>
 			<span onclick="location.href='${path}/member/logout.do'">로그아웃</span>
 		</div>
@@ -280,7 +280,7 @@
 	      </div>
 	      <!-- body -->
 	      <div class="modal-body">
-	            <div id="result"></div>
+	            <div id="AlarmResult"></div>
 	      </div>
 	      <!-- Footer -->
 	      <div class="modal-footer">
@@ -295,9 +295,27 @@
 
 
 <script>
+
+	$(function(){
+		$("#alarm").click(function(){
+			$.ajax({
+				url:"${path}/alarm/view",
+				dataType:"html",
+				type:"POST",
+				success:function(data){
+					console.log(data);
+				}
+				
+			});
+			
+			$("#alarmModal").modal();
+		})
+		
+	});
+
 	function fn_login()
 	{
-		$("#login-enroll").hide();
+		$("#login-enroll").hide();                                                                                  
 		$("#login-login").show();
 	}
 	function fn_enroll()
@@ -364,6 +382,8 @@
 				
 		});
 	}
+	
+	
 	
 
 	/* 카카오 로그인 */

@@ -1,4 +1,4 @@
-package com.kh.pickmatch.model.vo;
+﻿package com.kh.pickmatch.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -167,6 +167,7 @@ public class Member implements Serializable {
 	public void setActivityPoint(int activityPoint) {
 		this.activityPoint = activityPoint;
 	}
+	
 
 	@Override
 	public String toString() {

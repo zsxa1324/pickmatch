@@ -1,4 +1,4 @@
-package com.kh.pickmatch.model.vo;
+﻿package com.kh.pickmatch.model.vo;
 
 public class TeamBoardComment {
 

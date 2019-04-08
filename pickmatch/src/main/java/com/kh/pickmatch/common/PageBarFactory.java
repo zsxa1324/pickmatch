@@ -1,11 +1,11 @@
-package com.kh.pickmatch.common;
+﻿package com.kh.pickmatch.common;
 
 public class PageBarFactory {
 
 	public static String getPageBar(int total, int cPage, int numPerPage, String url)
 	{
 		String pageBar="";
-		int totalPage = (int)Math.ceil((double)total/numPerPage);
+		int totalPage = (int)Math.ceil((double)total/numPerPage); // 토탈페이지
 		int pageBarSize = 5;
 		int pageNo = ((cPage-1)/pageBarSize)*pageBarSize+1;
 		int pageEnd = pageNo + pageBarSize - 1;
@@ -48,7 +48,7 @@ public class PageBarFactory {
 		pageBar+="<script>";
 		pageBar+="function fn_paging(cPage){";
 		pageBar+="location.href='"+url+"?cPage='+cPage;";
-		pageBar+="}</script>";
+		pageBar+="</script>";
 		
 		return pageBar;
 	}

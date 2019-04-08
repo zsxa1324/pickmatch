@@ -45,6 +45,18 @@ private MatchDao dao;
 		List<Map> list=dao.incomMatch(matchDate);
 		return list;
 	}
+
+	@Override
+	public int matchRequest(Map<String,Object> map) {
+		int result=dao.matchRequest(map);
+		return result;
+	}
+	@Override
+	public int insertMatch(Match match) {
+		int result = dao.insertMatch(match);
+		return result;
+	}
+	
 	
 	
 	

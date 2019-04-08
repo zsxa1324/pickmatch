@@ -9,7 +9,7 @@ public interface MemberDao {
 
 	int insertMember(Member m);
 
-	int insertAuthkey(Member m);
+	int insertAuthkey(EmailAuthkey ea);
 
 	Member checkMail(String email);
 

@@ -17,7 +17,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
 <title>메인화면</title>
-<!-- <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 <style>
 	.form-control
 	{
@@ -96,17 +96,6 @@
 		text-decoration : none;
 		display : block;
 	}
-	
-	#alarm {
-		background-color : red;
-		color : white;
-		width : 35px;
-		height : 35px;
-		/* border: 1px solid black; */
-		border-radius : 30px;
-		margin-right : 5px;
-		text-align : center
-	}
 </style>
 </head>
 <body>
@@ -125,8 +114,14 @@
 		
 		<c:if test="${loggedMember!=null }">
 		<div id="login-modal">
-			<div id="alarm">1</div>
-			<a href="${path }/member/mypage.jsp"><img src="${path }/resources/images/user.png" width='35px' height='35px' title="마이페이지"/></a>
+			<a href="${path }/member/mypage.jsp">
+			<c:if test="${loggedMember.profile!=null }">
+				<img src="${path }/resources/upload/member-profile/${loggedMember.profile }" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
+			</c:if>
+			<c:if test="${loggedMember.profile==null }">
+				<img src="${path }/resources/images/user.png" width='35px' height='35px' title="마이페이지"/>
+			</c:if>
+			</a>
 			<span onclick="location.href='${path}/member/logout.do'">로그아웃</span>
 		</div>
 		</c:if>
@@ -156,7 +151,7 @@
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a>
 						<div class="dropdown">
-							<a href="#">자유게시판</a>
+							<a href="${path }/community/freeboard.do">자유게시판</a>
 							<a href="#">모집게시판</a>
 						</div>
 					</li>
@@ -204,20 +199,20 @@
 					</form>
 				</div>
 				<div id="login-enroll" style="display:none;">
-					<form action="${path }/member/memberEnroll.do" method="post">
+					<form action="${path }/member/memberEnroll.do" method="post" enctype="multipart/form-data">
 						<div class="modal-body">
 							<input type="text" class="form-control"	name="memberId" id="memberId" placeholder="아이디" required/>
 							<input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required/>
 							<input type="password" class="form-control" id="password_" placeholder="비밀번호확인" required/>
 							<input type="text" class="form-control" name="memberName" placeholder="이름" required/>
-							<input type="text" class="form-control" name="nickName" placeholder="닉네임" required/>
+							<input type="text" class="form-control" name="nickname" placeholder="닉네임" required/>
 							<input type="tel" class="form-control" name="phone" placeholder="전화번호(예:01012345678)" maxlength="11" required/>
 							<input type="email" class="form-control" name="email" id ="email" placeholder="이메일" required/>
 							<button type="button" class="btn btn-outline-secondary" onclick="checkMail()">인증메일발송</button>
 							<input type="text" class="form-control" name="authkey" id="authkey" placeholder="인증번호입력"/>
 							<button type="button" class="btn btn-outline-secondary" onclick="checkAuthkey()">인증번호확인</button>
 							<span id='checkAuthkeySpan'style='color:green;font-size:12px;display:none;'>인증완료</span>
-							<input type="number" class="form-control" name="birth" placeholder="출생년도(예:2019)" maxlength="4" required/>
+							<input type="text" class="form-control" name="birth" placeholder="출생년도(예:2019)" maxlength="4" required/>
 							성별
 							<label><input type="radio" name="gender" value="M" > 남 </label>
 					        <label><input type="radio" name="gender" value="F" > 여 </label>
@@ -267,55 +262,12 @@
 			</div>
 		</div>
 	</div>
-	
-	<div class="modal fade" id="alarmModal" >
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <!-- header -->
-	      <div class="modal-header">
-	      	<!-- header title -->
-	        <h4 class="modal-title">알림</h4>
-	        <!-- 닫기(x) 버튼 -->
-	        <button type="button" class="close" data-dismiss="modal">×</button>
-	      </div>
-	      <!-- body -->
-	      <div class="modal-body">
-	            <div id="AlarmResult"></div>
-	      </div>
-	      <!-- Footer -->
-	      <div class="modal-footer">
-	        
-	        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-
-
 
 
 <script>
-
-	$(function(){
-		$("#alarm").click(function(){
-			$.ajax({
-				url:"${path}/alarm/view",
-				dataType:"html",
-				type:"POST",
-				success:function(data){
-					console.log(data);
-				}
-				
-			});
-			
-			$("#alarmModal").modal();
-		})
-		
-	});
-
 	function fn_login()
 	{
-		$("#login-enroll").hide();                                                                                  
+		$("#login-enroll").hide();
 		$("#login-login").show();
 	}
 	function fn_enroll()
@@ -352,11 +304,11 @@
 			success: data => {
         		if(data == true)
         		{
-        			alert("메일전송에 실패했습니다.");	
+        			alert("메일이 전송되었습니다. 인증번호를 확인해주세요.");
         		}
         		else
         		{
-        			alert("메일이 전송되었습니다. 인증번호를 확인해주세요.");
+        			alert("메일전송에 실패했습니다.");	
         		}
         	}			
 		});
@@ -382,8 +334,6 @@
 				
 		});
 	}
-	
-	
 	
 
 	/* 카카오 로그인 */

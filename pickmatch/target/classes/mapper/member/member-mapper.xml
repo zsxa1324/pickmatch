@@ -7,8 +7,20 @@
   </select>
   
   <insert id="insertMember" parameterType="member">
-  	insert into member values(#{memberId},#{password},#{memberName},#{nickName},#{phone},#{email},#{birth},#{gender},#{position},#{location},default,default,null,null,default)
+  	insert into member values(#{memberId},#{password},#{memberName},#{nickname},#{phone},#{email},#{birth},#{gender},#{position},#{location},default,default,#{profile},null,default)
   </insert>
+  
+  <insert id="insertAuthkey" parameterType="emailAuthkey">
+  	insert into EmailAuthkey values (#{memberId}, #{authkey}, #{email}, default)
+  </insert>
+  
+  <select id="selectAuthkey" parameterType="emailAuthkey" resultType="string">
+  	select authkey from (select * from emailauthkey where memberid=#{memberId} order by inserttime desc) where rownum=1
+  </select>
+  
+  <select id="checkMail" parameterType="string" resultType="member">
+  	select * from member where email=#{email}
+  </select>
   <!-- <resultMap id="memberMap" type="member">
   	<result column="hobby" property="hobby" typeHandler="strArr"/>
   </resultMap> -->

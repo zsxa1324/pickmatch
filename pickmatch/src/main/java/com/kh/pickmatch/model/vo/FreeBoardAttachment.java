@@ -1,23 +1,22 @@
-﻿package com.kh.pickmatch.model.vo;
+package com.kh.pickmatch.model.vo;
 
-public class TeamBoardAttachment {
-
+public class FreeBoardAttachment {
 	
 	private int attachmentNo;
 	private String originamFileName;
-	private int boardNoRef;
 	private String renamedFileName;
-	
-	public TeamBoardAttachment() {
+	private int boardNoRef;
+
+	public FreeBoardAttachment() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public TeamBoardAttachment(int attachmentNo, String originamFileName, int boardNoRef, String renamedFileName) {
+	public FreeBoardAttachment(int attachmentNo, String originamFileName, String renamedFileName, int boardNoRef) {
 		super();
 		this.attachmentNo = attachmentNo;
 		this.originamFileName = originamFileName;
-		this.boardNoRef = boardNoRef;
 		this.renamedFileName = renamedFileName;
+		this.boardNoRef = boardNoRef;
 	}
 
 	public int getAttachmentNo() {
@@ -36,14 +35,6 @@ public class TeamBoardAttachment {
 		this.originamFileName = originamFileName;
 	}
 
-	public int getBoardNoRef() {
-		return boardNoRef;
-	}
-
-	public void setBoardNoRef(int boardNoRef) {
-		this.boardNoRef = boardNoRef;
-	}
-
 	public String getRenamedFileName() {
 		return renamedFileName;
 	}
@@ -52,10 +43,19 @@ public class TeamBoardAttachment {
 		this.renamedFileName = renamedFileName;
 	}
 
+	public int getBoardNoRef() {
+		return boardNoRef;
+	}
+
+	public void setBoardNoRef(int boardNoRef) {
+		this.boardNoRef = boardNoRef;
+	}
+
 	@Override
 	public String toString() {
-		return "TeamBoardAttachment [attachmentNo=" + attachmentNo + ", originamFileName=" + originamFileName
-				+ ", boardNoRef=" + boardNoRef + ", renamedFileName=" + renamedFileName + "]";
+		return "FreeBoardAttachment [attachmentNo=" + attachmentNo + ", originamFileName=" + originamFileName
+				+ ", renamedFileName=" + renamedFileName + ", boardNoRef=" + boardNoRef + "]";
 	}
+	
 	
 }

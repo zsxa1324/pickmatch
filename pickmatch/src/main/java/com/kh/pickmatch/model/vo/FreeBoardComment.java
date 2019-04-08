@@ -1,6 +1,6 @@
-﻿package com.kh.pickmatch.model.vo;
+package com.kh.pickmatch.model.vo;
 
-public class TeamBoardComment {
+public class FreeBoardComment {
 
 	private int commentNo;
 	private String memberId;
@@ -8,11 +8,11 @@ public class TeamBoardComment {
 	private int boardNoRef;
 	private int commentNoRef;
 	
-	public TeamBoardComment() {
+	public FreeBoardComment() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public TeamBoardComment(int commentNo, String memberId, String commentContent, int boardNoRef, int commentNoRef) {
+	public FreeBoardComment(int commentNo, String memberId, String commentContent, int boardNoRef, int commentNoRef) {
 		super();
 		this.commentNo = commentNo;
 		this.memberId = memberId;
@@ -63,8 +63,9 @@ public class TeamBoardComment {
 
 	@Override
 	public String toString() {
-		return "TeamBoardComment [commentNo=" + commentNo + ", memberId=" + memberId + ", commentContent="
+		return "FreeBoardComment [commentNo=" + commentNo + ", memberId=" + memberId + ", commentContent="
 				+ commentContent + ", boardNoRef=" + boardNoRef + ", commentNoRef=" + commentNoRef + "]";
 	}
 	
+	 
 }

@@ -1,26 +1,24 @@
-﻿package com.kh.pickmatch.model.vo;
+package com.kh.pickmatch.model.vo;
 
 import java.util.Date;
 
-public class TeamBoard {
-
+public class FreeBoard {
+	
 	private int boardNo;
-	private String teamName;
 	private String boardTitle;
 	private String memberId;
 	private String boardContent;
 	private Date boardDate;
 	private int boardReadCount;
-	
-	public TeamBoard() {
+
+	public FreeBoard() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public TeamBoard(int boardNo, String teamName, String boardTitle, String memberId, String boardContent,
-			Date boardDate, int boardReadCount) {
+	public FreeBoard(int boardNo, String boardTitle, String memberId, String boardContent, Date boardDate,
+			int boardReadCount) {
 		super();
 		this.boardNo = boardNo;
-		this.teamName = teamName;
 		this.boardTitle = boardTitle;
 		this.memberId = memberId;
 		this.boardContent = boardContent;
@@ -28,22 +26,12 @@ public class TeamBoard {
 		this.boardReadCount = boardReadCount;
 	}
 
-	
-
 	public int getBoardNo() {
 		return boardNo;
 	}
 
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
-	}
-
-	public String getTeamName() {
-		return teamName;
-	}
-
-	public void setTeamName(String teamName) {
-		this.teamName = teamName;
 	}
 
 	public String getBoardTitle() {
@@ -85,12 +73,13 @@ public class TeamBoard {
 	public void setBoardReadCount(int boardReadCount) {
 		this.boardReadCount = boardReadCount;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "TeamBoard [boardNo=" + boardNo + ", teamName=" + teamName + ", boardTitle=" + boardTitle + ", memberId="
-				+ memberId + ", boardContent=" + boardContent + ", boardDate=" + boardDate + ", boardReadCount="
-				+ boardReadCount + "]";
+		return "FreeBoard [boardNo=" + boardNo + ", boardTitle=" + boardTitle + ", memberId=" + memberId
+				+ ", boardContent=" + boardContent + ", boardDate=" + boardDate + ", boardReadCount=" + boardReadCount
+				+ "]";
 	}
+	
 	
 }

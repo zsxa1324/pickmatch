@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="match">
 
+	<insert id="insertMatch" parameterType="match">
+	insert into match values(seq_matchno.nextval, #{teamHome}, null, #{matchDate}, #{matchTime}, #{matchType}, #{playGround}, default, default, #{cost}, #{matchContent}, #{lat}, #{lng})
+	</insert>
+
 	<select id="matchList" resultType="com.kh.pickmatch.model.vo.Match">
 	select * from match
 	</select>
@@ -21,4 +25,8 @@
 	<select id="incomMatch" resultType="map" parameterType="string">
 	select m.*,(select teamemblem from team where m.teamhome=teamname)as homeemblem from match m where m.matchdate=#{matchDate} and teamaway is null ORDER BY MATCHDATE ASC
 	</select>
+	<insert id="matchRequest" parameterType="map">
+	insert into matchrequestteam values(${team},)
+	</insert> 
+	
 </mapper>

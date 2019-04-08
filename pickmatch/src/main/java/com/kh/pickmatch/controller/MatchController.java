@@ -1,10 +1,12 @@
-package com.kh.pickmatch.controller;
+﻿package com.kh.pickmatch.controller;
 
-import java.util.Date;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,13 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.pickmatch.model.service.MatchService;
+import com.kh.pickmatch.model.service.TeamService;
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.Member;
 
 @Controller
 public class MatchController {
 
 @Autowired
-private MatchService service;	
+private MatchService service;
+@Autowired
+private TeamService teamService;
 
 private Logger logger = LoggerFactory.getLogger(MemberController.class);
 
@@ -29,9 +35,20 @@ private Logger logger = LoggerFactory.getLogger(MemberController.class);
 		return "match/matchEnroll";
 	}
 	
+	/*@RequestMapping("/match/enrollEnd")
+	public String enrollMatch(Date matchDate, String matchTime, String matchType, String playGround, int cost, String possibleLocal, String matchContent, double lat, double lng) {
+		logger.debug("enrollMatch :// " + matchDate + " : " + matchTime + " : " + matchType + " : " + lat + " : " + lng);
+		return "match/matchList";
+	}*/
+	
 	@RequestMapping("/match/enrollEnd")
-	public String enrollMatch(Date matchDate, String matchType, String playGround, int cost, String email, String possibleLocal, String matchContent) {
-		logger.debug("enrollMatch :// " + matchDate + " : " + matchType);
+	public String enrollMatch(Match match, HttpSession session) {
+		Member m = (Member) session.getAttribute("loggedMember");
+		logger.debug("loggedMember : " + m);
+		String teamHome = teamService.selectTeamOne(m.getMemberId());
+		match.setTeamHome(teamHome);
+		
+		int result = service.insertMatch(match);
 		return "match/matchList";
 	}
 
@@ -61,6 +78,17 @@ private Logger logger = LoggerFactory.getLogger(MemberController.class);
 		mv.setViewName("/match/matchContent");
 		
 		return mv;
+	}
+	
+	@RequestMapping("/match.matchRequest")
+	public String matchRequest(String team,int no) {
+		Map<String,Object> map=new HashMap();
+		map.put("team",team);
+		map.put("no",no);
+		
+		int result=service.matchRequest(map);
+		
+		return null;
 	}
 	
 }

@@ -24,8 +24,8 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int insertAuthkey(Member m) {
-		return session.insert("member.insertAuthkey",m);
+	public int insertAuthkey(EmailAuthkey ea) {
+		return session.insert("member.insertAuthkey",ea);
 	}
 
 	

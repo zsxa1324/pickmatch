@@ -71,10 +71,10 @@ public class MemberServiceImpl implements MemberService {
 		boolean flag = false;
 		/*String authkey = new TempKey().getKey(50, false);*/
 		String authkey = ""+(int)((Math.random()*9)+1)+""+(int)((Math.random())*10000)+1;
-		Member m = new Member();
-		m.setMemberId(memberId);
-		m.setEmail(email);
-		m.setAuthkey(authkey);
+		EmailAuthkey ea = new EmailAuthkey();
+		ea.setMemberId(memberId);
+		ea.setEmail(email);
+		ea.setAuthkey(authkey);
 		
 		// mail 작성 관련 
 		MailHandler sendMail = new MailHandler(mailSender);
@@ -86,11 +86,11 @@ public class MemberServiceImpl implements MemberService {
 				.append(authkey)
 				.append("]</p>")
 				.toString());
-		sendMail.setFrom("na.sunghee1@gmail.com", "관리자");
-		sendMail.setTo(m.getEmail());
+		sendMail.setFrom("na.sunghee1@gmail.com", "pickmatch");
+		sendMail.setTo(ea.getEmail());
 		sendMail.send();
 		
-		int result = dao.insertAuthkey(m);
+		int result = dao.insertAuthkey(ea);
 		if(result>0) flag = true;
 		return flag;
 	}

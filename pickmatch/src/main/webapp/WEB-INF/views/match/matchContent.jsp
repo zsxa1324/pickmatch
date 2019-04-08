@@ -197,7 +197,7 @@ section#section-matchContent article#article-matchContent div.div-playGround
 								<button class="snip1535 detailBtn" onclick="detailMatch()"
 									value="${c['TEAMHOME'] }" type="button">매치신청</button>
 									<input type="hidden" id="hiddenMatchNo" value="${c['MATCHNO'] }"/>
-									<input type="hidden" id="hiddenMatchTeam" value="${loggedMember.mebmerId }"/>
+									<input type="hidden" id="hiddenMatchTeam" value="${loggedMember.memberId }"/>
 							</div>
 						</div>
 					</div>

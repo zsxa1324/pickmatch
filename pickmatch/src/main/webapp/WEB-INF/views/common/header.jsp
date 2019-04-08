@@ -309,7 +309,7 @@
 				dataType:"html",
 				type:"POST",
 				success:function(data){
-					console.log(data);
+					$("#AlarmResult").html(data);
 				}
 				
 			});

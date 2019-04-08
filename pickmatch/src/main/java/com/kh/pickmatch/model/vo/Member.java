@@ -167,6 +167,7 @@ public class Member implements Serializable {
 	public void setActivityPoint(int activityPoint) {
 		this.activityPoint = activityPoint;
 	}
+	
 
 	@Override
 	public String toString() {

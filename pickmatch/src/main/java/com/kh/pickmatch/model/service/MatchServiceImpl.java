@@ -1,4 +1,4 @@
-﻿package com.kh.pickmatch.model.service;
+package com.kh.pickmatch.model.service;
 
 import java.util.List;
 import java.util.Map;
@@ -47,10 +47,19 @@ private MatchDao dao;
 	}
 
 	@Override
+	public int matchRequest(Map<String,Object> map) {
+		int result=dao.matchRequest(map);
+		return result;
+	}
+	@Override
 	public int insertMatch(Match match) {
 		int result = dao.insertMatch(match);
 		return result;
 	}
+	
+	
+	
+	
 	
 	
 

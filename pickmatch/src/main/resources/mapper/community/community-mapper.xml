@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="community">
+	<!-- 자유게시판 리스트/ 페이징 -->
+	<select id="selectFreeBoard" resultType="freeBoard">
+  		select A.*,(select count(*) from FREEBOARDATTACHMENT where A.boardno=boardno) filecount from freeboard A order by boarddate desc
+	</select>
+	<select id="selectFreeBoardCount" resultType="_int">
+  		select count(*) from freeBoard
+  	</select>
+  	<select id="selectOneFreeBoard" parameterType="_int" resultType="freeboard">
+  		select * from freeboard where boardno=#{boardNo}
+  	</select>
+  	<select id="selectAttachment" parameterType="_int" resultType="com.kh.pickmatch.model.vo.FreeBoardAttachment">
+  		select * from freeboardattachment where attachmentno=#{boardNo}
+  	</select>
+</mapper>

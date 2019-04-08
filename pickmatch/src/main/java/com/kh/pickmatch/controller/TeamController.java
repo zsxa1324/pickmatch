@@ -82,7 +82,7 @@ public class TeamController {
       
       TeamOperationAccount account = service.selectAccountOne(teamName);
       
-      mv.setViewName("team/teamOperationInfo");
+      mv.setViewName("Team/teamOperationInfo");
       mv.addObject("currentDate", currentDate);
       mv.addObject("memberId", memberId);
       mv.addObject("teamName", teamName);

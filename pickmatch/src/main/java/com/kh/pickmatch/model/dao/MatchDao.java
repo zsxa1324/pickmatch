@@ -1,4 +1,4 @@
-﻿package com.kh.pickmatch.model.dao;
+package com.kh.pickmatch.model.dao;
 
 import java.util.List;
 import java.util.Map;
@@ -13,4 +13,6 @@ public interface MatchDao {
 	public List<Map> matchContent(String matchDate);
 	public List<Map> incomMatch(String matchDate);
 	public int insertMatch(Match match);
+	public int matchRequest(Map<String,Object> map);
+
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
@@ -72,6 +73,29 @@ public class TeamDaoImpl implements TeamDao {
 	public List<TeamNotice> selectListN(int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
 		return session.selectList("team.selectListN", null, new RowBounds((cPage-1)*numPerPage, numPerPage));
+	}
+
+	@Override
+	public Team selectTeamCheck(String teamname) {
+		// TODO Auto-generated method stub
+		return session.selectOne("team.selectTeamCheck", teamname);
+	}
+
+	@Override
+	public int insertTeam(Team team) {
+		// TODO Auto-generated method stub
+		return session.insert("team.InsertTeam", team);
+	}
+
+	@Override
+	public int updateNotice(String noticeTitle, String noticeContent, int noticeNo) {
+		// TODO Auto-generated method stub
+		
+		TeamNotice notice = new TeamNotice();
+		notice.setNoticeContent(noticeContent);
+		notice.setNoticeTitle(noticeTitle);
+		notice.setNoticeNo(noticeNo);
+		return session.update("team.updateNotice", notice);
 	}
 
 	@Override

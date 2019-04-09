@@ -13,4 +13,6 @@ public class MessageController {
 		mv.setViewName("common/alarm");
 		return mv;
 	}
+	
+	
 }

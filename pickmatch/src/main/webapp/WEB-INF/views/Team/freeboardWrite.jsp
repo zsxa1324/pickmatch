@@ -48,7 +48,7 @@
 
 <div class="form-group ">
 	<label style="margin-right: 30px; margin-left: 20px; margin-top: 30px;">내용</label>
-	<textarea class="form-control" rows="3" style="width:380px; margin-right: 30px; margin-left: 20px;"></textarea>
+	<textarea class="form-control" rows="10" style="width:600px; margin-right: 30px; margin-left: 20px;"></textarea>
 </div>
          
 <div id="freeboard-btn" style="margin-left: 50px;">

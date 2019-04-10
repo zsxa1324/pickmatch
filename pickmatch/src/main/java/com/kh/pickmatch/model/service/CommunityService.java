@@ -3,6 +3,7 @@ package com.kh.pickmatch.model.service;
 import java.util.List;
 
 import com.kh.pickmatch.model.vo.FreeBoard;
+import com.kh.pickmatch.model.vo.FreeBoardAttachment;
 
 public interface CommunityService {
 
@@ -13,6 +14,8 @@ public interface CommunityService {
 	Object selectOneFreeBoard(int boardNo);
 
 	Object selectAttachment(int boardNo);
+
+	int insertFreeBoard(FreeBoard fb, List<FreeBoardAttachment> list);
 
 	
 

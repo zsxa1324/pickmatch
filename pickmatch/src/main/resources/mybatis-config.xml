@@ -12,6 +12,7 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.MoneyHistory" alias="mHistory"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.EmailAuthkey" alias="emailAuthkey"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.FreeBoard" alias="freeBoard"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.FreeBoardAttachment" alias="freeBoardAttachment"/>
 		
 	</typeAliases>
 </configuration>

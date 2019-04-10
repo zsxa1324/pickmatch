@@ -96,15 +96,40 @@
 		text-decoration : none;
 		display : block;
 	}
+	.span-modal-title, .span-modal-title-bar
+	{
+		color : gray;
+	}
+	.span-modal-title:hover
+	{
+		color : black;
+		cursor: pointer;
+	}
+	.a-main
+	{
+		color : black;
+		text-decoration: none;
+	}
+	.validation-msg
+	{
+		font-size:12px;
+		display:none;
+	}
+	.signup-input-msg
+	{
+		font-size:13px;
+	}
+	
 </style>
 </head>
 <body>
 <header>
 	<div id="header-container">
-		<img src="${path }/resources/images/logo.jpg"/>
-		<div>
-			<h2>Pick Match</h2>
-		</div>
+			<img src="${path }/resources/images/logo.jpg"/>
+			<div>
+				<a class="a-main" href="${path }/"><h2>Pick Match</h2></a>
+			</div>
+		
 		<c:if test="${loggedMember==null }">
 		<div id="login-modal" data-toggle="modal" data-target="#loginModal">
 			<img src="${path }/resources/images/user.png" width='35px' height='35px'/>
@@ -172,17 +197,15 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
-					<!-- <ol class="breadcrumb">
-					  <li class="breadcrumb-item" onclick="fn_login()">로그인</li>
-					  <li class="breadcrumb-item active" onclick="fn_enroll()">회원가입</li>
-					</ol> -->
-					<span id="click-login" onclick="fn_login()">로그인</span>  <span id="click-enroll" onclick="fn_enroll()">회원가입</span>
+					<span id="click-login" class="span-modal-title" onclick="fn_login()">로그인</span><span class="span-modal-title-bar">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span id="click-enroll" class="span-modal-title" onclick="fn_enroll()">회원가입</span>
 					</h5>					
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
+				<!-- 로그인 모달 -->
 				<div id="login-login">
 					<form action="${path }/member/login.do" method="post">
 						<div class="modal-body">
@@ -198,20 +221,33 @@
 						</div>
 					</form>
 				</div>
+				
+				<!-- 회원가입 모달 -->
 				<div id="login-enroll" style="display:none;">
-					<form action="${path }/member/memberEnroll.do" method="post" enctype="multipart/form-data">
+					<form action="${path }/member/memberEnroll.do" method="post" enctype="multipart/form-data" class="enroll-frm">
 						<div class="modal-body">
 							<input type="text" class="form-control"	name="memberId" id="memberId" placeholder="아이디" required/>
+							<span id="val-id-ok" class="validation-msg" style='color:green;'>사용가능한 아이디입니다.</span>
+							<span id="val-id-no" class="validation-msg" style='color:crimson;'>사용할 수 없는 아이디입니다.</span>
+		                    <div class="signup-input-msg">
+		                        4-12자 사이의 숫자와 영문자 조합
+		                    </div>
 							<input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required/>
+							<span id="val-pass-ok" class="validation-msg" style='color:green;'>사용가능한 비밀번호입니다.</span>
+							<span id="val-pass-no"class="validation-msg" style='color:crimson;'>사용할 수 없는 비밀번호입니다.</span>
+							<div class="signup-input-msg">
+		                        6글자 이상 숫자, 영문자, 특수문자 조합
+		                    </div>
 							<input type="password" class="form-control" id="password_" placeholder="비밀번호확인" required/>
-							<input type="text" class="form-control" name="memberName" placeholder="이름" required/>
+							<span id="val-checkpass-no" class="validation-msg" style='color:crimson;'>비밀번호가 일치하지 않습니다.</span>
+							<input type="text" class="form-control" name="memberName" id="memberName" placeholder="이름" required/>
 							<input type="text" class="form-control" name="nickname" placeholder="닉네임" required/>
-							<input type="tel" class="form-control" name="phone" placeholder="전화번호(예:01012345678)" maxlength="11" required/>
+							<input type="tel" class="form-control" name="phone" id="phone" placeholder="전화번호(예:01012345678)" maxlength="11" required/>
 							<input type="email" class="form-control" name="email" id ="email" placeholder="이메일" required/>
 							<button type="button" class="btn btn-outline-secondary" onclick="checkMail()">인증메일발송</button>
 							<input type="text" class="form-control" name="authkey" id="authkey" placeholder="인증번호입력"/>
 							<button type="button" class="btn btn-outline-secondary" onclick="checkAuthkey()">인증번호확인</button>
-							<span id='checkAuthkeySpan'style='color:green;font-size:12px;display:none;'>인증완료</span>
+							<span class="validation-msg" id='checkAuthkeySpan' style='color:green;'>인증완료</span>
 							<input type="text" class="form-control" name="birth" placeholder="출생년도(예:2019)" maxlength="4" required/>
 							성별
 							<label><input type="radio" name="gender" value="M" > 남 </label>
@@ -359,9 +395,68 @@
 	      fail:function(err){ alert(JSON.stringify(err));}
 	   });
 
+	 //회원가입 유효성 검사
+	const signupFrm = $('.enroll-frm');
+	const signupPw = $('.enroll-frm #password');
+	const signupPwCk = $('.enroll-frm #password_');
+	const signupId = $('.enroll-frm #memberId');
+	const signupName = $('.enroll-frm #memberName');
+	const signupEmail = $('.enroll-frm #email');
+	const signupPhone = $('.enroll-frm #phone');
+		
+	const validationMsg = $('.validation-msg');
+	const signupInputs = $('.validation-msg').prev();
+	const idAvail = $('#idAvail')
+
+	function check_key() {
+	 var char_ASCII = event.keyCode;
+	                
+	  //숫자
+	 if (char_ASCII >= 48 && char_ASCII <= 57 )
+	   return 1;
+	 //영어소문자
+	 else if (char_ASCII>=97 && char_ASCII<=122)
+	    return 2;
+	 //특수기호
+	 else if ((char_ASCII>=33 && char_ASCII<=47) || (char_ASCII>=58 && char_ASCII<=64) 
+	   || (char_ASCII>=91 && char_ASCII<=96) || (char_ASCII>=123 && char_ASCII<=126))
+	    return 4;
+	 //한글
+	 else if ((char_ASCII >= 12592) || (char_ASCII <= 12687))
+	    return 3;
+	 else 
+	    return 0;
+	}
 
 
 
+
+	$('#memberId').blur(function idCheckAjax(){
+		$.ajax({
+           	url: '<%=request.getContextPath()%>/member/checkId.do?memberId='+signupId.val(),
+           	type: 'get',
+           	dataType: 'text',
+           	success: data => {
+           		if(data == 'true' || $('#memberId').val().trim().length<4 || $('#memberId').val().trim().length>12 || (check_key() != 1 && check_key() != 2))
+           			//가입된 아이디가 존재하거나 id길이가 짧은 경우
+           		{
+           			console.log($('#memberId').val())
+           			$('#val-id-ok').hide();
+        			$('#val-id-no').show();
+           		}
+           		else
+           			//가입된 아이디가 존재하지 않을 경우
+           		{
+					$('#val-id-ok').show();
+					$('#val-id-no').hide();
+					
+           		}
+           	}
+           });
+	});
+
+
+ 
 </script>
 		
 		

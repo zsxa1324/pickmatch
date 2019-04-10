@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.pickmatch.model.dao.TeamDao;
+import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
@@ -33,8 +34,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectMoneyHistoryList(String teamName) {
-		return dao.selectMoneyHistoryList(teamName);
+	public List<Map<String, Object>> selectMoneyHistoryList(Map<String, String> map) {
+		return dao.selectMoneyHistoryList(map);
 	}
 
 	@Override
@@ -52,12 +53,30 @@ public class TeamServiceImpl implements TeamService {
 		return dao.insertMHistory(mHistory);
 	}
 
+	@Override
+	public List<Match> selectMatchList(String teamName, int cPage, int numPerPage) {
+		return dao.selectMatchList(teamName, cPage, numPerPage);
+	}
+	
+	@Override
+	public int selectMatchCount(String teamName) {
+		return dao.selectMatchCount(teamName);
+	}
 	
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+
+
 	@Override
 	public Object selectTeamBoard(int boardNo) {
 		// TODO Auto-generated method stub

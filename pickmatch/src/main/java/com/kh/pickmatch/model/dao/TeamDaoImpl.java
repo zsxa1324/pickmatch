@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
@@ -34,8 +35,8 @@ public class TeamDaoImpl implements TeamDao {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectMoneyHistoryList(String teamName) {
-		return session.selectList("team.selectMoneyHistoryList", teamName);
+	public List<Map<String, Object>> selectMoneyHistoryList(Map<String, String> map) {
+		return session.selectList("team.selectMoneyHistoryList", map);
 	}
 
 	@Override
@@ -53,13 +54,28 @@ public class TeamDaoImpl implements TeamDao {
 		return session.insert("team.insertMHistory", mHistory);
 	}
 
+	@Override
+	public List<Match> selectMatchList(String teamName, int cPage, int numPerPgae) {
+		return session.selectList("team.selectMatchList", teamName, new RowBounds((cPage-1) * numPerPgae, numPerPgae));
+	}
+	
+	@Override
+	public int selectMatchCount(String teamName) {
+		return session.selectOne("team.selectMatchCount", teamName);
+	}
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
 
 
-	
-	
-	
-	
-	
 	@Override
 	public Object selectTeamBoard(int boardNo) {
 		// TODO Auto-generated method stub

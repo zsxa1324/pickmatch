@@ -24,7 +24,7 @@
         <a class="nav-link" href="#">팀 정보 <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">팀 매치정보</a>
+        <a class="nav-link" href="${path}/team/teamMatchList?teamName=${teamName}">팀 매치정보</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">팀 자유게시판</a>

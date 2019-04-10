@@ -16,6 +16,14 @@
 	<select id="selectAttachment" parameterType="_int" resultType="com.kh.pickmatch.model.vo.TeamBoardAttachment">
 		select * from teamboardattachment where attachmentno=#{boardNo}
 	</select>
+	
+	<select id="selectMatchList" parameterType="string" resultType="match">
+		select * from match where teamhome = #{teamName} or teamaway = #{teamName} order by matchdate desc
+	</select>
+	
+	<select id="selectMatchCount" parameterType="string" resultType="_int">
+		select count(*) from match where teamhome = #{teamName} or teamaway = #{teamName}
+	</select>
  	
  	
 </mapper>

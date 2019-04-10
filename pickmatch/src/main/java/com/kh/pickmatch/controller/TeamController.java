@@ -269,7 +269,7 @@ public class TeamController {
 	@RequestMapping("/team/teamnotice")
 	public String InsertNotice(TeamNotice teamnotice, Model m) {
 		
-		
+		logger.debug("InsertNotice : " + teamnotice); 
 		String msg = "";
 		String loc="/teamnotice.do"; //이동할 매핑값 써야됨
 		int result = service.InsertNotice(teamnotice); 
@@ -382,7 +382,7 @@ public class TeamController {
 				e.printStackTrace();
 			}
 		}
-		
+		logger.debug("InsertTeam : " + team);
 		int result = service.InsertTeam(team);
 		String msg="";
 		String loc="/";

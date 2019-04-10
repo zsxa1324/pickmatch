@@ -1,4 +1,4 @@
-package com.kh.pickmatch.model.vo;
+﻿package com.kh.pickmatch.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -24,6 +24,7 @@ public class Member implements Serializable {
 	private String profile;
 	private String introduce;
 	private int activityPoint;
+	private String teamName;
 	
 	public Member() {}
 
@@ -46,6 +47,29 @@ public class Member implements Serializable {
 		this.profile = profile;
 		this.introduce = introduce;
 		this.activityPoint = activityPoint;
+	}
+
+	
+	public Member(String memberId, String password, String memberName, String nickname, String phone, String email,
+			String birth, String gender, String position, String location, Date enrollDate, String status,
+			String profile, String introduce, int activityPoint, String teamName) {
+		super();
+		this.memberId = memberId;
+		this.password = password;
+		this.memberName = memberName;
+		this.nickname = nickname;
+		this.phone = phone;
+		this.email = email;
+		this.birth = birth;
+		this.gender = gender;
+		this.position = position;
+		this.location = location;
+		this.enrollDate = enrollDate;
+		this.status = status;
+		this.profile = profile;
+		this.introduce = introduce;
+		this.activityPoint = activityPoint;
+		this.teamName = teamName;
 	}
 
 	public String getMemberId() {
@@ -167,6 +191,15 @@ public class Member implements Serializable {
 	public void setActivityPoint(int activityPoint) {
 		this.activityPoint = activityPoint;
 	}
+	
+
+	public String getTeamName() {
+		return teamName;
+	}
+
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
+	}
 
 	@Override
 	public String toString() {
@@ -174,7 +207,10 @@ public class Member implements Serializable {
 				+ nickname + ", phone=" + phone + ", email=" + email + ", birth=" + birth + ", gender=" + gender
 				+ ", position=" + position + ", location=" + location + ", enrollDate=" + enrollDate + ", status="
 				+ status + ", profile=" + profile + ", introduce=" + introduce + ", activityPoint=" + activityPoint
-				+ "]";
+				+ ", teamName=" + teamName + "]";
 	}
+
+
+
 	
 }

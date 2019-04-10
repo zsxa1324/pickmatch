@@ -1,7 +1,9 @@
-package com.kh.pickmatch.model.vo;
+﻿package com.kh.pickmatch.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class Team implements Serializable{
 	
@@ -19,6 +21,7 @@ public class Team implements Serializable{
 	private Date openingDate;
 	private String teamEmblem;
 	private String teamStatus;
+	private int rank;
 	
 	public Team() {}
 
@@ -35,6 +38,15 @@ public class Team implements Serializable{
 		this.openingDate = openingDate;
 		this.teamEmblem = teamEmblem;
 		this.teamStatus = teamStatus;
+	}
+
+
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
 	}
 
 	public String getTeamName() {

@@ -1,18 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
-<!DOCTYPE htm>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    
+  
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+	<jsp:param value="Hello Spring" name="title"/>
+</jsp:include>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>    
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">   -->
+
+<section style="height: 800px;">
+
+
+
+
+
 
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/playgroundSearch.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/modal.css" />
@@ -30,7 +33,8 @@
 		
 		$("input[name=matchDate]").val(new Date().toDateInputValue());
 		 $("#playgroundSearchBtn").click(function(){
-		        $('div.modal').modal(); 
+			 	$("#keyword").val($("input[name=playGround]").val());
+		        $('#layerpop').modal(); 
 		         
 		        
 		    })
@@ -65,7 +69,7 @@
 		    $("input[name=playGround]").val(playgroundName);
 		    $("input[name=lat]").val(lat);
 		    $("input[name=lng]").val(lng);
-		    var iwContent = '<div style="padding:5px;">' + playgroundName + '</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+		    var iwContent = '<div style="padding:3px;">' + playgroundName + '</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 		    iwPosition = new daum.maps.LatLng(lat, lng), //인포윈도우 표시 위치입니다
 		    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
@@ -112,10 +116,10 @@
 	    <div class="modal-content">
 	      <!-- header -->
 	      <div class="modal-header">
-	        <!-- 닫기(x) 버튼 -->
-	        <button type="button" class="close" data-dismiss="modal">×</button>
 	        <!-- header title -->
 	        <h4 class="modal-title">구장 검색</h4>
+	        <!-- 닫기(x) 버튼 -->
+	        <button type="button" class="close" data-dismiss="modal">×</button>
 	      </div>
 	      <!-- body -->
 	      <div class="modal-body">
@@ -154,7 +158,7 @@
 	    	<option>풋살</option>
 	    </select>
 	    <br>  
-	      <label>구장</label> <input type="text" placeholder="구장" name="playGround">
+	      <label>구장</label> <input type="text" placeholder="구장" name="playGround" value="구장">
 	      <button type="button" id="playgroundSearchBtn">검색</button>
 	      <input type="hidden" name="lat"/>
 	      <input type="hidden" name="lng"/>
@@ -165,8 +169,8 @@
 	      <br>
 	    
 	     비용 <input type="number" class="form-control" placeholder="비용" name="cost" id="cost" value="0" step="10000"> <br>
-	     유니폼색 <input type="text" class="form-control" placeholder="유니폼색" name="email" id="email"> <br>
-	     경기가능지역 <input type="text" class="form-control" placeholder="경기가능지역" name="possibleLocal" id="email" > <br>
+	    
+	     <!-- 경기가능지역 <input type="text" class="form-control" placeholder="경기가능지역" name="possibleLocal"> <br> -->
 	     내용 <textarea name="matchContent" cols="50" rows=6" style="resize:none"></textarea>
 	      
 	      <br />
@@ -174,6 +178,11 @@
 	      <input type="reset" class="btn btn-outline-success" value="취소">
 	   </form>
 	</div>
+</section>
+
+
+
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c472012c135166c57bf567ee22b393ed&libraries=services"></script>	
 <script src="${pageContext.request.contextPath }/resources/js/playgroundSearch.js"></script>
 	
@@ -192,6 +201,3 @@
 			}
 		}
 	</script>
-
-</body>
-</html>

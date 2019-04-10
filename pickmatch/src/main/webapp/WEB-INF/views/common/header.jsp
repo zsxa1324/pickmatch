@@ -149,6 +149,7 @@
 						</a>
 						<div class="dropdown">
 						<c:if test="${!empty loggedMember}">
+							
 							<a href="${path}/teamcreate.do">팀 개설</a>
 							<a href="${path }/team.do">팀 정보</a>
 							<a href="${path}/freeboard.do">팀 자유게시판</a>

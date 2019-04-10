@@ -3,7 +3,7 @@
 <mapper namespace="match">
 
 	<insert id="insertMatch" parameterType="match">
-	insert into match values(seq_matchno.nextval, #{teamHome}, null, #{matchDate}, #{matchTime}, #{matchType}, #{playGround}, default, default, #{cost}, #{matchContent}, #{lat}, #{lng})
+	insert into match values(seq_matchno.nextval, #{teamHome}, null, #{matchDate}, #{matchTime}, #{matchType}, #{playGround}, default, default, #{cost}, #{matchContent}, #{lat}, #{lng}, default)
 	</insert>
 
 	<select id="matchList" resultType="com.kh.pickmatch.model.vo.Match">

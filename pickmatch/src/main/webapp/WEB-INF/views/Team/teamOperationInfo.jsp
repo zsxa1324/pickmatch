@@ -107,12 +107,12 @@
 			<button id="historyBtn" onclick='reviseBtn()' class="btn btn-outline-secondary" type="button">내역작성</button>
 		</c:if>
 		
-		<input id='totalMoney' type="number" readonly value="${account['totalMoney']}"/>원
+		<input style="margin-left: 180px;" id='totalMoney' type="number" readonly value="${account['totalMoney']}"/>원
 	</div>
 	
 	<!-- 개인당 회비여부 -->
 	<div class='operation_right'>
-		<input id="month" type="month" min="2019-04" max='2025-01' value="${currentDate}"/>
+		<input id="month" type="month" min="2019-01" max='2025-01' value="${currentDate.substring(0, 7)}"/>
 		<div id='scroll2'>
 			<table class='moneyCheck'>
 				<thead>
@@ -121,7 +121,6 @@
 						<th>이름(닉네임)</th>
 						<th>position</th>
 						<th>직위</th>
-						<th>회비여부</th>
 					</tr>
 				</thead>
 				<c:forEach var="map" items="${listTMember}" varStatus="no">
@@ -131,7 +130,6 @@
 							<th>${map['MEMBERNAME']}(${map['NICKNAME']})</th>
 							<td>${map['POSITION']}</td>
 							<td>${map['AUTHORITY']}</td>
-							<td>${map['STATUS']}</td>
 						</tr>
 					</tbody>
 				</c:forEach>
@@ -209,7 +207,7 @@
 	      		<div class="modal-body">
 	      			<form action="${path}/team/MoneyHistoryEndroll" method="post">
 				      	<label>입/출금 유형</label class="col-sm-2 col-form-label">
-						    <select name="inoutType" required>
+						    <select id="inoutType" name="inoutType" required>
 						    	<option value="입금" selected>입금</option>
 						    	<option value="출금">출금</option>
 						    </select>
@@ -236,6 +234,7 @@
 		
 		function reviseBtn() {
 			alert('권한이 없습니다.');
+			console.log('${listTMember}');
 		}
 	
 	</script>

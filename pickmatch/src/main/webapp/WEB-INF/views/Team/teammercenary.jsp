@@ -8,10 +8,16 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 
-<section id="myteammercenary">
-
+<section id="teammercenary">
+	<br><br><br>
+	 <div style="margin-left: 300px;">
+	         &nbsp;<input class="form-control" type="text" id="searchkey" name="searchkey"  placeholder="팀 검색" style="display:inline-block; width: 300px;">&nbsp;
+	         <button type="submit" id="searchbtn1" name="searchbtn1" class="btn btn-secondary" style="display:inline-block;">검색</button>
+     </div>
+	<br><br><br>
 	
-	<h1 style="text-align: center;margin-top:50px; margin-bottom: 50px;">내 용병 팀정보</h1>
+	
+	<h3 style="text-align: center; margin-bottom: 50px;">내 용병 팀정보</h3>
 	
 	
 <div id="teammercenary-div">

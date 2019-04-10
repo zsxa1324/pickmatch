@@ -3,26 +3,25 @@
 <mapper namespace="team">
 	
 	<select id="selectTMemberList" parameterType="map" resultType="map">
-		select m.membername, m.nickname, m.position, mt.authority, mc.status, memberid
+		select m.membername, m.nickname, m.position, mt.authority, memberId
 		from memberbyteam mt
 		join member m using(memberid)
-		join moneycheck mc using(memberid)
-		where mt.teamname = #{teamName} and (exitdate is null or exitdate <![CDATA[<=]]> to_date(#{currentDate}))
-	</select>
-	
-	<select id="selectTeamOne" parameterType="string" resultType="string">
-		select teamname from memberbyteam where memberid = #{memberId}
+		where mt.teamname = #{teamName} and ((exitdate is null and mt.enrolldate <![CDATA[<=]]> to_date(last_day(#{currentDate}))) or (exitdate <![CDATA[>]]> to_date(#{currentDate}) and mt.enrolldate <![CDATA[<=]]> to_date(last_day(#{currentDate}))))
 	</select>
 	
 	<select id="selectAccountOne" parameterType="string" resultType="account">
 		select * from teamoperationaccount where teamname = #{teamName}
 	</select>
 	
+ 	<select id="selectTeamOne" parameterType="string" resultType="string">
+ 		select teamName from memberbyteam where exitdate is null and memberid = #{memberId}
+ 	</select>
+	
 	<select id="selectMoneyHistoryList" parameterType="string" resultType="map">
 		select mh.inouttype, m.membername, m.nickname, mh.money, mh.content, mh.inoutdate
 		from moneyhistory mh
 		join member m using(memberid)
-		where teamname = #{teamName}
+		where teamname = #{teamName} and inoutdate <![CDATA[>=]]> to_date(#{currentDate}) and inoutdate <![CDATA[<=]]> to_date(last_day(#{currentDate}))
 		order by inoutdate desc
 	</select>
 	

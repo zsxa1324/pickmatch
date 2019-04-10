@@ -53,25 +53,25 @@ section#operationInfo table.account td {
 
 div#accountReviseModal div.modal-body label, div#accountEnrollModal div.modal-body label, div#moneyHistoryModal div.modal-body label {
 	text-align: right;
-	width: 20%;
+	width: 23%;
 	margin-right: 15px;
 }
 
-div#accountReviseModal div.modal-body input, div#accountEnrollModal div.modal-body input, div#moneyHistoryModal div.modal-body input, div#moneyHistoryModal div.modal-body select {
-	width: 75%;
+div#accountReviseModal div.modal-body input, div#accountEnrollModal div.modal-body input, div#moneyHistoryModal div.modal-body input {
+	width: 70%;
 	border-radius: 3px;
-	float: right;
 }
 
 div#moneyHistoryModal div.modal-body input {
-	width: 75%;
+	width: 65%;
 	border-radius: 3px;
 	float: right;
 }
 
 div#moneyHistoryModal div.modal-body select {
-	width: 75%;
+	width: 65%;
 	float: right;
+	border-radius: 4px; 
 }
 
 section#operationInfo div.operation_left table.moneyHistory {
@@ -90,13 +90,19 @@ section#operationInfo div.operation_left table.moneyHistory thead th {
 }
 
 section#operationInfo table.moneyHistory tbody th {
-	width: 600px;
+	width: 580px;
 	height: 255px;
 }
-section#operationInfo table.moneyHistory tbody td {
-	width: 120px;
-	padding: 10px;
-	vertical-align: top;
+
+section#operationInfo table.moneyHistory tbody tr td:nth-child(1), section#operationInfo table.moneyHistory tbody tr td:nth-child(3) {
+	width: 90px;
+	padding: 5px 0;
+	border-bottom: 1px solid #e2e2e2;
+}
+
+section#operationInfo table.moneyHistory tbody tr td:nth-child(2), section#operationInfo table.moneyHistory tbody tr td:nth-child(4), section#operationInfo table.moneyHistory tbody tr td:nth-child(5) {
+	width: 140px;
+	padding: 5px 0;
 	border-bottom: 1px solid #e2e2e2;
 }
 
@@ -110,6 +116,7 @@ section#operationInfo div.operation_right table.moneyCheck {
 }
 
 section#operationInfo div.operation_right table.moneyCheck thead th {
+	width: 100px;
 	padding: 10px;
 	color: #369;
 	border-bottom: 3px solid #036;
@@ -117,7 +124,7 @@ section#operationInfo div.operation_right table.moneyCheck thead th {
 }
 
 section#operationInfo div.operation_right table.moneyCheck tbody td {
-	width: 80px;
+	width: 100px;
 	padding: 10px;
 	vertical-align: top;
 	border-bottom: 1px solid #e2e2e2;
@@ -131,7 +138,7 @@ section#operationInfo div.operation_right table.moneyCheck tbody th {
 }
 
 section#operationInfo div.operation_left div#scroll1 {
-	width: 100%;
+	width: 88%;
 	height: 300px;
 	overflow: auto;
 }
@@ -147,6 +154,11 @@ section#operationInfo div.operation_right input {
 	margin-top: 50px;
 }
 
+section#matchEnroll div#scroll {
+	width: 100%;
+	height: 300px;
+	overflow: auto;
+}
 
 
 

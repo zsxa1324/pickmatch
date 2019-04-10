@@ -1,4 +1,4 @@
-﻿package com.kh.pickmatch.model.dao;
+﻿﻿package com.kh.pickmatch.model.dao;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -61,6 +62,15 @@ public class TeamDaoImpl implements TeamDao {
 		return session.insert("team.insertMHistory", mHistory);
 	}
 
+	@Override
+	public List<Match> selectMatchList(String teamName, int cPage, int numPerPgae) {
+		return session.selectList("team.selectMatchList", teamName, new RowBounds((cPage-1) * numPerPgae, numPerPgae));
+	}
+	
+	@Override
+	public int selectMatchCount(String teamName) {
+		return session.selectOne("team.selectMatchCount", teamName);
+	}
 
 
 	

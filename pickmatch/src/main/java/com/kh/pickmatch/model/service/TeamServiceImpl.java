@@ -1,4 +1,4 @@
-﻿package com.kh.pickmatch.model.service;
+﻿﻿package com.kh.pickmatch.model.service;
 
 import java.util.List;
 import java.util.Map;
@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.pickmatch.model.dao.TeamDao;
+import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -55,6 +56,15 @@ public class TeamServiceImpl implements TeamService {
 		return dao.insertMHistory(mHistory);
 	}
 
+		@Override
+	public List<Match> selectMatchList(String teamName, int cPage, int numPerPage) {
+		return dao.selectMatchList(teamName, cPage, numPerPage);
+	}
+	
+	@Override
+	public int selectMatchCount(String teamName) {
+		return dao.selectMatchCount(teamName);
+	}
 	
 	
 	

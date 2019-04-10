@@ -48,7 +48,8 @@ public class PageBarFactory {
 		pageBar+="<script>";
 		pageBar+="function fn_paging(cPage){";
 		pageBar+="location.href='"+url+"?cPage='+cPage;";
-		pageBar+="</script>";
+		pageBar+="}</script>";
+		
 		
 		return pageBar;
 	}

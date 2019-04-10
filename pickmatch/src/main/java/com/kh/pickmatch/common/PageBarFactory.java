@@ -1,11 +1,11 @@
-package com.kh.pickmatch.common;
+ï»¿package com.kh.pickmatch.common;
 
 public class PageBarFactory {
 
 	public static String getPageBar(int total, int cPage, int numPerPage, String url)
 	{
 		String pageBar="";
-		int totalPage = (int)Math.ceil((double)total/numPerPage); // ÅäÅ»ÆäÀÌÁö
+		int totalPage = (int)Math.ceil((double)total/numPerPage); // í† íƒˆí˜ì´ì§€
 		int pageBarSize = 5;
 		int pageNo = ((cPage-1)/pageBarSize)*pageBarSize+1;
 		int pageEnd = pageNo + pageBarSize - 1;
@@ -13,11 +13,11 @@ public class PageBarFactory {
 		pageBar+="<ul class='pagination justify-content-center pagination-sm'>";
 		if(pageNo == 1) {
 			pageBar+="<li class='page-item disabled'>";
-			pageBar+="<a class='page-link' href='#' tabindex='-1'>ÀÌÀü</a>";
+			pageBar+="<a class='page-link' href='#' tabindex='-1'>ì´ì „</a>";
 			pageBar+="</li>";
 		}else {
 			pageBar+="<li class='page-item'>";
-			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo-1)+")'>ÀÌÀü</a>";
+			pageBar+="<a class='page-link' href='javascript:fn_paging("+(pageNo-1)+")'>ì´ì „</a>";
 			pageBar+="</li>";
 		}
 		while(!(pageNo > pageEnd || pageNo > totalPage))
@@ -40,7 +40,7 @@ public class PageBarFactory {
 		if(pageNo > totalPage)
 		{
 			pageBar+="<li class='page-item disabled'>";
-			pageBar+="<a class='page-link'>´ÙÀ½</a>";
+			pageBar+="<a class='page-link'>ë‹¤ìŒ</a>";
 			pageBar+="</li>";
 		}
 
@@ -48,7 +48,8 @@ public class PageBarFactory {
 		pageBar+="<script>";
 		pageBar+="function fn_paging(cPage){";
 		pageBar+="location.href='"+url+"?cPage='+cPage;";
-		pageBar+="</script>";
+		pageBar+="}</script>";
+		
 		
 		return pageBar;
 	}

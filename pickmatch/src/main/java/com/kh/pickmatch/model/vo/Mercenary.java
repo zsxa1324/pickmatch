@@ -1,4 +1,4 @@
-package com.kh.pickmatch.model.vo;
+﻿package com.kh.pickmatch.model.vo;
 
 public class Mercenary {
 	
@@ -8,6 +8,9 @@ public class Mercenary {
 	private String status;
 	private int playCount;
 	private int goalCount;
+	private int rank;
+	private String introduce;
+	
 	
 	public Mercenary() {
 		// TODO Auto-generated constructor stub
@@ -22,6 +25,23 @@ public class Mercenary {
 		this.goalCount = goalCount;
 	}
 
+	public String getIntroduce() {
+		return introduce;
+	}
+
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
+
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+
+	
 	public String getMemberId() {
 		return memberId;
 	}

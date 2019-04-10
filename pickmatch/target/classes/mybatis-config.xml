@@ -10,6 +10,14 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.MemberByTeam" alias="mt"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.TeamOperationAccount" alias="account"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.MoneyHistory" alias="mHistory"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.EmailAuthkey" alias="emailAuthkey"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.FreeBoard" alias="freeBoard"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.FreeBoardAttachment" alias="freeBoardAttachment"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.TeamNotice" alias="teamnotice"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.Team" alias="teamcreate"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.Mercenary" alias="mercenary"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.Message" alias="message"/>
 		
 	</typeAliases>
 </configuration>
+

@@ -70,4 +70,33 @@
  	<select id="selectTeamCheck" resultType="teamcreate">
  		select * from team where teamname=#{teamname}
  	</select>
+ 	
+ 	
+ 	<!-- 팀 랭킹 -->
+ 	<select id="selectCountT" resultType="_int">
+ 		select count(*) from team
+ 	</select>
+ 	<select id="selectTeamRanking"  resultType="teamcreate">
+ 		 SELECT * FROM (SELECT ROWNUM AS rank, A.* FROM (SELECT * FROM team ORDER BY teamrating DESC) A) 
+ 	</select>
+ 	<!-- 팀검색 -->
+ 	<select id="TeamSearch" resultType="teamcreate">
+ 		SELECT * FROM (SELECT ROWNUM AS rank, A.* FROM (SELECT * FROM team ORDER BY teamrating DESC) A) team where teamname=#{search}
+ 	</select>
+ 	
+ 	
+ 	<!-- 용병랭킹 -->
+ 	<select id="selectCountM" resultType="_int">
+ 		select count(*) from mercenary
+ 	</select>
+ 	<select id="selectmercenaryranking"  resultType="mercenary">
+ 		 SELECT * FROM (SELECT ROWNUM AS rank, A.* FROM (SELECT * FROM mercenary join member using(memberid) ORDER BY goalcount DESC) A) 
+ 	</select>
+ 	
+ 	<!-- 용병검색 -->
+ 	<select id="MercenarySearch" resultType="mercenary">
+ 		SELECT * FROM (SELECT ROWNUM AS rank, A.* FROM (SELECT * FROM mercenary join member using(memberid) ORDER BY goalcount DESC) A) mercenary where memberid=#{search}
+ 	</select>
+ 	
+ 	
 </mapper>

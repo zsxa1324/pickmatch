@@ -21,6 +21,7 @@ public class Team implements Serializable{
 	private Date openingDate;
 	private String teamEmblem;
 	private String teamStatus;
+	private int rank;
 	
 	public Team() {}
 
@@ -39,6 +40,14 @@ public class Team implements Serializable{
 		this.teamStatus = teamStatus;
 	}
 
+
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
 
 	public String getTeamName() {
 		return teamName;

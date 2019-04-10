@@ -10,25 +10,27 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/_variables.scss" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
- <div style="margin-left: 300px; margin-bottom: 100px; margin-top: 50px;">
-	         &nbsp;<input class="form-control" type="text" id="searchkey" name="searchkey"  placeholder="용병검색" style="display:inline-block; width: 300px;">&nbsp;
-	         <button type="submit" id="searchbtn1" name="searchbtn1" class="btn btn-secondary" style="display:inline-block; width:100px;">검색</button>
-     </div>
+<form action="${path }/mercenary/search.do" method="post" onsubmit="return validate()">
+ <div align="center" style="margin-bottom: 100px; margin-top: 50px;">
+       &nbsp;<input class="form-control" type="text" id="searchkey" placeholder="용병검색" name="search" style="display:inline-block; width: 300px;">&nbsp;
+       		 <button type="submit" id="searchbtn" name="searchbtn" class="btn btn-secondary" style="display:inline-block; width:100px;">검색</button>
+</div>
+</form>
 
-
-
-<c:forEach begin="1" end="3" var="i">
-<div class="card" style="display: inline-block; margin-left: 60px; margin-bottom: 50px;">
-<h5>${i}</h5> 
+<div align="center">
+<c:forEach items="${top3 }" begin="0" end="2" var="r">
+<div class="card" style="display: inline-block; margin-left: 20px; margin-right:20px; margin-bottom: 50px; ">
+<h5>${r.rank}</h5> 
 <div id="rankimg" style="margin-bottom: 20px;">
   <img src="https://image.fmkorea.com/files/attach/new/20180417/486616/41170129/1021006724/554449902566a4417eee09a4fdb7bd79.jpg" class="img-circle" style="width:250px; height:200px;">
   </div>
-  <h5 style="margin-bottom: 10px;">이름</h5>
-  <p style="height: 100px; width:250px;">소개</p>
+  <h5 style="margin-bottom: 10px;">${r.memberId }</h5>
+  <p style="height: 100px; width:250px;">${r.introduce }</p>
  
 </div>
-</c:forEach>
 
+</c:forEach>
+</div>
 <h4 style="margin-bottom: 30px; text-align: center;">용병 랭킹</h4>
 
 <div id="mercenaryranking-div" style="margin-bottom: 50px;">
@@ -39,25 +41,23 @@
 			<th id="mercenaryranking-table-info-score">득점</th>
 			<th id="mercenaryranking-table-info-introduce">소개</th>
 		</tr>
-		<tr>
-			<td id="mercenaryranking-table-info-ranking">1</td>
-			<td id="mercenaryranking-table-info-membername">문장현</td>
-			<td id="mercenaryranking-table-info-score">53</td>
-			<td id="mercenaryranking-table-info-introduce">안녕하세요 1등입니다~!~!~!!!~!!</td>
-		</tr>
-		<tr>
-			<td id="mercenaryranking-table-info-ranking">1</td>
-			<td id="mercenaryranking-table-info-membername">문장현</td>
-			<td id="mercenaryranking-table-info-score">53</td>
-			<td id="mercenaryranking-table-info-introduce">안녕하세요 1등입니다~!~!~!!!~!!</td>
-		</tr>
-		
+
+		<c:if test="${!empty list}">
+			<c:forEach items="${list }" var="b">
+			<tr>
+				<td id="mercenaryranking-table-info-ranking">${b.rank }</td>
+				<td id="mercenaryranking-table-info-membername">${b.memberId}</td>
+				<td id="mercenaryranking-table-info-score">${b.goalCount }</td>
+				<td id="mercenaryranking-table-info-introduce">${b.introduce }</td>
+			</tr>
+			</c:forEach>
+		</c:if>
 	
 	</table>
 </div>	
 
 
-
+<div>${pageBar }</div>
 
 
 <style>

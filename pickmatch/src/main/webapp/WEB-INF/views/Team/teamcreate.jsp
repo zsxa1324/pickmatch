@@ -65,7 +65,7 @@
   
   <div class="form-group ">
     <label for="teamEmblem" style="margin-right: 30px; margin-left: 20px;">팀로고</label>
-    <input type="file" id="teamlogo" id="teamEmblem" name="teamEmblem" id="teamEmblem">
+    <input type="file"  id="teamEmblem" name="teamEmblem" id="teamEmblem">
     <p class="help-block">여기에 블록레벨 도움말 예제</p>
   </div>
   
@@ -108,7 +108,7 @@ function validate()
 	
 	if(flag){
 		alert("팀명이 중복되었습니다!");
-		
+		return false;
 		
 	}
 	

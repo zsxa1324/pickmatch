@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.pickmatch.model.dao.TeamDao;
+import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
@@ -70,6 +71,43 @@ public class TeamServiceImpl implements TeamService {
 		// TODO Auto-generated method stub
 		return dao.selectListN(cPage, numPerPage);
 	}
+
+	@Override
+	public Team TeamSearch(String search) {
+		// TODO Auto-generated method stub
+		return dao.TeamSearch(search);
+	}
+
+	@Override
+	public Mercenary MercenarySearch(String search) {
+		// TODO Auto-generated method stub
+		return dao.MercenarySearch(search);
+	}
+
+	@Override
+	public List<Mercenary> mercenaryranking(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.mercenaryranking(cPage, numPerPage);
+	}
+
+	@Override
+	public int selectCountM() {
+		// TODO Auto-generated method stub
+		return dao.selectCountM();
+	}
+
+	@Override
+	public int selectCountT() {
+		// TODO Auto-generated method stub
+		return dao.selectCountT();
+	}
+
+	@Override
+	public List<Team> selectTeamRanking(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectTeamRanking(cPage, numPerPage);
+	}
+
 
 	@Override
 	public Team selectTeamCheck(String teamname) {

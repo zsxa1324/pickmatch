@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
@@ -73,6 +74,44 @@ public class TeamDaoImpl implements TeamDao {
 	public List<TeamNotice> selectListN(int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
 		return session.selectList("team.selectListN", null, new RowBounds((cPage-1)*numPerPage, numPerPage));
+	}
+
+
+	@Override
+	public Team TeamSearch(String search) {
+		// TODO Auto-generated method stub
+		return session.selectOne("team.TeamSearch",search);
+	}
+
+	@Override
+	public Mercenary MercenarySearch(String search) {
+		// TODO Auto-generated method stub
+		//logger.debug("서치::::::"+search);
+		return session.selectOne("team.MercenarySearch",search);
+	}
+
+	@Override
+	public List<Mercenary> mercenaryranking(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return session.selectList("team.selectmercenaryranking", null, new RowBounds((cPage-1)*numPerPage, numPerPage));
+	}
+
+	@Override
+	public int selectCountM() {
+		// TODO Auto-generated method stub
+		return session.selectOne("team.selectCountM");
+	}
+
+	@Override
+	public int selectCountT() {
+		// TODO Auto-generated method stub
+		return session.selectOne("team.selectCountT");
+	}
+
+	@Override
+	public List<Team> selectTeamRanking(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return session.selectList("team.selectTeamRanking", null, new RowBounds((cPage-1)*numPerPage, numPerPage));
 	}
 
 	@Override

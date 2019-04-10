@@ -3,6 +3,7 @@ package com.kh.pickmatch.model.dao;
 import java.util.List;
 
 import com.kh.pickmatch.model.vo.FreeBoard;
+import com.kh.pickmatch.model.vo.FreeBoardAttachment;
 
 public interface CommunityDao {
 
@@ -13,5 +14,9 @@ public interface CommunityDao {
 	Object selectOneFreeBoard(int boardNo);
 
 	Object selectAttachment(int boardNo);
+
+	int insertFreeBoard(FreeBoard fb);
+
+	int insertFreeAttachment(FreeBoardAttachment a);
 
 }

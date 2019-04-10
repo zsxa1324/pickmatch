@@ -37,21 +37,13 @@ public class MemberController {
 	private JavaMailSenderImpl mailSender;
 
 	
-/*	@RequestMapping("/member/checkId.do")
-	public ModelAndView checkId(String userId) throws UnsupportedEncodingException
-	{
-		ModelAndView mv = new ModelAndView();
-		Member m = new Member();
-		mv.setViewName("member/");
-		return mv;
-	}*/
+	
 
 	@RequestMapping("/member/login.do")
 	public String login(Member m, Model model, HttpSession session)
 	{
-		logger.debug(""+m);
-		logger.debug(""+session);
 		Member result = service.selectOne(m);
+		logger.info(result+"");
 		String msg="";
 		String loc="/";
 		if(result != null)
@@ -174,6 +166,20 @@ public class MemberController {
 		{
 			flag = true;
 		}
+		return flag;
+	}
+	
+	@RequestMapping("/member/checkId.do")
+	@ResponseBody
+	public boolean checkId(String memberId)
+	{
+		boolean flag = false;
+		System.out.println("checkId되는중?");
+		Member m = new Member();
+		m.setMemberId(memberId);
+		Member result = service.selectOne(m);
+		if(result != null) flag = true;
+		System.out.println(flag);
 		return flag;
 	}
 

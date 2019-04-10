@@ -30,6 +30,7 @@ html,body {
 
 <script>
 var d = new Date();
+console.log(d);
 var fYear = d.getFullYear();
 var pMonth = d.getMonth()+1;
 var gDate = d.getDate();

@@ -14,6 +14,8 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.FreeBoard" alias="freeBoard"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.TeamNotice" alias="teamnotice"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.Team" alias="teamcreate"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.Mercenary" alias="mercenary"/>
+
 		
 	</typeAliases>
 </configuration>

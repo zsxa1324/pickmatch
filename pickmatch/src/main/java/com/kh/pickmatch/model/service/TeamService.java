@@ -3,6 +3,7 @@
 import java.util.List;
 import java.util.Map;
 
+import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
@@ -44,9 +45,27 @@ public interface TeamService {
 	//팀 공지사항 수정
 	int updateNotice(String noticeTitle, String noticeContent, int noticeNo);
 	int InsertTeam(Team team);
-	Team selectTeamCheck(String teamname);
 	
 	//팀 생성 팀명 중복검사
+	Team selectTeamCheck(String teamname);
+	
+	//팀랭킹 
+	List<Team> selectTeamRanking(int cPage, int numPerPage);
+	int selectCountT();
+	//팀랭킹 검색
+	Team TeamSearch(String search);
+	
+	
+	//용병랭킹
+	List<Mercenary> mercenaryranking(int cPage, int numPerPage);
+	int selectCountM();
+	//용병랭킹검색
+	Mercenary MercenarySearch(String search);
+	
+	
+	
+	
+	
 	
 
 }

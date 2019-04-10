@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,7 @@ import com.kh.pickmatch.common.PageBarFactory;
 import com.kh.pickmatch.model.dao.TeamDaoImpl;
 import com.kh.pickmatch.model.service.TeamService;
 import com.kh.pickmatch.model.vo.Member;
+import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
@@ -169,19 +171,18 @@ public class TeamController {
 		
 	}
 	
-	@RequestMapping("/teammercenary.do")
-	public String teammercenaryinfo() {
-		return "Team/teammercenary";
-		
-	}
-	
+	//지우면안됨!
 	@RequestMapping("/teamcreate.do")
 	public String teamcreate (){
 		return "Team/teamcreate";
 		
 	}
 	
-	
+	//지우면안됨!
+	@RequestMapping("/teammercenary.do")
+	public String teammercenary() {
+		return "Team/teammercenary";
+	}
 	
 	//팀 게시판 리스트보기
 	@RequestMapping("/freeboard.do")
@@ -196,7 +197,7 @@ public class TeamController {
 		mv.addObject("list", list);
 		mv.addObject("totalList", totalList);
 		System.out.println(totalList);
-		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/Team/freeboard.do"));
+		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/freeboard.do"));
 		mv.setViewName("Team/freeboard");
 		return mv;
 	}
@@ -204,15 +205,9 @@ public class TeamController {
 		
 	
 	
-	@RequestMapping("/teamranking.do")
-	public String teamranking(){
-		return "Team/teamranking";
-	}
+
 	
-	@RequestMapping("/mercenaryranking.do")
-	public String mercenaryranking() {
-		return "Team/mercenaryranking";
-	}
+
 	
 	//팀 게시판 글쓰기
 	@RequestMapping("/Team/freeboardWrite")
@@ -352,12 +347,12 @@ public class TeamController {
 			String teamColor, String teamContent, Model m,HttpServletRequest re) {
 		
 		
-		logger.debug("teamName:::::::::::" + teamName);
+		/*logger.debug("teamName:::::::::::" + teamName);
 		logger.debug("teamLocation:::::::::::" + teamLocation);
 		logger.debug("teamField:::::::::::" + teamField);
 		logger.debug("teamColor:::::::::::" + teamType);
 		logger.debug("teamColor:::::::::::" + teamColor);
-		logger.debug("teamContent:::::::::::" + teamContent);
+		logger.debug("teamContent:::::::::::" + teamContent);*/
 /*		logger.debug("teamEmblem:::::::::::" + teamEmblem);*/
 		
 		Team team = new Team(teamName,0, teamLocation, teamField, teamType,teamColor, teamContent,null, "",null);
@@ -403,6 +398,7 @@ public class TeamController {
 		return "common/msg";
 	}
 	
+	//팀생성시 팀명중복검사
 	@RequestMapping("/team/checkteamname.do")
 	public ModelAndView checkteamName(String teamname) throws UnsupportedEncodingException{
 		ModelAndView mv = new ModelAndView();
@@ -414,6 +410,106 @@ public class TeamController {
 		mv.setViewName("jsonView");
 		return mv;
 	}
+	
+	//팀랭킹
+	@RequestMapping("/teamranking.do")
+	public ModelAndView teamrangking(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
+		
+		int numPerPage = 10;
+		ModelAndView mv = new ModelAndView();
+		List<Team> list = service.selectTeamRanking(cPage, numPerPage);
+		int totalList = service.selectCountT();
+
+		
+		mv.addObject("list", list);
+		mv.addObject("totalList", totalList);
+		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/teamranking.do"));
+		mv.setViewName("Team/teamranking");
+		return mv;
+	}
+	
+	//팀랭킹 검색
+	@RequestMapping("/team/search.do")
+	public ModelAndView TeamSearch(String search, Model m) {
+		
+		ModelAndView mv = new ModelAndView();
+		Team team = service.TeamSearch(search);
+		List<Team> result = new ArrayList<>();
+		result.add(team);
+		
+		String msg="";
+		String loc="";
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		if(team==null) {
+			msg="검색결과가 없습니다!";
+			loc="/teamranking.do";
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			mv.setViewName("common/msg");
+		}
+		else {
+			mv.addObject("list", result);
+			mv.setViewName("Team/teamranking");
+		}
+		return mv;
+		
+		
+	}
+	
+	//용병랭킹
+	@RequestMapping("/mercenaryranking.do")
+	public ModelAndView mercenaryranking(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
+		int numPerPage = 10;
+		ModelAndView mv = new ModelAndView();
+		List<Mercenary> list = service.mercenaryranking(cPage, numPerPage);
+		List<Mercenary> top3 = service.mercenaryranking(1, numPerPage);
+		int totalList = service.selectCountM();
+
+		
+		mv.addObject("list", list);
+		mv.addObject("top3", top3);
+		mv.addObject("totalList", totalList);
+		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/mercenaryranking.do"));
+		mv.setViewName("Team/mercenaryranking");
+		return mv;
+	}
+	
+	//용병랭킹검색
+	@RequestMapping("/mercenary/search.do")
+	public ModelAndView MercenarySearch(String search, Model m) {
+		
+		ModelAndView mv = new ModelAndView();
+		Mercenary temp = service.MercenarySearch(search);
+		List<Mercenary> top3 = service.mercenaryranking(1, 10);
+		List<Mercenary> result = new ArrayList<>();
+		result.add(temp);
+		String msg="";
+		String loc="";
+		
+		m.addAttribute("msg", msg);
+		
+		//logger.debug("리졀트"+result);
+		
+		if(temp==null) {
+			msg="검색결과가 없습니다!";
+			loc="/mercenaryranking.do";
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			mv.setViewName("common/msg");
+		}
+		else {
+			
+			mv.addObject("list", result);
+			mv.addObject("top3", top3);
+			mv.setViewName("Team/mercenaryranking");
+			
+		}
+		return mv;
+	}
+	
+
 	
 	
 }

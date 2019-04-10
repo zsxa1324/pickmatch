@@ -15,7 +15,7 @@
 <div id="updateNotice-container">
   <div class="form-group form-group-sm">
     <label for="memberId" style=" margin-top: 50px;">작성자</label>
-    <input type="text" class="form-control" id="memberId" value="${teamNotice.memberId }"  style="width:300px;" readonly >
+    <input type="text" class="form-control" id="memberId" value="${teamNotice.memberId }"  style="width:300px; margin-left: 3px;" readonly >
   </div>
     <div class="form-group form-group-sm">
     <label for="noticetitle">제목</label>

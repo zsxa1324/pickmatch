@@ -6,7 +6,8 @@
 <html>
 <head>
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>	
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Baloo|Baloo+Chettan|Changa|Concert+One|Cuprum|Days+One|Fredoka+One|Fugaz+One|Iceberg|Maven+Pro:700|Mitr|Passion+One|Permanent+Marker|Racing+Sans+One|Righteous|Viga|ZCOOL+XiaoWei" rel="stylesheet">
@@ -17,7 +18,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
 <title>메인화면</title>
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 <style>
 	.form-control
 	{
@@ -96,6 +97,17 @@
 		text-decoration : none;
 		display : block;
 	}
+	
+	#alarm {
+		background-color : red;
+		color : white;
+		width : 35px;
+		height : 35px;
+		/* border: 1px solid black; */
+		border-radius : 30px;
+		margin-right : 5px;
+		text-align : center
+	}
 </style>
 </head>
 <body>
@@ -114,6 +126,7 @@
 		
 		<c:if test="${loggedMember!=null }">
 		<div id="login-modal">
+			<div id="alarm">1</div>
 			<a href="${path }/member/mypage.jsp">
 			<c:if test="${loggedMember.profile!=null }">
 				<img src="${path }/resources/upload/member-profile/${loggedMember.profile }" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
@@ -131,14 +144,17 @@
 			<div class="collapse navbar-collapse header-nav-bar" id="navbarColor03">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="${pageContext.request.contextPath }/team.do">내팀정보
+						<a class="nav-link" href="#">내팀정보
 							<span class="sr-only">(current)</span>
 						</a>
 						<div class="dropdown">
-							<a href="${pageContext.request.contextPath }/teamcreate.do">팀 개설</a>
-							<a href="${pageContext.request.contextPath }/freeboard.do">팀 자유게시판</a>
-							<a href="${pageContext.request.contextPath }/teamnotice.do">팀 공지사항</a>
-							<a href="${pageContext.request.contextPath }/teammercenary.do">내 용병팀 정보</a>
+						<c:if test="${!empty loggedMember}">
+							<a href="${path}/teamcreate.do">팀 개설</a>
+							<a href="${path }/team.do">팀 정보</a>
+							<a href="${path}/freeboard.do">팀 자유게시판</a>
+							<a href="${path}/teamnotice.do">팀 공지사항</a>
+							<a href="${path}/teammercenary.do">내 용병팀 정보</a>
+						</c:if>
 						</div>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">공지사항</a>
@@ -157,8 +173,8 @@
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">랭킹</a>
 						<div class="dropdown">
-							<a href="${pageContext.request.contextPath }/teamranking.do">팀 랭킹</a>
-							<a href="${pageContext.request.contextPath }/mercenaryranking.do">용병 랭킹</a>
+							<a href="${path}/teamranking.do">팀 랭킹</a>
+							<a href="${path}/mercenaryranking.do">용병 랭킹</a>
 						</div>
 					</li>
 				</ul>
@@ -262,9 +278,50 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" id="alarmModal" >
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <!-- header -->
+	      <div class="modal-header">
+	      	<!-- header title -->
+	        <h4 class="modal-title">알림</h4>
+	        <!-- 닫기(x) 버튼 -->
+	        <button type="button" class="close" data-dismiss="modal">×</button>
+	      </div>
+	      <!-- body -->
+	      <div class="modal-body">
+	            <div id="AlarmResult"></div>
+	      </div>
+	      <!-- Footer -->
+	      <div class="modal-footer">
+	        
+	        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 
 <script>
+
+	$(function(){
+		$("#alarm").click(function(){
+			$.ajax({
+				url:"${path}/alarm/view",
+				dataType:"html",
+				type:"POST",
+				success:function(data){
+					$("#AlarmResult").html(data);
+				}
+				
+			});
+			
+			$("#alarmModal").modal();
+		})
+		
+	});
+
 	function fn_login()
 	{
 		$("#login-enroll").hide();

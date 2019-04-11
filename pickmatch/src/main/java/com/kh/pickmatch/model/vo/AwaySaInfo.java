@@ -2,10 +2,10 @@ package com.kh.pickmatch.model.vo;
 
 import java.util.Date;
 
-public class AwayInfo {
+public class AwaySaInfo {
 	
 	private int matchNo;
-	private String teamHome;
+	private String teamAway;
 	private Date matchDate;
 	private String matchTime;
 	private String matchType;
@@ -19,13 +19,14 @@ public class AwayInfo {
 	private int draw;
 	private int lose;
 	
-	public AwayInfo() {}
+	public AwaySaInfo() {}
 
-	public AwayInfo(int matchNo, String teamHome, Date matchDate, String matchTime, String matchType, String playGround,
-			int cost, String matchContent, int lat, int lng, int totalPlayCount, int win, int draw, int lose) {
+	public AwaySaInfo(int matchNo, String teamAway, Date matchDate, String matchTime, String matchType,
+			String playGround, int cost, String matchContent, int lat, int lng, int totalPlayCount, int win, int draw,
+			int lose) {
 		super();
 		this.matchNo = matchNo;
-		this.teamHome = teamHome;
+		this.teamAway = teamAway;
 		this.matchDate = matchDate;
 		this.matchTime = matchTime;
 		this.matchType = matchType;
@@ -48,12 +49,12 @@ public class AwayInfo {
 		this.matchNo = matchNo;
 	}
 
-	public String getTeamHome() {
-		return teamHome;
+	public String getTeamAway() {
+		return teamAway;
 	}
 
-	public void setTeamHome(String teamHome) {
-		this.teamHome = teamHome;
+	public void setTeamAway(String teamAway) {
+		this.teamAway = teamAway;
 	}
 
 	public Date getMatchDate() {
@@ -154,11 +155,12 @@ public class AwayInfo {
 
 	@Override
 	public String toString() {
-		return "AwayInfo [matchNo=" + matchNo + ", teamHome=" + teamHome + ", matchDate=" + matchDate + ", matchTime="
+		return "AwaySaInfo [matchNo=" + matchNo + ", teamAway=" + teamAway + ", matchDate=" + matchDate + ", matchTime="
 				+ matchTime + ", matchType=" + matchType + ", playGround=" + playGround + ", cost=" + cost
 				+ ", matchContent=" + matchContent + ", lat=" + lat + ", lng=" + lng + ", totalPlayCount="
 				+ totalPlayCount + ", win=" + win + ", draw=" + draw + ", lose=" + lose + "]";
 	}
+
 	
 	
 

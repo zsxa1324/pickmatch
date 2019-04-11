@@ -13,7 +13,9 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,8 +37,40 @@ public class MemberController {
 	
 	@Autowired 
 	private JavaMailSenderImpl mailSender;
-
 	
+
+	@RequestMapping(value = "/member/kakaoLogin.do", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean kakaoLogin(String memberId, String email, String nickname, String profile, HttpSession session) throws Exception
+	{
+		logger.info(memberId+ email+nickname+profile);
+		boolean flag = false;
+		int check = 0;
+		Member m = new Member();
+		m.setMemberId(memberId);
+		m.setEmail(email);
+		m.setMemberName(nickname);
+		m.setNickname(nickname);
+		m.setProfile(profile);
+		
+		Member result = service.selectOne(m);
+		if(result==null) {
+			//카카오 아이디로 처음 로그인 한 회원은 회원가입시켜줌.
+			check = service.insertKakaoMember(m);
+			logger.info("카카오 가입 : "+check);
+			if(check>0) {
+				session.setAttribute("loggedMember", result);
+				flag = true;
+			}
+		}
+		else {
+			//이미 카카오아이디로 로그인 한 적이 있는 회원은 회원정보 업데이트
+			check = service.updateKakaoMember(m);
+			session.setAttribute("loggedMember", result);
+			flag = true;
+		}
+		return flag;
+	}
 	
 
 	@RequestMapping("/member/login.do")
@@ -71,6 +105,7 @@ public class MemberController {
 	public String logout(HttpSession session)
 	{
 		session.invalidate();
+		logger.info("로그아웃"+session);
 		return "redirect:/";
 	}
 	
@@ -174,14 +209,24 @@ public class MemberController {
 	public boolean checkId(String memberId)
 	{
 		boolean flag = false;
-		System.out.println("checkId되는중?");
+		
 		Member m = new Member();
 		m.setMemberId(memberId);
 		Member result = service.selectOne(m);
 		if(result != null) flag = true;
-		System.out.println(flag);
+		
 		return flag;
 	}
 
+	@RequestMapping("/member/mypage.do")
+	public ModelAndView mypage(String memberId)
+	{
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("");
+		mv.setViewName("member/mypage");
+		return mv;
+	}
+	
+	
 
 }

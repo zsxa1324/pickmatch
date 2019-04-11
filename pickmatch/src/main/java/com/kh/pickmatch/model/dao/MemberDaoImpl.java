@@ -39,4 +39,16 @@ public class MemberDaoImpl implements MemberDao {
 		return session.selectOne("member.checkMail",email);
 	}
 
+	@Override
+	public int insertKakaoMember(Member m) {
+		// TODO Auto-generated method stub
+		return session.insert("member.insertKakaoMember",m);
+	}
+
+	@Override
+	public int updateKakaoMember(Member m) {
+		// TODO Auto-generated method stub
+		return session.update("member.updateKakaoMember",m);
+	}
+
 }

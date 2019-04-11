@@ -186,8 +186,9 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 						</div>
 						<div class="div-matchVersus">
 							<div class="div-home">
+							<input type="hidden" value="${c['TEAMHOME'] }" id="matchHome"/>
+							
 								<img alt="" src="${c['HOMEEMBLEM'] }"> ${c['TEAMHOME'] }
-								<input type="hidden" value="${c['TEAMHOME'] }" id="matchHome"/>
 							</div>
 							<div class="div-vsWrapper">
 								<c:if test="${c['HOMESCORE']!=null }">${c['HOMESCORE'] }</c:if>
@@ -195,8 +196,8 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 								<c:if test="${c['AWAYSCORE']!=null }">${c['AWAYSCORE'] }</c:if>
 							</div>
 							<div class="div-away">
-								<img alt="" src="${c['AWAYEMBLEM'] }">${c['TEAMAWAY'] }</div>
-								<input type="hidden" value="${c['TEAMAWAY'] }" id="matchAway"/>
+							<input type="hidden" value="${c['TEAMAWAY'] }" id="matchAway"/>
+							<img alt="" src="${c['AWAYEMBLEM'] }">${c['TEAMAWAY'] }</div>
 							<div class="div-playGround" style="padding-bottom: 15px;">${c['PLAYGROUND'] }</div>
 							<div class="infoMatch">
 								<button class="btn btn-primary" value="${c['MATCHNO'] }" onclick="matchSa()">상세보기</button>
@@ -307,11 +308,11 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 		}
 		function matchSa(){
 			var matchNo=event.target.value;
-			var matchHome=$("#matchHome").val();
-			var matchAway=$("#matchAway").val();
+			var matchHome=$(event.target).parent().prevAll(".div-home").children('input[type=hidden]').val();
+			var matchAway=$(event.target).parent().prevAll(".div-away").children('input[type=hidden]').val();
 			console.log(matchHome);
 			console.log(matchAway);
-			//location.href = "${path}/match/matchSa.do?matchNo="+matchNo;
+			location.href = "${path}/match/matchSa.do?matchNo="+matchNo+"&&matchHome="+matchHome+"&&matchAway="+matchAway;
 		
 		}
 	</script>

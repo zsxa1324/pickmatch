@@ -21,6 +21,14 @@
   <select id="checkMail" parameterType="string" resultType="member">
   	select * from member where email=#{email}
   </select>
+  
+  <insert id="insertKakaoMember" parameterType="member">
+  	insert into member values(#{memberId},'0',#{memberName},#{nickname},'',#{email},'','','','',default,'K',#{profile},null,default)
+  </insert>
+  
+  <update id="updateKakaoMember" parameterType="member">
+  	update member set memberName=#{memberName}, nickname=#{nickname}, email=#{email}, profile=#{profile} where memberId=#{memberId}
+  </update>
   <!-- <resultMap id="memberMap" type="member">
   	<result column="hobby" property="hobby" typeHandler="strArr"/>
   </resultMap> -->

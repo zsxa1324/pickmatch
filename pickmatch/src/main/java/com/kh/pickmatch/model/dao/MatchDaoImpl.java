@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.pickmatch.model.vo.AwaySaInfo;
 import com.kh.pickmatch.model.vo.HomeSaInfo;
 import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MatchPEmblem;
@@ -92,8 +93,14 @@ public int matchOk(Map<String, Object> map) {
 }
 
 @Override
-public HomeSaInfo matchSa(int matchNo) {
-	HomeSaInfo list=session.selectOne("match.matchSa",matchNo);
+public HomeSaInfo matchSa(Map<String,Object> map) {
+	HomeSaInfo list=session.selectOne("match.matchSa",map);
+	return list;
+}
+
+@Override
+public AwaySaInfo matchSaa(Map<String, Object> map) {
+	AwaySaInfo list=session.selectOne("match.matchSaa",map);
 	return list;
 }
 

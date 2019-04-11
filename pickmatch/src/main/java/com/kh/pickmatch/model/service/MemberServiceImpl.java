@@ -100,5 +100,17 @@ public class MemberServiceImpl implements MemberService {
 		return dao.selectAuthkey(ea);
 	}
 
+	@Override
+	public int insertKakaoMember(Member m) {
+		// TODO Auto-generated method stub
+		return dao.insertKakaoMember(m);
+	}
+
+	@Override
+	public int updateKakaoMember(Member m) {
+		// TODO Auto-generated method stub
+		return dao.updateKakaoMember(m);
+	}
+
 	
 }

@@ -8,7 +8,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 
 
-<section id="team-board-view">
+<section id="team-create-container">
 
 <form style="margin-top: 20px;">
   <div class="form-group form-group-sm">

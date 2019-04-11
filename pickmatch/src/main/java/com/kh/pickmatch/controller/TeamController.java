@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.pickmatch.common.PageBarFactory;
 import com.kh.pickmatch.model.dao.TeamDaoImpl;
 import com.kh.pickmatch.model.service.TeamService;
+import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.Member;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
@@ -79,6 +81,8 @@ public class TeamController {
 				
 			}
 		}
+		
+		Calendar cal = Calendar.getInstance();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 		Date date = new Date();
@@ -141,7 +145,7 @@ public class TeamController {
 	}
 	
 	@RequestMapping("/team/MoneyHistoryEndroll")
-	public String MoneyHistoryEndroll(MoneyHistory mHistory, Model model) {
+	public String moneyHistoryEndroll(MoneyHistory mHistory, Model model) {
 		
 		
 		int result = service.insertMHistory(mHistory);
@@ -157,6 +161,45 @@ public class TeamController {
 		return "common/msg";
 	}
 	
+		@RequestMapping("/team/teamMatchList")
+	public ModelAndView teamMatch(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage, HttpSession session, String teamName) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		int numPerPage = 3;
+		int totalCount = service.selectMatchCount(teamName);
+		
+		List<Match> list = service.selectMatchList(teamName, cPage, numPerPage);
+		
+		mv.addObject("list", list);
+		mv.addObject("totalCount", totalCount);
+		mv.addObject("pageBar", PageBarFactory.getPageBar(totalCount, cPage, numPerPage, "/team/teamMatchList"));
+		mv.setViewName("team/teamMatchList");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/team/teamMatchDetail")
+	public String teamMatchDetail(String status, Model model) {
+		
+		return "team/matchDetail";
+	}
+	
+	@RequestMapping("/team/teamMatchEnroll")
+	public String teamMatchEnroll(/*Model medel, Match m*/) {
+		
+		return "team/matchEnroll";
+	}
+	
+	@RequestMapping("/team/teamMatchEnrollAjax")
+	public String teamMatchEnrollAjax() {
+		
+		
+		
+		return "";
+	}
+	
+	
 	
 	
 	
@@ -166,8 +209,41 @@ public class TeamController {
 	
 	//도원
 	@RequestMapping("/team.do")
-	public String teaminfo() {
-		return "Team/teaminfo";
+	public ModelAndView teaminfo(HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		String msg = "";
+		String loc = "";
+		Member m = null;
+		String teamName = "";
+		String memberId = "";
+		
+		if(session.getAttribute("loggedMember") == null) {
+			msg = "로그인 후 이용가능합니다.";
+			loc = "/";
+			
+			mv.setViewName("common/msg");
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			return mv;
+		} else {
+			m = (Member)session.getAttribute("loggedMember");
+			memberId = m.getMemberId();
+			teamName = service.selectTeamOne(memberId);
+			if(teamName == null) {
+				msg = "소속된 팀이 없습니다.";
+				loc = "/";
+				
+				mv.setViewName("common/msg");
+				mv.addObject("msg", msg);
+				mv.addObject("loc", loc);
+				return mv;
+				
+			}
+		}
+		
+		mv.addObject("teamName", teamName);
+		mv.setViewName("team/teaminfo");
+		return mv;
 		
 	}
 	
@@ -269,7 +345,7 @@ public class TeamController {
 	@RequestMapping("/team/teamnotice")
 	public String InsertNotice(TeamNotice teamnotice, Model m) {
 		
-		
+		logger.debug("InsertNotice : " + teamnotice); 
 		String msg = "";
 		String loc="/teamnotice.do"; //이동할 매핑값 써야됨
 		int result = service.InsertNotice(teamnotice); 
@@ -382,7 +458,7 @@ public class TeamController {
 				e.printStackTrace();
 			}
 		}
-		
+		logger.debug("InsertTeam : " + team);
 		int result = service.InsertTeam(team);
 		String msg="";
 		String loc="/";

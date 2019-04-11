@@ -3,6 +3,7 @@
 import java.util.List;
 import java.util.Map;
 
+import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -19,6 +20,8 @@ public interface TeamService {
 	int updateTeamAccount(TeamOperationAccount toAccount);
 	int insertTeamAccount(TeamOperationAccount toAccount);
 	int insertMHistory(MoneyHistory mHistory);
+	List<Match> selectMatchList(String teamName, int cPage, int numPerPage);
+	int selectMatchCount(String teamName);
 	
 	
 	

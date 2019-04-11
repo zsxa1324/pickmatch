@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.pickmatch.model.dao.MatchDao;
+import com.kh.pickmatch.model.vo.HomeSaInfo;
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MatchPEmblem;
+import com.kh.pickmatch.model.vo.MemberByTeam;
 
 @Service
 public class MatchServiceImpl implements MatchService {
@@ -47,15 +50,57 @@ private MatchDao dao;
 	}
 
 	@Override
-	public int matchRequest(Map<String,Object> map) {
-		int result=dao.matchRequest(map);
-		return result;
-	}
-	@Override
 	public int insertMatch(Match match) {
 		int result = dao.insertMatch(match);
 		return result;
 	}
+
+	@Override
+	public MatchPEmblem matchInfo(MatchPEmblem m) {
+		MatchPEmblem result = dao.matchInfo(m);
+		return result;
+	}
+
+	@Override
+	public List<Map> memberInfo(String teamName) {
+		List<Map> memberList=dao.memberInfo(teamName);
+		return memberList;
+	}
+
+	@Override
+	public MemberByTeam memberByTeam(String id) {
+		MemberByTeam mbt=dao.memberByTeam(id);
+		return mbt;
+	}
+
+	@Override
+	public int matchRequest(Map<String,Object> map) {
+		int result=dao.matchRequest(map);
+		return result;
+	}
+
+	@Override
+	public List<Map> matchResponse(int matchNo) {
+		List<Map> matchResponse=dao.matchResponse(matchNo);
+		return matchResponse;
+	}
+
+	@Override
+	public int matchOk(Map<String, Object> map) {
+		int result=dao.matchOk(map);
+		return result;
+	}
+
+	@Override
+	public HomeSaInfo matchSa(int matchNo) {
+		HomeSaInfo list=dao.matchSa(matchNo);
+		return list;
+	}
+	
+	
+	
+	
+	
 	
 	
 	

@@ -10,10 +10,10 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/_bootswatch.scss" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/_variables.scss" />
   
-     <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+   <%--   <jsp:include page="/WEB-INF/views/common/header.jsp"> --%>
 <section>
 
-<%-- <div id="main-content">
+<div id="main-content">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -24,22 +24,21 @@
         <a class="nav-link" href="#">팀 정보 <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">팀 매치정보</a>
+        <a class="nav-link" href="${path}/team/teamMatchList?teamName=${teamName}">팀 매치정보</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">팀 자유게시판</a>
       </li>
       <li class="nav-item">
-        <a class="nav-lin" href="#">팀 운영정보</a>
-        <a class="nav-link" href="${path }/team/teamOperationInfo">팀 운영정보</a>
+        <a class="nav-link" href="${path}/team/teamOperationInfo">팀 운영정보</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">팀 관리</a>
+        <a class="nav-link disabled" href="#">팀 관리</a>
       </li>
     </ul>
   </div>
 </nav>
-	</div> --%>
+	</div>
 
 
 <div id="myteam"  style="margin-top: 50px;">
@@ -114,17 +113,10 @@
 	</table>
 	
 <div id="match-container" align="center">
-	<button class="btn btn-primary" onclick="matchenroll_btn()">매치등록</button>
-	<button class="btn btn-primary" onclick="match_check()" style="margin-left: 60px;">매치검색</button>
+	<button type="submit" class="btn btn-primary">매치등록</button>
+	<button type="submit" class="btn btn-primary" style="margin-left: 60px;">매치검색</button>
 </div>
-<script>
-	function matchenroll_btn(){
-		location.href="${path}/match/enrollForm";
-	}
-	function match_check(){
-		location.href="${path}/match/matchList.do"
-	}
-</script>
+
 	
 </div>
 <br><br><br>
@@ -349,4 +341,4 @@
 	
 </style>
 
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
+<%-- <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include> --%>

@@ -4,9 +4,10 @@
 <div id="alarm-container">
 	<table id="alarm-table" class="table table-striped table-hover">
 		<tr id="alarm-table-th">
-			<th id="alarm-table-id">아이디</th>
-			<th id="alarm-table-title">제목</th>
-			<th id="alarm-table-date">날짜</th>
+			<th id="alarm-table-type">알림유형</th>
+			<th id="alarm-table-no">No</th>
+			<th id="alarm-table-content">알림내용</th>
+			<th id="alarm-table-date">시간</th>
 			
 		</tr>
 		<%-- <c:forEach items="${list }" var="b">

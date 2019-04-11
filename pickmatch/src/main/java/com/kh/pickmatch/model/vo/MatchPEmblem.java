@@ -1,8 +1,9 @@
-﻿package com.kh.pickmatch.model.vo;
+package com.kh.pickmatch.model.vo;
 
 import java.sql.Date;
 
-public class Match {
+public class MatchPEmblem {
+
 	private int matchNo;
 	private String teamHome, teamAway;
 	private Date matchDate;
@@ -12,13 +13,19 @@ public class Match {
 	private int cost;
 	private String matchContent;
 	private double lat, lng;
-	private String result;
+	private String emblem;
+	private String location;
+	private String teamType;
+	private String uniform;
+	private int teamCount;
+	private String introduce;
 	
-	public Match() {}
-	
-	public Match(int matchNo, String teamHome, String teamAway, Date matchDate, String matchTime, String matchType,
-			String playGround, int homeScore, int awayScore, int cost, String matchContent, double lat, double lng,
-			String result) {
+	public MatchPEmblem() {}
+
+	public MatchPEmblem(int matchNo, String teamHome, String teamAway, Date matchDate, String matchTime,
+			String matchType, String playGround, int homeScore, int awayScore, int cost, String matchContent,
+			double lat, double lng, String emblem, String location, String teamType, String uniform, int teamCount,
+			String introduce) {
 		super();
 		this.matchNo = matchNo;
 		this.teamHome = teamHome;
@@ -33,7 +40,12 @@ public class Match {
 		this.matchContent = matchContent;
 		this.lat = lat;
 		this.lng = lng;
-		this.result = result;
+		this.emblem = emblem;
+		this.location = location;
+		this.teamType = teamType;
+		this.uniform = uniform;
+		this.teamCount = teamCount;
+		this.introduce = introduce;
 	}
 
 	public int getMatchNo() {
@@ -140,20 +152,64 @@ public class Match {
 		this.lng = lng;
 	}
 
-	public String getResult() {
-		return result;
+	public String getEmblem() {
+		return emblem;
 	}
 
-	public void setResult(String result) {
-		this.result = result;
+	public void setEmblem(String emblem) {
+		this.emblem = emblem;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getTeamType() {
+		return teamType;
+	}
+
+	public void setTeamType(String teamType) {
+		this.teamType = teamType;
+	}
+
+	public String getUniform() {
+		return uniform;
+	}
+
+	public void setUniform(String uniform) {
+		this.uniform = uniform;
+	}
+
+	public int getTeamCount() {
+		return teamCount;
+	}
+
+	public void setTeamCount(int teamCount) {
+		this.teamCount = teamCount;
+	}
+
+	public String getIntroduce() {
+		return introduce;
+	}
+
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
 	}
 
 	@Override
 	public String toString() {
-		return "Match [matchNo=" + matchNo + ", teamHome=" + teamHome + ", teamAway=" + teamAway + ", matchDate="
+		return "MatchPEmblem [matchNo=" + matchNo + ", teamHome=" + teamHome + ", teamAway=" + teamAway + ", matchDate="
 				+ matchDate + ", matchTime=" + matchTime + ", matchType=" + matchType + ", playGround=" + playGround
 				+ ", homeScore=" + homeScore + ", awayScore=" + awayScore + ", cost=" + cost + ", matchContent="
-				+ matchContent + ", lat=" + lat + ", lng=" + lng + ", result=" + result + "]";
+				+ matchContent + ", lat=" + lat + ", lng=" + lng + ", emblem=" + emblem + ", location=" + location
+				+ ", teamType=" + teamType + ", uniform=" + uniform + ", teamCount=" + teamCount + ", introduce="
+				+ introduce + "]";
 	}
+
+	
 	
 }

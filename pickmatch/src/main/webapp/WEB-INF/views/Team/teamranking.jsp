@@ -9,18 +9,16 @@
 
 
 <section id="teamranking-container">
-
-<form action="${path }/team/search.do" method="post" onsubmit="return validate()">
- <div align="center" style=" margin-bottom: 100px; margin-top: 50px;">
-       &nbsp;<input class="form-control" type="text" id="searchkey" placeholder="팀검색" name="search" style="display:inline-block; width: 300px;">&nbsp;
-       		 <button type="submit" id="searchbtn" name="searchbtn" class="btn btn-secondary" style="display:inline-block; width:100px;">검색</button>
-</div>
-</form>
-
+	<br><br><br>
+	 <div align="center">
+	         &nbsp;<input class="form-control" type="text" id="searchkey" name="searchkey"  placeholder="팀 검색" style="display:inline-block; width: 300px;">&nbsp;
+	         <button type="submit" id="searchbtn1" name="searchbtn1" class="btn btn-secondary" style="display:inline-block;">검색</button>
+     </div>
+	<br><br><br>
 	
 	
 	
-<div id="teamranking-div" style="margin-bottom: 50px;">
+<div id="teamranking-div">
 	<table id="teamranking-table"  class="table table-striped table-hover">
 		<tr id="teamranking-table-info">
 			<th id="teamranking-table-info-ranking">순위</th>
@@ -30,24 +28,20 @@
 			<th id="teamranking-table-info-teamloc">팀 소재지</th>
 			<th id="teamranking-table-info-teaminfo">팀 정보</th>
 		</tr>
-		<c:forEach items="${list }" var="b">
 		<tr>
-			<td id="teamranking-table-info-ranking">${b.rank }</td>
-			<td id="teamranking-table-info-teamtitle">${b.teamName }</td>
-			<td id="teamranking-table-info-teamscore">${b.teamRating }</td>
-			<td id="teamranking-table-info-total">${b.teamField }</td>
-			<td id="teamranking-table-info-teamloc">${b.teamLocation }</td>
-			<td id="teamranking-table-info-teaminfo">${b.teamContent }</td>
+			<td id="teamranking-table-info-ranking">1</td>
+			<td id="teamranking-table-info-teamtitle">kh축구단</td>
+			<td id="teamranking-table-info-teamscore">1050</td>
+			<td id="teamranking-table-info-total">10승 0무 2패</td>
+			<td id="teamranking-table-info-teamloc">경기도 안양시</td>
+			<td id="teamranking-table-info-teaminfo">안녕하세요~~</td>
 		</tr>
-		</c:forEach>
 		
 	
 	</table>
 </div>	
 
-<div class="pagecontainer" style="margin-top: 20px;">
-     	${pageBar }
-</div>
+	
 	
 </section>
 

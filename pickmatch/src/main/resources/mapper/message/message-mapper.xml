@@ -2,7 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="message">
 	<insert id="insertMessage" parameterType="message">
-		insert into message values(seq_messageno.nextval, #{sender}, #{receiver}, sysdate, #{messageContent}, #{messageType})
+		insert into message values(seq_messageno.nextval,
+		<choose>
+		
+		</choose> 
+		#{sender}, 
+		#{receiver}, 
+		sysdate, 
+		#{messageContent}, 
+		#{messageType})
+		</if>
 	</insert>
 	
+	<select id="selectMessageList" resultType="message">
+		SELECT * FROM MESSAGE WHERE RECEIVER IN (#{memberId}, (SELECT TEAMNAME FROM MEMBERBYTEAM WHERE MEMBERID = #{memberId})) ORDER BY MESSAGENO DESC
+	</select>
 </mapper>

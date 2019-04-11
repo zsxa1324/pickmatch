@@ -388,6 +388,24 @@
 	var onsubmit_pass = 0;
 	var onsubmit_mail = 0;
 	
+	$(function(){
+		$("#alarm").click(function(){
+			$.ajax({
+				url:"${path}/alarm/view",
+				data: {"memberId" : '${loggedMember.memberId}'},
+				dataType:"html",
+				type:"POST",
+				success:function(data){
+					$("#AlarmResult").html(data);
+				}
+				
+			});
+			
+			$("#alarmModal").modal();
+		})
+		
+	});
+	
 	function fn_login()
 	{
 		$("#login-enroll").hide();

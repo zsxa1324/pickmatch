@@ -1,37 +1,67 @@
 package com.kh.pickmatch.common;
 
-import javax.servlet.http.HttpSession;
+import java.sql.Date;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
 
+import com.kh.pickmatch.model.service.MessageService;
+import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.Member;
+import com.kh.pickmatch.model.vo.Message;
 
 
 
 @Component
 @Aspect
 public class LoggerAspect {
+	
+	@Autowired
+	private MessageService messageService;
 
 	private Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
 	
-	// * : 리턴 타입, 현재 모든 타입 리턴 가능 | .. : pickmatch 아래 모든 클래스 | (..) : 인자 타입, 현재 모든 타입 인자 허용
+	@Pointcut("execution(* com.kh.pickmatch.model.service.MatchService.insertMatch(..)) && args(match)")
+	public void matchPointcut(Match match) {}
+	
+	// 어드바이스를 적용할 조인포인트를 선별하는 기능을 정의한 모듈, * : 리턴 타입, 현재 모든 타입 리턴 가능 | .. : pickmatch 아래 모든 클래스 | (..) : 인자 타입, 현재 모든 타입 인자 허용
 	@Pointcut("execution(* com.kh.pickmatch..Team*.*(..))")
 	public void myPointcut() {}
 	
-	// 어드바이스 : aspect가 무엇을 언제 할 지 정의 ex) Around : 메소드 실행 전 후 
+	@AfterReturning("matchPointcut(match)")
+	public void afterWork(JoinPoint joinPoint, Match match) {
+		Signature sig = joinPoint.getSignature();
+		String type = sig.getDeclaringTypeName(); // 클래스 이름
+		String method = sig.getName(); // 메소드 이름, 넘어가는 String 시점의 메소드
+		Message msg = new Message();
+		if (method.contains("insertMatch")) {
+			logger.warn("[afterWork : aspect : insertMatch ::::]" + type + "." + method + "()");
+			logger.debug("afterWork : match ::::" + match);
+			String receiver = match.getTeamHome();
+			msg.setSender("teamAlarm");
+			msg.setReceiver(receiver);
+			msg.setMessageContent(receiver + "팀의 매치가 등록되었습니다");
+			msg.setMessageType("팀");
+			
+			
+		}
+//		logger.warn("[afterWork : aspect]" + type + "." + method + "()");
+		messageService.insertMessage(msg);
+	}
+	
+	// 어드바이스 : 부가기능 모듈인 aspect가 무엇을 언제 할 지 정의 ex) Around : 메소드 실행 전 후 
+	// joinPoint : 어드바이스가 적용될 수 있는 위치
 	@Around("myPointcut()")
 	public Object loggerAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
 		

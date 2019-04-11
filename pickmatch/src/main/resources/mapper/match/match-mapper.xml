@@ -56,4 +56,12 @@
 	update match set teamaway = #{awayTeam} where matchno=#{matchNo}
 	</insert>
 	
+	<select id="matchSa" resultType="com.kh.pickmatch.model.vo.HomeSaInfo" parameterType="map">
+	<!-- select * from match where matchno=#{matchNo} -->
+	select match.matchno,match.teamhome,match.matchdate,match.matchtime,match.matchtype,match.playground,match.cost,match.matchcontent,match.lat,match.lng,score.totalplaycount,score.win,score.draw,score.lose from match inner join score on teamhome=teamname where match.teamhome=#{matchHome} and match.matchno=#{matchNo}
+	</select>
+	<select id="matchSaa" resultType="com.kh.pickmatch.model.vo.AwaySaInfo" parameterType="map">
+	select match.matchno,match.teamaway,match.matchdate,match.matchtime,match.matchtype,match.playground,match.cost,match.matchcontent,match.lat,match.lng,score.totalplaycount,score.win,score.draw,score.lose from match inner join score on teamaway=teamname where match.teamaway=#{matchAway} and match.matchno=#{matchNo}
+	
+	</select>
 </mapper>

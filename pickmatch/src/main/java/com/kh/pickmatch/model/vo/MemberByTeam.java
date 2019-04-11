@@ -15,7 +15,25 @@ public class MemberByTeam implements Serializable{
 	private Date enrollDate;
 	private Date exitDate;
 	private int goalCount;
+	private String position;
+	private int no;
 	
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
 	public MemberByTeam() {}
 
 	public MemberByTeam(String memberId, String teamName, String authority, Date enrollDate, Date exitDate,

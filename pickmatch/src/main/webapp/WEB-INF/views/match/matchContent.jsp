@@ -5,6 +5,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <link rel="stylesheet" type="text/css"
 	href="//fonts.googleapis.com/css?family=Indie+Flower" />
+<link href="https://fonts.googleapis.com/css?family=Cute+Font" rel="stylesheet">	
+<link href="https://fonts.googleapis.com/css?family=Cute+Font|Poor+Story" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <!DOCTYPE htm>
 <html>
@@ -14,6 +18,14 @@
 <title>Insert title here</title>
 <style>
 section#section-matchContent article#article-matchContent div.div-matchContent
+	{
+	text-align: center;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	width: 900px;
+	margin: 15px auto;
+	padding-bottom: 15px;
+}
+section#section-matchContent article#article-matchContent div.div-matchContent2
 	{
 	text-align: center;
 	border: 1px solid rgba(0, 0, 0, 0.1);
@@ -37,10 +49,8 @@ section#section-matchContent article#article-matchContent div.div-away,
 	display: inline-block;
 }
 
-section#section-matchContent article#article-matchContent div.div-matchVersus
-	{
-	padding-top: 25px;
-	height: 160px;
+section#section-matchContent article#article-matchContent div.div-matchVersus{
+	
 }
 
 section#section-matchContent article#article-matchContent .div-matchButton button
@@ -108,7 +118,7 @@ section#section-matchContent article#article-matchContent button.snip1535
 	width: 100%;
 }
 
-section#section-matchContent article#article-matchContent div.div-vs {
+ section#section-matchContent article#article-matchContent div.div-vs {
 	color: white;
 	background-color: black;
 	font-family: IndieFlower;
@@ -117,9 +127,10 @@ section#section-matchContent article#article-matchContent div.div-vs {
 	border-radius: 30px;
 	width: 50px;
 	height: 50px;
-	margin: 0 40px;
+	margin: 0 40px; 
+	
 }
-
+ 
 section#section-matchContent article#article-matchContent div.div-vsWrapper
 	{
 	display: inline-block;
@@ -154,9 +165,7 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 	margin-top: 15px;
 }
 
-.match_list_team, .match_list_date, .match_list_info {
-	
-}
+
 </style>
 </head>
 <body>
@@ -171,12 +180,14 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 			<c:forEach items="${list }" var="c">
 
 				<c:if test="${c['TEAMAWAY']!=null }">
-					<div class="div-matchContent">
+					 <div class="div-matchContent">
 						<div class="div-matchTime">
 							<H5>${c['MATCHTIME'] }</H5>
 						</div>
 						<div class="div-matchVersus">
 							<div class="div-home">
+							<input type="hidden" value="${c['TEAMHOME'] }" id="matchHome"/>
+							
 								<img alt="" src="${c['HOMEEMBLEM'] }"> ${c['TEAMHOME'] }
 							</div>
 							<div class="div-vsWrapper">
@@ -185,14 +196,39 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 								<c:if test="${c['AWAYSCORE']!=null }">${c['AWAYSCORE'] }</c:if>
 							</div>
 							<div class="div-away">
-								<img alt="" src="${c['AWAYEMBLEM'] }">${c['TEAMAWAY'] }</div>
-							<div class="div-playGround">${c['PLAYGROUND'] }</div>
+							<input type="hidden" value="${c['TEAMAWAY'] }" id="matchAway"/>
+							<img alt="" src="${c['AWAYEMBLEM'] }">${c['TEAMAWAY'] }</div>
+							<div class="div-playGround" style="padding-bottom: 15px;">${c['PLAYGROUND'] }</div>
+							<div class="infoMatch">
+								<button class="btn btn-primary" value="${c['MATCHNO'] }" onclick="matchSa()">상세보기</button>
+							</div>
 						</div>
 						<%-- <div class="div-matchButton">
 							<button class="snip1535 detailBtn" type="button"
 								onclick="detailMatch()" value="${c['MATCHNO'] }">상세보기</button>
 						</div> --%>
+					</div> 
+					<%-- <div style="margin-bottom: 33px;">
+					<div id="scoreboard">
+						<div id="left-team">
+							<img src="${path}/${c['HOMEEMBLEM']}" height="36">
+							<div class="space"></div>
+							<h1 class="team-name">${c['TEAMHOME'] }</h1>
+						</div>
+						<div id="middle-score">
+							<h2 class="time"><time>${c['MATCHTIME'] }</time></h2>
+							<h2 class="score">${c['HOMESCORE'] }</h2>
+							<h3 class="seperator">-</h3>
+							<h2 class="score">${c['AWAYSCORE'] }</h2>
+							<h2 class="place"><span>${c['MATCHTYPE']}</span></h2>
+						</div>
+						<div id="right-team">
+							<img src="${path }/${c['AWAYEMBLEM']}" height="36">
+							<div class="space"></div>
+							<h1 class="team-name">${c['TEAMAWAY']}</h1>
+						</div>
 					</div>
+					</div> --%>
 				</c:if>
 			</c:forEach>
 
@@ -211,16 +247,16 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 							var matchDay = year + "-" + month + "-" + day;
 							console.log(matchDay);
 							$(".wrap").html(
-									year + "년" + " " + month + "월" + " " + day
-											+ "일" + " " + "${c['MATCHTIME'] }"
+									"<strong>"+year + "년" + month + "월" + " " + day
+											+ "일" + " " + "${c['MATCHTIME'] }"+"</strong>"
 											+ "<br>" + " 매치요청합니다.");
 						</script>
 						<li>
-							<div class="div-matchContent">
+							<div class="div-matchContent2">
 								<div class="match_list_team"
 									style="width: 20%; font-size: 20px; font-weight: bolder; float: left;">
 									<img alt=""
-										src="https://cdn.icon-icons.com/icons2/692/PNG/512/seo-social-web-network-internet_71_icon-icons.com_61501.png">
+										src="${path}/${c['HOMEEMBLEM']}">
 									${c['TEAMHOME'] }
 								</div>
 								<div class="match_list_date" style="float: left;">
@@ -228,9 +264,9 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 								</div>
 								<div class="match_list_info"
 									style="display: inline-block; float: left;">
-									<p>경기 유형 : ${c['MATCHTYPE'] }</p>
-									<p>지역 : ${c['LOCATION'] }</p>
-									<p>장소 : ${c['PLAYGROUND'] }</p>
+									<p>경기 유형 :<strong>${c['MATCHTYPE'] }</strong></p>
+									<p>지역 : <strong>${c['LOCATION'] }</strong></p>
+									<p>장소 : <strong>${c['PLAYGROUND'] }</strong></p>
 								</div>
 								<div class="match_list_txt"
 									style="display: inline-block; float: left;">
@@ -239,7 +275,7 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 								</div>
 
 								<div class="div-matchButton"
-									style="position: relative; top: 50px; left: 80px;">
+									style="position: relative; top: 100px;">
 									<button class="snip1535 detailBtn" data-target="#layerpop"
 										data-toggle="modal" type="button" onclick="matchInfo()"
 										value="${c['MATCHNO'] }">매치신청</button>
@@ -266,8 +302,18 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 		} */
 
 		function matchInfo() {
-			var matchNo=$("#hiddenMatchNo").val();
+			var matchNo=event.target.value;
+			console.log(matchNo);
 			location.href = "${path}/match/matchInfo?matchNo="+matchNo;
+		}
+		function matchSa(){
+			var matchNo=event.target.value;
+			var matchHome=$(event.target).parent().prevAll(".div-home").children('input[type=hidden]').val();
+			var matchAway=$(event.target).parent().prevAll(".div-away").children('input[type=hidden]').val();
+			console.log(matchHome);
+			console.log(matchAway);
+			location.href = "${path}/match/matchSa.do?matchNo="+matchNo+"&&matchHome="+matchHome+"&&matchAway="+matchAway;
+		
 		}
 	</script>
 </body>

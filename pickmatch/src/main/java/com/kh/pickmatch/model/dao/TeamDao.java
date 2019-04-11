@@ -3,6 +3,8 @@
 import java.util.List;
 import java.util.Map;
 
+import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -19,6 +21,8 @@ public interface TeamDao {
 	int updateTeamAccount(TeamOperationAccount map);
 	int insertTeamAccount(TeamOperationAccount toAccount);
 	int insertMHistory(MoneyHistory mHistory);
+	List<Match> selectMatchList(String teamName, int cPage, int numPerPage);
+	int selectMatchCount(String teamName);
 	
 	
 	
@@ -27,8 +31,8 @@ public interface TeamDao {
 	List<TeamBoard> selectList(int cPage, int numPerPage);
 	Object selectTeamBoard(int boardNo);
 	Object selectAttachment(int boardNo);
-	List<TeamNotice> selectListN(int cPage, int numPerPage);
-	int selectCountN();
+	List<TeamNotice> selectListN(int cPage, int numPerPage, String teamName);
+	int selectCountN(String teamName);
 	Object selectNoticeView(int noticeNo);
 	
 	//팀 공지사항 글쓰기
@@ -39,6 +43,7 @@ public interface TeamDao {
 	TeamNotice selectOne(int noticeNo);
 	//팀 공지사항 수정
 	int updateNotice(String noticeTitle, String noticeContent, int noticeNo);
+	//팀생성
 	int insertTeam(Team team);
 	
 	//팀 생성 팀명 중복검사
@@ -53,8 +58,21 @@ public interface TeamDao {
 	//용병랭킹
 	List<Mercenary> mercenaryranking(int cPage, int numPerPage);
 	int selectCountM();
+	
 	//용병랭킹 검색
 	Mercenary MercenarySearch(String search);
+		//내팀정보 보여주기
+	List<Team> TeamView(String teamName);
+	
+	//팀생성시 팀장되게함
+	int memberByTeam(MemberByTeam mbt);
+	
+	//내팀 팀원수
+	int memberCount(String teamName);
+	
+	
+	List<MemberByTeam> TeamMember(String teamName);
+	
 	
 	
 }

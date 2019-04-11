@@ -8,13 +8,14 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
-<br><br><br>
+<br><br>
 <div>
 	<h1 style="text-align: center;">자유게시판</h1>
 </div>
 <br><br>
 
 <div id="co-freeboard">
+	<!-- <div class="list_table_head" class="table table-striped table-hover"> -->
 	<table id="co-freeboard-table" class="table table-striped table-hover">
 		<tr id="co-freeboard">
 			<th id="co-freeboard-table-id">아이디</th>
@@ -36,6 +37,7 @@
 		</tr> -->
 	
 	</table>
+	
 </div>	
 
 <div class="pagecontainer" style="margin-top: 50px;">

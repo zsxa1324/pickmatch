@@ -3,6 +3,8 @@ package com.kh.pickmatch.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.pickmatch.model.vo.AwaySaInfo;
+import com.kh.pickmatch.model.vo.HomeSaInfo;
 import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MatchPEmblem;
 import com.kh.pickmatch.model.vo.MemberByTeam;
@@ -21,5 +23,7 @@ public interface MatchDao {
 	public int matchRequest(Map<String,Object> map);
 	public List<Map> matchResponse(int matchNo);
 	public int matchOk(Map<String, Object> map);
+	public HomeSaInfo matchSa(Map<String,Object> map);
+	public AwaySaInfo matchSaa(Map<String, Object> map);
 	
 }

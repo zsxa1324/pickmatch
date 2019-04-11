@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.pickmatch.model.dao.TeamDao;
+import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -55,6 +57,15 @@ public class TeamServiceImpl implements TeamService {
 		return dao.insertMHistory(mHistory);
 	}
 
+		@Override
+	public List<Match> selectMatchList(String teamName, int cPage, int numPerPage) {
+		return dao.selectMatchList(teamName, cPage, numPerPage);
+	}
+	
+	@Override
+	public int selectMatchCount(String teamName) {
+		return dao.selectMatchCount(teamName);
+	}
 	
 	
 	
@@ -67,9 +78,27 @@ public class TeamServiceImpl implements TeamService {
 
 
 	@Override
-	public List<TeamNotice> selectListN(int cPage, int numPerPage) {
+	public List<TeamNotice> selectListN(int cPage, int numPerPage, String teamName) {
 		// TODO Auto-generated method stub
-		return dao.selectListN(cPage, numPerPage);
+		return dao.selectListN(cPage, numPerPage, teamName);
+	}
+
+	@Override
+	public List<MemberByTeam>TeamMember(String teamName) {
+		// TODO Auto-generated method stub
+		return dao.TeamMember(teamName);
+	}
+
+	@Override
+	public int memberCount(String teamName) {
+		// TODO Auto-generated method stub
+		return dao.memberCount(teamName);
+	}
+
+	@Override
+	public List<Team> TeamView(String teamName) {
+		// TODO Auto-generated method stub
+		return dao.TeamView(teamName);
 	}
 
 	@Override
@@ -116,9 +145,24 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public int InsertTeam(Team team) {
+	public int InsertTeam(Team team, String memberId) {
 		// TODO Auto-generated method stub
-		return dao.insertTeam(team);
+		int result = dao.insertTeam(team);
+		int result2 = 0;
+		MemberByTeam mbt = new MemberByTeam();
+		
+		mbt.setTeamName(team.getTeamName());
+		mbt.setMemberId(memberId);
+		mbt.setAuthority("팀장");
+		
+		
+		if(result>0) {
+			result2 = dao.memberByTeam(mbt);
+		}
+		
+		
+		return result2;
+		
 	}
 
 	@Override
@@ -140,9 +184,9 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public int selectCountN() {
+	public int selectCountN(String teamName) {
 		// TODO Auto-generated method stub
-		return dao.selectCountN();
+		return dao.selectCountN(teamName);
 	}
 
 	@Override

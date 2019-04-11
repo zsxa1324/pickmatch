@@ -56,4 +56,8 @@
 	update match set teamaway = #{awayTeam} where matchno=#{matchNo}
 	</insert>
 	
+	<select id="matchSa" resultType="com.kh.pickmatch.model.vo.Match" parameterType="int">
+	<!-- select * from match where matchno=#{matchNo} -->
+	select match.matchno,match.teamhome,match.matchdate,match.matchtime,match.matchtype,match.playground,match.cost,match.matchcontent,match.lat,match.lng,score.totalplaycount,score.win,score.draw,score.lose from match inner join score on teamhome=teamname where match.teamhome='pickmatch' and match.matchno=#{matchNo}
+	</select>
 </mapper>

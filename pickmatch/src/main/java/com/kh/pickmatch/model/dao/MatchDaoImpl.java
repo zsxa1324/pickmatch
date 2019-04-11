@@ -7,7 +7,11 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.pickmatch.model.vo.AwaySaInfo;
+import com.kh.pickmatch.model.vo.HomeSaInfo;
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MatchPEmblem;
+import com.kh.pickmatch.model.vo.MemberByTeam;
 
 @Repository
 public class MatchDaoImpl implements MatchDao {
@@ -46,15 +50,67 @@ public List<Map> incomMatch(String matchDate) {
 }
 
 @Override
-public int matchRequest(Map<String,Object> map) {
-	int result=session.insert("match.matchRequest",map);
+public int insertMatch(Match match) {
+	int result = session.insert("match.insertMatch", match);
 	return result;
 }
-	@Override
-	public int insertMatch(Match match) {
-		int result = session.insert("match.insertMatch", match);
-		return result;
-	}
+
+@Override
+public MatchPEmblem matchInfo(MatchPEmblem m) {
+	MatchPEmblem result = session.selectOne("match.matchInfo",m);
+	return result;
+}
+
+@Override
+public List<Map> memberInfo(String teamName) {
+	List<Map> list=session.selectList("match.memberInfo",teamName);
+	return list;
+}
+
+@Override
+public MemberByTeam memberByTeam(String id) {
+	MemberByTeam mbt=session.selectOne("match.memberByTeam",id);
+	return mbt;
+}
+
+@Override
+public int matchRequest(Map<String,Object> map) {
+	int result=session.insert("match.matchRequest",map);
+	
+	return result;
+}
+
+@Override
+public List<Map> matchResponse(int matchNo) {
+	List<Map> matchResponse=session.selectList("match.matchResponse",matchNo);
+	return matchResponse;
+}
+
+@Override
+public int matchOk(Map<String, Object> map) {
+	int result=session.insert("match.matchOk",map);
+	return result;
+}
+
+@Override
+public HomeSaInfo matchSa(Map<String,Object> map) {
+	HomeSaInfo list=session.selectOne("match.matchSa",map);
+	return list;
+}
+
+@Override
+public AwaySaInfo matchSaa(Map<String, Object> map) {
+	AwaySaInfo list=session.selectOne("match.matchSaa",map);
+	return list;
+}
+
+
+
+
+
+
+
+
 
 
 

@@ -3,7 +3,7 @@
 <mapper namespace="match">
 
 	<insert id="insertMatch" parameterType="match">
-	insert into match values(seq_matchno.nextval, #{teamHome}, null, #{matchDate}, #{matchTime}, #{matchType}, #{playGround}, default, default, #{cost}, #{matchContent}, #{lat}, #{lng})
+	insert into match values(seq_matchno.nextval, #{teamHome}, null, #{matchDate}, #{matchTime}, #{matchType}, #{playGround}, default, default, #{cost}, #{matchContent}, #{lat}, #{lng}, default)
 	</insert>
 
 	<select id="matchList" resultType="com.kh.pickmatch.model.vo.Match">
@@ -20,13 +20,48 @@
 	
 	<select id="matchContent" resultType="map" parameterType="string">
 	<!-- select * from match where teamhome is not null and teamaway is not null order by matchdate asc -->
-	select m.*,(select teamemblem from team where m.teamhome=teamname)as homeemblem, (select teamemblem from team where m.teamaway=teamname)as awayemblem from match m where m.matchdate=#{matchDate} and teamaway is not null ORDER BY MATCHDATE ASC
+	 select m.*,(select teamemblem from team where m.teamhome=teamname)as homeemblem, (select teamemblem from team where m.teamaway=teamname)as awayemblem from match m where m.matchdate=#{matchDate} and teamaway is not null ORDER BY MATCHDATE ASC
+	
+	
 	</select>
 	<select id="incomMatch" resultType="map" parameterType="string">
-	select m.*,(select teamemblem from team where m.teamhome=teamname)as homeemblem from match m where m.matchdate=#{matchDate} and teamaway is null ORDER BY MATCHDATE ASC
+	select m.*,(select teamemblem from team where m.teamhome=teamname)as homeemblem,(select teamlocation from team where m.teamhome=teamname)as location from match m where m.matchdate=#{matchDate} and teamaway is null ORDER BY MATCHDATE ASC
 	</select>
-	<insert id="matchRequest" parameterType="map">
+	<!-- <insert id="matchRequest" parameterType="map">
 	insert into matchrequestteam values(${team},)
-	</insert> 
+	</insert>  -->
 	
+	<select id="matchInfo" resultType="com.kh.pickmatch.model.vo.MatchPEmblem" parameterType="com.kh.pickmatch.model.vo.MatchPEmblem">
+	<!-- select * from match where matchno=#{matchNo} -->
+	<!-- select m.*,(select teamemblem from team where m.teamhome=teamname) as emblem from match m where m.matchno=#{matchNo} -->
+	select m.*,(select teamemblem from team where m.teamhome=teamname) as emblem,(select teamlocation from team where m.teamhome=teamname)as location, (select teamtype from team where m.teamhome=teamname) as teamtype, (select teamcolor from team where m.teamhome=teamname) as uniform,(select count(*) from memberbyteam where m.teamhome=teamname)as teamcount,(select teamcontent from team where m.teamhome=teamname)as introduce from match m where m.matchno=#{matchNo}
+	</select>	
+	<select id="memberInfo" resultType="map" parameterType="string">
+	select * from memberbyteam mbt left join member m on(mbt.memberid=m.memberid) where mbt.teamname=#{teamName}
+	</select>
+	
+	<select id="memberByTeam" resultType="com.kh.pickmatch.model.vo.MemberByTeam" parameterType="string">
+	select * from memberbyteam where memberid=#{id}	
+	</select>
+	
+	<insert id="matchRequest" parameterType="map">
+	insert into matchrequestteam values(#{matchNo},#{teamName},#{memo})
+	</insert>
+	
+	<select id="matchResponse" resultType="map" parameterType="int">
+	select * from matchrequestteam where matchno=#{matchNo}
+	</select>
+	
+	<insert id="matchOk" parameterType="map">
+	update match set teamaway = #{awayTeam} where matchno=#{matchNo}
+	</insert>
+	
+	<select id="matchSa" resultType="com.kh.pickmatch.model.vo.HomeSaInfo" parameterType="map">
+	<!-- select * from match where matchno=#{matchNo} -->
+	select match.matchno,match.teamhome,match.matchdate,match.matchtime,match.matchtype,match.playground,match.cost,match.matchcontent,match.lat,match.lng,score.totalplaycount,score.win,score.draw,score.lose from match inner join score on teamhome=teamname where match.teamhome=#{matchHome} and match.matchno=#{matchNo}
+	</select>
+	<select id="matchSaa" resultType="com.kh.pickmatch.model.vo.AwaySaInfo" parameterType="map">
+	select match.matchno,match.teamaway,match.matchdate,match.matchtime,match.matchtype,match.playground,match.cost,match.matchcontent,match.lat,match.lng,score.totalplaycount,score.win,score.draw,score.lose from match inner join score on teamaway=teamname where match.teamaway=#{matchAway} and match.matchno=#{matchNo}
+	
+	</select>
 </mapper>

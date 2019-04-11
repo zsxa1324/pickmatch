@@ -63,15 +63,7 @@ public class TeamDaoImpl implements TeamDao {
 		return session.insert("team.insertMHistory", mHistory);
 	}
 
-	@Override
-	public List<Match> selectMatchList(String teamName, int cPage, int numPerPgae) {
-		return session.selectList("team.selectMatchList", teamName, new RowBounds((cPage-1) * numPerPgae, numPerPgae));
-	}
-	
-	@Override
-	public int selectMatchCount(String teamName) {
-		return session.selectOne("team.selectMatchCount", teamName);
-	}
+
 
 
 	

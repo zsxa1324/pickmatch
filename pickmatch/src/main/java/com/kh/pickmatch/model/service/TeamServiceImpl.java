@@ -57,15 +57,6 @@ public class TeamServiceImpl implements TeamService {
 		return dao.insertMHistory(mHistory);
 	}
 
-		@Override
-	public List<Match> selectMatchList(String teamName, int cPage, int numPerPage) {
-		return dao.selectMatchList(teamName, cPage, numPerPage);
-	}
-	
-	@Override
-	public int selectMatchCount(String teamName) {
-		return dao.selectMatchCount(teamName);
-	}
 	
 	
 	

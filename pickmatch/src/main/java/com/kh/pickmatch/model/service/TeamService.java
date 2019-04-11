@@ -21,8 +21,7 @@ public interface TeamService {
 	int updateTeamAccount(TeamOperationAccount toAccount);
 	int insertTeamAccount(TeamOperationAccount toAccount);
 	int insertMHistory(MoneyHistory mHistory);
-	List<Match> selectMatchList(String teamName, int cPage, int numPerPage);
-	int selectMatchCount(String teamName);
+
 	
 	
 	

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.pickmatch.model.service.MatchService;
 import com.kh.pickmatch.model.service.TeamService;
+import com.kh.pickmatch.model.vo.AwaySaInfo;
 import com.kh.pickmatch.model.vo.HomeSaInfo;
 import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MatchPEmblem;
@@ -141,11 +142,18 @@ private Logger logger = LoggerFactory.getLogger(MemberController.class);
 		return mv;
 	}
 	@RequestMapping("/match/matchSa.do")
-	public ModelAndView matchSa(int matchNo) {
+	public ModelAndView matchSa(int matchNo,String matchHome,String matchAway) {
 		ModelAndView mv=new ModelAndView();
-		HomeSaInfo m=service.matchSa(matchNo);
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("matchNo",matchNo);
+		map.put("matchHome",matchHome);
+		map.put("matchAway",matchAway);
+		HomeSaInfo m=service.matchSa(map);
+		AwaySaInfo sm=service.matchSaa(map);
 		mv.addObject("m",m);
+		mv.addObject("sm",sm);
 		mv.setViewName("match/matchSaInfo");
+		
 		return mv;
 	}
 }

@@ -7,7 +7,24 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="Hello Spring" name="title"/>
 </jsp:include>    
-
+<style>
+div.main_contents{
+background-color:white;
+margin: 0 0 70px 0;
+min-height:500px;
+font-size:1.05em;
+}
+div.match_info_view{
+overflow:hidden;
+}
+div.lt{
+float:left;
+width:49%;
+}
+div.vs_box{
+height:360px;
+}
+</style>
 <section>
 	<article>
 		<div class="main_contents">
@@ -15,12 +32,14 @@
 				<div class="lt">
 					<div class="vs_box">
 						<div class="team_wrap">
-							<dl>
-							<dt>${m.teamhome }</dt>
+							<dl style="float: left; width: 40%; text-align:center;">
+							<dt style="font-size: 17px; font-weight: bold; padding: 12px 0 7px 0;">${m.teamHome }</dt>
+							<dd style="height:35px; line-height: 35px; border-radius: 50px;">${m.totalPlayCount }전 ${m.win}승 ${m.draw}무 ${m.lose}패</dd>
 							</dl>
-							<p></p>
+							<p style="float:left; margin: 50px 0 0 5%; text-align:center;">vs</p>
 							<dl>
-							
+							<dt>${sm.teamAway }</dt>
+							<dd>${sm.totalPlayCount }전 ${sm.win}승 ${sm.draw}무 ${sm.lose}패</dd>
 							</dl>
 						</div>
 					</div>

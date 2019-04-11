@@ -32,33 +32,50 @@
     }
 	body
 	{
-		margin :0;
 		width : 100%;
-		background-image : url("${path}/resources/images/stadium.jpg"); 
+		/* background-image : url("${path}/resources/images/stadium.jpg");  */
 	}
 	#header-container
 	{
 		display : flex;
 		flex-flow: nowrap;
 		align-items: center;
-		min-width: 1024px;
+		width: 100%;
+		height:90px;
+		background-image : url("${path}/resources/images/stadium.jpg"); 
+		background-size: cover;
 	}
+	
+	
 	#header-container > div
 	{
 		display : flex;
 		align-items: center;
 	}
-	#header-container > div:nth-of-type(1){flex: 4 1 0;}
+	#header-container > div:nth-of-type(1){flex: 5 1 0;}
 	#header-container > div:nth-of-type(2){flex: 1 1 0;}
+	
+	#header-logo > img
+	{
+		margin : 0 7px 0 15px;
+	}
+	#login-modal > span
+	{
+		color : black;
+		font-size:15px;
+		font-weight: bold;
+	}
 	
 	.navbar-nav
 	{
 		width:100%;
 		text-align: center;
+		
 	}
 	.header-nav-bar
 	{
 		display : flex;
+		
 	}
 	.navbar-nav > li {display : inline-block;}
 	.navbar-nav > li:nth-of-type(1){flex: 1 1 0;}
@@ -115,7 +132,7 @@
 		color : black;
 		cursor: pointer;
 	}
-	.a-main
+	.a-main, .a-main:hover
 	{
 		color : black;
 		text-decoration: none;
@@ -124,6 +141,7 @@
 	{
 		font-size:12px;
 		display:none;
+		float:right;
 	}
 	.signup-input-msg
 	{
@@ -134,13 +152,13 @@
 <body>
 <header>
 	<div id="header-container">
-		<img src="${path }/resources/images/logo.jpg"/>
-			<div>
-				<a class="a-main" href="${path }/"><h2>Pick Match</h2></a>
-			</div>
+		<div id="header-logo">
+			<img src="${path }/resources/images/trophy.png" width="40px"/>
+			<a class="a-main" href="${path }/"><h2>Pick Match</h2></a>
+		</div>
 		<c:if test="${loggedMember==null }">
 		<div id="login-modal" data-toggle="modal" data-target="#loginModal">
-			<img src="${path }/resources/images/user.png" width='35px' height='35px'/>
+			<img src="${path }/resources/images/user2.png" width='35px' height='35px'/>
 			<span>로그인</span>
 		</div>
 		</c:if>
@@ -148,20 +166,40 @@
 		<c:if test="${loggedMember!=null }">
 		<div id="login-modal">
 			<div id="alarm">1</div>
-			<a href="${path }/member/mypage.jsp">
-			<c:if test="${loggedMember.profile!=null }">
-				<img src="${path }/resources/upload/member-profile/${loggedMember.profile }" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
-			</c:if>
-			<c:if test="${loggedMember.profile==null }">
-				<img src="${path }/resources/images/user.png" width='35px' height='35px' title="마이페이지"/>
-			</c:if>
+			<c:if test="${loggedMember.memberId=='admin' }">
+			<a href="${path }/member/adminpage.do">
+				<img src="${path }/resources/images/settings.png" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
 			</a>
+			</c:if>
+			<c:if test="${loggedMember.memberId!='admin' }">
+			<a href="${path }/member/mypage.do">
+				<c:if test="${loggedMember.status=='Y' }">
+					<c:if test="${loggedMember.profile!=null }">
+						<img src="${path }/resources/upload/member-profile/${loggedMember.profile }" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
+					</c:if>
+					<c:if test="${loggedMember.profile==null }">
+						<img src="${path }/resources/images/user2.png" width='35px' height='35px' title="마이페이지"/>
+					</c:if>
+				</c:if>
+				<c:if test="${loggedMember.status=='K' }">
+					<c:if test="${loggedMember.profile!=null }">
+						<img src="${loggedMember.profile}" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
+					</c:if>
+					<c:if test="${loggedMember.profile==null }">
+						<img src="${path }/resources/images/user2.png" width='35px' height='35px' title="마이페이지"/>
+					</c:if>
+				</c:if>
+			</a>
+			</c:if>
 			<span onclick="location.href='${path}/member/logout.do'">로그아웃</span>
 		</div>
 		</c:if>
 		
 	</div>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">		
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 			<div class="collapse navbar-collapse header-nav-bar" id="navbarColor03">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
@@ -209,11 +247,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
-					<!-- <ol class="breadcrumb">
-					  <li class="breadcrumb-item" onclick="fn_login()">로그인</li>
-					  <li class="breadcrumb-item active" onclick="fn_enroll()">회원가입</li>
-					</ol> -->
-					<span id="click-login" onclick="fn_login()">로그인</span>  <span id="click-enroll" onclick="fn_enroll()">회원가입</span>
+					<span id="click-login" class="span-modal-title" onclick="fn_login()">로그인</span><span class="span-modal-title-bar">&nbsp;&nbsp;|&nbsp;&nbsp;</span><span id="click-enroll" class="span-modal-title" onclick="fn_enroll()">회원가입</span>
 					</h5>					
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
@@ -239,19 +273,20 @@
 				
 				<!-- 회원가입 모달 -->
 				<div id="login-enroll" style="display:none;">
-					<form action="${path }/member/memberEnroll.do" method="post" enctype="multipart/form-data" class="enroll-frm">
+					<form action="${path }/member/memberEnroll.do" method="post" enctype="multipart/form-data" onsubmit="valSubmit()" class="enroll-frm">
 						<div class="modal-body">
 							<input type="text" class="form-control"	name="memberId" id="memberId" placeholder="아이디" required/>
-							<span id="val-id-ok" class="validation-msg" style='color:green;'>사용가능한 아이디입니다.</span>
-							<span id="val-id-no" class="validation-msg" style='color:crimson;'>사용할 수 없는 아이디입니다.</span>
-		                    <div class="signup-input-msg">
-		                        4-12자 사이의 숫자와 영문자 조합
-		                    </div>
-							<input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required/>
-							<span id="val-pass-ok" class="validation-msg" style='color:green;'>사용가능한 비밀번호입니다.</span>
-							<span id="val-pass-no"class="validation-msg" style='color:crimson;'>사용할 수 없는 비밀번호입니다.</span>
 							<div class="signup-input-msg">
-		                        6글자 이상 숫자, 영문자, 특수문자 조합
+		                        <span>4-12자 사이의 숫자와 영문자 조합</span>
+		                    	<span id="val-id-ok" class="validation-msg" style='color:green;'>사용가능한 아이디입니다.</span>
+								<span id="val-id-no" class="validation-msg" style='color:crimson;'>사용할 수 없는 아이디입니다.</span>
+		                    </div>
+		                    
+							<input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required/>
+							<div class="signup-input-msg">
+		                        <span>8자 이상 16자 이하 영문, 숫자, 특수문자 조합</span>
+		                    <span id="val-pass-ok" class="validation-msg" style='color:green;'>안전</span>
+							<span id="val-pass-no"class="validation-msg" style='color:crimson;'>위험</span>
 		                    </div>
 							<input type="password" class="form-control" id="password_" placeholder="비밀번호확인" required/>
 							<span id="val-checkpass-no" class="validation-msg" style='color:crimson;'>비밀번호가 일치하지 않습니다.</span>
@@ -339,6 +374,11 @@
 
 
 <script>
+	
+	var onsubmit_id = 0;
+	var onsubmit_pass = 0;
+	var onsubmit_mail = 0;
+	
 	function fn_login()
 	{
 		$("#login-enroll").hide();
@@ -398,11 +438,12 @@
 				{
 					alert("인증번호가 일치합니다.");
 					$('#checkAuthkeySpan').show();
-					
+					onsubmit_mail = 1;
 				}
 				else
 				{
 					alert('인증번호가 일치하지 않습니다.');
+					onsubmit_mail = 0;
 				}
 			}
 				
@@ -411,33 +452,63 @@
 	
 
 	/* 카카오 로그인 */
-	   /*Kakao.init('c4f0aaa7f32ad43a59ff52dd744b1a3e'); */
-	   /*  */
-	   Kakao.init('80c61b3cc013a89e11c9aeb7ce11b541');
+	   Kakao.init('a1db2f9b36acb7501b2ddea26a162b2e');
 	   Kakao.Auth.createLoginButton({
 	      container: '#kakao-login-btn',
 	      success: function(authObj){
+	    	  console.log(JSON.stringify(authObj));
 	         Kakao.API.request({
-	            url: '/v1/user/me',
+	            url: '/v2/user/me',
 	            success:function(res){
 	               console.log(res);
 	               console.log(res.id);
 	               console.log(res.properties.nickname);
 	               console.log(res.properties.profile_image);
 	               console.log(res.properties.thumbnail_image);
-
-
+	               console.log(res.kakao_account.email);
+	               console.log(authObj.access_token);
+	               console.log(JSON.stringify(res.kakao_account.email));
+	               console.log(JSON.stringify(res.id));
+	               console.log(JSON.stringify(res.properties.profile_image));
+	               console.log(JSON.stringify(res.properties.nickname));
+	               /* var sendData = JSON.stringify({memberId:res.id, nickname:res.properties.nickname, email:res.kakao_account.email, profile:res.properties.profile_image}); */
+	               
+	               kakaoAjax(res);
+	               
 	            }
 	         })      
 	      },
-	      fail:function(err){ alert(JSON.stringify(err));}
+	      fail:function(err){ alert(JSON.stringify(err));}	       
 	   });
-
+	   
+	   function kakaoAjax(res){
+			$.ajax({
+				url: '${path}/member/kakaoLogin.do',
+				type: 'post',
+				data: {"memberId":res.id, "nickname":res.properties['nickname'], "email":res.kakao_account['email'], "profile":res.properties['profile_image']},
+				dataType: 'text',
+				success : function(data){
+					console.log('success : ' + data);
+					if(data=='true'){
+						location.href='${path}/';
+					}
+					else
+					{
+						location.href='${path}/';
+						alert('해당 아이디로 로그인할 수 없습니다.');
+					}
+				},
+				error : function(request,status,error){
+					alert('code:'+request.status+"\n"+"message:"+request.responseTest+"\n"+"error:"+error);
+				}
+			});
+		};
+	   
 
 	 //회원가입 유효성 검사
 	const signupFrm = $('.enroll-frm');
-	const signupPw = $('.enroll-frm #password');
-	const signupPwCk = $('.enroll-frm #password_');
+	const password = $('#password').val();
+	const password_ = $('#password_').val();
 	const signupId = $('.enroll-frm #memberId');
 	const signupName = $('.enroll-frm #memberName');
 	const signupEmail = $('.enroll-frm #email');
@@ -447,53 +518,78 @@
 	const signupInputs = $('.validation-msg').prev();
 	const idAvail = $('#idAvail')
 
-	function check_key() {
-	 var char_ASCII = event.keyCode;
-	                
-	  //숫자
-	 if (char_ASCII >= 48 && char_ASCII <= 57 )
-	   return 1;
-	 //영어소문자
-	 else if (char_ASCII>=97 && char_ASCII<=122)
-	    return 2;
-	 //특수기호
-	 else if ((char_ASCII>=33 && char_ASCII<=47) || (char_ASCII>=58 && char_ASCII<=64) 
-	   || (char_ASCII>=91 && char_ASCII<=96) || (char_ASCII>=123 && char_ASCII<=126))
-	    return 4;
-	 //한글
-	 else if ((char_ASCII >= 12592) || (char_ASCII <= 12687))
-	    return 3;
-	 else 
-	    return 0;
-	}
 
-
-
-
+	$("#memberId").keyup(function(e) { 
+		if (!(e.keyCode >=37 && e.keyCode<=40)) {
+			var v = $(this).val();
+			$(this).val(v.replace(/[^a-z0-9]/gi,''));
+		}
+	});
+	
+	
+	
 	$('#memberId').blur(function idCheckAjax(){
+		
 		$.ajax({
            	url: '<%=request.getContextPath()%>/member/checkId.do?memberId='+signupId.val(),
            	type: 'get',
            	dataType: 'text',
            	success: data => {
-           		if(data == 'true' || $('#memberId').val().trim().length<4 || $('#memberId').val().trim().length>12 || (check_key() != 1 && check_key() != 2))
-           			//가입된 아이디가 존재하거나 id길이가 짧은 경우
+           		if(data == 'true'|| $('#memberId').val().trim().length<4 || $('#memberId').val().trim().length>12 ) 
+           			//가입된 아이디가 존재하거나 id길이가 짧거나 긴 경우
            		{
            			console.log($('#memberId').val())
            			$('#val-id-ok').hide();
         			$('#val-id-no').show();
+        			onsubmit_id = 0;
            		}
            		else
            			//가입된 아이디가 존재하지 않을 경우
            		{
 					$('#val-id-ok').show();
 					$('#val-id-no').hide();
-					
+					onsubmit_id = 1;
            		}
            	}
            });
 	});
-
+	
+	$("#password").blur(function passwordCheck(){
+		var passwordCheck = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
+		if(!passwordCheck.test($('#password').val()))
+		{
+			$("#val-pass-ok").hide();
+			$("#val-pass-no").show();
+			onsubmit_pass = 0;
+		}
+		else
+		{
+			$("#val-pass-ok").show();
+			$("#val-pass-no").hide();
+			onsubmit_pass = 1;
+		}
+	})
+	
+	$('#password_').blur(function passCheck(){
+		if($('#password').val() == $('#password_').val())
+		{
+			$('#val-checkpass-no').hide();
+		}
+		else
+		{
+			$('#val-checkpass-no').show();
+			$('#password_').val('');
+			$('#password').focus();
+		}
+	})
+	
+	function valSubmit()
+	{
+		if(onsubmit_id !=1 || onsubmit_mail!=1 || onsubmit_pass!=1)
+		{
+			return false;
+		}
+	}
 </script>
 		
 		

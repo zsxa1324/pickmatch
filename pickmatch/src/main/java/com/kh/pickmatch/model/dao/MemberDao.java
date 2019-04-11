@@ -15,4 +15,8 @@ public interface MemberDao {
 
 	String selectAuthkey(EmailAuthkey ea);
 
+	int insertKakaoMember(Member m);
+
+	int updateKakaoMember(Member m);
+
 }

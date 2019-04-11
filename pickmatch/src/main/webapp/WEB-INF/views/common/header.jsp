@@ -170,11 +170,20 @@
 						</a>
 						<div class="dropdown">
 						<c:if test="${!empty loggedMember}">
+							<c:if test="${loggedMember.teamName==null }">
 							<a href="${path}/teamcreate.do">팀 개설</a>
-							<a href="${path }/team.do">팀 정보</a>
+							</c:if>
+							<c:if test="${loggedMember.teamName!=null }">
+							<a href="${path }/team.do?teamName=${loggedMember.teamName}">팀 정보</a>
+							</c:if>
+							<c:if test="${loggedMember.teamName!=null }">
 							<a href="${path}/freeboard.do">팀 자유게시판</a>
-							<a href="${path}/teamnotice.do">팀 공지사항</a>
+							</c:if>
+							<c:if test="${loggedMember.teamName!=null }">
+							<a href="${path}/teamnotice.do?teamName=${loggedMember.teamName}">팀 공지사항</a>
+							</c:if>
 							<a href="${path}/teammercenary.do">내 용병팀 정보</a>
+							
 						</c:if>
 						</div>
 					</li>

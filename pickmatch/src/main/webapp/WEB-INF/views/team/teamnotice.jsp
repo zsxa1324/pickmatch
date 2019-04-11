@@ -23,27 +23,35 @@
 			<th id="team-notice-table-date">날짜</th>
 			
 		</tr>
+	<c:forEach items="${list }" var="b">
 		<tr>
-			<td id="team-notice-table-id">아이디</td>
-			<td id="team-notice-table-title">제목</td>
-			<td id="team-notice-table-date">날짜</td>
+			<td id="team-freeboard-table-id">${b.memberId }</td>
+			<td id="team-freeboard-table-title"><a href="${path}/team/noticeView.do?noticeNo=${b.noticeNo}">${b.noticeTitle }</a></td>
+			<td id="team-freeboard-table-date">${b.noticeDate }</td>
 		</tr>
-		<tr>
-			<td id="team-notice-table-id">아이디</td>
-			<td id="team-notice-table-title">제목</td>
-			<td id="team-notice-table-date">날짜</td>
-		</tr>
+		</c:forEach>
 	
 	</table>
-</div>	
-
-<div id="teamnotice-write-btn" align="right" style="margin-right: 200px; margin-top: 30px;">
+	<div id="teamnotice-write-btn" align="right" style="margin-right: 200px; margin-top: 30px;">
 	<input type="button" value="글쓰기" id="btn-add" class="btn btn-primary" onclick="fn_write();"/>
 </div>
+</div>	
+
+
+<div class="pagecontainer" style="margin-top: 20px;">
+     	${pageBar }
+</div>
+
+
+
+
+
+
+
 
 <script>
 	function fn_write(){
-		location.href="${path}/team/teamnoticeWrite";
+		location.href="${path}/Team/teamnoticeWrite";
 	}
 </script>
 

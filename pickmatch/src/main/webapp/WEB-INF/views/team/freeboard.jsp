@@ -50,7 +50,7 @@
 
 <script>
 	function fn_write(){
-		location.href="${path}/team/freeboardWrite";
+		location.href="${path}/Team/freeboardWrite";
 	}
 </script>
 

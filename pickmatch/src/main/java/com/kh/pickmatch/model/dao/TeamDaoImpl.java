@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -81,11 +82,35 @@ public class TeamDaoImpl implements TeamDao {
 
 
 	@Override
-	public List<TeamNotice> selectListN(int cPage, int numPerPage) {
+	public List<TeamNotice> selectListN(int cPage, int numPerPage, String teamName) {
 		// TODO Auto-generated method stub
-		return session.selectList("team.selectListN", null, new RowBounds((cPage-1)*numPerPage, numPerPage));
+		return session.selectList("team.selectListN", teamName, new RowBounds((cPage-1)*numPerPage, numPerPage));
 	}
 
+
+	@Override
+	public List<MemberByTeam> TeamMember(String teamName) {
+		// TODO Auto-generated method stub
+		return session.selectList("team.TeamMember",teamName);
+	}
+
+	@Override
+	public int memberCount(String teamName) {
+		// TODO Auto-generated method stub
+		return session.selectOne("team.memberCount", teamName);
+	}
+
+	@Override
+	public int memberByTeam(MemberByTeam mbt) {
+		// TODO Auto-generated method stub
+		return session.insert("team.memberByTeam", mbt);
+	}
+
+	@Override
+	public List<Team> TeamView(String teamName) {
+		// TODO Auto-generated method stub
+		return session.selectList("team.TeamView",teamName);
+	}
 
 	@Override
 	public Team TeamSearch(String search) {
@@ -160,9 +185,9 @@ public class TeamDaoImpl implements TeamDao {
 	}
 
 	@Override
-	public int selectCountN() {
+	public int selectCountN(String teamName) {
 		// TODO Auto-generated method stub
-		return session.selectOne("team.selectCountN");
+		return session.selectOne("team.selectCountN",teamName);
 	}
 	
 	@Override

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.pickmatch.model.vo.HomeSaInfo;
 import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MatchPEmblem;
 import com.kh.pickmatch.model.vo.MemberByTeam;
@@ -89,6 +90,13 @@ public int matchOk(Map<String, Object> map) {
 	int result=session.insert("match.matchOk",map);
 	return result;
 }
+
+@Override
+public HomeSaInfo matchSa(int matchNo) {
+	HomeSaInfo list=session.selectOne("match.matchSa",matchNo);
+	return list;
+}
+
 
 
 

@@ -1,39 +1,44 @@
-﻿package com.kh.pickmatch.model.vo;
+package com.kh.pickmatch.model.vo;
 
-import java.sql.Date;
+import java.util.Date;
 
-public class Match {
+public class AwaySaInfo {
+	
 	private int matchNo;
-	private String teamHome, teamAway;
+	private String teamAway;
 	private Date matchDate;
 	private String matchTime;
-	private String matchType, playGround;
-	private int homeScore, awayScore;
+	private String matchType;
+	private String playGround;
 	private int cost;
 	private String matchContent;
-	private double lat, lng;
-	private String result;
+	private int lat;
+	private int lng;
+	private int totalPlayCount;
+	private int win;
+	private int draw;
+	private int lose;
 	
-	public Match() {}
-	
-	public Match(int matchNo, String teamHome, String teamAway, Date matchDate, String matchTime, String matchType,
-			String playGround, int homeScore, int awayScore, int cost, String matchContent, double lat, double lng,
-			String result) {
+	public AwaySaInfo() {}
+
+	public AwaySaInfo(int matchNo, String teamAway, Date matchDate, String matchTime, String matchType,
+			String playGround, int cost, String matchContent, int lat, int lng, int totalPlayCount, int win, int draw,
+			int lose) {
 		super();
 		this.matchNo = matchNo;
-		this.teamHome = teamHome;
 		this.teamAway = teamAway;
 		this.matchDate = matchDate;
 		this.matchTime = matchTime;
 		this.matchType = matchType;
 		this.playGround = playGround;
-		this.homeScore = homeScore;
-		this.awayScore = awayScore;
 		this.cost = cost;
 		this.matchContent = matchContent;
 		this.lat = lat;
 		this.lng = lng;
-		this.result = result;
+		this.totalPlayCount = totalPlayCount;
+		this.win = win;
+		this.draw = draw;
+		this.lose = lose;
 	}
 
 	public int getMatchNo() {
@@ -42,14 +47,6 @@ public class Match {
 
 	public void setMatchNo(int matchNo) {
 		this.matchNo = matchNo;
-	}
-
-	public String getTeamHome() {
-		return teamHome;
-	}
-
-	public void setTeamHome(String teamHome) {
-		this.teamHome = teamHome;
 	}
 
 	public String getTeamAway() {
@@ -92,22 +89,6 @@ public class Match {
 		this.playGround = playGround;
 	}
 
-	public int getHomeScore() {
-		return homeScore;
-	}
-
-	public void setHomeScore(int homeScore) {
-		this.homeScore = homeScore;
-	}
-
-	public int getAwayScore() {
-		return awayScore;
-	}
-
-	public void setAwayScore(int awayScore) {
-		this.awayScore = awayScore;
-	}
-
 	public int getCost() {
 		return cost;
 	}
@@ -124,36 +105,63 @@ public class Match {
 		this.matchContent = matchContent;
 	}
 
-	public double getLat() {
+	public int getLat() {
 		return lat;
 	}
 
-	public void setLat(double lat) {
+	public void setLat(int lat) {
 		this.lat = lat;
 	}
 
-	public double getLng() {
+	public int getLng() {
 		return lng;
 	}
 
-	public void setLng(double lng) {
+	public void setLng(int lng) {
 		this.lng = lng;
 	}
 
-	public String getResult() {
-		return result;
+	public int getTotalPlayCount() {
+		return totalPlayCount;
 	}
 
-	public void setResult(String result) {
-		this.result = result;
+	public void setTotalPlayCount(int totalPlayCount) {
+		this.totalPlayCount = totalPlayCount;
+	}
+
+	public int getWin() {
+		return win;
+	}
+
+	public void setWin(int win) {
+		this.win = win;
+	}
+
+	public int getDraw() {
+		return draw;
+	}
+
+	public void setDraw(int draw) {
+		this.draw = draw;
+	}
+
+	public int getLose() {
+		return lose;
+	}
+
+	public void setLose(int lose) {
+		this.lose = lose;
 	}
 
 	@Override
 	public String toString() {
-		return "Match [matchNo=" + matchNo + ", teamHome=" + teamHome + ", teamAway=" + teamAway + ", matchDate="
-				+ matchDate + ", matchTime=" + matchTime + ", matchType=" + matchType + ", playGround=" + playGround
-				+ ", homeScore=" + homeScore + ", awayScore=" + awayScore + ", cost=" + cost + ", matchContent="
-				+ matchContent + ", lat=" + lat + ", lng=" + lng + ", result=" + result + "]";
+		return "AwaySaInfo [matchNo=" + matchNo + ", teamAway=" + teamAway + ", matchDate=" + matchDate + ", matchTime="
+				+ matchTime + ", matchType=" + matchType + ", playGround=" + playGround + ", cost=" + cost
+				+ ", matchContent=" + matchContent + ", lat=" + lat + ", lng=" + lng + ", totalPlayCount="
+				+ totalPlayCount + ", win=" + win + ", draw=" + draw + ", lose=" + lose + "]";
 	}
+
 	
+	
+
 }

@@ -142,7 +142,7 @@ public class TeamController {
 	}
 	
 	@RequestMapping("/team/MoneyHistoryEndroll")
-	public String MoneyHistoryEndroll(MoneyHistory mHistory, Model model) {
+	public String moneyHistoryEndroll(MoneyHistory mHistory, Model model) {
 		
 		
 		int result = service.insertMHistory(mHistory);

@@ -1,19 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
-<!DOCTYPE htm>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Alarm</title>
-<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
-</head>
-<body>
 
-</body>
-</html> --%>
-<!-- header -->
+<div id="alarm-container">
+	<table id="alarm-table" class="table table-striped table-hover">
+		<tr id="alarm-table-th">
+			<th id="alarm-table-id">아이디</th>
+			<th id="alarm-table-title">제목</th>
+			<th id="alarm-table-date">날짜</th>
+			
+		</tr>
+		<%-- <c:forEach items="${list }" var="b">
+		<tr>
+			<td id="team-freeboard-table-id">${b.memberId }</td>
+			<td id="team-freeboard-table-title"><a href="${path}/team/teamView.do?boardNo=${b.boardNo}">${b.boardTitle }</a></td>
+			<td id="team-freeboard-table-date">${b.boardDate }</td>
+		</tr>
+		</c:forEach> --%>
+		
+	
+	</table>
+</div>	
 	    

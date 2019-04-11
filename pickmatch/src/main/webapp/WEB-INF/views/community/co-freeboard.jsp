@@ -42,13 +42,15 @@
      	${pageBar }
 </div>
 
-<div id="freeboard-write" align="right" style="margin-right: 200px; margin-top: 30px;">
-	<input type="button" value="글쓰기" id="btn-add" class="btn btn-primary" onclick="fn_write();"/>
-</div>
+<c:if test="${loggedMember != null}">
+	<div id="freeboard-write" align="right" style="margin-right: 200px; margin-top: 30px;">
+		<input type="button" value="글쓰기" id="btn-add" class="btn btn-primary" onclick="fn_write();"/>
+	</div>
+</c:if>
 
 <script>
 	function fn_write(){
-		location.href="${path}/Team/freeboardWrite";
+		location.href="${path}/community/freeboardForm.do";
 	}
 </script>
 

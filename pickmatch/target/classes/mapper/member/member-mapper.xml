@@ -3,7 +3,7 @@
 <mapper namespace="member">
 
   <select id="selectOne" parameterType="member" resultType="member">
-  	select * from member where memberid=#{memberId}
+  	select * from member left join memberbyteam using(memberId) where memberid=#{memberId}
   </select>
   
   <insert id="insertMember" parameterType="member">

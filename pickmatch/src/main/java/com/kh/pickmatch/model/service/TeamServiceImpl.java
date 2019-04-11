@@ -7,8 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.pickmatch.model.dao.TeamDao;
+import com.kh.pickmatch.model.vo.MemberByTeam;
+import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
+import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
 @Service
@@ -56,21 +60,136 @@ public class TeamServiceImpl implements TeamService {
 	
 	
 	
+	//도원
 	
 	
+	
+
+
+
 	@Override
-	public Object selectTeamBoard(int boardNo) {
+	public List<TeamNotice> selectListN(int cPage, int numPerPage, String teamName) {
 		// TODO Auto-generated method stub
-		return dao.selectTeamBoard(boardNo);
+		return dao.selectListN(cPage, numPerPage, teamName);
 	}
 
+	@Override
+	public List<MemberByTeam>TeamMember(String teamName) {
+		// TODO Auto-generated method stub
+		return dao.TeamMember(teamName);
+	}
+
+	@Override
+	public int memberCount(String teamName) {
+		// TODO Auto-generated method stub
+		return dao.memberCount(teamName);
+	}
+
+	@Override
+	public List<Team> TeamView(String teamName) {
+		// TODO Auto-generated method stub
+		return dao.TeamView(teamName);
+	}
+
+	@Override
+	public Team TeamSearch(String search) {
+		// TODO Auto-generated method stub
+		return dao.TeamSearch(search);
+	}
+
+	@Override
+	public Mercenary MercenarySearch(String search) {
+		// TODO Auto-generated method stub
+		return dao.MercenarySearch(search);
+	}
+
+	@Override
+	public List<Mercenary> mercenaryranking(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.mercenaryranking(cPage, numPerPage);
+	}
+
+	@Override
+	public int selectCountM() {
+		// TODO Auto-generated method stub
+		return dao.selectCountM();
+	}
+
+	@Override
+	public int selectCountT() {
+		// TODO Auto-generated method stub
+		return dao.selectCountT();
+	}
+
+	@Override
+	public List<Team> selectTeamRanking(int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectTeamRanking(cPage, numPerPage);
+	}
+
+
+	@Override
+	public Team selectTeamCheck(String teamname) {
+		// TODO Auto-generated method stub
+		return dao.selectTeamCheck(teamname);
+	}
+
+	@Override
+	public int InsertTeam(Team team, String memberId) {
+		// TODO Auto-generated method stub
+		int result = dao.insertTeam(team);
+		int result2 = 0;
+		MemberByTeam mbt = new MemberByTeam();
+		
+		mbt.setTeamName(team.getTeamName());
+		mbt.setMemberId(memberId);
+		mbt.setAuthority("팀장");
+		
+		
+		if(result>0) {
+			result2 = dao.memberByTeam(mbt);
+		}
+		
+		
+		return result2;
+		
+	}
+
+	@Override
+	public TeamNotice selectOne(int noticeNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOne(noticeNo);
+	}
+
+	@Override
+	public int deleteNocice(int noticeNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteNotice(noticeNo);
+	}
+
+	@Override
+	public Object selectNoticeView(int noticeNo) {
+		// TODO Auto-generated method stub
+		return dao.selectNoticeView(noticeNo);
+	}
+
+	@Override
+	public int selectCountN(String teamName) {
+		// TODO Auto-generated method stub
+		return dao.selectCountN(teamName);
+	}
 
 	@Override
 	public Object selectAttachment(int boardNo) {
 		// TODO Auto-generated method stub
 		return dao.selectAttachment(boardNo);
 	}
-
+	
+	@Override
+	public Object selectTeamBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return dao.selectTeamBoard(boardNo);
+	}
 
 	@Override
 	public int selectCount() {
@@ -82,6 +201,21 @@ public class TeamServiceImpl implements TeamService {
 	public List<TeamBoard> selectList(int cPage, int numPerPage) {
 		// TODO Auto-generated method stub
 		return dao.selectList(cPage, numPerPage);
+	}
+
+	
+	//팀 공지사항 글쓰기
+	@Override
+	public int InsertNotice(TeamNotice teamnotice) {
+		// TODO Auto-generated method stub
+		return dao.InsertNotice(teamnotice);
+	}
+
+	//팀 공지사항 수정
+	@Override
+	public int updateNotice(String noticeTitle, String noticeContent, int noticeNo) {
+		// TODO Auto-generated method stub
+		return dao.updateNotice(noticeTitle, noticeContent, noticeNo);
 	}
 	
 	

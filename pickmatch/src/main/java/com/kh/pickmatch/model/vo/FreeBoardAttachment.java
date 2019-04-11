@@ -3,7 +3,7 @@ package com.kh.pickmatch.model.vo;
 public class FreeBoardAttachment {
 	
 	private int attachmentNo;
-	private String originamFileName;
+	private String originalFileName;
 	private String renamedFileName;
 	private int boardNoRef;
 
@@ -11,10 +11,10 @@ public class FreeBoardAttachment {
 		// TODO Auto-generated constructor stub
 	}
 
-	public FreeBoardAttachment(int attachmentNo, String originamFileName, String renamedFileName, int boardNoRef) {
+	public FreeBoardAttachment(int attachmentNo, String originalFileName, String renamedFileName, int boardNoRef) {
 		super();
 		this.attachmentNo = attachmentNo;
-		this.originamFileName = originamFileName;
+		this.originalFileName = originalFileName;
 		this.renamedFileName = renamedFileName;
 		this.boardNoRef = boardNoRef;
 	}
@@ -27,12 +27,12 @@ public class FreeBoardAttachment {
 		this.attachmentNo = attachmentNo;
 	}
 
-	public String getOriginamFileName() {
-		return originamFileName;
+	public String getOriginalFileName() {
+		return originalFileName;
 	}
 
-	public void setOriginamFileName(String originamFileName) {
-		this.originamFileName = originamFileName;
+	public void setOriginalFileName(String originalFileName) {
+		this.originalFileName = originalFileName;
 	}
 
 	public String getRenamedFileName() {
@@ -53,9 +53,9 @@ public class FreeBoardAttachment {
 
 	@Override
 	public String toString() {
-		return "FreeBoardAttachment [attachmentNo=" + attachmentNo + ", originamFileName=" + originamFileName
+		return "FreeBoardAttachment [attachmentNo=" + attachmentNo + ", originalFileName=" + originalFileName
 				+ ", renamedFileName=" + renamedFileName + ", boardNoRef=" + boardNoRef + "]";
 	}
-	
+
 	
 }

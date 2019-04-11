@@ -3,6 +3,7 @@
 import java.util.List;
 import java.util.Map;
 
+import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
@@ -20,7 +21,7 @@ public interface TeamDao {
 	int updateTeamAccount(TeamOperationAccount map);
 	int insertTeamAccount(TeamOperationAccount toAccount);
 	int insertMHistory(MoneyHistory mHistory);
-	
+
 	
 	
 	//도원
@@ -56,6 +57,7 @@ public interface TeamDao {
 	//용병랭킹
 	List<Mercenary> mercenaryranking(int cPage, int numPerPage);
 	int selectCountM();
+	
 	//용병랭킹 검색
 	Mercenary MercenarySearch(String search);
 	

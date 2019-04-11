@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
@@ -221,6 +222,8 @@ public class TeamDaoImpl implements TeamDao {
 		//logger.debug("after teamnotice"+teamnotice);
 		return session.insert("team.insertNotice",teamnotice);
 	}
+
+	
 	
 	
 	

@@ -6,7 +6,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.pickmatch.common.PageBarFactory;
 import com.kh.pickmatch.model.dao.TeamDaoImpl;
 import com.kh.pickmatch.model.service.TeamService;
-import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.Member;
+import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -81,8 +80,6 @@ public class TeamController {
 				
 			}
 		}
-		
-		Calendar cal = Calendar.getInstance();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 		Date date = new Date();
@@ -161,45 +158,6 @@ public class TeamController {
 		return "common/msg";
 	}
 	
-		@RequestMapping("/team/teamMatchList")
-	public ModelAndView teamMatch(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage, HttpSession session, String teamName) {
-		
-		ModelAndView mv = new ModelAndView();
-		
-		int numPerPage = 3;
-		int totalCount = service.selectMatchCount(teamName);
-		
-		List<Match> list = service.selectMatchList(teamName, cPage, numPerPage);
-		
-		mv.addObject("list", list);
-		mv.addObject("totalCount", totalCount);
-		mv.addObject("pageBar", PageBarFactory.getPageBar(totalCount, cPage, numPerPage, "/team/teamMatchList"));
-		mv.setViewName("team/teamMatchList");
-		
-		return mv;
-	}
-	
-	@RequestMapping("/team/teamMatchDetail")
-	public String teamMatchDetail(String status, Model model) {
-		
-		return "team/matchDetail";
-	}
-	
-	@RequestMapping("/team/teamMatchEnroll")
-	public String teamMatchEnroll(/*Model medel, Match m*/) {
-		
-		return "team/matchEnroll";
-	}
-	
-	@RequestMapping("/team/teamMatchEnrollAjax")
-	public String teamMatchEnrollAjax() {
-		
-		
-		
-		return "";
-	}
-	
-	
 	
 	
 	
@@ -208,56 +166,31 @@ public class TeamController {
 	
 	
 	//도원
+	
+	//내팀정보!!
 	@RequestMapping("/team.do")
-	public ModelAndView teaminfo(HttpSession session) {
+	public ModelAndView teaminfo(String teamName) {
+		
 		ModelAndView mv = new ModelAndView();
-		String msg = "";
-		String loc = "";
-		Member m = null;
-		String teamName = "";
-		String memberId = "";
-		
-		if(session.getAttribute("loggedMember") == null) {
-			msg = "로그인 후 이용가능합니다.";
-			loc = "/";
-			
-			mv.setViewName("common/msg");
-			mv.addObject("msg", msg);
-			mv.addObject("loc", loc);
-			return mv;
-		} else {
-			m = (Member)session.getAttribute("loggedMember");
-			memberId = m.getMemberId();
-			teamName = service.selectTeamOne(memberId);
-			if(teamName == null) {
-				msg = "소속된 팀이 없습니다.";
-				loc = "/";
-				
-				mv.setViewName("common/msg");
-				mv.addObject("msg", msg);
-				mv.addObject("loc", loc);
-				return mv;
-				
-			}
-		}
-		
-		mv.addObject("teamName", teamName);
+		List<Team> list = service.TeamView(teamName);
+		int memberCount = service.memberCount(teamName);
+		List<MemberByTeam> result = service.TeamMember(teamName);
+		logger.debug("멤버바이팀"+result);
+		mv.addObject("memberCount", memberCount);
+		mv.addObject("list", list);
+		mv.addObject("result", result);
 		mv.setViewName("team/teaminfo");
 		return mv;
 		
 	}
 	
-	//지우면안됨!
-	@RequestMapping("/teamcreate.do")
-	public String teamcreate (){
-		return "Team/teamcreate";
-		
-	}
+	
+	
 	
 	//지우면안됨!
 	@RequestMapping("/teammercenary.do")
 	public String teammercenary() {
-		return "Team/teammercenary";
+		return "team/teammercenary";
 	}
 	
 	//팀 게시판 리스트보기
@@ -274,7 +207,7 @@ public class TeamController {
 		mv.addObject("totalList", totalList);
 		System.out.println(totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/freeboard.do"));
-		mv.setViewName("Team/freeboard");
+		mv.setViewName("team/freeboard");
 		return mv;
 	}
 		
@@ -288,18 +221,18 @@ public class TeamController {
 	//팀 게시판 글쓰기
 	@RequestMapping("/Team/freeboardWrite")
 	public String freeboardWrite() {
-		return "Team/freeboardWrite";
+		return "team/freeboardWrite";
 	}
 	
-	//팀 공지사항 글쓰기
+	//팀 공지사항 글쓰기 지우면안됨!!
 	@RequestMapping("/Team/teamnoticeWrite")
 	public String teamnoticeWrite(){
-		return "Team/teamnoticeWrite";
+		return "team/teamnoticeWrite";
 	}
 	
 	@RequestMapping("/freeboardView.do")
 	public String freeboardView() {
-		return "Team/teamboardView";
+		return "team/teamboardView";
 	}
 	
 	//팀 게시판 상세보기
@@ -309,17 +242,20 @@ public class TeamController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("teamboard", service.selectTeamBoard(boardNo));
 		mv.addObject("attachmentList", service.selectAttachment(boardNo));
-		mv.setViewName("Team/teamboardView");
+		mv.setViewName("team/teamboardView");
 		return mv;
 	}
 	
 	//팀 공지사항 보기
 	@RequestMapping("/teamnotice.do")
-	public ModelAndView teamnotice(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
+	public ModelAndView teamnotice(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,HttpSession session) {
 		int numPerPage = 10;
+		Member member = (Member)session.getAttribute("loggedMember");
+		String teamName = member.getTeamName();
 		ModelAndView mv = new ModelAndView();
-		List<TeamNotice> list = service.selectListN(cPage, numPerPage);
-		int totalList = service.selectCountN();
+		List<TeamNotice> list = service.selectListN(cPage, numPerPage, teamName);
+		
+		int totalList = service.selectCountN(teamName);
 		
 		System.out.println(list);
 		
@@ -327,7 +263,7 @@ public class TeamController {
 		mv.addObject("totalList", totalList);
 		System.out.println(totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/teamnotice.do"));
-		mv.setViewName("Team/teamnotice");
+		mv.setViewName("team/teamnotice");
 		return mv;
 	}
 	
@@ -337,7 +273,7 @@ public class TeamController {
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("teamnotice", service.selectNoticeView(noticeNo));
-		mv.setViewName("Team/teamnoticeView");
+		mv.setViewName("team/teamnoticeView");
 		return mv;
 	}
 	
@@ -345,7 +281,7 @@ public class TeamController {
 	@RequestMapping("/team/teamnotice")
 	public String InsertNotice(TeamNotice teamnotice, Model m) {
 		
-		logger.debug("InsertNotice : " + teamnotice); 
+		
 		String msg = "";
 		String loc="/teamnotice.do"; //이동할 매핑값 써야됨
 		int result = service.InsertNotice(teamnotice); 
@@ -393,7 +329,7 @@ public class TeamController {
 		
 		TeamNotice teamnotice = service.selectOne(noticeNo);
 		m.addAttribute("teamNotice", teamnotice);
-		return "Team/updateNotice";
+		return "team/updateNotice";
 		
 	}
 		
@@ -417,31 +353,28 @@ public class TeamController {
 		return "common/msg";
 		
 	}
+	
+	//팀생성
+	@RequestMapping("/teamcreate.do")
+	public String teamcreate (){
+		return "team/teamcreate";
+		
+	}
 		
 	@RequestMapping("/team/teamCreate.do")
 	public String insertTeam(String teamName, String teamLocation, String teamField, String teamType,MultipartFile teamEmblem,
-			String teamColor, String teamContent, Model m,HttpServletRequest re) {
-		
-		
-		/*logger.debug("teamName:::::::::::" + teamName);
-		logger.debug("teamLocation:::::::::::" + teamLocation);
-		logger.debug("teamField:::::::::::" + teamField);
-		logger.debug("teamColor:::::::::::" + teamType);
-		logger.debug("teamColor:::::::::::" + teamColor);
-		logger.debug("teamContent:::::::::::" + teamContent);*/
-/*		logger.debug("teamEmblem:::::::::::" + teamEmblem);*/
+			String teamColor, String teamContent,String memberId, Model m,HttpServletRequest re, HttpSession session) {
 		
 		Team team = new Team(teamName,0, teamLocation, teamField, teamType,teamColor, teamContent,null, "",null);
-	
-		
 		String saveDir = re.getSession().getServletContext().getRealPath("/resources/upload/team-logo");
 		File dir = new File(saveDir);
+		
 		
 		if(!dir.exists()) {
 			dir.mkdirs();
 		}
-		
-		
+		/*logger.debug("멤버아이디"+memberId);
+		logger.debug("팀::::::::"+team);*/
 		//단일 파일 입출력
 		if(!teamEmblem.isEmpty()) {
 			String oriFileName = teamEmblem.getOriginalFilename();
@@ -458,12 +391,16 @@ public class TeamController {
 				e.printStackTrace();
 			}
 		}
-		logger.debug("InsertTeam : " + team);
-		int result = service.InsertTeam(team);
+		
+		
+		int result = service.InsertTeam(team,memberId);
 		String msg="";
 		String loc="/";
 		if(result > 0) {
 			msg="팀 생성 완료!";
+			Member y = (Member)session.getAttribute("loggedMember");
+			y.setTeamName(teamName);
+			session.setAttribute("loggedMember", y);
 		}else{
 			msg="팀 생성 실패!";  
 		}
@@ -500,7 +437,7 @@ public class TeamController {
 		mv.addObject("list", list);
 		mv.addObject("totalList", totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/teamranking.do"));
-		mv.setViewName("Team/teamranking");
+		mv.setViewName("team/teamranking");
 		return mv;
 	}
 	
@@ -527,7 +464,7 @@ public class TeamController {
 		}
 		else {
 			mv.addObject("list", result);
-			mv.setViewName("Team/teamranking");
+			mv.setViewName("team/teamranking");
 		}
 		return mv;
 		
@@ -548,7 +485,7 @@ public class TeamController {
 		mv.addObject("top3", top3);
 		mv.addObject("totalList", totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/mercenaryranking.do"));
-		mv.setViewName("Team/mercenaryranking");
+		mv.setViewName("team/mercenaryranking");
 		return mv;
 	}
 	
@@ -579,7 +516,7 @@ public class TeamController {
 			
 			mv.addObject("list", result);
 			mv.addObject("top3", top3);
-			mv.setViewName("Team/mercenaryranking");
+			mv.setViewName("team/mercenaryranking");
 			
 		}
 		return mv;

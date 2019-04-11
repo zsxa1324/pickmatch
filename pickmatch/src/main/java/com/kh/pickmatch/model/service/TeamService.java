@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -27,15 +28,15 @@ public interface TeamService {
 	
 	//도원
 	
-	//팀게시판
+		//팀게시판
 	List<TeamBoard> selectList(int cPage, int numPerPage);
 	int selectCount();
 	Object selectTeamBoard(int boardNo);
 	Object selectAttachment(int boardNo);
 	
 	//팀공지사항
-	List<TeamNotice> selectListN(int cPage, int numPerPage);
-	int selectCountN();
+	List<TeamNotice> selectListN(int cPage, int numPerPage, String teamName);
+	int selectCountN(String teamName);
 	Object selectNoticeView(int noticeNo);
 	
 	//팀 공지사항 글쓰기
@@ -47,7 +48,9 @@ public interface TeamService {
 	
 	//팀 공지사항 수정
 	int updateNotice(String noticeTitle, String noticeContent, int noticeNo);
-	int InsertTeam(Team team);
+	
+	//팀 수정
+	int InsertTeam(Team team, String memberId);
 	
 	//팀 생성 팀명 중복검사
 	Team selectTeamCheck(String teamname);
@@ -64,6 +67,15 @@ public interface TeamService {
 	int selectCountM();
 	//용병랭킹검색
 	Mercenary MercenarySearch(String search);
+	
+	//내팀정보 보여주기
+	List<Team> TeamView(String teamName);
+	
+	//내팀원 팀원수
+	int memberCount(String teamName);
+	
+	//내팀원 명수
+	List<MemberByTeam> TeamMember(String teamName);
 	
 	
 	

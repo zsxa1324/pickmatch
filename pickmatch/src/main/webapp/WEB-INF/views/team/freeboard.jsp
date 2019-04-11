@@ -12,72 +12,79 @@
 
 <br><br><br>
 <div>
-	<h1 style="text-align: center;">팀 공지사항</h1>
+	<h1 style="text-align: center;">팀 자유게시판</h1>
 </div>
 <br><br>
-<div id="team-notice">
-	<table id="team-notice-table" class="table table-striped table-hover">
-		<tr id="team-notice">
-			<th id="team-notice-table-id">아이디</th>
-			<th id="team-notice-table-title">제목</th>
-			<th id="team-notice-table-date">날짜</th>
+
+<div id="team-freeboard">
+	<table id="team-freeboard-table" class="table table-striped table-hover">
+		<tr id="team-freeboard">
+			<th id="team-freeboard-table-id">아이디</th>
+			<th id="team-freeboard-table-title">제목</th>
+			<th id="team-freeboard-table-date">날짜</th>
 			
 		</tr>
+		<c:forEach items="${list }" var="b">
 		<tr>
-			<td id="team-notice-table-id">아이디</td>
-			<td id="team-notice-table-title">제목</td>
-			<td id="team-notice-table-date">날짜</td>
+			<td id="team-freeboard-table-id">${b.memberId }</td>
+			<td id="team-freeboard-table-title"><a href="${path}/team/teamView.do?boardNo=${b.boardNo}">${b.boardTitle }</a></td>
+			<td id="team-freeboard-table-date">${b.boardDate }</td>
 		</tr>
-		<tr>
-			<td id="team-notice-table-id">아이디</td>
-			<td id="team-notice-table-title">제목</td>
-			<td id="team-notice-table-date">날짜</td>
-		</tr>
+		</c:forEach>
+		<!-- <tr>
+			<td id="team-freeboard-table-id">아이디</td>
+			<td id="team-freeboard-table-title">제목</td>
+			<td id="team-freeboard-table-date">날짜</td>
+		</tr> -->
 	
 	</table>
 </div>	
 
-<div id="teamnotice-write-btn" align="right" style="margin-right: 200px; margin-top: 30px;">
+<div class="pagecontainer" style="margin-top: 50px;">
+     	${pageBar }
+</div>
+
+<div id="freeboard-write" align="right" style="margin-right: 200px; margin-top: 30px;">
 	<input type="button" value="글쓰기" id="btn-add" class="btn btn-primary" onclick="fn_write();"/>
 </div>
 
 <script>
 	function fn_write(){
-		location.href="${path}/team/teamnoticeWrite";
+		location.href="${path}/Team/freeboardWrite";
 	}
 </script>
 
 <style>
-	#team-notice-table{
+	#team-freeboard-table{
 		color:black;
 		width:800px;
 		border-collapse: collapse;
 		margin: auto;
 	}
-	#team-notice-table tr,td{
+	#team-freeboard-table tr,td{
 		text-align:left;
 		width:800px;
 		height:20px;
 		
 	}
 	
-	#team-notice-table tr,th{
+	#team-freeboard-table tr,th{
 		text-align:center;
 		width:800px;
 		height:20px;
 	
 	}
-	#team-notice-table-id{
+	#team-freeboard-table-id{
 		
 		width:150px;
 	
 	}
-	#team-notice-table-title{
+	#team-freeboard-table-title{
 		
 		width:450px;
 
 	}
-		#team-notice-table-date{
+		#team-freeboard-table-date{
 		
 		width:200px;
 

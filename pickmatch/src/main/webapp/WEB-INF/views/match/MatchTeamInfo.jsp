@@ -78,7 +78,9 @@
 						<td colspan="2">${match.emblem }</td>
 					</tr>
 					<tr>
-						<td colspan="2">${match.teamHome}</td>
+						<td colspan="2">${match.teamHome}
+						<input type="hidden" id="homeTeamName" value="${match.teamHome}"/>
+						</td>
 					</tr>
 					<tr>
 						<td>지역 : ${match.location }</td>
@@ -94,7 +96,10 @@
 					</tr>
 					<tr>
 						<td>팀원수 : ${match.teamCount }</td>
-						<td>경기날짜 : ${match.matchDate} ${match.matchTime }</td>
+						<td>경기날짜 : ${match.matchDate} ${match.matchTime }
+						<input type="hidden" id="hiddenMatchDate" value="${match.matchDate }"/>
+						<input type="hidden" id="hiddenMatchTime" value="${match.matchTime }"/>
+						</td>
 					</tr>
 					<tr>
 						<td>팀소개 : ${match.introduce }</td>
@@ -124,7 +129,7 @@
 					</c:forEach>
 				</table>
 				<button type="button" class="snip1535" id="matchRequest"
-					style="float: right;" data-target="#layerpop" data-toggle="modal" onclick="textareabtn()">매치신청</button>
+					style="float: right;" onclick="textareabtn()">매치신청</button>
 				<div class="modal fade" id="layerpop">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -168,9 +173,8 @@
 					<td>${vs.count }</td>
 					<td>${mr['TEAMNAME']}</td>
 					<td>${mr['MEMO'] }</td>
-					<td><button type="button" onclick="matchOk()" value="${mr['MATCHNO'] }" class="btn btn-primary">매치수락</button>
+					<td><c:if test="${match.teamHome}==${loggedMember.teamName}"><button type="button" onclick="matchOk()" value="${mr['MATCHNO'] }" class="btn btn-primary">매치수락</button></c:if>
 						<input type="hidden" id="awayTeamName" value="${mr['TEAMNAME']}"/>
-						
 					</td>
 					</tr>
 					</c:forEach>
@@ -183,6 +187,39 @@
 </section>
 <script>
 	function textareabtn(){
+		var matchDate=$("#hiddenMatchDate").val();
+		var matchTime=$("#hiddenMatchTime").val();
+		var today=new Date();
+		var y=today.getFullYear();
+		var m=today.getMonth()+1;
+		var zero=0;
+		if(m<10){
+			m="0"+m;
+		}
+		
+		var d=today.getDate();
+		if(d<10){
+			d="0"+d;
+		}
+		var date=y+"-"+m+"-"+d;		
+		var flag=date>matchDate;		
+		var id = "${loggedMember.memberId }";
+		var btn=$("#matchRequest");
+		var teamName="${loggedMember.teamName}";
+		var away=$("#awayTeamName").val();
+		/* data-target="#layerpop" data-toggle="modal" */
+		if(id.length==0){
+			alert("로그인을 하셔야 합니다.");
+		}else if(id==teamName){
+			alert("같은 팀에게는 매치신청을 하실 수 없습니다.");
+		}else if(teamName==away){
+			alert("이미 매치 신청하셨습니다.");
+		}else if(date>matchDate){
+			alert("지난 매치는 신청하실 수 없습니다.");
+		}else{
+			btn.attr("data-target","#layerpop");
+			btn.attr("data-toggle","modal");
+		}
 		var memo=$("#memo");
 		memo.val("");
 		memo.focus();
@@ -192,9 +229,11 @@
 	function matchRequest() {
 		var matchNo = "${match.matchNo}";
 		var id = "${loggedMember.memberId }";
+		var teamName="${loggedMember.teamName}";
+		console.log(id);
+		console.log(teamName);
 		var content = $("#memo").val();
-		location.href="${path}/match/matchRequest.do?matchNo="+matchNo+"&&id="+id+"&&memo="+content;
-
+ 		location.href="${path}/match/matchRequest.do?matchNo="+matchNo+"&&id="+id+"&&memo="+content;
 	}
 	
 	function matchOk(){
@@ -202,5 +241,6 @@
 		var awayTeam = $("#awayTeamName").val();
 		location.href="${path}/match/matchOk.do?matchNo="+matchNo+"&&awayTeam="+awayTeam;
 	}
+	
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

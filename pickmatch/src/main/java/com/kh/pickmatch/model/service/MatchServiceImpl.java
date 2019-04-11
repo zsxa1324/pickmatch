@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.pickmatch.model.dao.MatchDao;
+import com.kh.pickmatch.model.vo.HomeSaInfo;
 import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MatchPEmblem;
 import com.kh.pickmatch.model.vo.MemberByTeam;
@@ -88,6 +89,12 @@ private MatchDao dao;
 	public int matchOk(Map<String, Object> map) {
 		int result=dao.matchOk(map);
 		return result;
+	}
+
+	@Override
+	public HomeSaInfo matchSa(int matchNo) {
+		HomeSaInfo list=dao.matchSa(matchNo);
+		return list;
 	}
 	
 	

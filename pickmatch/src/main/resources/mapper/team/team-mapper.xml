@@ -28,10 +28,10 @@
  	
  	<!-- 팀 공지사항 -->
  	<select id="selectCountN" resultType="_int">
- 		select count(*) from TeamNotice
+ 		select count(*) from TeamNotice where teamname=#{teamName}
  	</select>
  	<select id="selectListN" resultType="teamnotice">
- 		select * from teamnotice order by noticedate desc
+ 		select * from teamnotice where teamname=#{teamName} order by noticedate desc 
  	</select>
  	
  	<!-- 팀 공지사항 상세보기 -->
@@ -79,6 +79,11 @@
  		select * from team where teamname=#{teamname}
  	</select>
  	
+ 	<!-- 팀생성시 자동팀장등록 -->
+ 	<insert id="memberByTeam" parameterType="mbt">
+ 		insert into memberbyteam values(#{memberId},#{teamName},#{authority},sysdate,null,default)
+ 	</insert>
+ 	
  	
  	<!-- 팀 랭킹 -->
  	<select id="selectCountT" resultType="_int">
@@ -104,6 +109,19 @@
  	<!-- 용병검색 -->
  	<select id="MercenarySearch" resultType="mercenary">
  		SELECT * FROM (SELECT ROWNUM AS rank, A.* FROM (SELECT * FROM mercenary join member using(memberid) ORDER BY goalcount DESC) A) mercenary where memberid=#{search}
+ 	</select>
+ 	
+ 	<!-- 내팀정보 보여주기 -->
+ 	<select id="TeamView" resultType="teamcreate">
+ 		select * from team where teamname=#{teamName}
+ 	</select>
+ 	
+ 	<!-- 내팀정보 팀원수 -->
+ 	<select id="memberCount" resultType="_int">
+ 		select count(*) as memberCount from memberbyteam where teamname=#{teamName}
+ 	</select>
+ 	<select id="TeamMember" resultType="mbt">
+ 		select * from(select rownum as no, a.* from (select * from memberbyteam join member using(memberid) where teamname=#{teamName})a)
  	</select>
  	
  	

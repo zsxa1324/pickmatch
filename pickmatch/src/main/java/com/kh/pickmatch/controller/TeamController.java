@@ -29,6 +29,7 @@ import com.kh.pickmatch.common.PageBarFactory;
 import com.kh.pickmatch.model.dao.TeamDaoImpl;
 import com.kh.pickmatch.model.service.TeamService;
 import com.kh.pickmatch.model.vo.Member;
+import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -165,23 +166,31 @@ public class TeamController {
 	
 	
 	//도원
+	
+	//내팀정보!!
 	@RequestMapping("/team.do")
-	public String teaminfo() {
-		return "Team/teaminfo";
+	public ModelAndView teaminfo(String teamName) {
+		
+		ModelAndView mv = new ModelAndView();
+		List<Team> list = service.TeamView(teamName);
+		int memberCount = service.memberCount(teamName);
+		List<MemberByTeam> result = service.TeamMember(teamName);
+		logger.debug("멤버바이팀"+result);
+		mv.addObject("memberCount", memberCount);
+		mv.addObject("list", list);
+		mv.addObject("result", result);
+		mv.setViewName("team/teaminfo");
+		return mv;
 		
 	}
 	
-	//지우면안됨!
-	@RequestMapping("/teamcreate.do")
-	public String teamcreate (){
-		return "Team/teamcreate";
-		
-	}
+	
+	
 	
 	//지우면안됨!
 	@RequestMapping("/teammercenary.do")
 	public String teammercenary() {
-		return "Team/teammercenary";
+		return "team/teammercenary";
 	}
 	
 	//팀 게시판 리스트보기
@@ -198,7 +207,7 @@ public class TeamController {
 		mv.addObject("totalList", totalList);
 		System.out.println(totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/freeboard.do"));
-		mv.setViewName("Team/freeboard");
+		mv.setViewName("team/freeboard");
 		return mv;
 	}
 		
@@ -212,18 +221,18 @@ public class TeamController {
 	//팀 게시판 글쓰기
 	@RequestMapping("/Team/freeboardWrite")
 	public String freeboardWrite() {
-		return "Team/freeboardWrite";
+		return "team/freeboardWrite";
 	}
 	
-	//팀 공지사항 글쓰기
+	//팀 공지사항 글쓰기 지우면안됨!!
 	@RequestMapping("/Team/teamnoticeWrite")
 	public String teamnoticeWrite(){
-		return "Team/teamnoticeWrite";
+		return "team/teamnoticeWrite";
 	}
 	
 	@RequestMapping("/freeboardView.do")
 	public String freeboardView() {
-		return "Team/teamboardView";
+		return "team/teamboardView";
 	}
 	
 	//팀 게시판 상세보기
@@ -233,17 +242,20 @@ public class TeamController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("teamboard", service.selectTeamBoard(boardNo));
 		mv.addObject("attachmentList", service.selectAttachment(boardNo));
-		mv.setViewName("Team/teamboardView");
+		mv.setViewName("team/teamboardView");
 		return mv;
 	}
 	
 	//팀 공지사항 보기
 	@RequestMapping("/teamnotice.do")
-	public ModelAndView teamnotice(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
+	public ModelAndView teamnotice(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage,HttpSession session) {
 		int numPerPage = 10;
+		Member member = (Member)session.getAttribute("loggedMember");
+		String teamName = member.getTeamName();
 		ModelAndView mv = new ModelAndView();
-		List<TeamNotice> list = service.selectListN(cPage, numPerPage);
-		int totalList = service.selectCountN();
+		List<TeamNotice> list = service.selectListN(cPage, numPerPage, teamName);
+		
+		int totalList = service.selectCountN(teamName);
 		
 		System.out.println(list);
 		
@@ -251,7 +263,7 @@ public class TeamController {
 		mv.addObject("totalList", totalList);
 		System.out.println(totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/teamnotice.do"));
-		mv.setViewName("Team/teamnotice");
+		mv.setViewName("team/teamnotice");
 		return mv;
 	}
 	
@@ -261,7 +273,7 @@ public class TeamController {
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("teamnotice", service.selectNoticeView(noticeNo));
-		mv.setViewName("Team/teamnoticeView");
+		mv.setViewName("team/teamnoticeView");
 		return mv;
 	}
 	
@@ -317,7 +329,7 @@ public class TeamController {
 		
 		TeamNotice teamnotice = service.selectOne(noticeNo);
 		m.addAttribute("teamNotice", teamnotice);
-		return "Team/updateNotice";
+		return "team/updateNotice";
 		
 	}
 		
@@ -341,31 +353,28 @@ public class TeamController {
 		return "common/msg";
 		
 	}
+	
+	//팀생성
+	@RequestMapping("/teamcreate.do")
+	public String teamcreate (){
+		return "team/teamcreate";
+		
+	}
 		
 	@RequestMapping("/team/teamCreate.do")
 	public String insertTeam(String teamName, String teamLocation, String teamField, String teamType,MultipartFile teamEmblem,
-			String teamColor, String teamContent, Model m,HttpServletRequest re) {
-		
-		
-		/*logger.debug("teamName:::::::::::" + teamName);
-		logger.debug("teamLocation:::::::::::" + teamLocation);
-		logger.debug("teamField:::::::::::" + teamField);
-		logger.debug("teamColor:::::::::::" + teamType);
-		logger.debug("teamColor:::::::::::" + teamColor);
-		logger.debug("teamContent:::::::::::" + teamContent);*/
-/*		logger.debug("teamEmblem:::::::::::" + teamEmblem);*/
+			String teamColor, String teamContent,String memberId, Model m,HttpServletRequest re, HttpSession session) {
 		
 		Team team = new Team(teamName,0, teamLocation, teamField, teamType,teamColor, teamContent,null, "",null);
-	
-		
 		String saveDir = re.getSession().getServletContext().getRealPath("/resources/upload/team-logo");
 		File dir = new File(saveDir);
+		
 		
 		if(!dir.exists()) {
 			dir.mkdirs();
 		}
-		
-		
+		/*logger.debug("멤버아이디"+memberId);
+		logger.debug("팀::::::::"+team);*/
 		//단일 파일 입출력
 		if(!teamEmblem.isEmpty()) {
 			String oriFileName = teamEmblem.getOriginalFilename();
@@ -383,11 +392,15 @@ public class TeamController {
 			}
 		}
 		
-		int result = service.InsertTeam(team);
+		
+		int result = service.InsertTeam(team,memberId);
 		String msg="";
 		String loc="/";
 		if(result > 0) {
 			msg="팀 생성 완료!";
+			Member y = (Member)session.getAttribute("loggedMember");
+			y.setTeamName(teamName);
+			session.setAttribute("loggedMember", y);
 		}else{
 			msg="팀 생성 실패!";  
 		}
@@ -424,7 +437,7 @@ public class TeamController {
 		mv.addObject("list", list);
 		mv.addObject("totalList", totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/teamranking.do"));
-		mv.setViewName("Team/teamranking");
+		mv.setViewName("team/teamranking");
 		return mv;
 	}
 	
@@ -451,7 +464,7 @@ public class TeamController {
 		}
 		else {
 			mv.addObject("list", result);
-			mv.setViewName("Team/teamranking");
+			mv.setViewName("team/teamranking");
 		}
 		return mv;
 		
@@ -472,7 +485,7 @@ public class TeamController {
 		mv.addObject("top3", top3);
 		mv.addObject("totalList", totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/mercenaryranking.do"));
-		mv.setViewName("Team/mercenaryranking");
+		mv.setViewName("team/mercenaryranking");
 		return mv;
 	}
 	
@@ -503,7 +516,7 @@ public class TeamController {
 			
 			mv.addObject("list", result);
 			mv.addObject("top3", top3);
-			mv.setViewName("Team/mercenaryranking");
+			mv.setViewName("team/mercenaryranking");
 			
 		}
 		return mv;

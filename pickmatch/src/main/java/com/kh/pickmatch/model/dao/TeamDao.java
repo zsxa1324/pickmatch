@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MemberByTeam;
+import com.kh.pickmatch.model.vo.MemberRequest;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -72,6 +73,21 @@ public interface TeamDao {
 	
 	
 	List<MemberByTeam> TeamMember(String teamName);
+	
+	//내팀 팀가입 신청현황
+	List<MemberRequest> MemberRequest(String teamName);
+	
+	//팀가입 승인
+	int teamOk(String memberId, String teamName);
+	
+	//팀가입 거절
+	int teamNo(String memberId, String teamName);
+	
+	//팀가입 승인
+	int teamJoin(String memberId, String teamName, String position);
+	
+	//팀가입신청시 멤버리퀘스트테이블 비교
+	MemberRequest memberRequestCk(String memberId, String teamName);
 	
 	
 	

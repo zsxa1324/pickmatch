@@ -48,7 +48,10 @@
 	 			<beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"  />
 	 		</beans:list>
 	 	</beans:property>
-	 </beans:bean>   
+	 </beans:bean>
+	 
+
+  
 	
 	
 	

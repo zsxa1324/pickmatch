@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.pickmatch.model.dao.TeamDao;
 import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MemberByTeam;
+import com.kh.pickmatch.model.vo.MemberRequest;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -72,6 +73,36 @@ public class TeamServiceImpl implements TeamService {
 	public List<TeamNotice> selectListN(int cPage, int numPerPage, String teamName) {
 		// TODO Auto-generated method stub
 		return dao.selectListN(cPage, numPerPage, teamName);
+	}
+
+	@Override
+	public MemberRequest memberRequestCk(String memberId, String teamName) {
+		// TODO Auto-generated method stub
+		return dao.memberRequestCk(memberId, teamName);
+	}
+
+	@Override
+	public int teamJoin(String memberId, String teamName,String position) {
+		// TODO Auto-generated method stub
+		return dao.teamJoin(memberId, teamName, position);
+	}
+
+	@Override
+	public int teamNo(String memberId, String teamName) {
+		// TODO Auto-generated method stub
+		return dao.teamNo(memberId, teamName);
+	}
+
+	@Override
+	public int teamOk(String memberId, String teamName) {
+		// TODO Auto-generated method stub
+		return dao.teamOk(memberId, teamName);
+	}
+
+	@Override
+	public List<MemberRequest> MemberRequest(String teamName) {
+		// TODO Auto-generated method stub
+		return dao.MemberRequest(teamName);
 	}
 
 	@Override

@@ -124,5 +124,29 @@
  		select * from(select rownum as no, a.* from (select * from memberbyteam join member using(memberid) where teamname=#{teamName})a)
  	</select>
  	
+ 	<!-- 팀가입 신청현황 -->
+ 	<select id="MemberRequest" resultType="mbr">
+ 		 select * from (select rownum as no, a.* from(select * from memberrequest join member using(memberid) where teamname=#{teamName} and requesttype='팀')a)
+ 	</select>
+ 	
+ 	<!-- 팀가입 승인 -->
+ 	<insert id="teamOk" parameterType="mbr">
+ 		insert into memberbyteam values(#{memberId},#{teamName},'팀원',sysdate,null,0)
+ 	</insert>
+ 	
+ 	<!-- 팀가입 거절 -->
+ 	<delete id="teamNo" parameterType="mbt">
+ 		delete from memberrequest where memberid=#{memberId}
+ 	</delete>
+ 	
+ 	<!-- 팀가입 신청 -->
+ 	<insert id="teamJoin" parameterType="member">
+ 		insert into memberrequest values(#{memberId},#{teamName},sysdate,'팀')
+ 	</insert>
+ 	
+ 	<!-- 팀가입신청시 멤버리퀘스트테이블 비교 -->
+ 	<select id="memberRequestCk" parameterType="member" resultType="mbr">
+ 		select * from memberrequest where memberid=#{memberId} and teamname=#{teamName}
+ 	</select>
  	
 </mapper>

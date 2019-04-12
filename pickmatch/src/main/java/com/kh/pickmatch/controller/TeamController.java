@@ -20,8 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,6 +32,7 @@ import com.kh.pickmatch.model.dao.TeamDaoImpl;
 import com.kh.pickmatch.model.service.TeamService;
 import com.kh.pickmatch.model.vo.Member;
 import com.kh.pickmatch.model.vo.MemberByTeam;
+import com.kh.pickmatch.model.vo.MemberRequest;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -175,17 +178,141 @@ public class TeamController {
 		List<Team> list = service.TeamView(teamName);
 		int memberCount = service.memberCount(teamName);
 		List<MemberByTeam> result = service.TeamMember(teamName);
-		logger.debug("멤버바이팀"+result);
+		//logger.debug("멤버바이팀"+result);
+		
+		
+		List<MemberRequest> memberrequest = service.MemberRequest(teamName);
+		
+		mv.addObject("memberrequest", memberrequest);
 		mv.addObject("memberCount", memberCount);
 		mv.addObject("list", list);
+		mv.addObject("teamName", teamName);
 		mv.addObject("result", result);
 		mv.setViewName("team/teaminfo");
 		return mv;
 		
 	}
 	
+	//팀가입 승인
+	@RequestMapping("/teamOk.do")
+	public String teamOk(String memberId, String teamName, Model m) {
+		
+		String msg = "";
+		String loc="/team.do?teamName="+teamName; //이동할 매핑값 써야됨
+		
+		int result = service.teamOk(memberId, teamName);
+		if(result>0) {
+			msg="가입이 완료되었습니다!";
+		}
+		else {
+			msg="가입에 실패하였습니다!";
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+			
+		
+		return "common/msg";
+	}
 	
 	
+	//팀가입신청시 멤버테이블에있는지 확인
+	@RequestMapping("/memberrequestck.do")
+	@ResponseBody
+	public Map<String,Object> memberRequestCk(String memberId, String teamName) {
+		
+		
+		 MemberRequest mbr = service.memberRequestCk(memberId, teamName);
+		 Map<String,Object> map = new HashMap<String, Object>();
+		 boolean flag;
+		 
+		 if(mbr == null) {
+			 flag = false;
+			
+		 }else {
+			 flag = true;
+		 }
+		 
+		 map.put("flag", flag);
+		 
+		 return map;
+	}
+	
+	//팀가입 거절
+	@RequestMapping("/teamNo.do")
+	public String teamNo(String memberId, String teamName, Model m) {
+		
+		String msg = "";
+		String loc="/team.do?teamName="+teamName; //이동할 매핑값 써야됨
+		
+		int result = service.teamNo(memberId, teamName);
+		if(result>0) {
+			msg="가입을 거절하였습니다!";
+		}
+		else {
+			msg="거절에 실패하였습니다!";
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+			
+		
+		return "common/msg";
+	}
+	
+	//팀가입 신청
+	@RequestMapping("/teamJoin.do")
+	@ResponseBody
+	public Map<String, Object> teamJoin(String memberId, String teamName, String position) {
+		
+		logger.debug("멤버아이디!!!!"+memberId);
+		logger.debug("멤버아이디!!!!"+teamName);
+		String msg = "";
+		boolean flag;
+		String loc="/team.do?teamName="+teamName; //이동할 매핑값 써야됨
+		
+		int result = service.teamJoin(memberId, teamName, position);
+		if(result>0) {
+			msg="팀 가입을 신청하였습니다!";
+			flag=true;
+		}
+		else {
+			flag=false;
+			msg="팀 가입을 실패하였습니다!";
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("msg", msg);
+		map.put("flag", flag);
+		return map;
+		
+	}
+	
+	@RequestMapping("teamCancel.do")
+	@ResponseBody
+	public Map<String, Object> teamCancel(String memberId, String teamName){
+		
+		
+		String msg = "";
+		boolean flag;
+		String loc="/team.do?teamName="+teamName; //이동할 매핑값 써야됨
+		int result = service.teamNo(memberId, teamName);
+		if(result>0) {
+			msg="팀 가입신청을 취소하였습니다!";
+			flag=true;
+		}
+		else {
+			flag=false;
+			msg="팀 가입신청취로를 실패하였습니다!";
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("msg", msg);
+		map.put("flag", flag);
+		return map;
+		
+		
+	}
 	
 	//지우면안됨!
 	@RequestMapping("/teammercenary.do")
@@ -470,6 +597,8 @@ public class TeamController {
 		
 		
 	}
+	
+
 	
 	//용병랭킹
 	@RequestMapping("/mercenaryranking.do")

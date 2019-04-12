@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MemberByTeam;
+import com.kh.pickmatch.model.vo.MemberRequest;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -27,7 +28,7 @@ public interface TeamService {
 	
 	//도원
 	
-		//팀게시판
+	//팀게시판
 	List<TeamBoard> selectList(int cPage, int numPerPage);
 	int selectCount();
 	Object selectTeamBoard(int boardNo);
@@ -75,6 +76,21 @@ public interface TeamService {
 	
 	//내팀원 명수
 	List<MemberByTeam> TeamMember(String teamName);
+	
+	//내팀 팀가입 신청 현황
+	List<MemberRequest> MemberRequest(String teamName);
+	
+	//팀가입 승인
+	int teamOk(String memberId, String teamName);
+	
+	//팀가입 거절
+	int teamNo(String memberId, String teamName);
+	
+	//팀가입 승인
+	int teamJoin(String memberId, String teamName, String position);
+	
+	//팀가입시 가입신청테이블 확인
+	MemberRequest memberRequestCk(String memberId, String teamName);
 	
 	
 	

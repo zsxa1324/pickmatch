@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.Member;
 import com.kh.pickmatch.model.vo.MemberByTeam;
+import com.kh.pickmatch.model.vo.MemberRequest;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
@@ -79,6 +81,52 @@ public class TeamDaoImpl implements TeamDao {
 		return session.selectList("team.selectListN", teamName, new RowBounds((cPage-1)*numPerPage, numPerPage));
 	}
 
+
+	@Override
+	public MemberRequest memberRequestCk(String memberId, String teamName) {
+		// TODO Auto-generated method stub
+		
+		Member member = new Member();
+		member.setMemberId(memberId);
+		member.setTeamName(teamName);
+		return session.selectOne("team.memberRequestCk", member);
+	}
+
+	@Override
+	public int teamJoin(String memberId,String teamName, String position) {
+		// TODO Auto-generated method stub
+		
+		Member member = new Member();
+		member.setTeamName(teamName);
+		member.setMemberId(memberId);
+		member.setPosition(position);
+		return session.insert("team.teamJoin", member);
+	}
+
+	@Override
+	public int teamNo(String memberId, String teamName) {
+		// TODO Auto-generated method stub
+		MemberByTeam mbt = new MemberByTeam();
+		mbt.setTeamName(teamName);
+		mbt.setMemberId(memberId);
+		return session.delete("team.teamNo",mbt);
+	}
+
+	@Override
+	public int teamOk(String memberId, String teamName) {
+		// TODO Auto-generated method stub
+		
+		MemberByTeam mbt = new MemberByTeam();
+		mbt.setTeamName(teamName);
+		mbt.setMemberId(memberId);
+		return session.insert("team.teamOk",mbt);
+	}
+
+	@Override
+	public List<MemberRequest> MemberRequest(String teamName) {
+		// TODO Auto-generated method stub
+		return session.selectList("team.MemberRequest", teamName);
+	}
 
 	@Override
 	public List<MemberByTeam> TeamMember(String teamName) {

@@ -165,7 +165,7 @@
 		
 		<c:if test="${loggedMember!=null }">
 		<div id="login-modal">
-			<div id="alarm">1</div>
+			<div id="alarm">-1</div>
 			<c:if test="${loggedMember.memberId=='admin' }">
 			<a href="${path }/member/adminpage.do">
 				<img src="${path }/resources/images/settings.png" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
@@ -389,6 +389,16 @@
 	var onsubmit_mail = 0;
 	
 	$(function(){
+		
+		$.ajax({
+			url:"${path}/alarm/messageTotalcount",
+			data: {"memberId" : '${loggedMember.memberId}'},
+			type:"POST",
+			success:function(data){
+				$("#alarm").html(data.messageTotalcount);
+			}
+		});
+		
 		$("#alarm").click(function(){
 			$.ajax({
 				url:"${path}/alarm/view",

@@ -4,7 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.pickmatch.common.MessageException;
 import com.kh.pickmatch.model.dao.MessageDao;
 import com.kh.pickmatch.model.vo.Message;
 
@@ -31,5 +35,33 @@ public class MessageServiceImpl implements MessageService {
 		// TODO Auto-generated method stub
 		return dao.selectMessageTotalcount(memberId);
 	}
+
+	@Override
+	public List<String> selectMemberList(String teamHome) {
+		// TODO Auto-generated method stub
+		return dao.selectMemberList(teamHome);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor=Exception.class)
+	public int insertTeamMessage(Message msg) {
+		// TODO Auto-generated method stub
+		int result = 0;
+		String teamName = msg.getSender();
+		List<String> memberList = dao.selectMemberList(teamName);
+		if (memberList.size() == 0)
+			throw new MessageException();
+		for (String mName : memberList) {
+			msg.setReceiver(mName);
+			result = dao.insertMessage(msg);
+			if (result == 0)
+				throw new MessageException();
+		}
+		return result;
+	}
+
+	
+	
+	
 	
 }

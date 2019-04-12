@@ -8,4 +8,5 @@ public interface MessageDao {
 
 	public int insertMessage(Message msg);
 	public List<Message> selectMessageList(String memberId);
+	public int selectMessageTotalcount(String memberId);
 }

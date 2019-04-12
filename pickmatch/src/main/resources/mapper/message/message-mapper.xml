@@ -4,17 +4,24 @@
 	<insert id="insertMessage" parameterType="message">
 		insert into message values(seq_messageno.nextval,
 		<choose>
-		
+			<when test="sender != null and sender !=''">
+				#{sender}, 
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
 		</choose> 
-		#{sender}, 
 		#{receiver}, 
 		sysdate, 
 		#{messageContent}, 
 		#{messageType})
-		</if>
 	</insert>
 	
 	<select id="selectMessageList" resultType="message">
 		SELECT * FROM MESSAGE WHERE RECEIVER IN (#{memberId}, (SELECT TEAMNAME FROM MEMBERBYTEAM WHERE MEMBERID = #{memberId})) ORDER BY MESSAGENO DESC
+	</select>
+	
+	<select id="selectMessageTotalcount" parameterType="String">
+		SELECT COUNT(*) FROM MESSAGE WHERE RECEIVER IN (#{memberId}, (SELECT TEAMNAME FROM MEMBERBYTEAM WHERE MEMBERID = #{memberId}))
 	</select>
 </mapper>

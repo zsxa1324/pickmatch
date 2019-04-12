@@ -26,5 +26,10 @@ public class MessageDaoImpl implements MessageDao {
 		return session.selectList("message.selectMessageList", memberId);
 	}
 
-	
+	@Override
+	public int selectMessageTotalcount(String memberId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("message.selectMessageTotalcount", memberId);
+	}
+
 }

@@ -26,5 +26,10 @@ public class MessageServiceImpl implements MessageService {
 		return dao.selectMessageList(memberId);
 	}
 
+	@Override
+	public int selectMessageTotalcount(String memberId) {
+		// TODO Auto-generated method stub
+		return dao.selectMessageTotalcount(memberId);
+	}
 	
 }

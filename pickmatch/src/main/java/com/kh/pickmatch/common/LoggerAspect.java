@@ -49,7 +49,6 @@ public class LoggerAspect {
 			logger.warn("[afterWork : aspect : insertMatch ::::]" + type + "." + method + "()");
 			logger.debug("afterWork : match ::::" + match);
 			String receiver = match.getTeamHome();
-			msg.setSender("teamAlarm");
 			msg.setReceiver(receiver);
 			msg.setMessageContent(receiver + "팀의 매치가 등록되었습니다");
 			msg.setMessageType("팀");

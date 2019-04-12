@@ -35,7 +35,7 @@
 				reader.readAsArrayBuffer(file);
 			});
 			
-			socket = new WebSocket("ws://" + document.location.host +"/spring/chatting"); 
+			socket = new WebSocket("ws://" + document.location.host +"/pickmatch/chatting"); 
 			/* socket = new WebSocket("ws:192.168.20.20:9090/spring/chatting");  */
 			/* 
 				웹소켓 객체안의 메소드를 구현하면됨

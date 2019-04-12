@@ -77,7 +77,7 @@ public class LoggerAspect {
 		/*messageService.insertMessage(msg);*/
 	}
 	
-	// 어드바이스 : 부가기능 모듈인 aspect가 무엇을 언제 할 지 정의 ex) Around : 메소드 실행 전 후 
+	// 어드바이스 : 실행시점 지정, 부가기능 모듈인 aspect가 무엇을 언제 할 지 정의 ex) Around : 메소드 실행 전 후 
 	// joinPoint : 어드바이스가 적용될 수 있는 위치
 	@Around("myPointcut()")
 	public Object loggerAdvice(ProceedingJoinPoint joinPoint) throws Throwable {

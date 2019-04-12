@@ -2,6 +2,8 @@ package com.kh.pickmatch.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,8 @@ public class MessageController {
 	private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	@RequestMapping("/alarm/view")
-	ModelAndView viewAlarm(String memberId) {
+	ModelAndView viewAlarm(String memberId, HttpSession session) {
+		session.setAttribute("messageTotalcount", 0);
 		logger.debug("MessageController :: memberId :::" + memberId);
 		List<Message> list = service.selectMessageList(memberId);
 		int messageTotalcount = service.selectMessageTotalcount(memberId);

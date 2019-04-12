@@ -14,14 +14,19 @@
 		#{receiver}, 
 		sysdate, 
 		#{messageContent}, 
-		#{messageType})
+		#{messageType}, default)
+		
 	</insert>
 	
 	<select id="selectMessageList" resultType="message">
 		SELECT * FROM MESSAGE WHERE RECEIVER IN (#{memberId}, (SELECT TEAMNAME FROM MEMBERBYTEAM WHERE MEMBERID = #{memberId})) ORDER BY MESSAGENO DESC
 	</select>
 	
-	<select id="selectMessageTotalcount" parameterType="String">
+	<select id="selectMessageTotalcount" parameterType="String" resultType="_int">
 		SELECT COUNT(*) FROM MESSAGE WHERE RECEIVER IN (#{memberId}, (SELECT TEAMNAME FROM MEMBERBYTEAM WHERE MEMBERID = #{memberId}))
+	</select>
+	
+	<select id="selectMemberList" parameterType="String" resultType="String">
+		SELECT memberid FROM MEMBERBYTEAM WHERE TEAMNAME = #{teamHome}
 	</select>
 </mapper>

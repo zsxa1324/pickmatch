@@ -32,4 +32,18 @@ public class MessageDaoImpl implements MessageDao {
 		return session.selectOne("message.selectMessageTotalcount", memberId);
 	}
 
+	@Override
+	public List<String> selectMemberList(String teamHome) {
+		// TODO Auto-generated method stub
+		return session.selectList("message.selectMemberList", teamHome);
+	}
+
+	@Override
+	public int insertTeamMessage(Message msg) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
+
 }

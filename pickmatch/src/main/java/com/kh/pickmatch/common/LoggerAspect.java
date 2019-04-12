@@ -1,6 +1,6 @@
 package com.kh.pickmatch.common;
 
-import java.sql.Date;
+import javax.servlet.http.HttpSession;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -35,9 +35,26 @@ public class LoggerAspect {
 	@Pointcut("execution(* com.kh.pickmatch.model.service.MatchService.insertMatch(..)) && args(match)")
 	public void matchPointcut(Match match) {}
 	
+	@Pointcut("execution(* com.kh.pickmatch.controller.MemberController.login(..))")
+	public void loginPointcut() {}
+	
 	// 어드바이스를 적용할 조인포인트를 선별하는 기능을 정의한 모듈, * : 리턴 타입, 현재 모든 타입 리턴 가능 | .. : pickmatch 아래 모든 클래스 | (..) : 인자 타입, 현재 모든 타입 인자 허용
 	@Pointcut("execution(* com.kh.pickmatch..Team*.*(..))")
 	public void myPointcut() {}
+	
+	/*@AfterReturning("loginPointcut()")
+	public void afterLogin(JoinPoint joinPoint) {
+		Signature sig = joinPoint.getSignature();
+		String type = sig.getDeclaringTypeName(); // 클래스 이름
+		String method = sig.getName(); // 메소드 이름, 넘어가는 String 시점의 메소드
+		Member m = (Member) joinPoint.getArgs()[0];
+		HttpSession session = (HttpSession) joinPoint.getArgs()[2];
+		int messageTotalcount = messageService.selectMessageTotalcount(m.getMemberId());
+		session.setAttribute("messageTotalcount", messageTotalcount);
+		logger.warn("[afterLogin : aspect ::::]" + type + "." + method + "()");
+		logger.warn("[afterLogin : aspect ::::]" + session);
+		
+	}*/
 	
 	@AfterReturning("matchPointcut(match)")
 	public void afterWork(JoinPoint joinPoint, Match match) {
@@ -48,15 +65,16 @@ public class LoggerAspect {
 		if (method.contains("insertMatch")) {
 			logger.warn("[afterWork : aspect : insertMatch ::::]" + type + "." + method + "()");
 			logger.debug("afterWork : match ::::" + match);
-			String receiver = match.getTeamHome();
-			msg.setReceiver(receiver);
-			msg.setMessageContent(receiver + "팀의 매치가 등록되었습니다");
+			logger.debug("afterWork : joinPoint.getArgs()[0] ::::" + joinPoint.getArgs()[0]);
+			String teamHome = match.getTeamHome();
+//			List<String> memberList = messageService.selectMemberList(teamHome);
+			msg.setSender(teamHome);
+			msg.setMessageContent(teamHome + "팀의 매치가 등록되었습니다");
 			msg.setMessageType("팀");
-			
-			
+			messageService.insertTeamMessage(msg);
 		}
 //		logger.warn("[afterWork : aspect]" + type + "." + method + "()");
-		messageService.insertMessage(msg);
+		/*messageService.insertMessage(msg);*/
 	}
 	
 	// 어드바이스 : 부가기능 모듈인 aspect가 무엇을 언제 할 지 정의 ex) Around : 메소드 실행 전 후 

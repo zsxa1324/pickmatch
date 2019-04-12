@@ -397,7 +397,6 @@
 			success:function(data){
 				$("#alarm").html(data.messageTotalcount);
 			}
-			
 		});
 		
 		$("#alarm").click(function(){

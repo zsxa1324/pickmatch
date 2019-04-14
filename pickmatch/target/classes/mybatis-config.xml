@@ -18,6 +18,8 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.Mercenary" alias="mercenary"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.Message" alias="message"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.MemberByTeam" alias="mbt"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.Notice" alias="notice"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.NoticeAttachment" alias="noticeAttachment"/>
 		
 	</typeAliases>
 </configuration>

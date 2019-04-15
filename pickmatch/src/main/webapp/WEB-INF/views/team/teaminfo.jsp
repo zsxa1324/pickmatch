@@ -76,7 +76,12 @@
 		<c:forEach  items="${result }" var="i">
 		<tr>
 			<td>${i.no }</td>
+			<c:if test="${i.status=='K' }">
+			<td>${i.memberName }</td>
+			</c:if>
+			<c:if test="${i.status=='Y'}">
 			<td>${i.memberId }</td>
+			</c:if>
 			<td>${i.position }</td>
 			<td>${i.goalCount }</td>
 			<td>${i.authority }</td>

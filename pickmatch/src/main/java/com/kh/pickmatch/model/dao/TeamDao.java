@@ -44,7 +44,7 @@ public interface TeamDao {
 	
 	//도원
 	int selectCount();
-	List<TeamBoard> selectList(int cPage, int numPerPage);
+	List<TeamBoard> selectList(int cPage, int numPerPage, String teamName);
 	Object selectTeamBoard(int boardNo);
 	Object selectAttachment(int boardNo);
 	List<TeamNotice> selectListN(int cPage, int numPerPage, String teamName);
@@ -70,7 +70,7 @@ public interface TeamDao {
 	List<Team> selectTeamRanking(int cPage, int numPerPage);
 	int selectCountT();
 	//팀랭킹 검색
-	Team TeamSearch(String search);
+	List<Team> TeamSearch(String search);
 	
 	//용병랭킹
 	List<Mercenary> mercenaryranking(int cPage, int numPerPage);

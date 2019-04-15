@@ -17,6 +17,7 @@ public class MemberByTeam implements Serializable{
 	private int goalCount;
 	private String position;
 	private int no;
+	private String status;
 	
 	public int getNo() {
 		return no;
@@ -45,6 +46,14 @@ public class MemberByTeam implements Serializable{
 		this.enrollDate = enrollDate;
 		this.exitDate = exitDate;
 		this.goalCount = goalCount;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getMemberId() {

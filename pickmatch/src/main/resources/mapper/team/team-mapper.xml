@@ -6,7 +6,7 @@
  		select count(*) from TeamBoard
  	</select>
  	<select id="selectList" resultType="team">
- 		select A.*,(select count(*) from TEAMBOARDATTACHMENT where A.boardno=boardno) filecount from teamboard A order by boarddate desc
+ 		select A.*,(select count(*) from TEAMBOARDATTACHMENT where A.boardno=boardno) filecount from teamboard A where teamname=#{teamName} order by boarddate desc
  	</select>
  	
  	<!-- 팀자유게시판 상세보기 -->
@@ -90,11 +90,11 @@
  		select count(*) from team
  	</select>
  	<select id="selectTeamRanking"  resultType="teamcreate">
- 		 SELECT * FROM (SELECT ROWNUM AS rank, A.* FROM (SELECT * FROM team ORDER BY teamrating DESC) A) 
+ 		 SELECT * FROM (SELECT ROWNUM AS rank, A.* FROM (SELECT * FROM team join score using(teamname) where teamstatus = 'Y' ORDER BY teamrating DESC) A) 
  	</select>
  	<!-- 팀검색 -->
  	<select id="TeamSearch" resultType="teamcreate">
- 		SELECT * FROM (SELECT ROWNUM AS rank, A.* FROM (SELECT * FROM team ORDER BY teamrating DESC) A) team where teamname=#{search}
+ 		SELECT * FROM (SELECT ROWNUM AS rank, A.* FROM (SELECT * FROM team ORDER BY teamrating DESC) A) team where teamname like '%'||#{search}||'%' or teamlocation like '%'||#{search}||'%'
  	</select>
  	
  	

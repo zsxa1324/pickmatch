@@ -22,6 +22,9 @@ public class Team implements Serializable{
 	private String teamEmblem;
 	private String teamStatus;
 	private int rank;
+	private int win;
+	private int draw;
+	private int lose;
 	
 	public Team() {}
 
@@ -40,6 +43,30 @@ public class Team implements Serializable{
 		this.teamStatus = teamStatus;
 	}
 
+
+	public int getWin() {
+		return win;
+	}
+
+	public void setWin(int win) {
+		this.win = win;
+	}
+
+	public int getDraw() {
+		return draw;
+	}
+
+	public void setDraw(int draw) {
+		this.draw = draw;
+	}
+
+	public int getLose() {
+		return lose;
+	}
+
+	public void setLose(int lose) {
+		this.lose = lose;
+	}
 
 	public int getRank() {
 		return rank;

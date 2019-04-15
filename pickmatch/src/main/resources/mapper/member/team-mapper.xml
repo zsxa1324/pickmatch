@@ -17,6 +17,10 @@
  		select teamName from memberbyteam where exitdate is null and memberid = #{memberId}
  	</select>
 	
+	<select id="selectTeamAuthorityOne" parameterType="string" resultType="string">
+		select authority from memberbyteam where exitdate is null and memberid = #{memberId}
+	</select>
+	
 	<select id="selectMoneyHistoryList" parameterType="string" resultType="map">
 		select mh.inouttype, m.membername, m.nickname, mh.money, mh.content, mh.inoutdate
 		from moneyhistory mh
@@ -37,5 +41,55 @@
 		insert into moneyhistory values(SEQ_MONEYHISTORYNO.nextval, #{teamName}, #{memberId}, #{inoutType}, #{money}, sysdate, #{content})
 	</insert>
 	
+	<select id="selectOneMatch" parameterType="_int" resultType="match">
+		select * from match where matchno = #{matchNo}
+	</select>
+		
+	<select id="selectOneHomeTeam" parameterType="string" resultType="com.kh.pickmatch.model.vo.Team">
+		select * from team where teamname = #{teamHome}
+	</select>
+	
+	<select id="selectOneAwayTeam" parameterType="string" resultType="com.kh.pickmatch.model.vo.Team">
+		select * from team where teamname = #{teamAway}
+	</select>
+		
+	<select id="selectMatchList" parameterType="string" resultType="match">
+		select * from match where teamhome = #{teamName} or teamaway = #{teamName} order by matchdate desc
+	</select>
+
+	<insert id="insertMatchGoalResult" parameterType="mgr">
+		insert into matchgoalresult values(seq_goalno.nextval, #{teamName}, #{matchNo}, #{memberId}, #{goalTime})
+	</insert>
+	
+	<update id="updateScore" parameterType="score">
+		update score set totalplaycount = totalplaycount + #{totalPlayCount}, win = win + #{win}, draw = draw + #{draw}, lose = lose + #{lose} where teamname = #{teamName}
+	</update>
+	
+	<update id="updateTeamRating" parameterType="map">
+		update team set teamrating = teamrating + #{teamRating} where teamname = #{teamName}
+	</update>
+	
+	<update id="updateMatchScore" parameterType="map">
+		update match set homescore = #{homeScore}, awayscore = #{awayScore}, result = 'Y' where matchno = #{matchNo}
+	</update>
+	
+	<insert id="insertMatchResultDetail" parameterType="map">
+		insert into matchresultdetail values(#{matchNo}, #{matchContent})
+	</insert>
+	
+	<select id="selectMatchGoalResultList" parameterType="_int" resultType="map">
+		select goalno, teamname, matchno, memberid, goaltime, b.membername from matchgoalresult join member b using(memberid) where matchno = #{matchNo} order by goaltime
+	</select>
+	
+	<select id="selectMatchResultDetail" parameterType="_int" resultType="string">
+		select matchcontent from matchresultdetail where matchno = #{matchNo}
+	</select>
+	
+	<select id="selectMercenaryList" parameterType="map" resultType="map">
+		select membername, nickname, position, memberid, teamname
+		from member m
+		join mercenary mc using(memberid)
+		where teamname = #{teamName} and mc.status = 'Y'
+	</select>
 
 </mapper>

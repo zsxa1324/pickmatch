@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.kh.pickmatch.common.exception.BoardException;
 import com.kh.pickmatch.model.dao.TeamDao;
+import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MatchGoalResult;
 import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.MemberRequest;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Score;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamBoardAttachment;
@@ -40,8 +43,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectMoneyHistoryList(String teamName) {
-		return dao.selectMoneyHistoryList(teamName);
+	public List<Map<String, Object>> selectMoneyHistoryList(Map<String, String> map) {
+		return dao.selectMoneyHistoryList(map);
 	}
 
 	@Override
@@ -59,6 +62,76 @@ public class TeamServiceImpl implements TeamService {
 		return dao.insertMHistory(mHistory);
 	}
 
+		@Override
+	public List<Match> selectMatchList(String teamName, int cPage, int numPerPage) {
+		return dao.selectMatchList(teamName, cPage, numPerPage);
+	}
+	
+	@Override
+	public int selectMatchCount(String teamName) {
+		return dao.selectMatchCount(teamName);
+	}
+	
+	@Override
+	public int insertMatchGoalResult(MatchGoalResult mgr) {
+		return dao.insertMatchGoalResult(mgr);
+	}
+	
+	@Override
+	public Match selectOneMatch(int matchNo) {
+		return dao.selectOneMatch(matchNo);
+	}
+	
+	@Override
+	public Team selectOneHomeTeam(String teamHome) {
+		return dao.selectOneHomeTeam(teamHome);
+	}
+
+	@Override
+	public Team selectOneAwayTeam(String teamAway) {
+		return dao.selectOneAwayTeam(teamAway);
+	}
+	
+	@Override
+	public int updateScore(Score s) {
+		return dao.updateScore(s);
+	}
+	
+	@Override
+	public int updateTeamRating(Map<String, Object> map) {
+		return dao.updateTeamRating(map);
+	}
+	
+	@Override
+	public int updateMatchScore(Map<String, Integer> matchScoreMap) {
+		return dao.updateMatchScore(matchScoreMap);
+	}
+	
+	@Override
+	public int insertMatchResultDetail(Map<String, Object> matchResultDetailMap) {
+		return dao.insertMatchResultDetail(matchResultDetailMap);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectMatchGoalResultList(int matchNo) {
+		return dao.selectMatchGoalResultList(matchNo);
+	}
+	
+	@Override
+	public String selectMatchResultDetail(int matchNo) {
+		return dao.selectMatchResultDetail(matchNo);
+	}
+	
+	@Override
+	public List<Map<String, String>> selectMercenaryList(Map<String, String> map) {
+		return dao.selectMercenaryList(map);
+	}
+	
+	@Override
+	public String selectTeamAuthorityOne(String memberId) {
+		return dao.selectTeamAuthorityOne(memberId);
+	}
+	
 	
 	
 	

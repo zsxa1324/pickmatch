@@ -17,6 +17,8 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.Team" alias="teamcreate"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.Mercenary" alias="mercenary"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.Message" alias="message"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.MatchGoalResult" alias="mgr"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.Score" alias="score"/>
 		
 	</typeAliases>
 </configuration>

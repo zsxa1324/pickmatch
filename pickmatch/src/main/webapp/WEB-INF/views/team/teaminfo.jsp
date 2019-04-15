@@ -10,11 +10,13 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/_bootswatch.scss" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/_variables.scss" />
   
-   <%--   <jsp:include page="/WEB-INF/views/common/header.jsp"> --%>
+	<jsp:include page="/WEB-INF/views/common/header.jsp">
+	    <jsp:param value="내 팀정보" name="pageTitle"/>
+	</jsp:include>
 <section>
 
 <div id="main-content">
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<%-- 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button> -->
@@ -37,7 +39,7 @@
       </li>
     </ul>
   </div>
-</nav>
+</nav> --%>
 	</div>
 
 

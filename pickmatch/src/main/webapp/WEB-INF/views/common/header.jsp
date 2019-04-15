@@ -171,7 +171,9 @@
 						<div class="dropdown">
 						<c:if test="${!empty loggedMember}">
 							<a href="${path}/teamcreate.do">팀 개설</a>
-							<a href="${path }/team.do">팀 정보</a>
+							<a href="${path}/team.do">팀 정보</a>
+							<a href="${path}/team/teamMatchList">팀 매치정보</a>
+							<a href="${path}/team/teamOperationInfo">팀 운영정보</a>
 							<a href="${path}/freeboard.do">팀 자유게시판</a>
 							<a href="${path}/teamnotice.do">팀 공지사항</a>
 							<a href="${path}/teammercenary.do">내 용병팀 정보</a>

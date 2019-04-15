@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MatchGoalResult;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Score;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamNotice;
@@ -16,12 +18,25 @@ public interface TeamDao {
 	List<Map<String, String>> selectTMemberList(Map<String, String> map);
 	String selectTeamOne(String memberId);
 	TeamOperationAccount selectAccountOne(String teamName);
-	List<Map<String, Object>> selectMoneyHistoryList(String teamName);
+	List<Map<String, Object>> selectMoneyHistoryList(Map<String, String> map);
 	int updateTeamAccount(TeamOperationAccount map);
 	int insertTeamAccount(TeamOperationAccount toAccount);
 	int insertMHistory(MoneyHistory mHistory);
 	List<Match> selectMatchList(String teamName, int cPage, int numPerPage);
 	int selectMatchCount(String teamName);
+	Match selectOneMatch(int matchNo);
+	Team selectOneHomeTeam(String teamHome);
+	Team selectOneAwayTeam(String teamAway);
+	int insertMatchGoalResult(MatchGoalResult mgr);
+	int updateScore(Score s);
+	int updateTeamRating(Map<String, Object> map);
+	int updateMatchScore(Map<String, Integer> matchScoreMap);
+	int insertMatchResultDetail(Map<String, Object> matchResultDetailMap);
+	List<Map<String, Object>> selectMatchGoalResultList(int matchNo);
+	String selectMatchResultDetail(int matchNo);
+	List<Map<String, String>> selectMercenaryList(Map<String, String> map);
+	String selectTeamAuthorityOne(String memberId);
+	
 	
 	
 	

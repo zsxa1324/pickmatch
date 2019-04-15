@@ -7,7 +7,7 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-    <jsp:param value="" name="pageTitle"/>
+    <jsp:param value="팀 운영정보" name="pageTitle"/>
 </jsp:include>
 
 <section id='operationInfo'>
@@ -107,7 +107,7 @@
 			<button id="historyBtn" onclick='reviseBtn()' class="btn btn-outline-secondary" type="button">내역작성</button>
 		</c:if>
 		
-		<input style="margin-left: 180px;" id='totalMoney' type="number" readonly value="${account['totalMoney']}"/>원
+		<input id='totalMoney' type="number" readonly value="${account['totalMoney']}"/>원
 	</div>
 	
 	<!-- 개인당 회비여부 -->
@@ -229,7 +229,7 @@
 	<script>
 	
 		$('#month').on('change', function() {
-			location.href='${path}/team/teamOperationInfo?selectDate=' + $(this).val();
+			if($(this).val() != '') location.href='${path}/team/teamOperationInfo?selectDate=' + $(this).val();
 		});
 		
 		function reviseBtn() {

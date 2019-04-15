@@ -30,9 +30,12 @@ import com.kh.pickmatch.common.PageBarFactory;
 import com.kh.pickmatch.model.dao.TeamDaoImpl;
 import com.kh.pickmatch.model.service.TeamService;
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MatchGoalResult;
 import com.kh.pickmatch.model.vo.Member;
+import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Score;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamNotice;
@@ -82,8 +85,6 @@ public class TeamController {
 			}
 		}
 		
-		Calendar cal = Calendar.getInstance();
-		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 		Date date = new Date();
 		String currentDate = "";
@@ -98,7 +99,7 @@ public class TeamController {
 		map.put("teamName", teamName);
 		
 		List<Map<String, String>> listTMember = service.selectTMemberList(map);
-		List<Map<String, Object>> listMHistory = service.selectMoneyHistoryList(teamName);
+		List<Map<String, Object>> listMHistory = service.selectMoneyHistoryList(map);
 		
 		TeamOperationAccount account = service.selectAccountOne(teamName);
 		
@@ -161,10 +162,43 @@ public class TeamController {
 		return "common/msg";
 	}
 	
-		@RequestMapping("/team/teamMatchList")
-	public ModelAndView teamMatch(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage, HttpSession session, String teamName) {
+	@RequestMapping("/team/teamMatchList")
+	public ModelAndView teamMatch(@RequestParam(value = "cPage", required = false, defaultValue = "1") int cPage, HttpSession session) {
 		
 		ModelAndView mv = new ModelAndView();
+		String msg = "";
+		String loc = "";
+		Member m = null;
+		String teamName = "";
+		String memberId = "";
+		
+		if(session.getAttribute("loggedMember") == null) {
+			msg = "로그인 후 이용가능합니다.";
+			loc = "/";
+			
+			mv.setViewName("common/msg");
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			return mv;
+		} else {
+			m = (Member)session.getAttribute("loggedMember");
+			memberId = m.getMemberId();
+			teamName = service.selectTeamOne(memberId);
+			if(teamName == null) {
+				msg = "소속된 팀이 없습니다.";
+				loc = "/";
+				
+				mv.setViewName("common/msg");
+				mv.addObject("msg", msg);
+				mv.addObject("loc", loc);
+				return mv;
+				
+			}
+		}
+		
+		String authority = service.selectTeamAuthorityOne(memberId);
+		
+		mv.addObject("teamName", teamName);
 		
 		int numPerPage = 3;
 		int totalCount = service.selectMatchCount(teamName);
@@ -172,32 +206,213 @@ public class TeamController {
 		List<Match> list = service.selectMatchList(teamName, cPage, numPerPage);
 		
 		mv.addObject("list", list);
+		mv.addObject("authority", authority);		
 		mv.addObject("totalCount", totalCount);
-		mv.addObject("pageBar", PageBarFactory.getPageBar(totalCount, cPage, numPerPage, "/team/teamMatchList"));
+		mv.addObject("pageBar", PageBarFactory.getPageBar(totalCount, cPage, numPerPage, "/pickmatch/team/teamMatchList"));
 		mv.setViewName("team/teamMatchList");
 		
 		return mv;
 	}
 	
-	@RequestMapping("/team/teamMatchDetail")
-	public String teamMatchDetail(String status, Model model) {
-		
-		return "team/matchDetail";
-	}
-	
 	@RequestMapping("/team/teamMatchEnroll")
-	public String teamMatchEnroll(/*Model medel, Match m*/) {
+	public ModelAndView teamMatchEnroll(int matchNo, HttpSession session) {
 		
-		return "team/matchEnroll";
+		ModelAndView mv = new ModelAndView();
+		
+		String msg = "";
+		String loc = "";
+		Member memeber = null;
+		String teamName = "";
+		String memberId = "";
+		
+		if(session.getAttribute("loggedMember") == null) {
+			msg = "로그인 후 이용가능합니다.";
+			loc = "/";
+			
+			mv.setViewName("common/msg");
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			return mv;
+		} else {
+			memeber = (Member)session.getAttribute("loggedMember");
+			memberId = memeber.getMemberId();
+			teamName = service.selectTeamOne(memberId);
+			if(teamName == null) {
+				msg = "소속된 팀이 없습니다.";
+				loc = "/";
+				
+				mv.setViewName("common/msg");
+				mv.addObject("msg", msg);
+				mv.addObject("loc", loc);
+				return mv;
+				
+			}
+		}
+		
+		mv.addObject("teamName", teamName);
+		
+		
+		Match m = service.selectOneMatch(matchNo);
+		String teamHome = m.getTeamHome();
+		String teamAway= m.getTeamAway();
+		
+		Team homeTeam = service.selectOneHomeTeam(teamHome);
+		Team awayTeam = service.selectOneAwayTeam(teamAway);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String currentDate = "";
+		
+		currentDate = sdf.format(date);
+		
+		Map<String, String> homeMap = new HashMap<String, String>();
+		homeMap.put("currentDate", currentDate);
+		homeMap.put("teamName", teamHome);
+		
+		Map<String, String> awayMap = new HashMap<String, String>();
+		awayMap.put("currentDate", currentDate);
+		awayMap.put("teamName", teamAway);
+		
+		
+		List<Map<String, String>> homeList = service.selectTMemberList(homeMap);
+		List<Map<String, String>> awayList = service.selectTMemberList(awayMap);
+		
+		List<Map<String, String>> homemercenaryList = service.selectMercenaryList(homeMap);
+		List<Map<String, String>> awaymercenaryList = service.selectMercenaryList(awayMap);
+		
+		System.out.println("매치의 어웨이 : " + m.getTeamAway());
+		System.out.println("어웨이 팀 정보 : " + awayTeam);
+		
+		mv.addObject("m", m);
+		mv.addObject("matchNo", matchNo);
+		mv.addObject("teamName", teamName);
+		mv.addObject("homeTeam", homeTeam);
+		mv.addObject("awayTeam", awayTeam);
+		mv.addObject("homeList", homeList);
+		mv.addObject("awayList", awayList);
+		mv.addObject("homemercenaryList", homemercenaryList);
+		mv.addObject("awaymercenaryList", awaymercenaryList);
+		mv.setViewName("team/matchEnroll");
+		
+		return mv;
 	}
 	
-	@RequestMapping("/team/teamMatchEnrollAjax")
-	public String teamMatchEnrollAjax() {
+	@RequestMapping("/team/teamMatchEnrollEnd")
+	public ModelAndView matchEnrollEnd(int matchNo, int homescore, int awayscore, String homeTeam, String awayTeam, String textarea, String homeMinarr, String awayMinarr, String homeNamearr, String awayNamearr) {
+
+			System.out.println("홈분 : " + homeMinarr);
+			System.out.println("어웨이 분 : " + awayMinarr);
+			System.out.println("홈 사람 : " + homeNamearr);
+			System.out.println("어웨이 사람 : " + awayNamearr);
+			
+			String[] hma = homeMinarr.split(",");
+			String[] ama = awayMinarr.split(",");
+			String[] hna = homeNamearr.split(",");
+			String[] ana = awayNamearr.split(",");
+			
+			MatchGoalResult mgr = null;
+			if(hna[0].trim() != "") {
+				for(int i = 0; i < hna.length; i++) {
+					mgr = new MatchGoalResult(0, homeTeam, matchNo, hna[i], Integer.parseInt(hma[i]));
+					service.insertMatchGoalResult(mgr);
+				}
+			}
+			if(ana[0].trim() != "") {
+				for(int i = 0; i < ana.length; i++) {
+					mgr = new MatchGoalResult(0, awayTeam, matchNo, ana[i], Integer.parseInt(ama[i]));
+					service.insertMatchGoalResult(mgr);
+				}
+			}
+			
+			Score homeS = null;
+			Score awayS = null;
+			Team homeT = service.selectOneHomeTeam(homeTeam);
+			Team awayT = service.selectOneAwayTeam(awayTeam);
+			Map<String, Object> homeMap = new HashMap<String, Object>();
+			Map<String, Object> awayMap = new HashMap<String, Object>();
+			
+			if(homescore > awayscore) {
+				homeS = new Score(homeTeam, 1, 1, 0, 0);
+				awayS = new Score(awayTeam, 1, 0, 0, 1);
+				
+				homeMap.put("teamName", homeTeam);
+				homeMap.put("teamRating", 20);
+				awayMap.put("teamName", awayTeam);
+				awayMap.put("teamRating", -20);
+				
+				service.updateTeamRating(homeMap);
+				service.updateTeamRating(awayMap);
+				
+				service.updateScore(homeS);
+				service.updateScore(awayS);
+			} else if(homescore < awayscore) {
+				homeS = new Score(homeTeam, 1, 0, 0, 1);
+				awayS = new Score(awayTeam, 1, 1, 0, 0);
+				
+				homeMap.put("teamName", homeTeam);
+				homeMap.put("teamRating", -20);
+				awayMap.put("teamName", awayTeam);
+				awayMap.put("teamRating", 20);
+				
+				service.updateScore(homeS);
+				service.updateScore(awayS);
+			} else {
+				homeS = new Score(homeTeam, 1, 0, 1, 0);
+				awayS = new Score(awayTeam, 1, 0, 1, 0);
+				
+				homeMap.put("teamName", homeTeam);
+				homeMap.put("teamRating", 5);
+				awayMap.put("teamName", awayTeam);
+				awayMap.put("teamRating", 5);
+				
+				service.updateScore(homeS);
+				service.updateScore(awayS);
+			}
+			
+			Map<String, Integer> matchScoreMap = new HashMap<String, Integer>();
+			matchScoreMap.put("matchNo", matchNo);
+			matchScoreMap.put("homeScore", homescore);
+			matchScoreMap.put("awayScore", awayscore);
+			
+			service.updateMatchScore(matchScoreMap);
+			
+			Map<String, Object> matchResultDetailMap = new HashMap<String, Object>();
+			
+			matchResultDetailMap.put("matchNo", matchNo);
+			matchResultDetailMap.put("matchContent", textarea);
+			
+			service.insertMatchResultDetail(matchResultDetailMap);
+			
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("team/teamMatchList");
 		
-		
-		
-		return "";
+		return mv;
 	}
+	
+	@RequestMapping("/team/teamMatchDetail")
+	public ModelAndView matchDetail(int matchNo) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		Match match = service.selectOneMatch(matchNo);
+		List<Map<String, Object>> goalList = service.selectMatchGoalResultList(matchNo);
+		String matchContent = service.selectMatchResultDetail(matchNo);
+		
+		
+		mv.addObject("match", match);
+		mv.addObject("goalList", goalList);
+		mv.addObject("matchContent", matchContent);
+		mv.setViewName("team/matchDetail");
+		
+		return mv;
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -250,14 +465,14 @@ public class TeamController {
 	//지우면안됨!
 	@RequestMapping("/teamcreate.do")
 	public String teamcreate (){
-		return "Team/teamcreate";
+		return "team/teamcreate";
 		
 	}
 	
 	//지우면안됨!
 	@RequestMapping("/teammercenary.do")
 	public String teammercenary() {
-		return "Team/teammercenary";
+		return "team/teammercenary";
 	}
 	
 	//팀 게시판 리스트보기
@@ -274,7 +489,7 @@ public class TeamController {
 		mv.addObject("totalList", totalList);
 		System.out.println(totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/freeboard.do"));
-		mv.setViewName("Team/freeboard");
+		mv.setViewName("team/freeboard");
 		return mv;
 	}
 		
@@ -288,18 +503,18 @@ public class TeamController {
 	//팀 게시판 글쓰기
 	@RequestMapping("/Team/freeboardWrite")
 	public String freeboardWrite() {
-		return "Team/freeboardWrite";
+		return "team/freeboardWrite";
 	}
 	
 	//팀 공지사항 글쓰기
 	@RequestMapping("/Team/teamnoticeWrite")
 	public String teamnoticeWrite(){
-		return "Team/teamnoticeWrite";
+		return "team/teamnoticeWrite";
 	}
 	
 	@RequestMapping("/freeboardView.do")
 	public String freeboardView() {
-		return "Team/teamboardView";
+		return "team/teamboardView";
 	}
 	
 	//팀 게시판 상세보기
@@ -309,7 +524,7 @@ public class TeamController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("teamboard", service.selectTeamBoard(boardNo));
 		mv.addObject("attachmentList", service.selectAttachment(boardNo));
-		mv.setViewName("Team/teamboardView");
+		mv.setViewName("team/teamboardView");
 		return mv;
 	}
 	
@@ -327,7 +542,7 @@ public class TeamController {
 		mv.addObject("totalList", totalList);
 		System.out.println(totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/teamnotice.do"));
-		mv.setViewName("Team/teamnotice");
+		mv.setViewName("team/teamnotice");
 		return mv;
 	}
 	
@@ -337,7 +552,7 @@ public class TeamController {
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("teamnotice", service.selectNoticeView(noticeNo));
-		mv.setViewName("Team/teamnoticeView");
+		mv.setViewName("team/teamnoticeView");
 		return mv;
 	}
 	
@@ -393,7 +608,7 @@ public class TeamController {
 		
 		TeamNotice teamnotice = service.selectOne(noticeNo);
 		m.addAttribute("teamNotice", teamnotice);
-		return "Team/updateNotice";
+		return "team/updateNotice";
 		
 	}
 		
@@ -500,7 +715,7 @@ public class TeamController {
 		mv.addObject("list", list);
 		mv.addObject("totalList", totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/teamranking.do"));
-		mv.setViewName("Team/teamranking");
+		mv.setViewName("team/teamranking");
 		return mv;
 	}
 	
@@ -527,7 +742,7 @@ public class TeamController {
 		}
 		else {
 			mv.addObject("list", result);
-			mv.setViewName("Team/teamranking");
+			mv.setViewName("team/teamranking");
 		}
 		return mv;
 		
@@ -548,7 +763,7 @@ public class TeamController {
 		mv.addObject("top3", top3);
 		mv.addObject("totalList", totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/mercenaryranking.do"));
-		mv.setViewName("Team/mercenaryranking");
+		mv.setViewName("team/mercenaryranking");
 		return mv;
 	}
 	
@@ -579,7 +794,7 @@ public class TeamController {
 			
 			mv.addObject("list", result);
 			mv.addObject("top3", top3);
-			mv.setViewName("Team/mercenaryranking");
+			mv.setViewName("team/mercenaryranking");
 			
 		}
 		return mv;

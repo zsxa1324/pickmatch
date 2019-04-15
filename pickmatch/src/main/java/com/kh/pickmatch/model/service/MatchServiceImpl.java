@@ -103,6 +103,12 @@ private MatchDao dao;
 		AwaySaInfo list=dao.matchSaa(map);
 		return list;
 	}
+
+	@Override
+	public List<Map> matchindexContent(String today) {
+		List<Map> list=dao.matchindexContent(today);
+		return list;
+	}
 	
 	
 	

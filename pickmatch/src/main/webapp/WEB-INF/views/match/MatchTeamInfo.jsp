@@ -62,24 +62,46 @@
 	height: 100%;
 	width: 100%;
 }
+
+section#matchTeamInfo-section td {
+	width: 150px;
+	height: 50px;
+}
+
+section#matchTeamInfo-section table tr td a:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
 </style>
 
 <section id="matchTeamInfo-section">
 	<article id="matchTeamInfo-article" style="background-color: white;">
 		<div id="matchTeamInfo-div">
-			<h1>팀 정보</h1>
-
+			<div class="MatchTeamInfoTitle" style="margin: 0 auto;">
+				<h1>팀 정보</h1>
+			</div>
 			<div class="teamTbl-div"
-				style="display: inline-block; margin-left: 15px;">
+				style="display: inline-block; margin-left: 15px; float: left;">
 				<table border="1"
-					style="text-align: center; width: 370px; height: 600px;">
+					style="text-align: center; width: 370px; height: 600px; table-layout: fixed;">
 
 					<tr>
-						<td colspan="2">${match.emblem }</td>
+						<td colspan="2">
+						<c:choose>
+						<c:when test="${match.emblem !=null}">
+						<img
+							src="${path }/resources/upload/team-logo/${match.emblem }" width="150px;" height="150px;" />
+						</c:when>
+						
+						<c:when test="${match.emblem == null }">
+						<img src="${path }/resources/upload/team-logo/기본팀로고.png" width="150px;" height="150px;"/>
+						</c:when>
+						</c:choose>	
+							</td>
 					</tr>
 					<tr>
-						<td colspan="2">${match.teamHome}
-						<input type="hidden" id="homeTeamName" value="${match.teamHome}"/>
+						<td colspan="2">${match.teamHome}<input type="hidden"
+							id="homeTeamName" value="${match.teamHome}" />
 						</td>
 					</tr>
 					<tr>
@@ -96,22 +118,25 @@
 					</tr>
 					<tr>
 						<td>팀원수 : ${match.teamCount }</td>
-						<td>경기날짜 : ${match.matchDate} ${match.matchTime }
-						<input type="hidden" id="hiddenMatchDate" value="${match.matchDate }"/>
-						<input type="hidden" id="hiddenMatchTime" value="${match.matchTime }"/>
+						<td>경기날짜 : ${match.matchDate} ${match.matchTime } <input
+							type="hidden" id="hiddenMatchDate" value="${match.matchDate }" />
+							<input type="hidden" id="hiddenMatchTime"
+							value="${match.matchTime }" />
 						</td>
 					</tr>
 					<tr>
 						<td>팀소개 : ${match.introduce }</td>
-						<td>14</td>
+						<td
+							style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><a
+							style="color: black;" href="#" data-toggle="modal"
+							data-target="#myModalTwo">내용 : ${match.matchContent }</a></td>
 					</tr>
 
 				</table>
 			</div>
 			<div class="membertbl-div"
-				style="display: inline-block; position: relative; bottom: 128px; margin-left: 60px;">
-				<table class="table table-striped"
-					style="width: 550px; height: 300px;">
+				style="display: inline-block; float: left; margin-left: 60px; padding: 0px 0px 333px 0px;">
+				<table class="table table-striped" style="width: 550px;">
 					<tr>
 						<th scope="col">No.</th>
 						<th scope="col">Name</th>
@@ -139,15 +164,18 @@
 								<h4 class="modal-title">메모</h4>
 								<button type="button" class="close" data-dismiss="modal">×</button>
 								<!-- header title -->
-								
+
 							</div>
 							<!-- body -->
 							<div class="modal-body">
-							<textarea class="form-control" id="memo" style="width: 100%; height: 150px; resize: none;" maxlength="500"></textarea>
+								<textarea class="form-control" id="memo"
+									style="width: 100%; height: 150px; resize: none;"
+									maxlength="500"></textarea>
 							</div>
 							<!-- Footer -->
 							<div class="modal-footer">
-								<button type="button" onclick="matchRequest()" class="btn btn-primary">매치신청</button>
+								<button type="button" onclick="matchRequest()"
+									class="btn btn-primary">매치신청</button>
 								<button type="button" class="btn btn-danger"
 									data-dismiss="modal">닫기</button>
 							</div>
@@ -155,92 +183,125 @@
 					</div>
 				</div>
 
-			
+				<div class="modal fade" id="myModalTwo" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">매치 내용</h4>
+								<button type="button" class="close" data-dismiss="modal">×</button>
+							</div>
+							<div class="modal-body">
+								<p>${match.matchContent }</p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">닫기</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+
+
 
 			</div>
-			<div class="matchResponse-div" style="width:70%; margin: 0 auto; margin-top: 50px; padding-bottom: 100px;">
-				
-				<table id="matchResponse-tbl" class="table"> 
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th>신청팀</th>
-						<th colspan="2">메모</th>
-					</tr>
-				</thead>
+			<div class="matchResponse-div"
+				style="width: 65%; margin: 0 auto; margin-top: 50px; padding: 530px 10px 10px 10px;">
+
+				<table id="matchResponse-tbl" style="margin-top: 50px;"
+					class="table">
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>신청팀</th>
+							<th colspan="2">메모</th>
+						</tr>
+					</thead>
 					<c:forEach var="mr" items="${matchResponse }" varStatus="vs">
-					<tr>
-					<td>${vs.count }</td>
-					<td>${mr['TEAMNAME']}</td>
-					<td>${mr['MEMO'] }</td>
-					<td><c:if test="${match.teamHome}==${loggedMember.teamName}"><button type="button" onclick="matchOk()" value="${mr['MATCHNO'] }" class="btn btn-primary">매치수락</button></c:if>
-						<input type="hidden" id="awayTeamName" value="${mr['TEAMNAME']}"/>
-					</td>
-					</tr>
+						<tr>
+							<td>${vs.count }</td>
+							<td>${mr['TEAMNAME']}</td>
+							<td>${mr['MEMO'] }</td>
+							<td><c:if test="${match.teamHome==loggedMember.teamName}">
+									<button type="button" onclick="matchOk()"
+										value="${mr['MATCHNO'] }" class="btn btn-primary">매치수락</button>
+								</c:if> <input type="hidden" id="awayTeamName"
+								value="${mr['TEAMNAME']}" /></td>
+						</tr>
 					</c:forEach>
-				
-				
+
+
 				</table>
 			</div>
 		</div>
 	</article>
 </section>
 <script>
-	function textareabtn(){
-		var matchDate=$("#hiddenMatchDate").val();
-		var matchTime=$("#hiddenMatchTime").val();
-		var today=new Date();
-		var y=today.getFullYear();
-		var m=today.getMonth()+1;
-		var zero=0;
-		if(m<10){
-			m="0"+m;
+	function textareabtn() {
+		var matchDate = $("#hiddenMatchDate").val();
+		var matchTime = $("#hiddenMatchTime").val();
+		var today = new Date();
+		var y = today.getFullYear();
+		var m = today.getMonth() + 1;
+		var zero = 0;
+		if (m < 10) {
+			m = "0" + m;
 		}
-		
-		var d=today.getDate();
-		if(d<10){
-			d="0"+d;
+
+		var d = today.getDate();
+		if (d < 10) {
+			d = "0" + d;
 		}
-		var date=y+"-"+m+"-"+d;		
-		var flag=date>matchDate;		
+		var date = y + "-" + m + "-" + d;
+		var flag = date > matchDate;
 		var id = "${loggedMember.memberId }";
-		var btn=$("#matchRequest");
-		var teamName="${loggedMember.teamName}";
-		var away=$("#awayTeamName").val();
+		var btn = $("#matchRequest");
+		var teamName = "${loggedMember.teamName}";
+		var away = $("#awayTeamName").val();
+
 		/* data-target="#layerpop" data-toggle="modal" */
-		if(id.length==0){
+		if (id.length == 0) {
 			alert("로그인을 하셔야 합니다.");
-		}else if(id==teamName){
+		} else if (id == teamName) {
 			alert("같은 팀에게는 매치신청을 하실 수 없습니다.");
-		}else if(teamName==away){
+		} else if (teamName == away) {
 			alert("이미 매치 신청하셨습니다.");
-		}else if(date>matchDate){
+		} else if (date > matchDate) {
 			alert("지난 매치는 신청하실 수 없습니다.");
-		}else{
-			btn.attr("data-target","#layerpop");
-			btn.attr("data-toggle","modal");
+		} else if (teamName.length == 0) {
+			alert("팀이 없으면 매치 신청을 하실 수 없습니다.");
+		} else {
+			btn.attr("data-target", "#layerpop");
+			btn.attr("data-toggle", "modal");
 		}
-		var memo=$("#memo");
+		var memo = $("#memo");
 		memo.val("");
 		memo.focus();
-		
+
 	}
 
 	function matchRequest() {
-		var matchNo = "${match.matchNo}";
+		var matchNo = ${match.matchNo};
+		
 		var id = "${loggedMember.memberId }";
-		var teamName="${loggedMember.teamName}";
+		var teamName = "${loggedMember.teamName}";
+		console.log(matchNo);
 		console.log(id);
 		console.log(teamName);
 		var content = $("#memo").val();
- 		location.href="${path}/match/matchRequest.do?matchNo="+matchNo+"&&id="+id+"&&memo="+content;
+		location.href = "${path}/match/matchRequest.do?matchNo=" + matchNo
+				+ "&&id=" + id + "&&memo=" + content;
 	}
-	
-	function matchOk(){
-		var matchNo = event.target.value;		
+
+	function matchOk() {
+		var matchNo = event.target.value;
 		var awayTeam = $("#awayTeamName").val();
-		location.href="${path}/match/matchOk.do?matchNo="+matchNo+"&&awayTeam="+awayTeam;
+		location.href = "${path}/match/matchOk.do?matchNo=" + matchNo
+				+ "&&awayTeam=" + awayTeam;
 	}
-	
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

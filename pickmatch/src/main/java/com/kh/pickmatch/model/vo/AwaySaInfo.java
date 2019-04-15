@@ -18,12 +18,14 @@ public class AwaySaInfo {
 	private int win;
 	private int draw;
 	private int lose;
+	private String location;
+	private String awayEmblem;
 	
 	public AwaySaInfo() {}
 
 	public AwaySaInfo(int matchNo, String teamAway, Date matchDate, String matchTime, String matchType,
 			String playGround, int cost, String matchContent, int lat, int lng, int totalPlayCount, int win, int draw,
-			int lose) {
+			int lose, String location, String awayEmblem) {
 		super();
 		this.matchNo = matchNo;
 		this.teamAway = teamAway;
@@ -39,6 +41,8 @@ public class AwaySaInfo {
 		this.win = win;
 		this.draw = draw;
 		this.lose = lose;
+		this.location = location;
+		this.awayEmblem = awayEmblem;
 	}
 
 	public int getMatchNo() {
@@ -153,15 +157,31 @@ public class AwaySaInfo {
 		this.lose = lose;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getAwayEmblem() {
+		return awayEmblem;
+	}
+
+	public void setAwayEmblem(String awayEmblem) {
+		this.awayEmblem = awayEmblem;
+	}
+
 	@Override
 	public String toString() {
 		return "AwaySaInfo [matchNo=" + matchNo + ", teamAway=" + teamAway + ", matchDate=" + matchDate + ", matchTime="
 				+ matchTime + ", matchType=" + matchType + ", playGround=" + playGround + ", cost=" + cost
 				+ ", matchContent=" + matchContent + ", lat=" + lat + ", lng=" + lng + ", totalPlayCount="
-				+ totalPlayCount + ", win=" + win + ", draw=" + draw + ", lose=" + lose + "]";
+				+ totalPlayCount + ", win=" + win + ", draw=" + draw + ", lose=" + lose + ", location=" + location
+				+ ", awayEmblem=" + awayEmblem + "]";
 	}
 
-	
 	
 
 }

@@ -25,5 +25,7 @@ public interface MatchDao {
 	public int matchOk(Map<String, Object> map);
 	public HomeSaInfo matchSa(Map<String,Object> map);
 	public AwaySaInfo matchSaa(Map<String, Object> map);
+	public List<Map> matchindexContent(String today);
+	
 	
 }

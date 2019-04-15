@@ -6,11 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.pickmatch.common.BoardException;
+import com.kh.pickmatch.common.exception.BoardException;
 import com.kh.pickmatch.model.dao.TeamDao;
-import com.kh.pickmatch.model.vo.FreeBoard;
-import com.kh.pickmatch.model.vo.FreeBoardAttachment;
-import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.MemberRequest;
 import com.kh.pickmatch.model.vo.Mercenary;

@@ -12,7 +12,7 @@
 
 <form action="${path }/team/search.do" method="post" onsubmit="return validate()">
  <div align="center" style=" margin-bottom: 100px; margin-top: 50px;">
-       &nbsp;<input class="form-control" type="text" id="searchkey" placeholder="팀검색" name="search" style="display:inline-block; width: 300px;">&nbsp;
+       &nbsp;<input class="form-control" type="text" id="searchkey" placeholder="팀명,지역 검색" name="search" style="display:inline-block; width: 300px;">&nbsp;
        		 <button type="submit" id="searchbtn" name="searchbtn" class="btn btn-secondary" style="display:inline-block; width:100px;">검색</button>
 </div>
 </form>
@@ -33,11 +33,9 @@
 		<c:forEach items="${list }" var="b">
 		<tr>
 			<td id="teamranking-table-info-ranking">${b.rank }</td>
-		
 			<td id="teamranking-table-info-teamtitle"><a href="${path }/team.do?teamName=${b.teamName}">${b.teamName }</a></td>
-		
 			<td id="teamranking-table-info-teamscore">${b.teamRating }</td>
-			<td id="teamranking-table-info-total">${b.teamField }</td>
+			<td id="teamranking-table-info-total">${b.win }승${b.draw }무${b.lose }패</td>
 			<td id="teamranking-table-info-teamloc">${b.teamLocation }</td>
 			<td id="teamranking-table-info-teaminfo">${b.teamContent }</td>
 		</tr>

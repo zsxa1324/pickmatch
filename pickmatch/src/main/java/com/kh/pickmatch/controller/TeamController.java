@@ -431,7 +431,7 @@ public class TeamController {
 		List<Team> list = service.TeamView(teamName);
 		int memberCount = service.memberCount(teamName);
 		List<MemberByTeam> result = service.TeamMember(teamName);
-		//logger.debug("멤버바이팀"+result);
+		logger.debug("멤버바이팀"+result);
 		
 		
 		List<MemberRequest> memberrequest = service.MemberRequest(teamName);
@@ -575,12 +575,13 @@ public class TeamController {
 	
 	//팀 게시판 리스트보기
 	@RequestMapping("/freeboard.do")
-	public ModelAndView freeboard(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
+	public ModelAndView freeboard(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage, HttpSession session) {
 		int numPerPage = 10;
 		ModelAndView mv = new ModelAndView();
-		List<TeamBoard> list = service.selectList(cPage, numPerPage);
 		int totalList = service.selectCount();
-		
+		Member member = (Member)session.getAttribute("loggedMember");
+		String teamName = member.getTeamName();
+		List<TeamBoard> list = service.selectList(cPage, numPerPage, teamName);
 		System.out.println(list);
 		
 		mv.addObject("list", list);
@@ -652,7 +653,9 @@ public class TeamController {
 			msg = "게시글 등록이 실패했습니다. 다시 등록해주세요.";
 			loc = "/freeboard.do";
 		}
-	
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
 		mv.setViewName("common/msg");
 		return mv;
 	}
@@ -944,8 +947,9 @@ public class TeamController {
 		if(result > 0) {
 			msg="팀 생성 완료!";
 			Member y = (Member)session.getAttribute("loggedMember");
-			y.setTeamName(teamName);
-			session.setAttribute("loggedMember", y);
+			Member changemember = memberservice.selectOne(y);
+			session.setAttribute("loggedMember", changemember);
+			
 		}else{
 			msg="팀 생성 실패!";  
 		}
@@ -991,24 +995,27 @@ public class TeamController {
 	public ModelAndView TeamSearch(String search, Model m) {
 		
 		ModelAndView mv = new ModelAndView();
-		Team team = service.TeamSearch(search);
-		List<Team> result = new ArrayList<>();
-		result.add(team);
+		List<Team> list = service.TeamSearch(search);
+		logger.debug("서치"+search);
+		logger.debug("리스트"+list);
+		
 		
 		String msg="";
 		String loc="";
 		
 		m.addAttribute("msg", msg);
 		m.addAttribute("loc", loc);
-		if(team==null) {
+		if(list.size()==0) {
+			logger.debug("어디임"+msg);
 			msg="검색결과가 없습니다!";
 			loc="/teamranking.do";
 			mv.addObject("msg", msg);
 			mv.addObject("loc", loc);
 			mv.setViewName("common/msg");
+			return mv;
 		}
 		else {
-			mv.addObject("list", result);
+			mv.addObject("list", list);
 			mv.setViewName("team/teamranking");
 		}
 		return mv;

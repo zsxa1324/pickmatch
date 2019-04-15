@@ -10,12 +10,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.pickmatch.model.vo.FreeBoard;
+import com.kh.pickmatch.model.vo.FreeBoardAttachment;
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.Member;
 import com.kh.pickmatch.model.vo.MemberByTeam;
+import com.kh.pickmatch.model.vo.MemberRequest;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
+import com.kh.pickmatch.model.vo.TeamBoardAttachment;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
@@ -63,15 +68,7 @@ public class TeamDaoImpl implements TeamDao {
 		return session.insert("team.insertMHistory", mHistory);
 	}
 
-	@Override
-	public List<Match> selectMatchList(String teamName, int cPage, int numPerPgae) {
-		return session.selectList("team.selectMatchList", teamName, new RowBounds((cPage-1) * numPerPgae, numPerPgae));
-	}
-	
-	@Override
-	public int selectMatchCount(String teamName) {
-		return session.selectOne("team.selectMatchCount", teamName);
-	}
+
 
 
 	
@@ -87,6 +84,141 @@ public class TeamDaoImpl implements TeamDao {
 		return session.selectList("team.selectListN", teamName, new RowBounds((cPage-1)*numPerPage, numPerPage));
 	}
 
+
+	
+
+	@Override
+	public int teambreakup(String teamName) {
+		// TODO Auto-generated method stub
+		return session.update("team.teambreakup", teamName);
+	}
+
+	@Override
+	public int teamleave(String memberId) {
+		// TODO Auto-generated method stub
+		return session.delete("team.teamleave", memberId);
+	}
+
+	@Override
+	public String authority(String memberId) {
+		// TODO Auto-generated method stub
+		return session.selectOne("team.authority", memberId);
+	}
+
+	@Override
+	public int leaderchange(String beforeleader) {
+		// TODO Auto-generated method stub
+		return session.update("team.leaderchange",beforeleader);
+	}
+
+	@Override
+	public String leadercheck(String teamName) {
+		// TODO Auto-generated method stub
+		return session.selectOne("team.leadercheck", teamName);
+	}
+
+	@Override
+	public int teamleader(String memberId) {
+		// TODO Auto-generated method stub
+		return session.update("team.teamleader", memberId);
+	}
+
+	@Override
+	public int levelup(String memberId) {
+		// TODO Auto-generated method stub
+		return session.update("team.levelup", memberId);
+	}
+
+	@Override
+	public int leveldown(String memberId) {
+		// TODO Auto-generated method stub
+		return session.update("team.leveldown", memberId);
+	}
+
+	@Override
+	public int teambye(String memberId) {
+		// TODO Auto-generated method stub
+		return session.delete("team.teambye", memberId);
+	}
+
+	@Override
+	public int deleteTeamBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return session.delete("team.deleteTeamBoard", boardNo);
+	}
+
+	@Override
+	public int updateTeamBoard(String boardTitle, String boardContent, int boardNo) {
+		// TODO Auto-generated method stub
+		
+		TeamBoard teamboard = new TeamBoard();
+		teamboard.setBoardTitle(boardTitle);
+		teamboard.setBoardContent(boardContent);
+		teamboard.setBoardNo(boardNo);
+		
+		return session.update("team.updateTeamBoard", teamboard);
+	}
+
+	@Override
+	public int insertFreeBoard(TeamBoard fb) {
+		// TODO Auto-generated method stub
+		logger.debug("에러에러"+fb);
+		TeamBoard teamboard = new TeamBoard();
+
+		return session.insert("team.insertFreeBoard",fb);
+	}
+
+	@Override
+	public int insertFreeAttachment(TeamBoardAttachment a) {
+		// TODO Auto-generated method stub
+		return session.insert("team.insertFreeAttachment",a);
+	}
+
+	@Override
+	public MemberRequest memberRequestCk(String memberId, String teamName) {
+		// TODO Auto-generated method stub
+		
+		Member member = new Member();
+		member.setMemberId(memberId);
+		member.setTeamName(teamName);
+		return session.selectOne("team.memberRequestCk", member);
+	}
+
+	@Override
+	public int teamJoin(String memberId,String teamName, String position) {
+		// TODO Auto-generated method stub
+		
+		Member member = new Member();
+		member.setTeamName(teamName);
+		member.setMemberId(memberId);
+		member.setPosition(position);
+		return session.insert("team.teamJoin", member);
+	}
+
+	@Override
+	public int teamNo(String memberId, String teamName) {
+		// TODO Auto-generated method stub
+		MemberByTeam mbt = new MemberByTeam();
+		mbt.setTeamName(teamName);
+		mbt.setMemberId(memberId);
+		return session.delete("team.teamNo",mbt);
+	}
+
+	@Override
+	public int teamOk(String memberId, String teamName) {
+		// TODO Auto-generated method stub
+		
+		MemberByTeam mbt = new MemberByTeam();
+		mbt.setTeamName(teamName);
+		mbt.setMemberId(memberId);
+		return session.insert("team.teamOk",mbt);
+	}
+
+	@Override
+	public List<MemberRequest> MemberRequest(String teamName) {
+		// TODO Auto-generated method stub
+		return session.selectList("team.MemberRequest", teamName);
+	}
 
 	@Override
 	public List<MemberByTeam> TeamMember(String teamName) {
@@ -231,6 +363,8 @@ public class TeamDaoImpl implements TeamDao {
 		//logger.debug("after teamnotice"+teamnotice);
 		return session.insert("team.insertNotice",teamnotice);
 	}
+
+	
 	
 	
 	

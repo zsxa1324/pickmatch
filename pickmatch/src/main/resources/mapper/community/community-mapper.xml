@@ -23,6 +23,6 @@
   		</selectKey>  	
   	</insert>
   	<insert id="insertFreeAttachment" parameterType="freeBoardAttachment">
-  		insert into freeboardattachment values(SEQ_FREEBOARDATTACHMENTNO.nextval,#{originalFileName},#{renamedFileName},#{boardNoRef})
+  		insert into freeboardattachment values(SEQ_TEAMBOARDATTACHMENTNO.nextval,#{originalFileName},#{renamedFileName},#{boardNoRef})
   	</insert>
 </mapper>

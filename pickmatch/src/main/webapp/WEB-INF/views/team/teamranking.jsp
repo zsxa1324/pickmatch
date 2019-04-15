@@ -33,13 +33,16 @@
 		<c:forEach items="${list }" var="b">
 		<tr>
 			<td id="teamranking-table-info-ranking">${b.rank }</td>
-			<td id="teamranking-table-info-teamtitle">${b.teamName }</td>
+		
+			<td id="teamranking-table-info-teamtitle"><a href="${path }/team.do?teamName=${b.teamName}">${b.teamName }</a></td>
+		
 			<td id="teamranking-table-info-teamscore">${b.teamRating }</td>
 			<td id="teamranking-table-info-total">${b.teamField }</td>
 			<td id="teamranking-table-info-teamloc">${b.teamLocation }</td>
 			<td id="teamranking-table-info-teaminfo">${b.teamContent }</td>
 		</tr>
 		</c:forEach>
+		
 		
 	
 	</table>

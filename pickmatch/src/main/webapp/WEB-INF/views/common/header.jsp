@@ -162,8 +162,7 @@
 			<span>로그인</span>
 		</div>
 		</c:if>
-		
-		<c:if test="${loggedMember!=null }">
+		<c:if test="${loggedMember!=null and loggedMember.memberId!='admin'}">
 		<div id="login-modal">
 			<div id="alarm">1</div>
 			<c:if test="${loggedMember.memberId=='admin' }">
@@ -194,6 +193,23 @@
 			<span onclick="location.href='${path}/member/logout.do'">로그아웃</span>
 		</div>
 		</c:if>
+		
+		<c:if test="${loggedMember!=null and loggedMember.memberId=='admin'}">
+		<div id="login-modal">
+			<div id="alarm">1</div>
+			<a href="${path }/admin/adminPage">
+			<c:if test="${loggedMember.profile!=null }">
+				<img src="${path }/resources/upload/member-profile/${loggedMember.profile }" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
+			</c:if>
+			<c:if test="${loggedMember.profile==null }">
+				<img src="${path }/resources/images/user.png" width='35px' height='35px' title="관리자페이지"/>
+			</c:if>
+			</a>
+			<span onclick="location.href='${path}/member/logout.do'">로그아웃</span>
+		</div>
+		</c:if>
+		
+		
 		
 	</div>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">		

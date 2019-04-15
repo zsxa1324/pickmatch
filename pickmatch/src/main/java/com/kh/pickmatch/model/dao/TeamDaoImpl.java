@@ -245,9 +245,9 @@ public class TeamDaoImpl implements TeamDao {
 	}
 
 	@Override
-	public Team TeamSearch(String search) {
+	public List<Team> TeamSearch(String search) {
 		// TODO Auto-generated method stub
-		return session.selectOne("team.TeamSearch",search);
+		return session.selectList("team.TeamSearch",search);
 	}
 
 	@Override
@@ -341,9 +341,9 @@ public class TeamDaoImpl implements TeamDao {
 	}
 	
 	@Override
-	public List<TeamBoard> selectList(int cPage, int numPerPage) {
+	public List<TeamBoard> selectList(int cPage, int numPerPage, String teamName) {
 		// TODO Auto-generated method stub;
-		return session.selectList("team.selectList", null, new RowBounds((cPage-1)*numPerPage, numPerPage));
+		return session.selectList("team.selectList", teamName, new RowBounds((cPage-1)*numPerPage, numPerPage));
 	}
 
 	@Override

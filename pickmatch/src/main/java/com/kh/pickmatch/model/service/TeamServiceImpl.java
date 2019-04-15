@@ -209,7 +209,7 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public Team TeamSearch(String search) {
+	public List<Team> TeamSearch(String search) {
 		// TODO Auto-generated method stub
 		return dao.TeamSearch(search);
 	}
@@ -315,9 +315,9 @@ public class TeamServiceImpl implements TeamService {
 	}
 	
 	@Override
-	public List<TeamBoard> selectList(int cPage, int numPerPage) {
+	public List<TeamBoard> selectList(int cPage, int numPerPage, String teamName) {
 		// TODO Auto-generated method stub
-		return dao.selectList(cPage, numPerPage);
+		return dao.selectList(cPage, numPerPage, teamName);
 	}
 
 	

@@ -32,7 +32,7 @@ public interface TeamService {
 	//도원
 	
 	//팀게시판
-	List<TeamBoard> selectList(int cPage, int numPerPage);
+	List<TeamBoard> selectList(int cPage, int numPerPage, String teamName);
 	int selectCount();
 	Object selectTeamBoard(int boardNo);
 	Object selectAttachment(int boardNo);
@@ -62,7 +62,7 @@ public interface TeamService {
 	List<Team> selectTeamRanking(int cPage, int numPerPage);
 	int selectCountT();
 	//팀랭킹 검색
-	Team TeamSearch(String search);
+	List<Team> TeamSearch(String search);
 	
 	
 	//용병랭킹

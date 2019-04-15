@@ -24,4 +24,12 @@
   	<insert id="insertNoticeAttachment" parameterType="noticeAttachment">
   		insert into noticeattachment values(SEQ_NOTICEATTACHMENTNO.nextval,#{originalFileName},#{renamedFileName},#{noticeNo})
   	</insert>
+  	
+  	<update id="updateNotice" parameterType="notice">
+  		update notice set noticetitle = #{noticeTitle}, noticecontent = #{noticeContent} where noticeno = #{noticeNo}
+  	</update>
+  	
+  	<delete id="deleteNotice" parameterType="_int">
+  		delete notice where noticeno = #{noticeNo}
+  	</delete>
 </mapper>

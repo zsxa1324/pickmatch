@@ -19,4 +19,8 @@ public interface BoardDao {
 	int insertNotice(Notice n);
 	
 	int insertNoticeAttachment(NoticeAttachment a);
+	
+	int updateNotice(Notice n);
+	
+	int deleteNotice(int noticeNo);
 }

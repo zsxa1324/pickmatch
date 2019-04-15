@@ -1,4 +1,4 @@
-package com.kh.pickmatch.common;
+package com.kh.pickmatch.common.exception;
 
 public class MessageException extends RuntimeException {
 

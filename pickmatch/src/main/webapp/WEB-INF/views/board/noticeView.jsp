@@ -44,26 +44,20 @@
   <div class="attach-file-console">
   	<c:if test="${attachmentList !=null }">
   		<c:forEach items="${attachmentList }" var="attach">
-  			<c:if test="${fn:substringAfter(attach.renamedFileName,'.')== 'jpg'
-  			}">
+  			<c:if test="${fn:substringAfter(attach.renamedFileName,'.')== 'jpg' || fn:substringAfter(attach.renamedFileName,'.')== 'gif' || fn:substringAfter(attach.renamedFileName,'.')== 'jpeg'
+  			|| fn:substringAfter(attach.renamedFileName,'.')== 'png' || fn:substringAfter(attach.renamedFileName,'.')== 'PNG'}">
   			<img src="${path }/resources/upload/notice/${attach.renamedFileName}" width="70px">
   			</c:if> 
-  			<c:if test="${fn:substringAfter(attach.renamedFileName,'.')== 'jpeg'}">
-  			<img src="${path }/resources/upload/notice/${attach.renamedFileName}" width="70px">
-  			</c:if> 
-  			<c:if test="${fn:substringAfter(attach.renamedFileName,'.')== 'png' || fn:substringAfter(attach.renamedFileName,'.')== 'PNG'}">
-  			<img src="${path }/resources/upload/notice/${attach.renamedFileName}" width="70px">
-  			</c:if> 
-  			
   		</c:forEach>
   	</c:if>
   </div>
-  
+  <c:if test="${loggedMember.memberId == notice.memberId }">
   <div id="freeboard-btn" style="margin-left: 50px;">
 				<input type="submit" class="btn btn-outline-success" value="수정"
 					style="margin-right: 150px;"> <input type="button"
-					class="btn btn-outline-success" value="삭제">
+					id="deleteBtn" class="btn btn-outline-success" value="삭제">
   </div>
+  </c:if>
 
 
 
@@ -71,6 +65,10 @@
 </form>
 </section>
 <script>
+	$("#deleteBtn").click(function(){
+		location.href = "${path}/board/noticeDelete?noticeNo=" + ${notice.noticeNo};
+	});
+	
 	function fileDownload(oName,rName)
 	{
 		oName = encodeURIComponent(oName);

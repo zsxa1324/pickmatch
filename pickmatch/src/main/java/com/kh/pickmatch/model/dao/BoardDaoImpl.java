@@ -52,4 +52,16 @@ public class BoardDaoImpl implements BoardDao {
 		return session.insert("board.insertNoticeAttachment", a);
 	}
 
+	@Override
+	public int updateNotice(Notice n) {
+		// TODO Auto-generated method stub
+		return session.update("board.updateNotice", n);
+	}
+
+	@Override
+	public int deleteNotice(int noticeNo) {
+		// TODO Auto-generated method stub
+		return session.delete("board.deleteNotice", noticeNo);
+	}
+	
 }

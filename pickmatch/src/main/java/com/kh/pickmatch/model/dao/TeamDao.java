@@ -3,6 +3,8 @@
 import java.util.List;
 import java.util.Map;
 
+import com.kh.pickmatch.model.vo.FreeBoard;
+import com.kh.pickmatch.model.vo.FreeBoardAttachment;
 import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.MemberRequest;
@@ -10,6 +12,7 @@ import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
+import com.kh.pickmatch.model.vo.TeamBoardAttachment;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
@@ -88,6 +91,38 @@ public interface TeamDao {
 	
 	//팀가입신청시 멤버리퀘스트테이블 비교
 	MemberRequest memberRequestCk(String memberId, String teamName);
+	
+	
+	//팀게시판 글쓰기
+	int insertFreeBoard(TeamBoard fb);
+	int insertFreeAttachment(TeamBoardAttachment a);
+	
+	//팀게시판 수정
+	int updateTeamBoard(String boardTitle, String boardContent, int boardNo);
+	
+	//팀게시판 글 삭제
+	int deleteTeamBoard(int boardNo);
+	
+	//팀 추방
+	int teambye(String memberId);
+	
+	//매니저를 팀원으로 등급조절
+	int leveldown(String memberId);
+	
+	//팀원을 매니저로 등급조절
+	int levelup(String memberId);
+	
+	//팀장위임
+	int teamleader(String memberId);
+	//팀장체크;;
+	String leadercheck(String teamName);
+	//팀장 체인지
+	int leaderchange(String beforeleader);
+	String authority(String memberId);
+	//팀탈퇴
+	int teamleave(String memberId);
+	//팀해체
+	int teambreakup(String teamName);
 	
 	
 	

@@ -14,7 +14,7 @@
 		select * from teamboard where boardno=#{boardNo}
 	</select>
 	<select id="selectAttachment" parameterType="_int" resultType="com.kh.pickmatch.model.vo.TeamBoardAttachment">
-		select * from teamboardattachment where attachmentno=#{boardNo}
+		select * from teamboardattachment where boardnoref=#{boardNo}
 	</select>
 	
 	<select id="selectMatchList" parameterType="string" resultType="match">
@@ -148,5 +148,67 @@
  	<select id="memberRequestCk" parameterType="member" resultType="mbr">
  		select * from memberrequest where memberid=#{memberId} and teamname=#{teamName}
  	</select>
+ 	
+ 	<!-- 팀게시판 글쓰기 -->
+ 	<!-- 자유게시판 insert 및 attachment insert -->
+  	<insert id="insertFreeBoard" parameterType="team">
+  		insert into teamboard values (SEQ_TEAMBOARDNO.nextval,#{teamName}, #{boardTitle}, #{memberId}, #{boardContent}, sysdate, default)
+  		<selectKey keyProperty="boardNo" resultType="_int" order="AFTER">
+  			select SEQ_TEAMBOARDNO.currval from dual
+  		</selectKey>  	
+  	</insert>
+  	<insert id="insertFreeAttachment" parameterType="teamboardattachment">
+  		insert into teamboardattachment values(SEQ_FREEBOARDATTACHMENTNO.nextval,#{originalFileName},#{boardNoRef},#{renamedFileName})
+  	</insert>
+ 	
+ 	<!-- 팀 게시판 수정 -->
+ 	<update id="updateTeamBoard" parameterType="team">
+ 		update teamboard set boardtitle=#{boardTitle}, boardcontent=#{boardContent} where boardno=#{boardNo}
+ 	</update>
+ 	
+ 	<!-- 팀 게시판 글 삭제 -->
+ 	<delete id="deleteTeamBoard">
+ 		delete from teamboard where boardno=#{boardNo}
+ 	</delete>
+ 	
+ 	<!-- 팀 추방 -->
+ 	<delete id="teambye">
+ 		delete from memberbyteam where memberid=#{memberId}
+ 	</delete>
+ 	
+ 	<!-- 매니저를 팀원으로 등급조절 -->
+ 	<update id="leveldown">
+ 		update memberbyteam set authority='팀원' where memberid=#{memberId}
+ 	</update>
+ 	
+ 	<!-- 팀원을 매니저로 등급조절 -->
+ 	<update id="levelup">
+ 		update memberbyteam set authority='매니저' where memberid=#{memberId}
+ 	</update>
+ 	
+ 	<!-- 팀장위임 -->
+ 	<update id="teamleader">
+ 		update memberbyteam set authority='팀장' where memberid=#{memberId}
+ 	</update>
+ 	<select id="leadercheck" resultType="String">
+ 		select memberId from memberbyteam where teamname=#{teamName} and authority = '팀장'
+ 	</select>
+ 	<!-- 팀장 매니저로 강등 -->
+ 	<update id="leaderchange">
+ 		update memberbyteam set authority='매니저' where memberid=#{beforeleader}
+ 	</update>
+ 	<select id="authority" resultType="String">
+ 		select memberId from memberbyteam where memberid=#{memberId}
+ 	</select>
+ 	
+ 	<!-- 팀탈퇴 -->
+ 	<delete id="teamleave">
+ 		delete from memberbyteam where memberid=#{memberId}
+ 	</delete>
+ 	
+ 	<!-- 팀해체 -->
+ 	<update id="teambreakup">
+ 		update team set teamstatus='N' where teamname=#{teamName}
+ 	</update>
  	
 </mapper>

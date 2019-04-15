@@ -1,6 +1,8 @@
 ﻿package com.kh.pickmatch.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -11,7 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -29,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.pickmatch.common.PageBarFactory;
 import com.kh.pickmatch.model.dao.TeamDaoImpl;
+import com.kh.pickmatch.model.service.MemberService;
 import com.kh.pickmatch.model.service.TeamService;
 import com.kh.pickmatch.model.vo.Member;
 import com.kh.pickmatch.model.vo.MemberByTeam;
@@ -37,6 +42,7 @@ import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
+import com.kh.pickmatch.model.vo.TeamBoardAttachment;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
@@ -45,6 +51,8 @@ public class TeamController {
 
 	private Logger logger = LoggerFactory.getLogger(TeamController.class);
 	
+	@Autowired
+	MemberService memberservice;
 	
 	@Autowired
 	TeamService service;
@@ -351,6 +359,170 @@ public class TeamController {
 		return "team/freeboardWrite";
 	}
 	
+	//팀게시판 글쓰기 다중파일업로드
+	@RequestMapping("/board/freeboardWrite.do")
+	public ModelAndView insertFreeboard(String teamName, TeamBoard fb, MultipartFile[] upFile, HttpServletRequest re) {
+		ModelAndView mv = new ModelAndView();
+		String msg = "";
+		String loc = "";
+		String saveDir = re.getSession().getServletContext().getRealPath("/resources/upload/team-freeboard");
+		File dir = new File(saveDir);
+		if(!dir.exists())
+		{
+			dir.mkdirs();
+		}
+		List<TeamBoardAttachment> list = new ArrayList<>();
+		for(MultipartFile f : upFile)
+		{
+			if(!f.isEmpty())
+			{
+				String oriFileName = f.getOriginalFilename();
+				String ext = oriFileName.substring(oriFileName.indexOf("."));
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+				int rndNum = (int)(Math.random()*1000);
+				String renamedFile = sdf.format(new Date(System.currentTimeMillis())) + "_" + rndNum + ext;
+				try
+				{
+					f.transferTo(new File(saveDir + "/" + renamedFile));
+				}catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+				TeamBoardAttachment a = new TeamBoardAttachment();
+				a.setOriginalFileName(oriFileName);
+				a.setRenamedFileName(renamedFile);
+				list.add(a);
+			}
+		}
+		logger.debug("컨트롤러fb!!!"+teamName);
+		fb.setTeamName(teamName);
+		int result = service.insertFreeBoard(fb,list);
+		if(result>0)
+		{
+			msg = "게시글이 등록되었습니다.";
+			loc =  "/freeboard.do";
+		}
+		else
+		{
+			msg = "게시글 등록이 실패했습니다. 다시 등록해주세요.";
+			loc = "/freeboard.do";
+		}
+	
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	//팀게시판 파일다운
+	@RequestMapping("/team/teamboard.do")
+	public void fileDown(String oName, String rName, HttpServletRequest request, HttpServletResponse response)
+	{
+		BufferedInputStream bis = null;
+		ServletOutputStream sos = null;
+		
+		String saveDir = request.getSession().getServletContext().getRealPath("/resources/upload/team-freeboard");
+		try
+		{
+			FileInputStream fis = new FileInputStream(new File(saveDir+"/"+rName));
+			bis = new BufferedInputStream(fis);
+			sos = response.getOutputStream();
+			String resFilename = "";
+			boolean isMSIE = request.getHeader("user-agent").indexOf("MSIE") != -1 || request.getHeader("user-agent").indexOf("Trident") != -1;
+			if(isMSIE)
+			{
+				resFilename = URLEncoder.encode(oName, "UTF-8");
+				resFilename = resFilename.replaceAll("\\+", "%20");
+			}
+			else
+			{
+				resFilename = new String(oName.getBytes("UTF-8"),"ISO-8859-1");
+			}
+			
+			response.setContentType("application/octet-stream;charset=UTF-8");
+			response.addHeader("Content-Disposition", "attachment;filename=\""+resFilename+"\"");
+			
+			int read = 0;
+			while((read = bis.read()) != -1)
+			{
+				sos.write(read);
+			}
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		finally 
+		{
+			try 
+			{
+				bis.close();
+				sos.close();
+			}
+			catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	//팀게시판 수정창 이동
+	@RequestMapping("/team/updateteamboard")
+	public ModelAndView updateTeamBoard(int boardNo) {
+		
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("teamboard", service.selectTeamBoard(boardNo));
+		mv.addObject("attachmentList", service.selectAttachment(boardNo));
+		mv.setViewName("team/updateTeamBoard");
+		return mv;
+	}
+	//팀게시판 수정
+	@RequestMapping("/team/whiteTeamBoard.do")
+	public String updateTeamBoard(String boardTitle,  String boardContent,int boardNo, Model m) {
+		
+		int result = service.updateTeamBoard(boardTitle, boardContent, boardNo);
+		String msg="";
+		String loc="";
+		
+		if(result>0) {
+			msg="수정되었습니다";
+		}
+		else {
+			msg="실패하였습니다";
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
+		
+	}
+	
+	
+	//팀게시판 글삭제
+	@RequestMapping("/deleteTeamBoard.do")
+	public String deleteTeamBoard(@RequestParam(value="boardNo",defaultValue="1") int boardNo, Model m) {
+		
+		
+		String msg = "";
+		String loc = "/freeboard.do";
+		int result = service.deleteTeamBoard(boardNo);
+		
+		if(result>0) {
+			msg="삭제되었습니다";
+		}
+		else {
+			msg="실패하였습니다";
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
+		
+	}
+	
+	
+	
 	//팀 공지사항 글쓰기 지우면안됨!!
 	@RequestMapping("/Team/teamnoticeWrite")
 	public String teamnoticeWrite(){
@@ -364,7 +536,7 @@ public class TeamController {
 	
 	//팀 게시판 상세보기
 	@RequestMapping("/team/teamView.do")
-	public ModelAndView selectOne(@RequestParam(value="boardNo",defaultValue="1") int boardNo) {
+	public ModelAndView selectOne(int boardNo) {
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("teamboard", service.selectTeamBoard(boardNo));
@@ -460,6 +632,7 @@ public class TeamController {
 		
 	}
 		
+	//팀 공지사항 수정
 	@RequestMapping("/team/whiteNotice")
 	public String whiteNotice(String noticeTitle,  String noticeContent,int noticeNo, Model m) {
 		
@@ -651,7 +824,138 @@ public class TeamController {
 		return mv;
 	}
 	
+	//팀원, 매니저 추방
+	@RequestMapping("/team/team_bye.do")
+	public String teambye(String memberId,String teamName, Model m) {
+		logger.debug("아이디들어오니??"+memberId);
+		String msg="";
+		String loc="/team.do?teamName="+teamName;
+		
+		int result = service.teambye(memberId);
+		if(result>0) {
+			msg="추방이 완료되었습니다";
+		}
+		else {
+			msg="추방에 실패하였습니다";
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
 
+	}
+
+	//매니저를 팀원으로
+	@RequestMapping("/team/team_leveldown.do")
+	public String leveldown(String memberId, String teamName, Model m) {
+		logger.debug("아이디들어오니??"+memberId);
+		String msg="";
+		String loc="/team.do?teamName="+teamName;
+		int result = service.leveldown(memberId);
+		if(result>0) {
+			msg="등급이 변경되었습니다";
+		}
+		else {
+			msg="등급변경에 실패하였습니다";
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
+
+	}
 	
+	//팀원을 매니저로
+		@RequestMapping("/team/team_levelup.do")
+		public String levelup(String memberId, String teamName, Model m) {
+			logger.debug("아이디들어오니??"+memberId);
+			String msg="";
+			String loc="/team.do?teamName="+teamName;
+			int result = service.levelup(memberId);
+			if(result>0) {
+				msg="등급이 변경되었습니다";
+			}
+			else {
+				msg="등급변경에 실패하였습니다";
+			}
+			
+			m.addAttribute("msg", msg);
+			m.addAttribute("loc", loc);
+			
+			return "common/msg";
+
+		}
+
+		//팀장위임
+		@RequestMapping("/team/team_leader.do")
+		public String teamleader(String memberId, String teamName, Model m, HttpSession session) {
+			logger.debug("아이디들어오니??"+memberId);
+			String msg="";
+			String loc="/team.do?teamName="+teamName;
+			int result = service.teamleader(memberId, teamName);
+			if(result>0) {
+				msg="팀장위임에 성공하였습니다";
+				Member member =(Member)session.getAttribute("loggedMember");
+				
+				String authority = service.authority(member.getMemberId());
+				member.setAuthority(authority);
+				session.setAttribute("loggedMember", member);
+			}
+			else {
+				msg="팀장위임에 실패하였습니다";
+			}
+			
+			m.addAttribute("msg", msg);
+			m.addAttribute("loc", loc);
+			
+			return "common/msg";
+
+		}
+		
+		//팀탈퇴
+		@RequestMapping("/team/teamleave.do")
+		public String teamleave(String memberId, Model m, HttpSession session) {
+			logger.debug("아이디들어오니??"+memberId);
+			String msg="";
+			int result = service.teamleave(memberId);
+			if(result>0) {
+				msg="팀을 탈퇴하였습니다";
+				Member member =(Member)session.getAttribute("loggedMember");
+				Member memberResult = memberservice.selectOne(member);
+				session.setAttribute("loggedMember", memberResult);
+				
+			}
+			else {
+				msg="팀탈퇴에 실패하였습니다";
+			}
+			
+			m.addAttribute("msg", msg);
+			
+			return "common/msg";
+
+		}
+		
+		//팀해체
+		@RequestMapping("/team/teambreakup")
+		public String teambreakup(String teamName, Model m, HttpSession session) {
+			String msg="";
+			int result = service.teambreakup(teamName);
+			if(result>0) {
+				msg="팀을 해체하였습니다";
+				Member member =(Member)session.getAttribute("loggedMember");
+				Member memberResult = memberservice.selectOne(member);
+				session.setAttribute("loggedMember", memberResult);
+				
+			}
+			else {
+				msg="팀해체에 실패하였습니다";
+			}
+			
+			m.addAttribute("msg", msg);
+			
+			return "common/msg";
+		}
 	
 }

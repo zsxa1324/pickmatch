@@ -14,11 +14,12 @@
 		margin : auto 30px;
 	}
 </style>
-<form style="margin-top: 20px;" action="${pageContext.request.contextPath}/board/noticeUpdate"
+<form style="margin-top: 20px;" action="${pageContext.request.contextPath}/board/noticeUpdateEnd"
 			method="post" enctype="multipart/form-data">
+	<input type="hidden" name="noticeNo" value="${notice.noticeNo }"/>
   <div class="form-group form-group-sm">
     <label for="noticeTitle" style="display: inline-block; margin-right: 30px; margin-left: 20px;">제목</label>
-    <input type="text" class="form-control" id="noticeTitle" name="noticeTitle" value="${notice.noticeTitle }"  style="display: inline-block; width: 300px;"  readonly>
+    <input type="text" class="form-control" id="noticeTitle" name="noticeTitle" value="${notice.noticeTitle }"  style="display: inline-block; width: 300px;"  >
   </div>
   <div class="form-group form-group-sm">
     <label for="memberId" style="display: inline-block; margin-right: 30px; margin-left: 20px;">작성자</label>
@@ -37,7 +38,7 @@
   		
   <div class="form-group">
   	<label style="margin-right: 30px; margin-left: 20px; display:inline-block;">내용</label>
-  	<textarea name="noticeContent" class="form-control" rows="10" style="width:600px; margin-right: 30px; margin-left: 20px" readonly>${notice.noticeContent }</textarea>
+  	<textarea name="noticeContent" class="form-control" rows="10" style="width:600px; margin-right: 30px; margin-left: 20px">${notice.noticeContent }</textarea>
   </div>
   
   <div class="attach-file-console">

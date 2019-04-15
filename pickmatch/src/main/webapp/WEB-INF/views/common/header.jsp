@@ -10,6 +10,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Baloo|Baloo+Chettan|Changa|Concert+One|Cuprum|Days+One|Fredoka+One|Fugaz+One|Iceberg|Maven+Pro:700|Mitr|Passion+One|Permanent+Marker|Racing+Sans+One|Righteous|Viga|ZCOOL+XiaoWei" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Acme|Amaranth:700i|Amatic+SC:700|Cuprum:700|Dosis:800|Francois+One|Fredoka+One|Jua|Lobster|Passion+One:400,700|Paytone+One|Yanone+Kaffeesatz:700" rel="stylesheet">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/team.css" />
@@ -35,6 +36,18 @@
 		width : 100%;
 		/* background-image : url("${path}/resources/images/stadium.jpg");  */
 	}
+	#mypage-container
+	{
+		display : flex;
+		flex-flow : column;
+		position : absolute;
+		background-color: white;
+		width : 120px;
+		height: 60px;
+		float: right;
+		margin: 80px 0 0 0;
+		z-index: 10;
+	}
 	#header-container
 	{
 		display : flex;
@@ -55,10 +68,23 @@
 	#header-container > div:nth-of-type(1){flex: 5 1 0;}
 	#header-container > div:nth-of-type(2){flex: 1 1 0;}
 	
+	#header-logo
+	{
+		margin : 0 0 0 20px;
+	}
+	
 	#header-logo > img
 	{
-		margin : 0 7px 0 15px;
+		margin : 0 -2px 0 10px;
 	}
+	
+	#header-logo > a
+	{
+		font-family: Amaranth;
+		font-size:46px;
+		cursor: default;
+	}
+	
 	#login-modal > span
 	{
 		color : black;
@@ -147,14 +173,32 @@
 	{
 		font-size:13px;
 	}
+	
+	.modal-footer
+	{
+		padding-bottom: 3px;
+	}
+	
+	#searchMember
+	{
+		float : right;
+		font-size: 14px;
+		padding-right: 16px;
+		padding-bottom: 10px;
+		color : #adb5bd;
+	}
+	#searchMember > a
+	{
+		color : #adb5bd;
+	}
 </style>
 </head>
 <body>
 <header>
 	<div id="header-container">
 		<div id="header-logo">
-			<img src="${path }/resources/images/trophy.png" width="40px"/>
-			<a class="a-main" href="${path }/"><h2>Pick Match</h2></a>
+			<img src="${path }/resources/images/trophy.png" width="38px" height="41.5px"/>
+			<a class="a-main" href="${path }/">pickmatch</a>
 		</div>
 		<c:if test="${loggedMember==null }">
 		<div id="login-modal" data-toggle="modal" data-target="#loginModal">
@@ -162,8 +206,7 @@
 			<span>로그인</span>
 		</div>
 		</c:if>
-		
-		<c:if test="${loggedMember!=null }">
+		<c:if test="${loggedMember!=null and loggedMember.memberId!='admin'}">
 		<div id="login-modal">
 			<div id="alarm">-1</div>
 			<c:if test="${loggedMember.memberId=='admin' }">
@@ -172,12 +215,13 @@
 			</a>
 			</c:if>
 			<c:if test="${loggedMember.memberId!='admin' }">
-			<a href="${path }/member/mypage.do">
+			<a href="${path }/member/mypageCheck.do">
 				<c:if test="${loggedMember.status=='Y' }">
-					<c:if test="${loggedMember.profile!=null }">
+				<%-- <c:out value="${loggedMember }"/> --%>
+					<c:if test="${loggedMember.profile!=null}">
 						<img src="${path }/resources/upload/member-profile/${loggedMember.profile }" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
 					</c:if>
-					<c:if test="${loggedMember.profile==null }">
+					<c:if test="${loggedMember.profile==null}">
 						<img src="${path }/resources/images/user2.png" width='35px' height='35px' title="마이페이지"/>
 					</c:if>
 				</c:if>
@@ -190,10 +234,31 @@
 					</c:if>
 				</c:if>
 			</a>
+			<!-- <div id="mypage-container">
+				<a href="#">내 정보 보기</a>
+				<a href="#">내가 쓴 글 보기</a>
+			</div> -->
 			</c:if>
 			<span onclick="location.href='${path}/member/logout.do'">로그아웃</span>
 		</div>
 		</c:if>
+		
+		<c:if test="${loggedMember!=null and loggedMember.memberId=='admin'}">
+		<div id="login-modal">
+			<div id="alarm">1</div>
+			<a href="${path }/admin/adminPage">
+			<c:if test="${loggedMember.profile!=null }">
+				<img src="${path }/resources/upload/member-profile/${loggedMember.profile }" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
+			</c:if>
+			<c:if test="${loggedMember.profile==null }">
+				<img src="${path }/resources/images/user.png" width='35px' height='35px' title="관리자페이지"/>
+			</c:if>
+			</a>
+			<span onclick="location.href='${path}/member/logout.do'">로그아웃</span>
+		</div>
+		</c:if>
+		
+		
 		
 	</div>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">		
@@ -213,6 +278,8 @@
 							</c:if>
 							<c:if test="${loggedMember.teamName!=null }">
 							<a href="${path }/team.do?teamName=${loggedMember.teamName}">팀 정보</a>
+							<a href="${path}/team/teamMatchList">팀 매치정보</a>
+                    		<a href="${path}/team/teamOperationInfo">팀 운영정보</a>
 							</c:if>
 							<c:if test="${loggedMember.teamName!=null }">
 							<a href="${path}/freeboard.do">팀 자유게시판</a>
@@ -236,7 +303,7 @@
 					<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a>
 						<div class="dropdown">
 							<a href="${path }/community/freeboard.do">자유게시판</a>
-							<a href="#">모집게시판</a>
+							<a href="${path }/board/recruit">모집게시판</a>
 						</div>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">랭킹</a>
@@ -269,6 +336,7 @@
 						<div class="modal-body">
 							<input type="text" class="form-control"	name="memberId" placeholder="아이디" required/>
 							<input type="password" class="form-control" name="password" placeholder="비밀번호" required/>
+							
 						</div>
 						<div class="modal-footer">
 							<a id="kakao-login-btn"></a>
@@ -277,6 +345,7 @@
 							<button type="button" class="btn btn-secondary"
 								data-dismiss="modal">취소</button>
 						</div>
+						<span id="searchMember"><a href="${path }/member/findpage.do">아이디/비밀번호 찾기</a></span>
 					</form>
 				</div>
 				
@@ -359,7 +428,7 @@
 	</div>
 	
 	<div class="modal fade" id="alarmModal" >
-	  <div class="modal-dialog modal-lg">
+	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <!-- header -->
 	      <div class="modal-header">

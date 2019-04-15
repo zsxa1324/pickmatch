@@ -44,6 +44,18 @@
 		</tr>
 	
 	</table>
+	
+	<c:if test="${loggedMember.teamName==null }">
+		<button id="teamJoin" class="btn btn-primary" onclick="teamjoin_btn()">팀 가입 신청</button>
+		<button id="teamCancel" class="btn btn-primary" onclick="teamCancel_btn()">팀 신청 취소</button>
+	</c:if>
+	<c:if test="${loggedMember.teamName==teamName&&(loggedMember.authority=='매니저'||loggedMember.authority=='팀원') }">
+		<button id="teamleave" value="${loggedMember.memberId }" onclick="teamleave()" class="btn btn-primary" onclick="teamleave_btn()">팀 탈되</button>
+	</c:if>
+	<c:if test="${loggedMember.teamName==teamName&&loggedMember.authority=='팀장' }">
+		<button id="teambreakup" value="${loggedMember.teamName }" onclick="teambreakup()" class="btn btn-primary" onclick="teambreakup()">팀 해체</button>
+	</c:if>
+	
 </div>	
 
 
@@ -55,7 +67,7 @@
 	<table id="member-info" class="table table-striped table-hover">
 		<tr id="member-info-int">
 			<th id="member-info-int-no">no</th>
-			<th id="member-info-int-name">name</th>
+			<th id="member-info-int-name">id</th>
 			<th id="member-info-int-position">position</th>
 			<th id="member-info-int-goalcount">goalcount</th>
 			<th id="member-info-int-management">management</th>
@@ -64,15 +76,44 @@
 		<c:forEach  items="${result }" var="i">
 		<tr>
 			<td>${i.no }</td>
+			<c:if test="${i.status=='K' }">
+			<td>${i.memberName }</td>
+			</c:if>
+			<c:if test="${i.status=='Y'}">
 			<td>${i.memberId }</td>
+			</c:if>
 			<td>${i.position }</td>
 			<td>${i.goalCount }</td>
 			<td>${i.authority }</td>
-			<td>버튼</td>
+			<td id="member-info-int-management">
+			
+			<c:if test="${loggedMember.teamName==teamName&&loggedMember.authority=='팀장' }">
+			<c:if test="${loggedMember.teamName==teamName&&i.authority=='팀원'}">
+				<button id="level-up" value="${i.memberId }" onclick="level_up()" class="btn btn-outline-success" style="display: inline-block; width:110px; height: 35px;">매니저부여</button>
+			</c:if>
+			<c:if test="${loggedMember.teamName==teamName&&i.authority=='매니저' }">
+				<button id="team-leader" value="${i.memberId }" onclick="team_leader()" class="btn btn-outline-success" style="display: inline-block; width:110px; height: 35px;">팀장위임</button>
+				<button id="level-down" value="${i.memberId }" onclick="level_down()" class="btn btn-outline-success" style="display: inline-block; width:110px; height: 35px;">팀원으로</button>
+			</c:if>
+			</c:if>
+			<c:if test="${loggedMember.teamName==teamName&&loggedMember.authority=='팀장'}">
+			<c:if test="${loggedMember.teamName==teamName&&i.authority=='팀원'||i.authority=='매니저'}">
+				<button id="team-bye" value="${i.memberId }" onclick="team_bye()" class="btn btn-outline-success" style="display: inline-block; width:110px; height: 35px;">추방</button>
+			</c:if>
+			</c:if>
+			<c:if test="${loggedMember.teamName==teamName&&loggedMember.authority=='매니저' }">
+			<c:if test="${loggedMember.teamName==teamName&&i.authority=='팀원' }">
+				<button id="team-bye" value="${i.memberId }" onclick="team_bye()" class="btn btn-outline-success" style="display: inline-block; width:110px; height: 35px;">추방</button>
+			</c:if>
+			</c:if>
+			</td>
 		</tr>
 		</c:forEach>
 	</table>
 	</div>
+	
+	
+
 <div id="match-container" align="center">
 	<button class="btn btn-primary" onclick="matchenroll_btn()">매치등록</button>
 	<button class="btn btn-primary" onclick="match_check()" style="margin-left: 60px;">매치검색</button>
@@ -82,13 +123,62 @@
 		location.href="${path}/match/enrollForm";
 	}
 	function match_check(){
-		location.href="${path}/match/matchList.do"
+		location.href="${path}/match/matchList.do";
 	}
+	
+	//팀원 추방
+	function team_bye(){
+		var a=event.target.value;
+		var b="${loggedMember.teamName}";
+		console.log(b);
+		location.href="${path}/team/team_bye.do?memberId="+a+"&&teamName=${loggedMember.teamName}";	 
+		
+	}
+	
+	//매니저를 팀원으로
+	function level_down(){
+		
+		var a=event.target.value;
+		var b="${loggedMember.teamName}"
+		console.log(b);
+		location.href="${path}/team/team_leveldown.do?memberId="+a+"&&teamName=${loggedMember.teamName}"; 
+	}
+	
+	//팀원을 매니저로
+	function level_up(){
+		var a=event.target.value;
+		var b="${loggedMember.teamName}"
+		console.log(b);
+		location.href="${path}/team/team_levelup.do?memberId="+a+"&&teamName=${loggedMember.teamName}"; 
+	}
+	
+	//팀장위임
+	function team_leader(){
+		var a=event.target.value;
+		var b="${loggedMember.teamName}"
+		console.log(b);
+		location.href="${path}/team/team_leader.do?memberId="+a+"&&teamName=${loggedMember.teamName}"; 
+	}
+	
+	function teamleave(){
+		var a = event.target.value;
+		location.href="${path}/team/teamleave.do?memberId="+a;
+		console.log(a);
+	}
+	
+	//팀해체
+	function teambreakup(){
+		var a = event.target.value;
+		location.href="${path}/team/teambreakup?teamName="+a;
+		console.log(a);
+	}
+
 </script>
 	
 </div>
 <br><br><br>
 
+<c:if test="${loggedMember.teamName==teamName }">
 <h2 align="center">팀 가입 신청현황</h2>
 
 <div id="team-application" style="overflow-y:scroll; width:600px; height:400px;">
@@ -96,66 +186,113 @@
 	<table id="team-application-table" class="table table-striped table-hover">
 		<tr>
 			<th id="team-application-table-no">no</th>
-			<th id="team-application-table-name">name</th>
+			<th id="team-application-table-name">id</th>
 			<th id="team-application-table-position">position</th>
 			<th id="team-application-table-date">date</th>
+			<c:if test="${loggedMember.teamName==teamName&&(loggedMember.authority=='팀장'||loggedMember.authority=='매니저')}">
 			<th id="team-application-table-others">비고</th>
+			</c:if>
 		</tr>
+		<c:forEach  items="${memberrequest }" var="j" varStatus="k">
 		<tr>
-			<td>1</td>
-			<td>강도원</td>
-			<td>mf</td>
-			<td>19/04/21</td>
-			<td id="team-application-table-btn">
-				<button id="member-join" class="btn btn-primary">가입</button>
-				<button id="member-cancle" class="btn btn-primary">취소</button>
+			<td>${k.count }</td>
+			<td>${j.memberId }</td>
+			<td>${j.position }</td>
+			<td>${j.requestDate }</td>
+			
+			<c:if test="${loggedMember.teamName==teamName&&(loggedMember.authority=='팀장'||loggedMember.authority=='매니저')}">
+			<td> 
+				<button class="btn btn-outline-success ok_btn" value="${j.memberId }">가입</button>
+				<button class="btn btn-outline-success no_btn" value="${j.memberId }">거절</button>
 			</td>
+			</c:if>
 		</tr>
-		<tr>
-			<td>1</td>
-			<td>강도원</td>
-			<td>mf</td>
-			<td>19/04/21</td>
-			<td id="team-application-table-btn">
-				<button id="member-join" class="btn btn-primary">가입</button>
-				<button id="member-cancle" class="btn btn-primary">취소</button>
-			</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>강도원</td>
-			<td>mf</td>
-			<td>19/04/21</td>
-			<td id="team-application-table-btn">
-				<button id="member-join" class="btn btn-primary">가입</button>
-				<button id="member-cancle" class="btn btn-primary">취소</button>
-			</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>강도원</td>
-			<td>mf</td>
-			<td>19/04/21</td>
-			<td id="team-application-table-btn">
-				<button id="member-join" class="btn btn-primary">가입</button>
-				<button id="member-cancle" class="btn btn-primary">취소</button>
-			</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>강도원</td>
-			<td>mf</td>
-			<td>19/04/21</td>
-			<td id="team-application-table-btn">
-				<button id="member-join" class="btn btn-primary">가입</button>
-				<button id="member-cancle" class="btn btn-primary">취소</button>
-			</td>
-		</tr>
+		</c:forEach>
 	</table>
 
 </div>
+</c:if>
 </div>
+<script>
+		
+	
+		$(".ok_btn").click(function(){
+			/* console.log($(this).val());  */
+			location.href="${path}/teamOk.do?teamName=${loggedMember.teamName}&&memberId="+$(this).val(); 
+			
+		}) 
+		
+		$(".no_btn").click(function(){
+			/* console.log($(this).val());  */
+			location.href="${path}/teamNo.do?teamName=${loggedMember.teamName}&&memberId="+$(this).val(); 
+			
+		}) 
+		
+		
+		$("#teamCancel").hide();	
+		$("#teamJoin").hide();
+		
+		$(function(){
+			$.ajax({
+				url:"${path}/memberrequestck.do",
+				data: {memberId:"${loggedMember.memberId}",teamName:"${teamName}"},
+				success:function(data)
+				{
+					console.log(data);
+					if(data.flag){
+						$("#teamJoin").hide();
+						$("#teamCancel").show();
+					}
+					else{
+						$("#teamJoin").show();
+						$("#teamCancel").hide();
+					}
+				}
+			})
+		})
+		
+		
+		
+		function teamjoin_btn(){
+			var member={memberId:"${loggedMember.memberId}",teamName:"${teamName}",position:"${loggedMember.position}"}
+			
+			$.ajax({
+				url:"${path}/teamJoin.do",
+				type:"post",
+				data:member,
+				success:function(data){
+					console.log(data);
+					if(data.flag)
+					{
+						$("#teamJoin").hide();
+						$("#teamCancel").show();
+						alert("가입신청이 완료되었습니다");
+					}
+				}
+			})
+		}
+		
+		function teamCancel_btn(){
+			
+			var member={memberId:"${loggedMember.memberId}",teamName:"${teamName}"}
+			$.ajax({
+				url:"${path}/teamCancel.do",
+				type:"post",
+				data:member,
+				success:function(data){
+					if(data.flag)
+					{
+						$("#teamJoin").show();
+						$("#teamCancel").hide();
+						alert("팀가입신청을 취소하였습니다!")
+					}
+				}
+			})
+		}
+		
+	
 
+</script>
 
 
 
@@ -164,6 +301,16 @@
 
 
 <style>
+	.ok_btn{
+		width:70px;
+		height:30px;
+	}
+	
+	.no_btn{
+		width:70px;
+		height:30px;
+	}
+
  	li{
 	/* float: left; */
     width: 200px; height:8%;
@@ -337,7 +484,10 @@
 	#team-application-table-btn{
 		width:400px;
 	}
-
+	
+	#member-info-int-management{
+		 width:150px; 
+	}
 
 
 	

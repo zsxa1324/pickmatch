@@ -32,9 +32,12 @@
 		</c:forEach>
 	
 	</table>
+	
+	<c:if test="${loggedMember.authority=='팀장'||loggedMember.authority=='매니저' }">
 	<div id="teamnotice-write-btn" align="right" style="margin-right: 200px; margin-top: 30px;">
-	<input type="button" value="글쓰기" id="btn-add" class="btn btn-primary" onclick="fn_write();"/>
-</div>
+		<input type="button" value="글쓰기" id="btn-add" class="btn btn-primary" onclick="fn_write();"/>
+	</div>
+	</c:if>
 </div>	
 
 

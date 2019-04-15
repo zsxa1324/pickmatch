@@ -169,11 +169,59 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/board/noticeUpdate")
-	public ModelAndView updateNotice(Notice n) {
+	public ModelAndView updateNotice(int noticeNo) {
 		logger.debug("up");
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("notice", n);
+		mv.addObject("notice", service.selectOneNotice(noticeNo));
+		mv.addObject("attachmentList", service.selectAttachment(noticeNo));
 		mv.setViewName("board/noticeUpdate");
 		return mv;
 	}
+	
+	@RequestMapping("/board/noticeUpdateEnd")
+	public ModelAndView updateNoticeEnd(Notice n) {
+		ModelAndView mv = new ModelAndView();
+		int result = service.updateNotice(n);
+		String msg = "";
+		String loc = "/board/notice";
+		if (result > 0)
+			msg = "게시물이 수정되었습니다";
+		else
+			msg = "게시물 수정에 실패하였습니다";
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	@RequestMapping("/board/noticeDelete")
+	public ModelAndView deleteNotice(int noticeNo) {
+		ModelAndView mv = new ModelAndView();
+		int result = service.deleteNotice(noticeNo);
+		String msg = "";
+		String loc = "/board/notice";
+		if (result > 0)
+			msg = "게시물이 삭제되었습니다.";
+		else
+			msg = "게시물 삭제에 실패하였습니다.";
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	/*@RequestMapping("/board/recruit")
+	public ModelAndView recruit(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
+		int numPerPage = 10;
+		ModelAndView mv = new ModelAndView();
+		List<Notice> list = service.selectNoticeList(cPage, numPerPage);
+		int totalList = service.selectNoticeCount();
+	
+		mv.addObject("list", list);
+		mv.addObject("totalList", totalList);
+		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/board/notice"));
+		mv.setViewName("board/notice");
+		return mv;
+	}*/
+	
 }

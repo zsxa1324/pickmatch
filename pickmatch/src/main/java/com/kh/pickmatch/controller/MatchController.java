@@ -1,6 +1,8 @@
 ﻿package com.kh.pickmatch.controller;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,17 +156,36 @@ private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	}
 	@RequestMapping("/match/matchSa.do")
 	public ModelAndView matchSa(int matchNo,String matchHome,String matchAway) {
+		System.out.println(matchNo);
+		System.out.println(matchHome);
+		System.out.println("gg"+matchAway);
 		ModelAndView mv=new ModelAndView();
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("matchNo",matchNo);
 		map.put("matchHome",matchHome);
 		map.put("matchAway",matchAway);
 		HomeSaInfo m=service.matchSa(map);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		System.out.println("잘되나"+sdf.format(m.getMatchDate()));
+		String matchDate=sdf.format(m.getMatchDate());
 		AwaySaInfo sm=service.matchSaa(map);
 		mv.addObject("m",m);
 		mv.addObject("sm",sm);
+		mv.addObject("matchDate",matchDate);
 		mv.setViewName("match/matchSaInfo");
 		
 		return mv;
 	}
+	@RequestMapping("/match/matchIndexContent")
+	public ModelAndView matchindexContent(String today) {
+		System.out.println(today);
+		ModelAndView mv=new ModelAndView();
+		List<Map> list=service.matchindexContent(today);
+		System.out.println("gg"+list);
+		mv.addObject("list",list);
+		mv.setViewName("match/todayMatchContent");
+		return mv;
+	}
+		
+	
 }

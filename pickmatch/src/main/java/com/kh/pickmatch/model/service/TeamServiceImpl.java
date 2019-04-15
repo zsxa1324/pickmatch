@@ -6,13 +6,18 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.pickmatch.common.exception.BoardException;
 import com.kh.pickmatch.model.dao.TeamDao;
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MatchGoalResult;
 import com.kh.pickmatch.model.vo.MemberByTeam;
+import com.kh.pickmatch.model.vo.MemberRequest;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Score;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
+import com.kh.pickmatch.model.vo.TeamBoardAttachment;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
@@ -38,8 +43,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectMoneyHistoryList(String teamName) {
-		return dao.selectMoneyHistoryList(teamName);
+	public List<Map<String, Object>> selectMoneyHistoryList(Map<String, String> map) {
+		return dao.selectMoneyHistoryList(map);
 	}
 
 	@Override
@@ -67,6 +72,67 @@ public class TeamServiceImpl implements TeamService {
 		return dao.selectMatchCount(teamName);
 	}
 	
+	@Override
+	public int insertMatchGoalResult(MatchGoalResult mgr) {
+		return dao.insertMatchGoalResult(mgr);
+	}
+	
+	@Override
+	public Match selectOneMatch(int matchNo) {
+		return dao.selectOneMatch(matchNo);
+	}
+	
+	@Override
+	public Team selectOneHomeTeam(String teamHome) {
+		return dao.selectOneHomeTeam(teamHome);
+	}
+
+	@Override
+	public Team selectOneAwayTeam(String teamAway) {
+		return dao.selectOneAwayTeam(teamAway);
+	}
+	
+	@Override
+	public int updateScore(Score s) {
+		return dao.updateScore(s);
+	}
+	
+	@Override
+	public int updateTeamRating(Map<String, Object> map) {
+		return dao.updateTeamRating(map);
+	}
+	
+	@Override
+	public int updateMatchScore(Map<String, Integer> matchScoreMap) {
+		return dao.updateMatchScore(matchScoreMap);
+	}
+	
+	@Override
+	public int insertMatchResultDetail(Map<String, Object> matchResultDetailMap) {
+		return dao.insertMatchResultDetail(matchResultDetailMap);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectMatchGoalResultList(int matchNo) {
+		return dao.selectMatchGoalResultList(matchNo);
+	}
+	
+	@Override
+	public String selectMatchResultDetail(int matchNo) {
+		return dao.selectMatchResultDetail(matchNo);
+	}
+	
+	@Override
+	public List<Map<String, String>> selectMercenaryList(Map<String, String> map) {
+		return dao.selectMercenaryList(map);
+	}
+	
+	@Override
+	public String selectTeamAuthorityOne(String memberId) {
+		return dao.selectTeamAuthorityOne(memberId);
+	}
+	
+	
 	
 	
 	
@@ -81,6 +147,117 @@ public class TeamServiceImpl implements TeamService {
 	public List<TeamNotice> selectListN(int cPage, int numPerPage, String teamName) {
 		// TODO Auto-generated method stub
 		return dao.selectListN(cPage, numPerPage, teamName);
+	}
+
+	@Override
+	public int teambreakup(String teamName) {
+		// TODO Auto-generated method stub
+		return dao.teambreakup(teamName);
+	}
+
+	@Override
+	public int teamleave(String memberId) {
+		// TODO Auto-generated method stub
+		return dao.teamleave(memberId);
+	}
+
+	@Override
+	public String authority(String memberId) {
+		// TODO Auto-generated method stub
+		return dao.authority(memberId);
+	}
+
+	@Override
+	public int teamleader(String memberId, String teamName) {
+		// TODO Auto-generated method stub
+		
+		String beforeleader = dao.leadercheck(teamName);
+		
+		int result = dao.teamleader(memberId);
+		int finalresult = 0;
+		
+		if(result > 0) {
+			finalresult = dao.leaderchange(beforeleader);
+		}
+		return finalresult;
+	}
+
+	@Override
+	public int levelup(String memberId) {
+		// TODO Auto-generated method stub
+		return dao.levelup(memberId);
+	}
+
+	@Override
+	public int leveldown(String memberId) {
+		// TODO Auto-generated method stub
+		return dao.leveldown(memberId);
+	}
+
+	@Override
+	public int teambye(String memberId) {
+		// TODO Auto-generated method stub
+		return dao.teambye(memberId);
+	}
+
+	@Override
+	public int deleteTeamBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteTeamBoard(boardNo);
+	}
+
+	@Override
+	public int updateTeamBoard(String boardTitle, String boardContent, int boardNo) {
+		// TODO Auto-generated method stub
+		return dao.updateTeamBoard(boardTitle, boardContent, boardNo);
+	}
+
+	@Override
+	public int insertFreeBoard(TeamBoard fb, List<TeamBoardAttachment> list) {
+		int result = 0;
+		result = dao.insertFreeBoard(fb);
+		if(result == 0 ) throw new BoardException();
+		if(list.size() > 0 )
+		{
+			for(TeamBoardAttachment a : list)
+			{
+				a.setBoardNoRef(fb.getBoardNo());
+				System.out.println(a);
+				result = dao.insertFreeAttachment(a);
+				if(result == 0) throw new BoardException();
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public MemberRequest memberRequestCk(String memberId, String teamName) {
+		// TODO Auto-generated method stub
+		return dao.memberRequestCk(memberId, teamName);
+	}
+
+	@Override
+	public int teamJoin(String memberId, String teamName,String position) {
+		// TODO Auto-generated method stub
+		return dao.teamJoin(memberId, teamName, position);
+	}
+
+	@Override
+	public int teamNo(String memberId, String teamName) {
+		// TODO Auto-generated method stub
+		return dao.teamNo(memberId, teamName);
+	}
+
+	@Override
+	public int teamOk(String memberId, String teamName) {
+		// TODO Auto-generated method stub
+		return dao.teamOk(memberId, teamName);
+	}
+
+	@Override
+	public List<MemberRequest> MemberRequest(String teamName) {
+		// TODO Auto-generated method stub
+		return dao.MemberRequest(teamName);
 	}
 
 	@Override
@@ -102,7 +279,7 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public Team TeamSearch(String search) {
+	public List<Team> TeamSearch(String search) {
 		// TODO Auto-generated method stub
 		return dao.TeamSearch(search);
 	}
@@ -208,9 +385,9 @@ public class TeamServiceImpl implements TeamService {
 	}
 	
 	@Override
-	public List<TeamBoard> selectList(int cPage, int numPerPage) {
+	public List<TeamBoard> selectList(int cPage, int numPerPage, String teamName) {
 		// TODO Auto-generated method stub
-		return dao.selectList(cPage, numPerPage);
+		return dao.selectList(cPage, numPerPage, teamName);
 	}
 
 	

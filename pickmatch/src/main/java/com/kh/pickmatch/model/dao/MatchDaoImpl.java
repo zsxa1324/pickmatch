@@ -104,6 +104,12 @@ public AwaySaInfo matchSaa(Map<String, Object> map) {
 	return list;
 }
 
+@Override
+public List<Map> matchindexContent(String today) {
+	List<Map> list=session.selectList("match.matchindexContent",today);
+	return list;
+}
+
 
 
 

@@ -181,6 +181,23 @@ public class MemberController {
 		return true;
 	}
 	
+	@RequestMapping("/member/checkNickname.do")
+	@ResponseBody
+	public boolean checkNickname(String nickname, String memberId)
+	{
+		logger.info(nickname);
+		Member m = service.checkNickname(nickname);
+		if(m == null || (m != null && m.getMemberId().equals(memberId)))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	
 	@RequestMapping("/member/sendMail.do")
 	@ResponseBody
 	public boolean sendMail(String memberId, String email) throws Exception
@@ -218,15 +235,155 @@ public class MemberController {
 		return flag;
 	}
 
+	@RequestMapping("/member/mypageCheck.do")
+	public String mypageCheck()
+	{
+		return "member/check";
+	}
+	
 	@RequestMapping("/member/mypage.do")
-	public ModelAndView mypage(String memberId)
+	public ModelAndView mypage(String memberId, String password)
 	{
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("");
-		mv.setViewName("member/mypage");
+		logger.info(memberId);
+		logger.info(password);
+		Member m = new Member();
+		m.setMemberId(memberId);
+		m.setPassword(password);
+		Member result = service.selectOne(m);
+		logger.info(m.getPassword());
+		logger.info(result+"");
+		String msg="";
+		String loc="/";
+		if(result != null)
+		{
+			logger.info(""+bcEncoder.matches(m.getPassword(), result.getPassword()));
+			if(bcEncoder.matches(m.getPassword(), result.getPassword()))
+			{
+				mv.setViewName("member/mypage");
+				return mv;
+			}
+			else
+			{
+				msg = "패스워드가 일치하지 않습니다.";
+				loc = "/member/mypageCheck.do";
+			}
+		}
+		else
+		{
+			msg = "존재하지 않는 아이디입니다.";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.setViewName("common/msg");
+		
 		return mv;
 	}
 	
+	@RequestMapping("/member/memberUpdateEnd.do")
+	public ModelAndView memberUpdate(String memberId, String password, String memberName, String nickname, String phone, String email, String position, String location, String oldProfile, MultipartFile profile, HttpServletRequest re, HttpSession session)
+	{
+		ModelAndView mv = new ModelAndView();
+
+		//Member m = new Member(memberId, bcEncoder.encode(password),memberName, nickname, phone, email, "", "", position, location, null, "","","",0);
+		Member m = new Member();
+		m.setMemberId(memberId);
+		Member result = service.selectOne(m);
+		
+		logger.info(result+"");
+		
+		//비밀번호가 넘어온 경우 암호화처리해서 set.
+		if(!password.equals("") || password!=null) 
+		{
+			result.setPassword(bcEncoder.encode(password));
+		}
+		result.setMemberName(memberName);
+		result.setNickname(nickname);
+		result.setPhone(phone);
+		result.setEmail(email);
+		result.setPosition(position);
+		result.setLocation(location);
+		logger.info(result.getProfile());
+		int updateResult = service.updateMember(result, oldProfile, profile, re);
+		
+
+		String msg = "";
+		String loc = "/";
+		if(updateResult>0)
+		{
+/*			session.invalidate();*/
+			session.setAttribute("loggedMember", service.selectOne(result));
+			msg = "정상적으로 수정되었습니다.";
+		}
+		else
+		{
+			msg = "정보 수정이 실패했습니다.";
+		}
 	
+		
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
+		mv.setViewName("common/msg");
+
+
+		return mv;
+		
+	}
+	
+	@RequestMapping("/member/findpage.do")
+	public String findpage()
+	{
+		return "member/findId";
+	}
+	
+	@RequestMapping("/member/findId.do")
+	public ModelAndView findId(String memberName, String email)
+	{
+		ModelAndView mv = new ModelAndView();
+		String msg = "";
+		String loc = "/member/findpage.do";
+		Member m = new Member();
+		m.setMemberName(memberName);
+		m.setEmail(email);
+		Member result = service.findMemberId(m);
+		if (result != null)
+		{
+			msg = "회원님의 아이디는 [ " + result.getMemberId() + " ]입니다.";
+		}
+		else
+		{
+			msg = "해당하는 아이디가 없습니다.";
+		}
+		
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	@RequestMapping("/member/findPass.do")
+	public ModelAndView findPassMail(String memberId, String email) throws Exception
+	{
+		ModelAndView mv = new ModelAndView();
+		String msg = "";
+		String loc = "";
+		
+		boolean flag = service.findPassMail(memberId, email);
+		if(flag) {
+			msg = "해당 메일로 임시 비밀번호가 발송되었습니다. 로그인 후 비밀번호를 변경해주세요.";
+			loc = "/";
+		}
+		else
+		{
+			msg = "해당 메일이 존재하지 않거나 메일전송에 실패했습니다. 다시 한 번 확인해주세요.";
+			loc = "/member/findpage.do";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+
 
 }

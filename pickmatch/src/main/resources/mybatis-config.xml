@@ -7,6 +7,7 @@
 		<!-- <typeAlias type="com.kh.spring.common.StringArrTypeHandler" alias="strArr"/>
 		<typeAlias type="com.kh.spring.model.vo.Member" alias="member"/> -->
 		<typeAlias type="com.kh.pickmatch.model.vo.TeamBoard" alias="team"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.TeamBoardAttachment" alias="teamboardattachment"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.MemberByTeam" alias="mt"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.TeamOperationAccount" alias="account"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.MoneyHistory" alias="mHistory"/>
@@ -18,8 +19,12 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.Mercenary" alias="mercenary"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.Message" alias="message"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.MemberByTeam" alias="mbt"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.MemberRequest" alias="mbr"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.Notice" alias="notice"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.NoticeAttachment" alias="noticeAttachment"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.MatchGoalResult" alias="mgr"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.Score" alias="score"/>
+		
 		
 	</typeAliases>
 </configuration>

@@ -16,4 +16,8 @@ public interface BoardService {
 	List<NoticeAttachment> selectAttachment(int noticeNo);
 
 	int insertNotice(Notice n, List<NoticeAttachment> list);
+	
+	int updateNotice(Notice n);
+	
+	int deleteNotice(int noticeNo);
 }

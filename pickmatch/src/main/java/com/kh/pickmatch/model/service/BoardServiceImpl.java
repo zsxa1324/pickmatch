@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.kh.pickmatch.common.BoardException;
+import com.kh.pickmatch.common.exception.BoardException;
 import com.kh.pickmatch.model.dao.BoardDao;
 import com.kh.pickmatch.model.vo.FreeBoardAttachment;
 import com.kh.pickmatch.model.vo.Notice;
@@ -59,4 +62,19 @@ public class BoardServiceImpl implements BoardService {
 		return result;
 	}
 
+	@Override
+	public int updateNotice(Notice n) {
+		// TODO Auto-generated method stub
+		return dao.updateNotice(n);
+	}
+
+	@Override
+	public int deleteNotice(int noticeNo) {
+		// TODO Auto-generated method stub
+		
+		return dao.deleteNotice(noticeNo);
+	}
+
+	
+	
 }

@@ -10,14 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.pickmatch.model.vo.FreeBoard;
-import com.kh.pickmatch.model.vo.FreeBoardAttachment;
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MatchGoalResult;
 import com.kh.pickmatch.model.vo.Member;
 import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.MemberRequest;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Score;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamBoardAttachment;
@@ -49,8 +49,8 @@ public class TeamDaoImpl implements TeamDao {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectMoneyHistoryList(String teamName) {
-		return session.selectList("team.selectMoneyHistoryList", teamName);
+	public List<Map<String, Object>> selectMoneyHistoryList(Map<String, String> map) {
+		return session.selectList("team.selectMoneyHistoryList", map);
 	}
 
 	@Override
@@ -68,6 +68,77 @@ public class TeamDaoImpl implements TeamDao {
 		return session.insert("team.insertMHistory", mHistory);
 	}
 
+	@Override
+	public List<Match> selectMatchList(String teamName, int cPage, int numPerPgae) {
+		return session.selectList("team.selectMatchList", teamName, new RowBounds((cPage-1) * numPerPgae, numPerPgae));
+	}
+	
+	@Override
+	public int selectMatchCount(String teamName) {
+		return session.selectOne("team.selectMatchCount", teamName);
+	}
+
+	@Override
+	public int insertMatchGoalResult(MatchGoalResult mgr) {
+		return session.insert("team.insertMatchGoalResult", mgr);
+
+	}
+
+	@Override
+	public Match selectOneMatch(int matchNo) {
+		return session.selectOne("team.selectOneMatch", matchNo);
+	}
+	
+	@Override
+	public Team selectOneHomeTeam(String teamHome) {
+		return session.selectOne("team.selectOneHomeTeam", teamHome);
+	}
+
+	@Override
+	public Team selectOneAwayTeam(String teamAway) {
+		return session.selectOne("team.selectOneAwayTeam", teamAway);
+	}
+
+	@Override
+	public int updateScore(Score s) {
+		return session.update("team.updateScore", s);
+	}
+	
+	@Override
+	public int updateTeamRating(Map<String, Object> map) {
+		return session.update("team.updateTeamRating", map);
+	}
+	
+	@Override
+	public int updateMatchScore(Map<String, Integer> matchScoreMap) {
+		return session.update("team.updateMatchScore", matchScoreMap);
+	}
+
+	@Override
+	public int insertMatchResultDetail(Map<String, Object> matchResultDetailMap) {
+		return session.insert("team.insertMatchResultDetail", matchResultDetailMap);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectMatchGoalResultList(int matchNo) {
+		return session.selectList("team.selectMatchGoalResultList", matchNo);
+	}
+	
+	@Override
+	public String selectMatchResultDetail(int matchNo) {
+		return session.selectOne("team.selectMatchResultDetail", matchNo);
+	}
+	
+	@Override
+	public List<Map<String, String>> selectMercenaryList(Map<String, String> map) {
+		return session.selectList("team.selectMercenaryList",map);
+	}
+
+	@Override
+	public String selectTeamAuthorityOne(String memberId) {
+		return session.selectOne("team.selectTeamAuthorityOne", memberId);
+	}
+	
 
 
 

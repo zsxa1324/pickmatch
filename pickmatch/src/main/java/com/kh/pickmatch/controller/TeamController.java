@@ -212,6 +212,10 @@ public class TeamController {
 		
 		List<Match> list = service.selectMatchList(teamName, cPage, numPerPage);
 		
+/*		Map<String, String> map
+		
+		String emblem = service.selectTeamEmblemOne()*/
+		
 		mv.addObject("list", list);
 		mv.addObject("authority", authority);		
 		mv.addObject("totalCount", totalCount);

@@ -224,7 +224,7 @@
 		}) 
 		
 		
-		$("#teamCancel").hide();	
+		$("#teamCancel").hide();
 		$("#teamJoin").hide();
 		
 		$(function(){

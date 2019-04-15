@@ -293,7 +293,7 @@ public class MemberController {
 		logger.info(result+"");
 		
 		//비밀번호가 넘어온 경우 암호화처리해서 set.
-		if(!password.equals("") || password!=null) 
+		if(password!=null && !password.equals("")) 
 		{
 			result.setPassword(bcEncoder.encode(password));
 		}

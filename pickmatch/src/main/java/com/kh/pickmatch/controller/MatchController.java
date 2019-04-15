@@ -48,14 +48,25 @@ private Logger logger = LoggerFactory.getLogger(MemberController.class);
 	}*/
 	
 	@RequestMapping("/match/enrollEnd")
-	public String enrollMatch(Match match, HttpSession session) {
+	public ModelAndView enrollMatch(Match match, HttpSession session, HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
 		Member m = (Member) session.getAttribute("loggedMember");
 		logger.debug("loggedMember : " + m);
 		String teamHome = teamService.selectTeamOne(m.getMemberId());
 		match.setTeamHome(teamHome);
+		String msg = "";
+		String loc = "/match/matchList.do";
 		
 		int result = service.insertMatch(match);
-		return "match/matchList";
+		if (result > 0) {
+			msg = "매치가 등록되었습니다";
+		} else {
+			msg = "매치 등록이 실패하였습니다";
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		return mv;
 	}
 
 	@RequestMapping("/match/matchList.do")

@@ -2,7 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="message">
 	<insert id="insertMessage" parameterType="message">
-		insert into message values(seq_messageno.nextval, #{sender}, #{receiver}, sysdate, #{messageContent}, #{messageType})
+		insert into message values(seq_messageno.nextval,
+		<choose>
+			<when test="sender != null and sender !=''">
+				#{sender}, 
+			</when>
+			<otherwise>
+				null,
+			</otherwise>
+		</choose> 
+		#{receiver}, 
+		sysdate, 
+		#{messageContent}, 
+		#{messageType}, default)
+		
 	</insert>
 	
+	<select id="selectMessageList" resultType="message">
+		SELECT * FROM MESSAGE WHERE RECEIVER IN (#{memberId}, (SELECT TEAMNAME FROM MEMBERBYTEAM WHERE MEMBERID = #{memberId})) ORDER BY MESSAGENO DESC
+	</select>
+	
+	<select id="selectMessageTotalcount" parameterType="String" resultType="_int">
+		SELECT COUNT(*) FROM MESSAGE WHERE RECEIVER IN (#{memberId}, (SELECT TEAMNAME FROM MEMBERBYTEAM WHERE MEMBERID = #{memberId}))
+	</select>
+	
+	<select id="selectMemberList" parameterType="String" resultType="String">
+		SELECT memberid FROM MEMBERBYTEAM WHERE TEAMNAME = #{teamHome}
+	</select>
 </mapper>

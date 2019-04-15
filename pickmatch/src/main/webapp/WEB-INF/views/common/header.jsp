@@ -208,7 +208,7 @@
 		</c:if>
 		<c:if test="${loggedMember!=null and loggedMember.memberId!='admin'}">
 		<div id="login-modal">
-			<div id="alarm">1</div>
+			<div id="alarm">-1</div>
 			<c:if test="${loggedMember.memberId=='admin' }">
 			<a href="${path }/member/adminpage.do">
 				<img src="${path }/resources/images/settings.png" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
@@ -290,7 +290,7 @@
 						</c:if>
 						</div>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#">공지사항</a>
+					<li class="nav-item"><a class="nav-link" href="${path }/board/notice">공지사항</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="${path }/match/matchList.do">매치보드</a>
 						<div class="dropdown">
@@ -301,7 +301,7 @@
 					<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a>
 						<div class="dropdown">
 							<a href="${path }/community/freeboard.do">자유게시판</a>
-							<a href="#">모집게시판</a>
+							<a href="${path }/board/recruit">모집게시판</a>
 						</div>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">랭킹</a>
@@ -454,6 +454,34 @@
 	var onsubmit_id = 0;
 	var onsubmit_pass = 0;
 	var onsubmit_mail = 0;
+	
+	$(function(){
+		
+		$.ajax({
+			url:"${path}/alarm/messageTotalcount",
+			data: {"memberId" : '${loggedMember.memberId}'},
+			type:"POST",
+			success:function(data){
+				$("#alarm").html(data.messageTotalcount);
+			}
+		});
+		
+		$("#alarm").click(function(){
+			$.ajax({
+				url:"${path}/alarm/view",
+				data: {"memberId" : '${loggedMember.memberId}'},
+				dataType:"html",
+				type:"POST",
+				success:function(data){
+					$("#AlarmResult").html(data);
+				}
+				
+			});
+			
+			$("#alarmModal").modal();
+		})
+		
+	});
 	
 	function fn_login()
 	{

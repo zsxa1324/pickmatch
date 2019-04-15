@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.pickmatch.common.BoardException;
+import com.kh.pickmatch.common.exception.BoardException;
 import com.kh.pickmatch.model.dao.CommunityDao;
 import com.kh.pickmatch.model.vo.FreeBoard;
 import com.kh.pickmatch.model.vo.FreeBoardAttachment;

@@ -25,7 +25,10 @@ public class Member implements Serializable {
 	private String introduce;
 	private int activityPoint;
 	private String teamName;
+	private String authority;
 	
+
+
 	public Member() {}
 
 	public Member(String memberId, String password, String memberName, String nickname, String phone, String email,
@@ -72,6 +75,14 @@ public class Member implements Serializable {
 		this.teamName = teamName;
 	}
 
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
+	
 	public String getMemberId() {
 		return memberId;
 	}

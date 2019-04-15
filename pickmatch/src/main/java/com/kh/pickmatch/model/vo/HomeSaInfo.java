@@ -17,12 +17,15 @@ public class HomeSaInfo {
 	private int win;
 	private int draw;
 	private int lose;
+	private String location;
+	private String jobgrade;
+	private String homeEmblem;
 	
 	public HomeSaInfo() {}
 
 	public HomeSaInfo(int matchNo, String teamHome, Date matchDate, String matchTime, String matchType,
 			String playGround, int cost, String matchContent, int lat, int lng, int totalPlayCount, int win, int draw,
-			int lose) {
+			int lose, String location, String jobgrade, String homeEmblem) {
 		super();
 		this.matchNo = matchNo;
 		this.teamHome = teamHome;
@@ -38,6 +41,9 @@ public class HomeSaInfo {
 		this.win = win;
 		this.draw = draw;
 		this.lose = lose;
+		this.location = location;
+		this.jobgrade = jobgrade;
+		this.homeEmblem = homeEmblem;
 	}
 
 	public int getMatchNo() {
@@ -152,13 +158,38 @@ public class HomeSaInfo {
 		this.lose = lose;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getJobgrade() {
+		return jobgrade;
+	}
+
+	public void setJobgrade(String jobgrade) {
+		this.jobgrade = jobgrade;
+	}
+
+	public String getHomeEmblem() {
+		return homeEmblem;
+	}
+
+	public void setHomeEmblem(String homeEmblem) {
+		this.homeEmblem = homeEmblem;
+	}
+
 	@Override
 	public String toString() {
 		return "HomeSaInfo [matchNo=" + matchNo + ", teamHome=" + teamHome + ", matchDate=" + matchDate + ", matchTime="
 				+ matchTime + ", matchType=" + matchType + ", playGround=" + playGround + ", cost=" + cost
 				+ ", matchContent=" + matchContent + ", lat=" + lat + ", lng=" + lng + ", totalPlayCount="
-				+ totalPlayCount + ", win=" + win + ", draw=" + draw + ", lose=" + lose + "]";
+				+ totalPlayCount + ", win=" + win + ", draw=" + draw + ", lose=" + lose + ", location=" + location
+				+ ", jobgrade=" + jobgrade + ", homeEmblem=" + homeEmblem + "]";
 	}
-	
-	
+
+		
 }

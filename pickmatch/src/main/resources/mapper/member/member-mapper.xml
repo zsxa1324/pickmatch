@@ -29,6 +29,22 @@
   <update id="updateKakaoMember" parameterType="member">
   	update member set memberName=#{memberName}, nickname=#{nickname}, email=#{email}, profile=#{profile} where memberId=#{memberId}
   </update>
+  
+  <select id="checkNickname" parameterType="string" resultType="member">
+  	select * from member where nickname=#{nickname}
+  </select>
+  
+  <update id="updateMember" parameterType="member">
+  	update member set password=#{password}, memberName=#{memberName}, nickname=#{nickname}, phone=#{phone}, email=#{email}, position=#{position}, location=#{location}, profile=#{profile} where memberId=#{memberId}
+  </update>
+  
+  <select id="findMemberId" parameterType="member" resultType="member">
+  	select * from member where memberName=#{memberName} and email=#{email}
+  </select>
+  
+  <update id="updatePassword" parameterType="member">
+  	update member set password=#{password} where memberId=#{memberId} and email=#{email}
+  </update>
   <!-- <resultMap id="memberMap" type="member">
   	<result column="hobby" property="hobby" typeHandler="strArr"/>
   </resultMap> -->

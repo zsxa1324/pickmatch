@@ -208,7 +208,7 @@
 		</c:if>
 		<c:if test="${loggedMember!=null and loggedMember.memberId!='admin'}">
 		<div id="login-modal">
-			<div id="alarm">0</div>
+			<div id="alarm">-1</div>
 			<c:if test="${loggedMember.memberId=='admin' }">
 			<a href="${path }/member/adminpage.do">
 				<img src="${path }/resources/images/settings.png" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
@@ -245,7 +245,7 @@
 		
 		<c:if test="${loggedMember!=null and loggedMember.memberId=='admin'}">
 		<div id="login-modal">
-			<div id="alarm">0</div>
+			<div id="alarm">1</div>
 			<a href="${path }/admin/adminPage">
 			<c:if test="${loggedMember.profile!=null }">
 				<img src="${path }/resources/upload/member-profile/${loggedMember.profile }" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
@@ -278,9 +278,6 @@
 							</c:if>
 							<c:if test="${loggedMember.teamName!=null }">
 							<a href="${path }/team.do?teamName=${loggedMember.teamName}">팀 정보</a>
-							<a href="${path}/team/teamMatchList">팀 매치정보</a>
-                     		<a href="${path}/team/teamOperationInfo">팀 운영정보</a>
-							
 							</c:if>
 							<c:if test="${loggedMember.teamName!=null }">
 							<a href="${path}/freeboard.do">팀 자유게시판</a>

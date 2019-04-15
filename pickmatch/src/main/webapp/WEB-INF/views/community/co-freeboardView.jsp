@@ -46,10 +46,50 @@
   	</c:if>
   </div>
 
-
-
-
 </form>
+
+<div id="comment-container">
+		<div class="comment-editor">
+			<form name="commentFrm" action="<%=request.getContextPath()%>/board/boardCommentInsert" method="post">
+				<input type="hidden" name="boardRef" value="${freeboard.boardNo }"/>
+				<input type="hidden" name="boardCommentWriter" value="${loggedMember }"/>
+				<input type="hidden" name="boardCommentLevel" value="1"/>
+				<input type="hidden" name="boardCommentRef" value="0"/>
+				<textarea name="boardCommentContent" cols="60" rows="2"></textarea>
+				<button type="submit" id="btn-insert">등록</button>
+			</form>
+		</div>
+		<table id="tbl-comment">
+<%-- 		<%if(comments!=null) {
+			for(BoardComment bc : comments){
+			if(bc.getBoardCommentLevel()==1){%>
+			<tr class="level1">
+				<td>
+					<sub class="comment-writer"><%=bc.getBoardCommentWriter() %></sub>
+					<sub class="comment-date"><%=bc.getBoardCommentDate() %></sub>
+					<br/>
+					<%=bc.getBoardCommentContent() %>
+				</td>
+				<td>
+					<button class="btn-reply" value="<%=bc.getBoardCommentNo()%>">답글</button>
+				<%if(LoginMember!=null&&(bc.getBoardCommentWriter().equals(LoginMember.getUserId())||LoginMember.getUserId().equals("admin"))) {%>
+					<button class="btn-delete" value="<%=bc.getBoardCommentNo()%>">삭제</button>
+				<%} %>
+				</td>
+			</tr>
+		<%}else if(bc.getBoardCommentLevel()==2){%>
+			<tr class='level2'>
+				<td>
+					<sub><%=bc.getBoardCommentWriter()%></sub>
+					<sub><%=bc.getBoardCommentDate()%></sub><br/>
+					<sub><%=bc.getBoardCommentContent()%></sub>
+				</td>
+				<td>
+				</td>
+			</tr>
+			<%}}} %> --%>
+		</table>
+	</div>
 </section>
 <script>
 	function fileDownload(oName,rName)

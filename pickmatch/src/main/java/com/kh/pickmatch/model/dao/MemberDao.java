@@ -19,4 +19,12 @@ public interface MemberDao {
 
 	int updateKakaoMember(Member m);
 
+	Member checkNickname(String nickname);
+
+	int updateMember(Member result);
+
+	Member findMemberId(Member m);
+
+	int updatePassword(Member m);
+
 }

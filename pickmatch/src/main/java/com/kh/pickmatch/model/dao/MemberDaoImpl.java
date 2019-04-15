@@ -51,4 +51,30 @@ public class MemberDaoImpl implements MemberDao {
 		return session.update("member.updateKakaoMember",m);
 	}
 
+	@Override
+	public Member checkNickname(String nickname) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.checkNickname",nickname);
+	}
+
+	@Override
+	public int updateMember(Member result) {
+		// TODO Auto-generated method stub
+		return session.update("member.updateMember",result);
+	}
+
+	@Override
+	public Member findMemberId(Member m) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.findMemberId",m);
+	}
+
+	@Override
+	public int updatePassword(Member m) {
+		// TODO Auto-generated method stub
+		return session.update("member.updatePassword",m);
+	}
+	
+	
+
 }

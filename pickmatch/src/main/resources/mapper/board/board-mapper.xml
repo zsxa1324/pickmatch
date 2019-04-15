@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="board">
+	
+	<select id="selectNoticeList" resultType="notice">
+  		select A.*,(select count(*) from noticeattachment where A.noticeno=noticeno) filecount from notice A order by noticedate desc
+	</select>
+	<select id="selectNoticeCount" resultType="_int">
+  		select count(*) from notice
+  	</select>
+  	<select id="selectOneNotice" parameterType="_int" resultType="notice">
+  		select * from notice where noticeno=#{noticeNo}
+  	</select>
+  	<select id="selectAttachment" parameterType="_int" resultType="noticeAttachment">
+  		select * from noticeattachment where noticeno=#{noticeNo}
+  	</select>
+  	
+  	<insert id="insertNotice" parameterType="notice">
+  		insert into notice values (SEQ_NOTICENO.nextval, #{noticeTitle}, #{noticeContent}, sysdate, default, #{memberId})
+  		<selectKey keyProperty="noticeNo" resultType="_int" order="AFTER">
+  			select SEQ_NOTICENO.currval from dual
+  		</selectKey>  	
+  	</insert>
+  	<insert id="insertNoticeAttachment" parameterType="noticeAttachment">
+  		insert into noticeattachment values(SEQ_NOTICEATTACHMENTNO.nextval,#{originalFileName},#{renamedFileName},#{noticeNo})
+  	</insert>
+  	
+  	<update id="updateNotice" parameterType="notice">
+  		update notice set noticetitle = #{noticeTitle}, noticecontent = #{noticeContent} where noticeno = #{noticeNo}
+  	</update>
+  	
+  	<delete id="deleteNotice" parameterType="_int">
+  		delete notice where noticeno = #{noticeNo}
+  	</delete>
+</mapper>

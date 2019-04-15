@@ -1,0 +1,182 @@
+/* ---------------------- 팀 운영정보 ------------------------- */
+
+section#operationInfo div.operation_left {
+	display: inline-block;
+}
+section#operationInfo div.operation_right {
+	float: right;
+}
+
+section#operationInfo div.operation_left button#accountBtn {
+	margin-top: 40px;
+	margin-left: 15px;
+}
+
+section#operationInfo div.operation_left button#historyBtn {
+	margin-left: 30px;
+}
+
+section#operationInfo div.operation_left input{
+	margin-left: 300px;
+	margin-top: 15px;
+	
+}
+
+section#operationInfo div.operation_left table.account {
+	float: left;
+	margin-top: 40px;
+	margin-left: 30px;
+	margin-bottom: 20px;
+	line-height: 1.5;
+}
+
+section#operationInfo table.account thead th {
+	padding: 10px;
+	color: #369;
+	border-bottom: 3px solid #036;
+	background-color: #faf9f8;
+}
+
+section#operationInfo table.account tbody th {
+	background-color: #f1eeed;
+	border-bottom: 1px solid #e2e2e2;
+	width: 100px;
+	padding-left: 5px;
+}
+
+section#operationInfo table.account td {
+	width: 200px;
+	padding: 10px;
+	vertical-align: top;
+	border-bottom: 1px solid #e2e2e2;
+}
+
+div#accountReviseModal div.modal-body label, div#accountEnrollModal div.modal-body label, div#moneyHistoryModal div.modal-body label {
+	text-align: right;
+	width: 23%;
+	margin-right: 15px;
+}
+
+div#accountReviseModal div.modal-body input, div#accountEnrollModal div.modal-body input, div#moneyHistoryModal div.modal-body input {
+	width: 70%;
+	border-radius: 3px;
+}
+
+div#moneyHistoryModal div.modal-body input {
+	width: 65%;
+	border-radius: 3px;
+	float: right;
+}
+
+div#moneyHistoryModal div.modal-body select {
+	width: 65%;
+	float: right;
+	border-radius: 4px; 
+}
+
+section#operationInfo div.operation_left table.moneyHistory {
+	text-align: center;
+	margin-left: 30px;
+	clear: both;
+	line-height: 1.5;
+}
+
+section#operationInfo div.operation_left table.moneyHistory thead th {
+	padding: 10px;
+	vertical-align: top;
+	color: #369;
+	border-bottom: 3px solid #036;
+	background-color: #faf9f8;
+}
+
+section#operationInfo table.moneyHistory tbody th {
+	width: 580px;
+	height: 255px;
+}
+
+section#operationInfo table.moneyHistory tbody tr td:nth-child(1), section#operationInfo table.moneyHistory tbody tr td:nth-child(3) {
+	width: 90px;
+	padding: 5px 0;
+	border-bottom: 1px solid #e2e2e2;
+}
+
+section#operationInfo table.moneyHistory tbody tr td:nth-child(2), section#operationInfo table.moneyHistory tbody tr td:nth-child(4), section#operationInfo table.moneyHistory tbody tr td:nth-child(5) {
+	width: 140px;
+	padding: 5px 0;
+	border-bottom: 1px solid #e2e2e2;
+}
+
+section#operationInfo table.moneyHistory tbody tr:last-child {
+	border-bottom: 3px solid #036;
+}
+
+section#operationInfo div.operation_right table.moneyCheck {
+	text-align: center;
+	line-height: 1.5;
+}
+
+section#operationInfo div.operation_right table.moneyCheck thead th {
+	width: 100px;
+	padding: 10px;
+	color: #369;
+	border-bottom: 3px solid #036;
+	background-color: #faf9f8;
+}
+
+section#operationInfo div.operation_right table.moneyCheck tbody td {
+	width: 100px;
+	padding: 10px;
+	vertical-align: top;
+	border-bottom: 1px solid #e2e2e2;
+}
+
+section#operationInfo div.operation_right table.moneyCheck tbody th {
+	width: 140px;
+	padding: 10px;
+	vertical-align: top;
+	border-bottom: 1px solid #e2e2e2;
+}
+
+section#operationInfo div.operation_left div#scroll1 {
+	width: 88%;
+	height: 300px;
+	overflow: auto;
+}
+
+section#operationInfo div.operation_right div#scroll2 {
+	width: 84.5%;
+	height: 500px;
+	overflow: auto;
+	margin-right: 90px;
+}
+
+section#operationInfo div.operation_right input {
+	margin-top: 50px;
+}
+
+section#matchEnroll div#scroll {
+	width: 100%;
+	height: 300px;
+	overflow: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

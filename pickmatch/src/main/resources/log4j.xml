@@ -35,7 +35,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.kh.pickmatch">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

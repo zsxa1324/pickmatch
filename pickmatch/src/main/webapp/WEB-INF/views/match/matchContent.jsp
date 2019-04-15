@@ -49,9 +49,7 @@ section#section-matchContent article#article-matchContent div.div-away,
 	display: inline-block;
 }
 
-section#section-matchContent article#article-matchContent div.div-matchVersus{
-	
-}
+
 
 section#section-matchContent article#article-matchContent .div-matchButton button
 	{
@@ -137,10 +135,6 @@ section#section-matchContent article#article-matchContent div.div-vsWrapper
 	width: 350px;
 }
 
-section#section-matchContent article#article-matchContent img {
-	width: 50px;
-	height: 50px;
-}
 
 section#section-matchContent article#article-matchContent div.div-playGround
 	{
@@ -164,8 +158,20 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 	margin-right: 15px;
 	margin-top: 15px;
 }
+div.logodiv{
+display: inline-block;
+overflow: hidden;
+border-radius: 100px;
+}
 
-
+.div-home,.div-away{
+font-weight: bold;
+font-size:30px;
+}
+.div-vsWrapper{
+font-weight: bold;
+font-size:25px;
+}
 </style>
 </head>
 <body>
@@ -177,66 +183,73 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 	<section id="section-matchContent">
 		<article id="article-matchContent">
 			<h1 id="dateP"></h1>
-			<c:forEach items="${list }" var="c">
-
-				<c:if test="${c['TEAMAWAY']!=null }">
-					 <div class="div-matchContent">
-						<div class="div-matchTime">
-							<H5>${c['MATCHTIME'] }</H5>
-						</div>
-						<div class="div-matchVersus">
-							<div class="div-home">
-							<input type="hidden" value="${c['TEAMHOME'] }" id="matchHome"/>
+				<c:forEach items="${list }" var="c">
+	
+					<c:if test="${c['TEAMAWAY']!=null }">
+						 <div class="div-matchContent">
+							<div class="div-matchTime">
+								<H5>${c['MATCHTIME'] }</H5>
+							</div>
+							<div class="div-matchVersus">
+							<div class="logodiv">
 							
-								<img alt="" src="${c['HOMEEMBLEM'] }"> ${c['TEAMHOME'] }
+							
+							<c:choose>
+								<c:when test="${c['HOMEEMBLEM']!=null }">
+									<img alt="" src=" ${path }/resources/upload/team-logo/${c['HOMEEMBLEM'] }" width="150px;" height="150px;">
+								</c:when>
+								
+								<c:when test="${c['HOMEEMBLEM']==null }">
+								<img alt="" src=" ${path }/resources/upload/team-logo/기본팀로고.png" width="110px;" height="110px;">
+								</c:when>
+							</c:choose>
 							</div>
-							<div class="div-vsWrapper">
-								<c:if test="${c['HOMESCORE']!=null }">${c['HOMESCORE'] }</c:if>
-								<div class="div-vs">vs</div>
-								<c:if test="${c['AWAYSCORE']!=null }">${c['AWAYSCORE'] }</c:if>
+								
+								<div class="div-home">
+								<input type="hidden" value="${c['TEAMHOME'] }" id="matchHome"/>
+									${c['TEAMHOME'] } 
+								</div>
+								
+								<div class="div-vsWrapper">
+									
+									<c:if test="${c['HOMESCORE']!=null }">${c['HOMESCORE'] }</c:if>
+									<div class="div-vs">vs</div>
+									<c:if test="${c['AWAYSCORE']!=null }">${c['AWAYSCORE'] }</c:if>
+									
+								</div>
+								<div class="div-away">
+								<input type="hidden" value="${c['TEAMAWAY'] }" id="matchAway"/>
+								${c['TEAMAWAY'] }
+								</div>
+								<div class="logodiv">
+								
+								<c:choose>
+								
+								<c:when test="${c['AWAYEMBLEM']!=null }">
+								<img alt="" src="${path }/resources/upload/team-logo/${c['AWAYEMBLEM']}" width="150px;" height="150px;">
+								</c:when>
+								<c:when test="${c['AWAYEMBLEM']==null }">
+								<img alt="" src="${path }/resources/upload/team-logo/기본팀로고.png" width="110px;" height="110px;">
+								
+								</c:when>
+								</c:choose>
+								
+								</div>
+								<div class="div-playGround" style="padding-bottom: 15px;">${c['PLAYGROUND'] }</div>
+								<div class="infoMatch">
+									<button class="btn btn-primary" value="${c['MATCHNO'] }" onclick="matchSa()">상세보기</button>
+								</div>
 							</div>
-							<div class="div-away">
-							<input type="hidden" value="${c['TEAMAWAY'] }" id="matchAway"/>
-							<img alt="" src="${c['AWAYEMBLEM'] }">${c['TEAMAWAY'] }</div>
-							<div class="div-playGround" style="padding-bottom: 15px;">${c['PLAYGROUND'] }</div>
-							<div class="infoMatch">
-								<button class="btn btn-primary" value="${c['MATCHNO'] }" onclick="matchSa()">상세보기</button>
 							</div>
-						</div>
-						<%-- <div class="div-matchButton">
-							<button class="snip1535 detailBtn" type="button"
-								onclick="detailMatch()" value="${c['MATCHNO'] }">상세보기</button>
-						</div> --%>
-					</div> 
-					<%-- <div style="margin-bottom: 33px;">
-					<div id="scoreboard">
-						<div id="left-team">
-							<img src="${path}/${c['HOMEEMBLEM']}" height="36">
-							<div class="space"></div>
-							<h1 class="team-name">${c['TEAMHOME'] }</h1>
-						</div>
-						<div id="middle-score">
-							<h2 class="time"><time>${c['MATCHTIME'] }</time></h2>
-							<h2 class="score">${c['HOMESCORE'] }</h2>
-							<h3 class="seperator">-</h3>
-							<h2 class="score">${c['AWAYSCORE'] }</h2>
-							<h2 class="place"><span>${c['MATCHTYPE']}</span></h2>
-						</div>
-						<div id="right-team">
-							<img src="${path }/${c['AWAYEMBLEM']}" height="36">
-							<div class="space"></div>
-							<h1 class="team-name">${c['TEAMAWAY']}</h1>
-						</div>
-					</div>
-					</div> --%>
-				</c:if>
-			</c:forEach>
+					</c:if>
+				</c:forEach>
 
 			<ul>
 				<c:forEach items="${list }" var="c">
 					<c:if test="${c['TEAMAWAY']==null}">
 						<script>
 							var listD = '<c:out value="${list[0]['MATCHDATE']}"/>';
+							console.log(listD);
 							var date1 = listD.substring(0, 10);
 							var fromDate = new Date(date1);
 							var date = new Date(fromDate);
@@ -255,11 +268,24 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 							<div class="div-matchContent2">
 								<div class="match_list_team"
 									style="width: 20%; font-size: 20px; font-weight: bolder; float: left;">
-									<img alt=""
-										src="${path}/${c['HOMEEMBLEM']}">
-									${c['TEAMHOME'] }
+									
+									
+									<c:choose> 
+									<c:when test="${c['HOMEEMBLEM']!=null }">
+									<img style="float: left; border-radius: 50px;"
+										src="${path}/resources/upload/team-logo/${c['HOMEEMBLEM']}" width="100px;" height="100px;">
+									</c:when>
+									<c:when test="${c['HOMEEMBLEM']==null }">
+									<img style="float: left; border-radius: 50px;" alt="gg"
+										src="${path}/resources/upload/team-logo/기본팀로고.png" width="100px;" height="100px;">
+									
+									</c:when>
+									</c:choose>
+									
+									
+									<div style="padding: 30px 10px 10px 10px;">${c['TEAMHOME'] }</div>
 								</div>
-								<div class="match_list_date" style="float: left;">
+								<div class="match_list_date" style="float: left; padding: 20px 10px 10px 10px;">
 									<div class="wrap"></div>
 								</div>
 								<div class="match_list_info"
@@ -268,11 +294,11 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 									<p>지역 : <strong>${c['LOCATION'] }</strong></p>
 									<p>장소 : <strong>${c['PLAYGROUND'] }</strong></p>
 								</div>
-								<div class="match_list_txt"
+								<%-- <div class="match_list_txt"
 									style="display: inline-block; float: left;">
 									<p class="bold" style="display: inline-block;">남기는 한마디 :</p>
 									<p style="display: inline-block;" class="msg">${c['MATCHCONTENT'] }</p>
-								</div>
+								</div> --%>
 
 								<div class="div-matchButton"
 									style="position: relative; top: 100px;">
@@ -310,6 +336,7 @@ section#section-matchContent div.match_list_team, section#section-matchContent d
 			var matchNo=event.target.value;
 			var matchHome=$(event.target).parent().prevAll(".div-home").children('input[type=hidden]').val();
 			var matchAway=$(event.target).parent().prevAll(".div-away").children('input[type=hidden]').val();
+			console.log(matchNo);
 			console.log(matchHome);
 			console.log(matchAway);
 			location.href = "${path}/match/matchSa.do?matchNo="+matchNo+"&&matchHome="+matchHome+"&&matchAway="+matchAway;

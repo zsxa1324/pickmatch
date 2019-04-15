@@ -20,6 +20,7 @@ import com.kh.pickmatch.model.service.MessageService;
 import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.Member;
 import com.kh.pickmatch.model.vo.Message;
+import com.kh.pickmatch.model.vo.Team;
 
 
 
@@ -34,6 +35,9 @@ public class LoggerAspect {
 	
 	@Pointcut("execution(* com.kh.pickmatch.model.service.MatchService.insertMatch(..)) && args(match)")
 	public void matchPointcut(Match match) {}
+	
+	@Pointcut("execution(* com.kh.pickmatch.model.service.TeamService.InsertTeam(..))")
+	public void teamPointcut() {}
 	
 	@Pointcut("execution(* com.kh.pickmatch.controller.MemberController.login(..))")
 	public void loginPointcut() {}
@@ -62,19 +66,31 @@ public class LoggerAspect {
 		String type = sig.getDeclaringTypeName(); // 클래스 이름
 		String method = sig.getName(); // 메소드 이름, 넘어가는 String 시점의 메소드
 		Message msg = new Message();
+		
 		if (method.contains("insertMatch")) {
 			logger.warn("[afterWork : aspect : insertMatch ::::]" + type + "." + method + "()");
 			logger.debug("afterWork : match ::::" + match);
 			logger.debug("afterWork : joinPoint.getArgs()[0] ::::" + joinPoint.getArgs()[0]);
 			String teamHome = match.getTeamHome();
-//			List<String> memberList = messageService.selectMemberList(teamHome);
 			msg.setSender(teamHome);
 			msg.setMessageContent(teamHome + "팀의 매치가 등록되었습니다");
 			msg.setMessageType("팀");
 			messageService.insertTeamMessage(msg);
-		}
-//		logger.warn("[afterWork : aspect]" + type + "." + method + "()");
-		/*messageService.insertMessage(msg);*/
+		} 
+	}
+	
+	@AfterReturning("teamPointcut()")
+	public void afterWorkTeam(JoinPoint joinPoint) {
+		Signature sig = joinPoint.getSignature();
+		String type = sig.getDeclaringTypeName(); // 클래스 이름
+		String method = sig.getName(); // 메소드 이름, 넘어가는 String 시점의 메소드
+		Message msg = new Message();
+		
+		if (method.contains("InsertTeam")) {
+			logger.warn("[afterWork : aspect : InsertTeam ::::]" + type + "." + method + "()");
+//			logger.debug("afterWork : team ::::" + team);
+			logger.debug("afterWork : joinPoint.getArgs()[0] ::::" + joinPoint.getArgs()[0]);
+		} 
 	}
 	
 	// 어드바이스 : 실행시점 지정, 부가기능 모듈인 aspect가 무엇을 언제 할 지 정의 ex) Around : 메소드 실행 전 후 

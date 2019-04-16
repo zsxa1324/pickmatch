@@ -23,10 +23,18 @@
 	</select>
 	
 	<select id="selectMessageTotalcount" parameterType="String" resultType="_int">
-		SELECT COUNT(*) FROM MESSAGE WHERE RECEIVER IN (#{memberId}, (SELECT TEAMNAME FROM MEMBERBYTEAM WHERE MEMBERID = #{memberId}))
+		SELECT COUNT(*) FROM MESSAGE WHERE RECEIVER = #{memberId} 
+	</select>
+	
+	<select id="selectMessageTotalcountNotRead" parameterType="String" resultType="_int">
+		SELECT COUNT(*) FROM MESSAGE WHERE RECEIVER = #{memberId} AND MESSAGECHECK = 'N'
 	</select>
 	
 	<select id="selectMemberList" parameterType="String" resultType="String">
 		SELECT memberid FROM MEMBERBYTEAM WHERE TEAMNAME = #{teamHome}
 	</select>
+	
+	<update id="updateMessageRead">
+		UPDATE MESSAGE SET MESSAGECHECK = 'Y' WHERE RECEIVER = #{memberId}
+	</update>
 </mapper>

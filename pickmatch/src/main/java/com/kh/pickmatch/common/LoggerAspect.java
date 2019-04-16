@@ -72,7 +72,7 @@ public class LoggerAspect {
 		String type = sig.getDeclaringTypeName(); // 클래스 이름
 		String method = sig.getName(); // 메소드 이름, 넘어가는 String 시점의 메소드
 		Message msg = new Message();
-		
+		int result = 0;
 		if (method.contains("insertMatch")) {
 			Match match = (Match) joinPoint.getArgs()[0];
 			logger.warn("[afterWork : aspect : insertMatch ::::]" + type + "." + method + "()");
@@ -106,7 +106,8 @@ public class LoggerAspect {
 				String canceledTeamname = (String) m.get("TEAMNAME");
 				if (!canceledTeamname.equals(teamAway)) {
 					msg.setSender(canceledTeamname);
-//					msg.setMessageContent(messageContent);
+					msg.setMessageContent(teamHome + "팀과의 " + matchDate + " 매치가 실패하였습니다.");
+					messageService.insertTeamMessage(msg);
 				}
 			}
 		}

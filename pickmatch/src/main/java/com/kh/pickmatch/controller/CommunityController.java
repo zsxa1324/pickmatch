@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,6 +28,7 @@ import com.kh.pickmatch.common.PageBarFactory;
 import com.kh.pickmatch.model.service.CommunityService;
 import com.kh.pickmatch.model.vo.FreeBoard;
 import com.kh.pickmatch.model.vo.FreeBoardAttachment;
+import com.kh.pickmatch.model.vo.FreeBoardComment;
 
 @Controller
 public class CommunityController {
@@ -55,6 +57,8 @@ public class CommunityController {
 		ModelAndView mv = new ModelAndView();
 	    mv.addObject("freeboard", service.selectOneFreeBoard(boardNo));
 	    mv.addObject("attachmentList", service.selectAttachment(boardNo));
+	    mv.addObject("commentList", service.selectComment(boardNo));
+	    logger.info(service.selectComment(boardNo)+"");
 	    mv.setViewName("community/co-freeboardView");
 	    return mv;
 	}
@@ -163,4 +167,153 @@ public class CommunityController {
 			}
 		}
 	}
+	
+	//게시판 글 수정시 첨부파일 클릭 삭제
+	@RequestMapping("/community/freeboardAttachDelete.do")
+	public void fileDelete(String oName, String rName, HttpServletRequest request, HttpServletResponse response)
+	{
+		int updateResult = 0;
+		
+		String saveDir = request.getSession().getServletContext().getRealPath("/resources/upload/community-freeboard");
+
+		File dir = new File(saveDir);
+		if(!dir.exists())
+		{
+			dir.mkdirs();
+		}
+		
+		
+		
+		File deleFile = new File(saveDir+"/"+rName);
+		boolean deleteResult = deleFile.delete();
+		logger.info("파일삭제 : "+deleteResult);
+	}
+	
+	@RequestMapping("/community/freeboardDelete.do")
+	public ModelAndView freeboardDelete(int boardNo)
+	{
+		ModelAndView mv = new ModelAndView();
+		FreeBoard fb = new FreeBoard();
+		fb.setBoardNo(boardNo);
+		
+		int result = 0;
+		String msg = "";
+		String loc = "/community/freeboard.do";
+		
+		result = service.deleteFreeBoard(fb);
+		if(result>0)
+		{
+			msg = "게시물이 삭제되었습니다.";
+		}
+		else
+		{
+			msg = "게시물 삭제에 실패했습니다.";
+		}
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/community/freeboardUpdate.do")
+	public ModelAndView freeboardUpdate(int boardNo)
+	{
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("freeboard", service.selectOneFreeBoard(boardNo));
+	    mv.addObject("attachmentList", service.selectAttachment(boardNo));
+	    mv.addObject("commentList", service.selectComment(boardNo));
+	    logger.info(service.selectComment(boardNo)+"");
+		mv.setViewName("community/co-freeboardUpdate");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/community/freeboardUpdateEnd.do")
+	public ModelAndView freeBoardUpdateEnd(FreeBoard fb)
+	{
+		ModelAndView mv = new ModelAndView();
+		FreeBoard result = (FreeBoard)service.selectOneFreeBoard(fb.getBoardNo());
+		result.setBoardTitle(fb.getBoardTitle());
+		result.setBoardContent(fb.getBoardContent());
+		
+		String msg = "";
+		String loc = "";
+		
+		logger.info("updateEnd fb : " + fb);
+		logger.info(""+result);
+		
+		int Updateresult = service.updateFreeBoard(result);
+		if(Updateresult > 0)
+		{
+			msg = "게시물이 수정되었습니다.";
+			loc = "/community/freeboardView.do?boardNo=" + result.getBoardNo();
+		}
+		else
+		{
+			msg = "게시글 수정에 실패했습니다.";
+			loc = "/community/freeboardUpdate.do?boardNo=" + result.getBoardNo();
+		}
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		
+		return mv;
+	}
+
+	
+	//댓글입력
+	@RequestMapping("/community/insertFreeBoardComment.do")
+	public ModelAndView insertComment(FreeBoardComment comment) 
+	{
+		ModelAndView mv = new ModelAndView();
+		String msg = "";
+		String loc = "/community/freeboardView.do?boardNo=" + comment.getBoardNoRef();
+		
+		logger.info("comment : " + comment);
+		logger.info(comment.getMemberId());
+		int result = service.insertComment(comment);
+		if(result > 0)
+		{
+			msg = "댓글이 입력되었습니다.";
+		}
+		else
+		{
+			msg = "댓글입력 실패";
+		}
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+	
+	@RequestMapping("/community/commentDelete.do")
+	@ResponseBody
+	public ModelAndView deleteComment(int boardNo, int commentNo) 
+	{
+		ModelAndView mv = new ModelAndView();
+		String msg = "";
+		String loc = "/community/freeboardView.do?boardNo="+boardNo;
+		
+		logger.info("commentNo : " + commentNo);
+		int result = service.deleteComment(commentNo);
+		if(result > 0 )
+		{
+			msg = "해당 댓글이 삭제되었습니다.";
+		}
+		else
+		{
+			msg = "댓글 삭제에 실패했습니다.";
+		}
+		
+		mv.addObject("msg", msg);
+		mv.addObject("loc", loc);
+		mv.setViewName("common/msg");
+		return mv;
+	}
+
 }

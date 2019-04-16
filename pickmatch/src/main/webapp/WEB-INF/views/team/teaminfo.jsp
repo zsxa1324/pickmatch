@@ -15,7 +15,7 @@
 
 <div id="myteam"  style="margin-top: 50px; margin-bottom: 300px;">
 <div id="team" style="margin-right: 20px;">
-	<table id="team-info" >
+	<table id="team-info"  >
 	<tr id="team-info-img">
 	<c:if test="${empty list[0].teamEmblem }">
 		<td colspan="2"><img src="${path }/resources/upload/team-logo/기본팀로고.png" style="width:400px;height:300px;"> </td>
@@ -25,13 +25,13 @@
 	</c:if>
 	</tr>
 	<tr id="team-name">
-		<td colspan="2" style="font-size: 30px;">${list[0].teamName }</td>
+		<td colspan="2" style="font-size: 30px; background-color: rgba(0,0,0,0.05);">${list[0].teamName }</td>
 	</tr>
 		<tr>
 			<td id="team-location">지역 :${list[0].teamLocation }</td>
 			<td id="team-exercise">경기장 : ${list[0].teamField }</td>
 		</tr>
-		<tr>
+		<tr style="background-color: rgba(0,0,0,0.05);">
 			<td id="team-uh">팀유형 : ${list[0].teamType }</td>
 			<td id="team-uniform">유니폼: ${list[0].teamColor }</td>
 		</tr>
@@ -39,7 +39,7 @@
 			<td id="team-membercount">팀원수 : ${memberCount }</td>
 			<td id="team-open">팀 개설일 : ${list[0].openingDate }</td>
 		</tr>
-		<tr>
+		<tr style="background-color: rgba(0,0,0,0.05);">
 			<td id="team-introduce" colspan="2">팀소개 : ${list[0].teamContent }</td>
 		</tr>
 	
@@ -348,70 +348,70 @@
 	text-align:center;
 		width:200px;
 		height:80px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	}
 	
  	#team-location{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	}
 	#team-exercise{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	} 
 		#team-uh{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	} 
 		#team-age{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	} 
 		#team-style{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	} 
 		#team-uniform{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	}
 		#team-membercount{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	} 
 		#team-open{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	}  
 		#team-introduce{
 		text-align:center;
 		width:200px;
 		height:150px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	} 
 	

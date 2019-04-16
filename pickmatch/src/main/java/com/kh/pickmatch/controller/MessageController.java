@@ -30,12 +30,10 @@ public class MessageController {
 		session.setAttribute("messageTotalcount", 0);
 		logger.debug("MessageController :: memberId :::" + memberId);
 		List<Message> list = service.selectMessageList(memberId);
-		int messageTotalcount = service.selectMessageTotalcount(memberId);
+//		int messageTotalcount = service.selectMessageTotalcount(memberId);
 		logger.debug("MessageController :: selectMessageList :::" + list);
-		logger.debug("MessageController :: selectMessageTotalcount :::" + messageTotalcount);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("list", list);
-		mv.addObject("messageTotalcount", messageTotalcount);
 		mv.setViewName("common/alarm");
 		return mv;
 	}

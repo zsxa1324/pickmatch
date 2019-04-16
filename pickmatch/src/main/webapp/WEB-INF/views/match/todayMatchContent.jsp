@@ -173,7 +173,7 @@ font-size:19px;
 <body>
 
 	<div class="section-div" style="background-color: white;">
-	
+		<h2>오늘의 매치</h2>
 		<c:forEach items="${list }" var="c">
 
 			<c:if test="${c['TEAMAWAY']!=null }">

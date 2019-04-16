@@ -13,6 +13,7 @@ import com.kh.pickmatch.model.vo.Score;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamBoardAttachment;
+import com.kh.pickmatch.model.vo.TeamBoardComment;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
@@ -136,6 +137,13 @@ public interface TeamService {
 	
 	//팀 해체
 	int teambreakup(String teamName);
+	
+	//팀게시판 댓글목록
+	List<TeamBoardComment> tbcView(int boardNo);
+	//팀게시판 댓글등록
+	int insertTeamBoardComment(int boardNoRef, String memberId, int commentNoRef, String commentContent);
+	//팀게시판 댓글 삭제
+	int deleteComment(int commentNo);
 
 
 	

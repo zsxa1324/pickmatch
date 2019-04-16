@@ -62,7 +62,7 @@
 		margin: auto;
 	}
 	#team-freeboard-table tr,td{
-		text-align:left;
+		text-align:center;
 		width:800px;
 		height:20px;
 		

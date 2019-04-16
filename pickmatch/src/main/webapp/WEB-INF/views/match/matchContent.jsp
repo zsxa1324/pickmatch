@@ -132,7 +132,7 @@ section#section-matchContent article#article-matchContent button.snip1535
 section#section-matchContent article#article-matchContent div.div-vsWrapper
 	{
 	display: inline-block;
-	width: 350px;
+	width: 200px;
 }
 
 
@@ -166,7 +166,7 @@ border-radius: 100px;
 
 .div-home,.div-away{
 font-weight: bold;
-font-size:30px;
+font-size:24px;
 }
 .div-vsWrapper{
 font-weight: bold;
@@ -191,7 +191,7 @@ font-size:25px;
 								<H5>${c['MATCHTIME'] }</H5>
 							</div>
 							<div class="div-matchVersus">
-							<div class="logodiv">
+							<%-- <div class="logodiv">
 							
 							
 							<c:choose>
@@ -203,10 +203,19 @@ font-size:25px;
 								<img alt="" src=" ${path }/resources/upload/team-logo/기본팀로고.png" width="110px;" height="110px;">
 								</c:when>
 							</c:choose>
-							</div>
+							</div> --%>
 								
-								<div class="div-home">
+								<div class="div-home" style="width: 330px;">
 								<input type="hidden" value="${c['TEAMHOME'] }" id="matchHome"/>
+								<c:choose>
+								<c:when test="${c['HOMEEMBLEM']!=null }">
+									<img alt="" src=" ${path }/resources/upload/team-logo/${c['HOMEEMBLEM'] }" width="150px;" height="150px;">
+								</c:when>
+								
+								<c:when test="${c['HOMEEMBLEM']==null }">
+								<img alt="" src=" ${path }/resources/upload/team-logo/기본팀로고.png" width="110px;" height="110px;">
+								</c:when>
+							</c:choose>
 									${c['TEAMHOME'] } 
 								</div>
 								
@@ -217,11 +226,21 @@ font-size:25px;
 									<c:if test="${c['AWAYSCORE']!=null }">${c['AWAYSCORE'] }</c:if>
 									
 								</div>
-								<div class="div-away">
+								<div class="div-away" style="width: 330px;">
 								<input type="hidden" value="${c['TEAMAWAY'] }" id="matchAway"/>
 								${c['TEAMAWAY'] }
+								<c:choose>
+								
+								<c:when test="${c['AWAYEMBLEM']!=null }">
+								<img alt="" src="${path }/resources/upload/team-logo/${c['AWAYEMBLEM']}" width="150px;" height="150px;">
+								</c:when>
+								<c:when test="${c['AWAYEMBLEM']==null }">
+								<img alt="" src="${path }/resources/upload/team-logo/기본팀로고.png" width="110px;" height="110px;">
+								
+								</c:when>
+								</c:choose>
 								</div>
-								<div class="logodiv">
+								<%-- <div class="logodiv">
 								
 								<c:choose>
 								
@@ -234,7 +253,7 @@ font-size:25px;
 								</c:when>
 								</c:choose>
 								
-								</div>
+								</div> --%>
 								<div class="div-playGround" style="padding-bottom: 15px;">${c['PLAYGROUND'] }</div>
 								<div class="infoMatch">
 									<button class="btn btn-primary" value="${c['MATCHNO'] }" onclick="matchSa()">상세보기</button>
@@ -267,7 +286,7 @@ font-size:25px;
 						<li>
 							<div class="div-matchContent2">
 								<div class="match_list_team"
-									style="width: 20%; font-size: 20px; font-weight: bolder; float: left;">
+									style="width: 30%; font-size: 20px; font-weight: bolder; float: left;">
 									
 									
 									<c:choose> 
@@ -301,7 +320,7 @@ font-size:25px;
 								</div> --%>
 
 								<div class="div-matchButton"
-									style="position: relative; top: 100px;">
+									style="position: relative; top: 100px; float: right;">
 									<button class="snip1535 detailBtn" data-target="#layerpop"
 										data-toggle="modal" type="button" onclick="matchInfo()"
 										value="${c['MATCHNO'] }">매치신청</button>

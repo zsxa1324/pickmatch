@@ -78,9 +78,9 @@
 		select * from matchrequestteam where matchno=#{matchNo}
 	</select>
 
-	<insert id="matchOk" parameterType="map">
+	<update id="matchOk" parameterType="map">
 		update match set teamaway = #{awayTeam} where matchno=#{matchNo}
-	</insert>
+	</update>
 
 	<select id="matchSa"
 		resultType="com.kh.pickmatch.model.vo.HomeSaInfo" parameterType="map">

@@ -3,16 +3,17 @@
 import java.util.List;
 import java.util.Map;
 
-import com.kh.pickmatch.model.vo.FreeBoard;
-import com.kh.pickmatch.model.vo.FreeBoardAttachment;
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MatchGoalResult;
 import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.MemberRequest;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Score;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamBoardAttachment;
+import com.kh.pickmatch.model.vo.TeamBoardComment;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
@@ -21,16 +22,30 @@ public interface TeamDao {
 	List<Map<String, String>> selectTMemberList(Map<String, String> map);
 	String selectTeamOne(String memberId);
 	TeamOperationAccount selectAccountOne(String teamName);
-	List<Map<String, Object>> selectMoneyHistoryList(String teamName);
+	List<Map<String, Object>> selectMoneyHistoryList(Map<String, String> map);
 	int updateTeamAccount(TeamOperationAccount map);
 	int insertTeamAccount(TeamOperationAccount toAccount);
 	int insertMHistory(MoneyHistory mHistory);
+	List<Match> selectMatchList(String teamName, int cPage, int numPerPage);
+	int selectMatchCount(String teamName);
+	Match selectOneMatch(int matchNo);
+	Team selectOneHomeTeam(String teamHome);
+	Team selectOneAwayTeam(String teamAway);
+	int insertMatchGoalResult(MatchGoalResult mgr);
+	int updateScore(Score s);
+	int updateTeamRating(Map<String, Object> map);
+	int updateMatchScore(Map<String, Integer> matchScoreMap);
+	int insertMatchResultDetail(Map<String, Object> matchResultDetailMap);
+	List<Map<String, Object>> selectMatchGoalResultList(int matchNo);
+	String selectMatchResultDetail(int matchNo);
+	List<Map<String, String>> selectMercenaryList(Map<String, String> map);
+	String selectTeamAuthorityOne(String memberId);
 
 	
 	
 	//도원
 	int selectCount();
-	List<TeamBoard> selectList(int cPage, int numPerPage);
+	List<TeamBoard> selectList(int cPage, int numPerPage, String teamName);
 	Object selectTeamBoard(int boardNo);
 	Object selectAttachment(int boardNo);
 	List<TeamNotice> selectListN(int cPage, int numPerPage, String teamName);
@@ -56,7 +71,7 @@ public interface TeamDao {
 	List<Team> selectTeamRanking(int cPage, int numPerPage);
 	int selectCountT();
 	//팀랭킹 검색
-	Team TeamSearch(String search);
+	List<Team> TeamSearch(String search);
 	
 	//용병랭킹
 	List<Mercenary> mercenaryranking(int cPage, int numPerPage);
@@ -123,6 +138,14 @@ public interface TeamDao {
 	int teamleave(String memberId);
 	//팀해체
 	int teambreakup(String teamName);
+	
+	//팀게시판 댓글리스트
+	List<TeamBoardComment> tbcView(int boardNo);
+	//팀게시판 댓글작성
+	int insertTeamBoardComment(int boardNoRef, String memberId, int commentNoRef, String commentContent);
+	//팀게시판 댓글 삭제
+	int deleteComment(int commentNo);
+	
 	
 	
 	

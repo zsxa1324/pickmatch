@@ -8,7 +8,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 
 
-<section id="team-board-view">
+<section id="team-board-view" >
 
 <form action="${pageContext.request.contextPath}/team/updateteamboard" method="post" onsubmit="return validate();">
 
@@ -30,7 +30,7 @@
   <div class="form-group form-group-sm">
     <label for="stadium" style="margin-right: 45px; margin-left: 20px;">파일</label>
     <c:forEach items="${attachmentList}" var="a" varStatus="vs">
-       <button type="button" 
+       <button type="button" style="width:300px;"
                class="btn btn-outline-success btn-block"
                onclick="fileDownload('${a.originalFileName}','${a.renamedFileName }');"> 첨부파일${vs.count} - ${a.originalFileName }
         </button>
@@ -59,14 +59,57 @@
   	</c:if>
   </div>
   
+  <c:if test="${loggedMember.memberId==teamboard.memberId }">
    <div>
   	<input type="submit" class="btn btn-outline-success" id="white_btn" value="수정" style="margin-right: 150px;">
 	<input type="button" class="btn btn-outline-success" value="삭제" onclick="delete_btn()"> 
   </div>
-  
+  </c:if>
 
 </form>
+
+
+
+
+ <div class="freeboard-comment-wrapper" style="width:800px; margin-left: 10px;">
+      <div class="comment-container">
+         <c:if test="${tbclist != '[]' }">
+            <div class="comment-box">
+               <table class="table table-hover comment-table">
+                  <c:forEach items="${tbclist }" var="c">
+                     <tr>
+                        <th scope="row" style="width:100px;">${c.memberId }</th>
+                        <td colspan="5">${c.commentContent }</td>
+                        <c:if test="${loggedMember.memberId==c.memberId||loggedMember.memberId=='admin' }">
+                        <td style="width:100px;"><button value="${c.commentNo }" class="btn btn-outline-danger btn-sm" onclick="commentdelete_btn()">삭제</button>
+                        </td>
+                        </c:if>
+                     </tr>
+                  </c:forEach>
+               </table>
+            </div>
+         </c:if>
+      </div>
+      
+      <div class="comment-editor">
+         <form name="commentFrm" action="${path }/team/insertTeamBoardComment.do" method="post">
+            <input type="hidden" name="boardNoRef" value="${teamboard.boardNo }"/>
+            <input type="hidden" name="memberId" value="${loggedMember.memberId }"/>
+            <input type="hidden" name="commentNoRef" value="0"/>
+               <label class="comment-lable" for="commentWriteBox">댓글 입력</label>
+            <div class="form-group comment-write-div">
+                 <div><textarea class="form-control" id="commentWriteBox" name="commentContent" rows="2"></textarea></div>
+                 <div><button class="btn btn-primary" type="submit" id="btn-commentWrite" style="margin-left: 730px;">등록</button></div>
+             </div>
+         </form>
+      </div>
+   </div>
+
+
 </section>
+
+
+
 
 <script>
 	function delete_btn(){
@@ -81,6 +124,18 @@
 		}
 }
 
+	function commentdelete_btn(){
+		
+
+		location.href="${path}/deletecomment.do?commentNo="+event.target.value+"&&boardNo=${teamboard.boardNo}"; 
+		
+	}
+	
+	function fileDownload(oName,rName)
+	{
+		oName = encodeURIComponent(oName);
+		location.href='${path}/team/teamboard.do?oName='+oName+'&rName='+rName;
+	}
 </script>
 
 

@@ -22,6 +22,11 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.MemberRequest" alias="mbr"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.Notice" alias="notice"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.NoticeAttachment" alias="noticeAttachment"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.MatchGoalResult" alias="mgr"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.Score" alias="score"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.StatusMember" alias="statusMember"/>
+		<typeAlias type="com.kh.pickmatch.common.StringArrTypeHandler" alias="strArr"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.TeamBoardComment" alias="tbc"/>
 		
 		
 	</typeAliases>

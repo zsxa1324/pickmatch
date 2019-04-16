@@ -26,7 +26,7 @@
   <div class="form-group form-group-sm">
     <label for="stadium" style="margin-right: 45px; margin-left: 20px;">파일</label>
     <c:forEach items="${attachmentList}" var="a" varStatus="vs">
-       <button type="button" 
+       <button type="button" style="width:300px;"
                class="btn btn-outline-success btn-block"
                onclick="fileDownload('${a.originalFileName}','${a.renamedFileName }');"> 첨부파일${vs.count} - ${a.originalFileName }
         </button>

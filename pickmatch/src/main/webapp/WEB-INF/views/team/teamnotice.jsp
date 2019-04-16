@@ -25,16 +25,19 @@
 		</tr>
 	<c:forEach items="${list }" var="b">
 		<tr>
-			<td id="team-freeboard-table-id">${b.memberId }</td>
-			<td id="team-freeboard-table-title"><a href="${path}/team/noticeView.do?noticeNo=${b.noticeNo}">${b.noticeTitle }</a></td>
-			<td id="team-freeboard-table-date">${b.noticeDate }</td>
+			<td id="team-notice-table-id">${b.memberId }</td>
+			<td id="team-notice-table-title"><a href="${path}/team/noticeView.do?noticeNo=${b.noticeNo}">${b.noticeTitle }</a></td>
+			<td id="team-notice-table-date">${b.noticeDate }</td>
 		</tr>
 		</c:forEach>
 	
 	</table>
+	
+	<c:if test="${loggedMember.authority=='팀장'||loggedMember.authority=='매니저' }">
 	<div id="teamnotice-write-btn" align="right" style="margin-right: 200px; margin-top: 30px;">
-	<input type="button" value="글쓰기" id="btn-add" class="btn btn-primary" onclick="fn_write();"/>
-</div>
+		<input type="button" value="글쓰기" id="btn-add" class="btn btn-primary" onclick="fn_write();"/>
+	</div>
+	</c:if>
 </div>	
 
 
@@ -63,7 +66,8 @@
 		margin: auto;
 	}
 	#team-notice-table tr,td{
-		text-align:left;
+		text-align:center;
+
 		width:800px;
 		height:20px;
 		
@@ -77,12 +81,12 @@
 	}
 	#team-notice-table-id{
 		
-		width:150px;
+		width:200px;
 	
 	}
 	#team-notice-table-title{
 		
-		width:450px;
+		width:400px;
 
 	}
 		#team-notice-table-date{

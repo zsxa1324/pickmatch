@@ -88,7 +88,7 @@ public List<Map> matchResponse(int matchNo) {
 
 @Override
 public int matchOk(Map<String, Object> map) {
-	int result=session.insert("match.matchOk",map);
+	int result=session.update("match.matchOk",map);
 	return result;
 }
 
@@ -108,6 +108,12 @@ public AwaySaInfo matchSaa(Map<String, Object> map) {
 public List<Map> matchindexContent(String today) {
 	List<Map> list=session.selectList("match.matchindexContent",today);
 	return list;
+}
+
+@Override
+public Match selectOneMatch(int matchNo) {
+	// TODO Auto-generated method stub
+	return session.selectOne("match.selectOneMatch", matchNo);
 }
 
 

@@ -20,7 +20,8 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.Message" alias="message"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.MemberByTeam" alias="mbt"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.MemberRequest" alias="mbr"/>
-
+		<typeAlias type="com.kh.pickmatch.model.vo.StatusMember" alias="statusMember"/>
+		<typeAlias type="com.kh.pickmatch.common.StringArrTypeHandler" alias="strArr"/>
 		
 		
 	</typeAliases>

@@ -262,11 +262,12 @@ section#matchTeamInfo-section table tr td a:hover {
 		var btn = $("#matchRequest");
 		var teamName = "${loggedMember.teamName}";
 		var away = $("#awayTeamName").val();
+		var teamHome="${match.teamHome}";
 
 		/* data-target="#layerpop" data-toggle="modal" */
 		if (id.length == 0) {
 			alert("로그인을 하셔야 합니다.");
-		} else if (id == teamName) {
+		} else if (teamHome == teamName) {
 			alert("같은 팀에게는 매치신청을 하실 수 없습니다.");
 		} else if (teamName == away) {
 			alert("이미 매치 신청하셨습니다.");

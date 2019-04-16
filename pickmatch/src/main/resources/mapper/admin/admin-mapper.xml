@@ -1,9 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="admin">
-
+<resultMap type="com.kh.pickmatch.model.vo.StatusMember" id="SMMap">
+<result column="memberid" property="memberId" typeHandler="strArr"/>
+<result column="password" property="password"/>
+<result column="membername" property="memberName"/>
+<result column="nickname" property="nickname"/>
+<result column="phone" property="phone"/>
+<result column="email" property="email"/>
+<result column="birth" property="birth"/>
+<result column="gender" property="gender"/>
+<result column="position" property="position"/>
+<result column="location" property="location"/>
+<result column="enrolldate" property="enrollDate"/>
+<result column="status" property="status"/>
+<result column="profile" property="profile"/>
+<result column="introduce" property="introduce"/>
+<result column="activitypoint" property="activityPoint"/>
+<result column="teamname" property="teamName"/>
+<result column="authority" property="authority"/>
+</resultMap>
 <select id="memberList" resultType="map">
 select * from member
 </select>
+
+<update id="memberActive" parameterType="map">
+update member set status='Y' where memberid IN
+<foreach collection="mapList" item="type" index="index"  open="(" close=")" separator=",">
+#{type}
+</foreach>
+
+</update>
+ 
+<update id="memberUnActive" parameterType="map">
+update member set status='N' where memberid IN
+<foreach collection="mapList" item="type" index="index"  open="(" close=")" separator=",">
+#{type}
+</foreach>
+</update>
+
+<select id="teamList" resultType="map">
+select * from team
+</select>
+
+<update id="teamUnActive" parameterType="map">
+update team set teamstatus='N' where teamname IN
+
+<foreach collection="mapList" item="type" index="index" open="(" close=")" separator=",">
+#{type}
+</foreach>
+</update>
+
+<update id="teamActive" parameterType="map">
+update team set teamstatus='Y' where teamname IN
+
+<foreach collection="mapList" item="type" index="index" open="(" close=")" separator=",">
+#{type}
+</foreach>
+
+</update>
 
 </mapper>

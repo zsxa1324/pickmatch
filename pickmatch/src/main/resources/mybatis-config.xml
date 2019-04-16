@@ -24,6 +24,8 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.NoticeAttachment" alias="noticeAttachment"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.MatchGoalResult" alias="mgr"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.Score" alias="score"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.StatusMember" alias="statusMember"/>
+		<typeAlias type="com.kh.pickmatch.common.StringArrTypeHandler" alias="strArr"/>
 		
 		
 	</typeAliases>

@@ -297,7 +297,11 @@
 					<li class="nav-item"><a class="nav-link" href="${path }/match/matchList.do">매치보드</a>
 						<div class="dropdown">
 							<a href="${path }/match/matchList.do">매치 조회</a>
+						<c:if test="${!empty loggedMember}">
+							<c:if test="${loggedMember.teamName!=null && (loggedMember.authority == '팀장' || loggedMember.authority == '매니저')}">
 							<a href="${path }/match/enrollForm">매치 등록</a>
+							</c:if>
+						</c:if>
 						</div>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a>
@@ -471,11 +475,12 @@
 		$("#alarm").click(function(){
 			$.ajax({
 				url:"${path}/alarm/view",
-				data: {"memberId" : '${loggedMember.memberId}'},
+				data: {"memberId" : '${loggedMember.memberId}', "cPage" : 1},
 				dataType:"html",
 				type:"POST",
 				success:function(data){
 					$("#AlarmResult").html(data);
+					$("#alarm").html(0);
 				}
 				
 			});
@@ -484,6 +489,17 @@
 		})
 		
 	});
+	
+	function fn_paging(cPage){
+		$.ajax({url: '/pickmatch/alarm/view',
+			data: {'memberId' : '${loggedMember.memberId}', 'cPage' : cPage},
+			dataType:'html',type:'POST',
+			success:function(data){
+				$('#AlarmResult').html(data);
+				$("#alarm").html(0);
+				}
+			});
+	}
 	
 	function fn_login()
 	{

@@ -109,6 +109,12 @@ private MatchDao dao;
 		List<Map> list=dao.matchindexContent(today);
 		return list;
 	}
+
+	@Override
+	public Match selectOneMatch(int matchNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOneMatch(matchNo);
+	}
 	
 	
 	

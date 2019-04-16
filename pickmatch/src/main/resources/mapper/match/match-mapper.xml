@@ -115,6 +115,10 @@
 	<select id="matchindexContent" resultType="map" parameterType="string">
 	select * from match where to_char(matchdate,'YYYY-MM-DD')=#{today} and teamaway is not null
 	</select>
+	
+	<select id="selectOneMatch" parameterType="_int" resultType="match">
+		select * from match where matchno = #{matchNo}
+	</select>
 
 
 </mapper>

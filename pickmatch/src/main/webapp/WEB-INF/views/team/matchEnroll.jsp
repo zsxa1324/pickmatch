@@ -5,196 +5,234 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-    <jsp:param value="" name="pageTitle"/>
+    <jsp:param value="매치 결과입력" name="pageTitle"/>
 </jsp:include>
 <section id="matchEnroll">
 
-	<div style="width: 830px; height: 780px; margin: 50px 100px;">
-		<div id="home" style=" margin-top: 10px; text-align: center; float: left; display: inline-block;">
+<form name='frm_matchResult' action="${path}/team/teamMatchEnrollEnd?matchNo=${matchNo}" method="post">
+	
+	<input type="hidden" name='homeTeam' value="${homeTeam['teamName']}"/>
+	<input type="hidden" name='awayTeam' value="${awayTeam['teamName']}"/>
+	
+	<input type="hidden" name='homeMinarr'/>
+	<input type="hidden" name='awayMinarr'/>
+	<input type="hidden" name='homeNamearr'/>
+	<input type="hidden" name='awayNamearr'/>
+	
+	<div id='container'>
+		<div id="home">
 		
-			<div style="width: 120px; height: 120px; background-color: gray; border-radius: 80px; margin: 10px 40px"></div>
+			<div class='emblem'><c:if test="${homeTeam['teamEmblem'] ne null}"><img src="${homeTeam['teamEmblem']}"></c:if></div>
 			
-			<div id='team' style="width: 200px; line-height: 40px; background-color: #2478FF; border-radius: 5px;">무적축구단</div>
+			<div id='hometeam'>${homeTeam['teamName']}</div>
 			
-			<div style="width: 80px; height: 40px; background-color: white; border-radius: 5px; margin: 10px 60px; padding-top: 10px;"></div>
+			<div class='score'></div>
 			
-			<div style="width: 200px; background-color: green; border-radius: 5px;">
+			<div class='field'>
 			
-				<div id='scroll'>
-					<div class="goal" style="font-size: 20px;">1`&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div class="goal" style="font-size: 20px;">7`&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary goalDel">삭제</button></div>
-					<div class="goal" style="font-size: 20px;">13`&nbsp;&nbsp;김동현<button onclick="del()" style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div class="goal" style="font-size: 20px;">24`&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div class="goal" style="font-size: 20px;">45`&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div class="goal" style="font-size: 20px;">88`&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div class="goal" style="font-size: 20px;">88`&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div class="goal" style="font-size: 20px;">88`&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div class="goal" style="font-size: 20px;">88`&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div class="goal" style="font-size: 20px;">88`&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div class="goal" style="font-size: 20px;">88`&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div class="goal" style="font-size: 20px;">88`&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<script>
-						function add() {
-							
-							var homeTeam = $('#team').val();
-							var min = $('#min').val();
-							var name = $('#name').val();
-							
-							$.ajax({
-								url: '${path}/team/teamMatchEnrollAjax',
-								type: 'POST',
-								data: {"min" : min, "name" : name, "team" : team},
-								success: function(data) {
-										
-									var div = $('<div class="goal">');
-									div.append(data[min]);
-									div.append('nbsp;nbsp;');
-									div.append(data[name]);
-									div.append('<button class="btn btn-primary" onclick="del()" value='${goalNo}'>삭제</button>')
-									
-								}
-							});
-						}
-					</script>
+				<div id='homescroll'>
 				</div>
 				
-				<select id="min" name="min" required style="width: 50px; vertical-align: bottom;">
+				<select id="homemin" name="homemin" required>
 					<c:forEach var="min" begin="0" end="99" step="1">
 				    	<option value="${min}">${min}</option>
 					</c:forEach>
 			    </select>
-			    <select id="min" name="min" required style="width: 80px; vertical-align: bottom;">
-					<c:forEach var="name" begin="0" end="100" step="1">
-				    	<option value="김동현">김동현</option>
+			    <select id="homememberName" name="homememberName" required>
+					<c:forEach var="homeList" items="${homeList}">
+				    	<option value="${homeList['MEMBERID']}">${homeList['MEMBERNAME']}</option>
+					</c:forEach>
+					<c:forEach var="homemercenaryList" items="${homemercenaryList}">
+				    	<option value="${homemercenaryList['MEMBERID']}">${homemercenaryList['MEMBERNAME']}</option>
 					</c:forEach>
 			    </select>
-			    <button class="btn btn-primary" onclick = "add()" style="padding: 3px 10px; line-height: 20px; vertical-align: bottom;">추가</button>
+			    <button id='addbtn' type="button" class="btn btn-primary" onclick="homeadd()">추가</button>
 			</div>
 			
 		</div>
 		
-		<div id="vs" style=" margin: 60px 0 0 30px; text-align: center; display: inline-block;">
+		<div id="vs">
 		
-			<input style="margin: 50px 55px; float: left; border-radius: 5px; width: 60px;" type="number" name="homescore" min="0" max="100"/>
+			<input id="leftscore" type="number" name="homescore" min="0" max="100" required/>
 			
-			<div style="width: 40px; vertical-align: middle; line-height: 60px; background-color: white; border-radius: 5px; float: left; margin-top: 40px;">vs</div>
+			<div id="inputOn">vs</div>
 			
-			<input style="float: left; border-radius: 5px; margin: 50px 55px; width: 60px;" type="number" name="awayscore" min="0" max="100"/>
+			<input id="rightscore" type="number" name="awayscore" min="0" max="100" required/>
 			
-			<div style="height: 80px; background-color: green; border-radius: 5px; margin-top: 170px; margin-left: -10px;">
 			
-				<p>2019-4-17(수) 15:00</p>
-				<p>종합운동장</p>
+			<div id='placeinfo'>
+			
+				<p style="font-size: 21px;">${m['matchDate']}&nbsp;&nbsp;&nbsp;${m['matchTime']}</p>
+				<p style="font-size: 21px;">${m['playGround']}</p>
 				
 			</div>
 			
-			<div style="width: 150px; line-height: 150px; background-color: white; margin: 40px 0 0 110px; border-radius: 30px;">
+			<div id="point">
 				득점
 			</div>
 			
 		</div>
 		
-		<div id="away" style=" margin-top: 10px; text-align: center; float: right; display: inline-block;">
+		<div id="away">
 	
-			<div style="width: 120px; height: 120px; background-color: gray; border-radius: 80px; margin: 10px 40px"></div>
+			<div class='emblem'><c:if test="${awayTeam['teamEmblem'] ne null}"><img src="${awayTeam['teamEmblem']}"></c:if></div>
 			
-			<div id='team' style="width: 200px; line-height: 40px; background-color: #2478FF; border-radius: 5px;">KH축구단</div>
+			<div id='awayteam'>${awayTeam['teamName']}</div>
 			
-			<div style="width: 80px; height: 40px; background-color: white; border-radius: 5px; margin: 10px 60px; padding-top: 10px;"></div>
+			<div class='score'></div>
 			
-			<div style=" width: 200px; background-color: green; border-radius: 5px;">
+			<div class='field'>
 			
-				<div id='scroll'>
-					<div style="font-size: 20px;">1`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div style="font-size: 20px;">7`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div style="font-size: 20px;">13`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div style="font-size: 20px;">24`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div style="font-size: 20px;">45`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div style="font-size: 20px;">88`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div style="font-size: 20px;">88`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div style="font-size: 20px;">88`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					<div style="font-size: 20px;">88`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;김동현<button style="float: right; padding: 0px 10px;" class="btn btn-primary">삭제</button></div>
-					
-					<script>
-						function add() {
-							
-							var team = $('#team').val();
-							var min = $('#min').val();
-							var name = $('#').val();
-							
-							$.ajax({
-								url: '${path}/team/teamMatchEnrollAjax',
-								type: 'POST',
-								data: {"min" : min, "name" : name, "team", team},
-								success: function(data) {
-									
-								}
-							});
-						}
-					</script>
+				<div id='awayscroll'>
 				</div>
 			
-				<select id="min" name="min" required style="width: 50px; vertical-align: bottom;">
+				<select id="awaymin" name="awaymin" required>
 					<c:forEach var="min" begin="0" end="99" step="1">
 				    	<option value="${min}">${min}</option>
 					</c:forEach>
 			    </select>
-			    <select id="name" name="name" required style="width: 80px; vertical-align: bottom;">
-					<c:forEach var="name" begin="0" end="100" step="1">
-				    	<option value="${name}">${name}</option>
+			    <select id="awaymemberName" name="awaymemberName" required>
+					<c:forEach var="awayList" items="${awayList}">
+				    	<option value="${awayList['MEMBERID']}">${awayList['MEMBERNAME']}</option>        <%-- ${awayList['MEMBERID']} --%>
+					</c:forEach>
+					<c:forEach var="awaymercenaryList" items="${awaymercenaryList}">
+				    	<option value="${awaymercenaryList['MEMBERID']}">${awaymercenaryList['MEMBERNAME']}</option>
 					</c:forEach>
 			    </select>
-			    <button class="btn btn-primary" onclick = "add()" style="padding: 3px 10px; line-height: 20px; vertical-align: bottom;">추가</button>
+			    <button id='addbtn' type="button" class="btn btn-primary" onclick="awayadd()">추가</button>
 			
 			</div>
 			
 		</div>
-		<div style="margin-top: 90px;">경기내용 상세입력</div>
-		<textarea style="border-radius:8px; width: 830px; height: 140px;"></textarea>
-		<button style="float: right;" class="btn btn-primary" type="button" onclick="location.href='${path}/team/teamMatchEnrollEnd'">입력완료</button>
-		<button style="margin-right: 15px; float: right;" class="btn btn-primary" type="button">취소</button>
+		<div id="ta">경기내용 상세입력</div>
+		<textarea id="textarea" name="textarea"></textarea>
+		<input id="input" class="btn btn-primary" type="button" onclick="re_confirm()" value="결과저장"/>
+		<button id="cancel" class="btn btn-primary" type="button" onclick="location.href='${path}/team/teamMatchList'">취소</button>
 	</div>
 	
+</form>
 
 </section>
 
 <script>
 
-	$('.goal').on('click', '.goalDel', function() {
-		$(this).parent().remove();
-	});
-
-	function del() {
+	$('[name=homescore]').attr('required', true);
+	$('[name=awayscore]').attr('required', true);
+	
+	var awayscore = $('[name=awayscore]').val();
+	var homescore = $('[name=homescore]').val();
+	var homeNum = 0;
+	var awayNum = 0;
+	var homeMinarr = [];
+	var awayMinarr = [];
+	var homeNamearr = [];
+	var awayNamearr = [];
+	var hma;
+	var ama;
+	var hna;
+	var ana;
+	
+ 	function re_confirm() {
+ 		
+		var result = confirm("결과를 입력하면 수정할 수 없습니다. 결과를 저장하시겠습니까?");
 		
-		$.ajax({
+		if($('[name=homescore]').val() == '' || $('[name=awayscore]').val() == '') {
+			alert('골점수를 입력바랍니다.');
+			return false;
+		}
+		
+		if(result) {
 			
-			url: '${path}/team/teamMatchEnrollDelAjax'
-			type: 'POST',
-			data: {"min" : min, "name" : name, "team" : team},
-			success: function(data) {
-				$('goal').on()
+			for(var i = 0; i < homeNum; i++) {
+				homeMinarr.push((document.getElementsByClassName('homegoal')[i].innerHTML).split('`')[0]);
+				homeNamearr.push((document.getElementsByClassName('homegoal')[i].innerHTML).split('<')[0].split('&nbsp;&nbsp;')[1]);
 			}
 			
-		});
+			for(var i = 0; i < awayNum; i++) {
+				awayMinarr.push((document.getElementsByClassName('awaygoal')[i].innerHTML).split('`')[0]);
+				awayNamearr.push((document.getElementsByClassName('awaygoal')[i].innerHTML).split('<')[0].split('&nbsp;&nbsp;')[1]);
+			}
+			
+			for(var i in homeMinarr) {
+				if(i == 0) hma = homeMinarr[i];
+				else hma += "," + homeMinarr[i];
+			}
+			
+			for(var i in awayMinarr) {
+				if(i == 0) ama = awayMinarr[i];
+				else ama += "," + awayMinarr[i];
+			}
+			
+			for(var i in homeNamearr) {
+				if(i == 0) hna = homeNamearr[i];
+				else hna += "," + homeNamearr[i];
+			}
+			
+			for(var i in awayNamearr) {
+				if(i == 0) ana = awayNamearr[i];
+				else ana += "," + awayNamearr[i];
+			}
+
+			$('[name=homeMinarr]').val(hma);
+			$('[name=awayMinarr]').val(ama);
+			$('[name=homeNamearr]').val(hna);
+			$('[name=awayNamearr]').val(ana);
+
+			console.log(homeMinarr);
+			console.log(awayMinarr);
+			console.log(homeNamearr);
+			console.log(awayNamearr);
 			
 			
+			$('[name = frm_matchResult]').submit();
 			
-		
+		}
 		
 		
 	}
+
+	$(document).on('click', '.homedelbtn', function() {
+		$(this).parent().remove();
+		homeNum -= 1;
+	});
 	
+	$(document).on('click', '.awaydelbtn', function() {
+		$(this).parent().remove();
+		awayNum -= 1;
+	});
+	
+	function homeadd() {
+		var team = $('#hometeam').html();
+		var min = $('#homemin').val();
+		var memberName = $('select[name=homememberName]').val();
+		var memberId = $('select[name=homememberId]').val();
+		var matchNo = ${matchNo};
+		
+		var html = min + '`&nbsp;&nbsp;' + memberName;
+		var div = $('<div class="homegoal"></div>');
+		div.append(html);
+		div.append('<button class="btn btn-primary homedelbtn">삭제</button>');
+		
+		$('#homescroll').append(div);
+		homeNum += 1;
+	}
+	
+	function awayadd() {
+		var team = $('#awayteam').html();
+		var min = $('#awaymin').val();
+		var memberName = $('select[name=awaymemberName]').val();
+		var matchNo = ${matchNo};
+		
+		var html = min + '`&nbsp;&nbsp;' + memberName;
+		var div = $('<div class="awaygoal"></div>');
+		div.append(html);
+		div.append('<button class="btn btn-primary awaydelbtn">삭제</button>');
+		
+		$('#awayscroll').append(div);
+		awayNum += 1;
+	}
 	
 </script>
-
-
-
-
-
-
-
-
-
 
 
 

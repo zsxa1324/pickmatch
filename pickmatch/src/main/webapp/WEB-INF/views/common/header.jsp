@@ -220,7 +220,7 @@
 		</c:if>
 		<c:if test="${loggedMember!=null and loggedMember.memberId!='admin'}">
 		<div id="login-modal">
-			<div id="alarm">1</div>
+			<div id="alarm">0</div>
 			<c:if test="${loggedMember.memberId=='admin' }">
 			<a href="${path }/member/adminpage.do">
 				<img src="${path }/resources/images/settings.png" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
@@ -230,7 +230,7 @@
 			<a href="${path }/member/mypageCheck.do">
 				<c:if test="${loggedMember.status=='Y' }">
 				<%-- <c:out value="${loggedMember }"/> --%>
-					<c:if test="${loggedMember.profile!=null || loggedMember.profile!=''}">
+					<c:if test="${loggedMember.profile!=null && loggedMember.profile!=''}">
 						<img src="${path }/resources/upload/member-profile/${loggedMember.profile }" width='35px' height='35px' title="마이페이지" style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
 					</c:if>
 					<c:if test="${loggedMember.profile==null || loggedMember.profile==''}">
@@ -246,10 +246,6 @@
 						<img src="${path }/resources/images/user2.png" width='35px' height='35px' title="마이페이지"/>
 					</c:if>
 				</c:if>
-			<!-- <div id="mypage-container">
-				<a href="#">내 정보 보기</a>
-				<a href="#">내가 쓴 글 보기</a>
-			</div> -->
 			</c:if>
 			<span onclick="location.href='${path}/member/logout.do'" style="cursor: pointer; margin-left: 5px;">로그아웃</span>
 		</div>
@@ -290,6 +286,8 @@
 							</c:if>
 							<c:if test="${loggedMember.teamName!=null }">
 							<a href="${path }/team.do?teamName=${loggedMember.teamName}">팀 정보</a>
+							<a href="${path}/team/teamMatchList">팀 매치정보</a>
+                    		<a href="${path}/team/teamOperationInfo">팀 운영정보</a>
 							</c:if>
 							<c:if test="${loggedMember.teamName!=null }">
 							<a href="${path}/freeboard.do">팀 자유게시판</a>
@@ -302,18 +300,22 @@
 						</c:if>
 						</div>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="#">공지사항</a>
+					<li class="nav-item"><a class="nav-link" href="${path }/board/notice">공지사항</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="${path }/match/matchList.do">매치보드</a>
 						<div class="dropdown">
 							<a href="${path }/match/matchList.do">매치 조회</a>
+						<c:if test="${!empty loggedMember}">
+							<c:if test="${loggedMember.teamName!=null && (loggedMember.authority == '팀장' || loggedMember.authority == '매니저')}">
 							<a href="${path }/match/enrollForm">매치 등록</a>
+							</c:if>
+						</c:if>
 						</div>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a>
 						<div class="dropdown">
 							<a href="${path }/community/freeboard.do">자유게시판</a>
-							<a href="#">모집게시판</a>
+							<a href="${path }/board/recruit">모집게시판</a>
 						</div>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">랭킹</a>
@@ -473,6 +475,46 @@
 	var onsubmit_pass = 0;
 	var onsubmit_mail = 0;
 	var onsubmit_nick = 0;
+	
+	$(function(){
+		
+		$.ajax({
+			url:"${path}/alarm/messageTotalcount",
+			data: {"memberId" : '${loggedMember.memberId}'},
+			type:"POST",
+			success:function(data){
+				$("#alarm").html(data.messageTotalcount);
+			}
+		});
+		
+		$("#alarm").click(function(){
+			$.ajax({
+				url:"${path}/alarm/view",
+				data: {"memberId" : '${loggedMember.memberId}', "cPage" : 1},
+				dataType:"html",
+				type:"POST",
+				success:function(data){
+					$("#AlarmResult").html(data);
+					$("#alarm").html(0);
+				}
+				
+			});
+			
+			$("#alarmModal").modal();
+		})
+		
+	});
+	
+	function fn_paging(cPage){
+		$.ajax({url: '/pickmatch/alarm/view',
+			data: {'memberId' : '${loggedMember.memberId}', 'cPage' : cPage},
+			dataType:'html',type:'POST',
+			success:function(data){
+				$('#AlarmResult').html(data);
+				$("#alarm").html(0);
+				}
+			});
+	}
 	
 	function fn_login()
 	{

@@ -88,7 +88,7 @@ public List<Map> matchResponse(int matchNo) {
 
 @Override
 public int matchOk(Map<String, Object> map) {
-	int result=session.insert("match.matchOk",map);
+	int result=session.update("match.matchOk",map);
 	return result;
 }
 

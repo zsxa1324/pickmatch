@@ -172,6 +172,7 @@
 	.signup-input-msg
 	{
 		font-size:13px;
+		margin: -1px 0 9px 0;
 	}
 	
 	.modal-footer
@@ -192,6 +193,17 @@
 		color : #adb5bd;
 	}
 </style>
+<script>
+	function valSubmit()
+	{
+		if(onsubmit_id !=1 || onsubmit_mail!=1 || onsubmit_pass!=1 || onsubmit_nick!=1)
+		{
+			alert('회원가입양식을 맞춰주세요.');
+			return false;
+		}
+		return false;
+	}
+</script>
 </head>
 <body>
 <header>
@@ -203,12 +215,12 @@
 		<c:if test="${loggedMember==null }">
 		<div id="login-modal" data-toggle="modal" data-target="#loginModal">
 			<img src="${path }/resources/images/user2.png" width='35px' height='35px'/>
-			<span>로그인</span>
+			<span style="cursor: pointer; margin-left: 5px;">로그인</span>
 		</div>
 		</c:if>
 		<c:if test="${loggedMember!=null and loggedMember.memberId!='admin'}">
 		<div id="login-modal">
-			<div id="alarm">-1</div>
+			<div id="alarm">1</div>
 			<c:if test="${loggedMember.memberId=='admin' }">
 			<a href="${path }/member/adminpage.do">
 				<img src="${path }/resources/images/settings.png" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
@@ -218,13 +230,14 @@
 			<a href="${path }/member/mypageCheck.do">
 				<c:if test="${loggedMember.status=='Y' }">
 				<%-- <c:out value="${loggedMember }"/> --%>
-					<c:if test="${loggedMember.profile!=null}">
-						<img src="${path }/resources/upload/member-profile/${loggedMember.profile }" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
+					<c:if test="${loggedMember.profile!=null || loggedMember.profile!=''}">
+						<img src="${path }/resources/upload/member-profile/${loggedMember.profile }" width='35px' height='35px' title="마이페이지" style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
 					</c:if>
-					<c:if test="${loggedMember.profile==null}">
+					<c:if test="${loggedMember.profile==null || loggedMember.profile==''}">
 						<img src="${path }/resources/images/user2.png" width='35px' height='35px' title="마이페이지"/>
 					</c:if>
 				</c:if>
+			</a>
 				<c:if test="${loggedMember.status=='K' }">
 					<c:if test="${loggedMember.profile!=null }">
 						<img src="${loggedMember.profile}" width='35px' height='35px' style="border-radius: 18px;-moz-border-radius: 18px;-khtml-border-radius: 18px;-webkit-border-radius: 18px;"/>
@@ -233,13 +246,12 @@
 						<img src="${path }/resources/images/user2.png" width='35px' height='35px' title="마이페이지"/>
 					</c:if>
 				</c:if>
-			</a>
 			<!-- <div id="mypage-container">
 				<a href="#">내 정보 보기</a>
 				<a href="#">내가 쓴 글 보기</a>
 			</div> -->
 			</c:if>
-			<span onclick="location.href='${path}/member/logout.do'">로그아웃</span>
+			<span onclick="location.href='${path}/member/logout.do'" style="cursor: pointer; margin-left: 5px;">로그아웃</span>
 		</div>
 		</c:if>
 		
@@ -290,7 +302,7 @@
 						</c:if>
 						</div>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="${path }/board/notice">공지사항</a>
+					<li class="nav-item"><a class="nav-link" href="#">공지사항</a>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="${path }/match/matchList.do">매치보드</a>
 						<div class="dropdown">
@@ -301,7 +313,7 @@
 					<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a>
 						<div class="dropdown">
 							<a href="${path }/community/freeboard.do">자유게시판</a>
-							<a href="${path }/board/recruit">모집게시판</a>
+							<a href="#">모집게시판</a>
 						</div>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">랭킹</a>
@@ -349,7 +361,7 @@
 				
 				<!-- 회원가입 모달 -->
 				<div id="login-enroll" style="display:none;">
-					<form action="${path }/member/memberEnroll.do" method="post" enctype="multipart/form-data" onsubmit="valSubmit()" class="enroll-frm">
+					<form action="${path }/member/memberEnroll.do" method="post" enctype="multipart/form-data" onsubmit="return valSubmit();" class="enroll-frm">
 						<div class="modal-body">
 							<input type="text" class="form-control"	name="memberId" id="memberId" placeholder="아이디" required/>
 							<div class="signup-input-msg">
@@ -361,13 +373,19 @@
 							<input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required/>
 							<div class="signup-input-msg">
 		                        <span>8자 이상 16자 이하 영문, 숫자, 특수문자 조합</span>
-		                    <span id="val-pass-ok" class="validation-msg" style='color:green;'>안전</span>
-							<span id="val-pass-no"class="validation-msg" style='color:crimson;'>위험</span>
+			                    <span id="val-pass-ok" class="validation-msg" style='color:green;'>안전</span>
+								<span id="val-pass-no"class="validation-msg" style='color:crimson;'>위험</span>
 		                    </div>
 							<input type="password" class="form-control" id="password_" placeholder="비밀번호확인" required/>
-							<span id="val-checkpass-no" class="validation-msg" style='color:crimson;'>비밀번호가 일치하지 않습니다.</span>
+							<div class="signup-input-msg">
+								<span id="val-checkpass-no" class="validation-msg" style='color:crimson;'>비밀번호가 일치하지 않습니다.</span>
+							</div>
 							<input type="text" class="form-control" name="memberName" id="memberName" placeholder="이름" required/>
-							<input type="text" class="form-control" name="nickname" placeholder="닉네임" required/>
+							<input type="text" class="form-control" name="nickname" id="nickname" placeholder="닉네임" required/>
+							<div class="signup-input-msg">
+								<span id="val-nick-ok" class="validation-msg" style='color:green;'>사용가능한 닉네임입니다.</span>
+								<span id="val-nick-no" class="validation-msg" style='color:crimson;'>사용할 수 없는 닉네임입니다.</span>
+							</div>
 							<input type="tel" class="form-control" name="phone" id="phone" placeholder="전화번호(예:01012345678)" maxlength="11" required/>
 							<input type="email" class="form-control" name="email" id ="email" placeholder="이메일" required/>
 							<button type="button" class="btn btn-outline-secondary" onclick="checkMail()">인증메일발송</button>
@@ -454,34 +472,7 @@
 	var onsubmit_id = 0;
 	var onsubmit_pass = 0;
 	var onsubmit_mail = 0;
-	
-	$(function(){
-		
-		$.ajax({
-			url:"${path}/alarm/messageTotalcount",
-			data: {"memberId" : '${loggedMember.memberId}'},
-			type:"POST",
-			success:function(data){
-				$("#alarm").html(data.messageTotalcount);
-			}
-		});
-		
-		$("#alarm").click(function(){
-			$.ajax({
-				url:"${path}/alarm/view",
-				data: {"memberId" : '${loggedMember.memberId}'},
-				dataType:"html",
-				type:"POST",
-				success:function(data){
-					$("#AlarmResult").html(data);
-				}
-				
-			});
-			
-			$("#alarmModal").modal();
-		})
-		
-	});
+	var onsubmit_nick = 0;
 	
 	function fn_login()
 	{
@@ -556,7 +547,7 @@
 	
 
 	/* 카카오 로그인 */
-	   Kakao.init('a1db2f9b36acb7501b2ddea26a162b2e');
+	   Kakao.init('dcc74509e1b7a54ac08acc0b2626252c');
 	   Kakao.Auth.createLoginButton({
 	      container: '#kakao-login-btn',
 	      success: function(authObj){
@@ -586,10 +577,14 @@
 	   });
 	   
 	   function kakaoAjax(res){
-			$.ajax({
+		   var profile = res.properties['profile_image'];
+		   if(profile==null) {profile="";}
+		   console.log(profile);
+			
+		   $.ajax({
 				url: '${path}/member/kakaoLogin.do',
 				type: 'post',
-				data: {"memberId":res.id, "nickname":res.properties['nickname'], "email":res.kakao_account['email'], "profile":res.properties['profile_image']},
+				data: {"memberId":res.id, "nickname":res.properties['nickname'], "email":res.kakao_account['email'], "profile":profile},
 				dataType: 'text',
 				success : function(data){
 					console.log('success : ' + data);
@@ -687,13 +682,36 @@
 		}
 	})
 	
-	function valSubmit()
+	$("#phone").keyup(function(event){
+	    var inputVal = $(this).val();
+    	$(this).val(inputVal.replace(/[^0-9]/gi,''));
+	});
+	
+	$('#nickname').blur(function checkNickname()
 	{
-		if(onsubmit_id !=1 || onsubmit_mail!=1 || onsubmit_pass!=1)
-		{
-			return false;
-		}
-	}
+		$.ajax({
+        	url: '<%=request.getContextPath()%>/member/checkNickname.do?nickname='+$("#nickname").val()+'&memberId='+$("#memberId").val(),
+        	type: 'get',
+        	dataType: 'text',
+        	success: data => {
+        		if(data == 'true' && $("#nickname").val().trim().length>0 )
+        		{
+        			$("#val-nick-no").hide();
+        			$("#val-nick-ok").show();
+        			onsubmit_nick = 1;
+        		}
+        		else
+        		{
+        			$("#val-nick-ok").hide();
+        			$("#val-nick-no").show();
+        			onsubmit_nick = 0;
+        		}
+        	}
+        });
+
+	});
+	
+	
 </script>
 		
 		

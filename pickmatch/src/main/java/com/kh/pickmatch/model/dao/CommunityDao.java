@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.pickmatch.model.vo.FreeBoard;
 import com.kh.pickmatch.model.vo.FreeBoardAttachment;
+import com.kh.pickmatch.model.vo.FreeBoardComment;
 
 public interface CommunityDao {
 
@@ -18,5 +19,15 @@ public interface CommunityDao {
 	int insertFreeBoard(FreeBoard fb);
 
 	int insertFreeAttachment(FreeBoardAttachment a);
+
+	int deleteFreeBoard(FreeBoard fb);
+
+	int updateFreeBoard(FreeBoard result);
+
+	int insertComment(FreeBoardComment comment);
+
+	Object selectComment(int boardNo);
+
+	int deleteComment(int commentNo);
 
 }

@@ -27,4 +27,6 @@ public interface MemberDao {
 
 	int updatePassword(Member m);
 
+	Member loginSelectOne(Member m);
+
 }

@@ -131,9 +131,14 @@ section {
 }
 #main-top-info{
 	/* padding : 0 0 10px 0; */
-	overflow: hidden;
-	
+	overflow: hidden;	
 }
+#main-top-info > p{
+	padding : 0 0 5px 0;
+	margin : 0 0 7px 0;
+	font-size : 15px;
+}
+
 .list_table_head {
 	display : flex;
 	overflow: hidden;
@@ -176,7 +181,7 @@ section {
 
 	<div id="main-container">
 		<div id="main-top-info">
-			<p>전체 0건</p>
+			<p>전체 ${totalList }건</p>
 		</div>
 		<div id="co-freeboard">
 			<div class="table table-striped table-hover">
@@ -185,17 +190,15 @@ section {
 					<div class="title" id="co-freeboard-table-title">제목</div>
 					<div class="nickname" id="co-freeboard-table-id">글쓴이</div>
 					<div class="date" id="co-freeboard-table-date">작성일</div>
-					<div class="readcount">조회수</div>
 				</div>
 				<ul>
 					<c:forEach items="${list }" var="b" varStatus="vs">
 						<a href="${path }/community/freeboardView.do?boardNo=${b.boardNo}">
 							<li class="list_table_content">
-								<div class="no">${vs.count }</div>
+								<div class="no">${b.boardNo }</div>
 								<div class="title">${b.boardTitle }</div>
 								<div class="nickname">${b.memberId }</div>
 								<div class="date"><fmt:formatDate type="date" dateStyle="short" value="${b.boardDate }"/></div>
-								<div class="readcount">${b.boardReadCount }</div>
 							</li>
 						</a>
 					</c:forEach>
@@ -209,10 +212,8 @@ section {
 		</div>
 
 		<c:if test="${loggedMember != null}">
-			<div id="freeboard-write" align="right"
-				style="margin-right: 200px; margin-top: 30px;">
-				<input type="button" value="글쓰기" id="btn-add"
-					class="btn btn-primary" onclick="fn_write();" />
+			<div id="freeboard-write" align="right">
+				<input type="button" value="글쓰기" id="btn-add" class="btn btn-primary" onclick="fn_write();" />
 			</div>
 		</c:if>
 

@@ -31,6 +31,8 @@ public interface MemberService {
 
 	boolean findPassMail(String memberId, String email) throws Exception;
 
+	Member loginSelectOne(Member m);
+
 
 
 

@@ -6,6 +6,10 @@
   	select * from member left join memberbyteam using(memberId) where memberid=#{memberId}
   </select>
   
+  <select id="loginSelectOne" parameterType="member" resultType="member">
+  	select * from member left join memberbyteam using(memberId) where memberid=#{memberId} and status='Y'
+  </select>
+  
   <insert id="insertMember" parameterType="member">
   	insert into member values(#{memberId},#{password},#{memberName},#{nickname},#{phone},#{email},#{birth},#{gender},#{position},#{location},default,default,#{profile},null,default)
   </insert>

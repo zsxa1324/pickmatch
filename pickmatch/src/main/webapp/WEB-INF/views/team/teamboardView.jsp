@@ -24,7 +24,7 @@
    </div>
    <div style="display: block;">
     <label for="boardTitle" style="display: inline-block; margin-right: 30px; margin-left: 20px;">제목</label>
-    <input type="text" class="form-control" id="boardTitle" value="${teamboard.boardTitle }" name="boardTitle" style="display: inline-block; width: 300px;" readonly >
+    <input type="text" class="form-control" id="boardTitle" value="${teamboard.boardTitle }" name="boardTitle" style="display: inline-block; width: 400px; margin-left: 16px;" readonly >
    </div>
   </div>
   <div class="form-group form-group-sm">
@@ -47,13 +47,13 @@
   	<c:if test="${attachmentList !=null }">
   		<c:forEach items="${attachmentList }" var="attach">
   			<c:if test="${fn:substringAfter(attach.renamedFileName,'.')== 'jpg'}">
-  			<img src="${path }/resources/upload/team-freeboard/${attach.renamedFileName}" width="70px">
+  			<img src="${path }/resources/upload/team-freeboard/${attach.renamedFileName}" width="200px">
   			</c:if> 
   			<c:if test="${fn:substringAfter(attach.renamedFileName,'.')== 'jpeg'}">
-  			<img src="${path }/resources/upload/team-freeboard/${attach.renamedFileName}" width="70px">
+  			<img src="${path }/resources/upload/team-freeboard/${attach.renamedFileName}" width="200px">
   			</c:if> 
   			<c:if test="${fn:substringAfter(attach.renamedFileName,'.')== 'png'}">
-  			<img src="${path }/resources/upload/team-freeboard/${attach.renamedFileName}" width="70px">
+  			<img src="${path }/resources/upload/team-freeboard/${attach.renamedFileName}" width="200px">
   			</c:if> 
   		</c:forEach>
   	</c:if>
@@ -61,8 +61,8 @@
   
   <c:if test="${loggedMember.memberId==teamboard.memberId }">
    <div>
-  	<input type="submit" class="btn btn-outline-success" id="white_btn" value="수정" style="margin-right: 150px;">
-	<input type="button" class="btn btn-outline-success" value="삭제" onclick="delete_btn()"> 
+  	<input type="submit" class="btn btn-outline-success" id="white_btn" value="수정" style="margin-left: 460px;">
+	<input type="button" class="btn btn-outline-success" value="삭제" style="margin-left: 20px;" onclick="delete_btn()"> 
   </div>
   </c:if>
 

@@ -72,6 +72,12 @@ section#matchTeamInfo-section table tr td a:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
+table.teamInfo-tbl{
+border: none;
+}
+.teamInfo-tbl tr:nth-child(even){
+background-color: rgba(0,0,0,0.05);
+}
 </style>
 
 <section id="matchTeamInfo-section">
@@ -82,7 +88,7 @@ section#matchTeamInfo-section table tr td a:hover {
 			</div>
 			<div class="teamTbl-div"
 				style="display: inline-block; margin-left: 15px; float: left;">
-				<table border="1"
+				<table border="1" class="teamInfo-tbl"
 					style="text-align: center; width: 370px; height: 600px; table-layout: fixed;">
 
 					<tr>
@@ -227,8 +233,10 @@ section#matchTeamInfo-section table tr td a:hover {
 							<td>${mr['TEAMNAME']}</td>
 							<td>${mr['MEMO'] }</td>
 							<td><c:if test="${match.teamHome==loggedMember.teamName}">
-									<button type="button" onclick="matchOk()"
+									<div style="display: inline-flex;"><button style="width: 100px;" type="button" onclick="reTeamInfo()" value="${mr['TEAMNAME'] }" class="btn btn-primary">팀 정보</button>
+									<button style="width: 100px;" type="button" onclick="matchOk()"
 										value="${mr['MATCHNO'] }" class="btn btn-primary">매치수락</button>
+										</div>
 								</c:if> <input type="hidden" id="awayTeamName"
 								value="${mr['TEAMNAME']}" /></td>
 						</tr>
@@ -241,9 +249,16 @@ section#matchTeamInfo-section table tr td a:hover {
 	</article>
 </section>
 <script>
+	function reTeamInfo(){
+		var reTeamName=event.target.value;
+		location.href="${path}/team.do?teamName="+reTeamName;
+	}
+
 	function textareabtn() {
 		var matchDate = $("#hiddenMatchDate").val();
 		var matchTime = $("#hiddenMatchTime").val();
+		var auth="${loggedMember.authority}";
+		console.log(auth);
 		var today = new Date();
 		var y = today.getFullYear();
 		var m = today.getMonth() + 1;
@@ -275,6 +290,8 @@ section#matchTeamInfo-section table tr td a:hover {
 			alert("지난 매치는 신청하실 수 없습니다.");
 		} else if (teamName.length == 0) {
 			alert("팀이 없으면 매치 신청을 하실 수 없습니다.");
+		} else if (auth!='팀장' && auth!='매니저'){
+			alert("팀장 혹은 매니저만 매치 신청을 할 수 있습니다.");
 		} else {
 			btn.attr("data-target", "#layerpop");
 			btn.attr("data-toggle", "modal");
@@ -299,10 +316,20 @@ section#matchTeamInfo-section table tr td a:hover {
 	}
 
 	function matchOk() {
+		var aut="${loggedMember.authority}";
+		
+		if(aut!='팀장' && aut!='매니저'){
+		alert("팀장 혹은 매니저만 매치를 수락하실 수 있습니다.");
+		return;
+		}	
+		var flag=confirm("매치를 수락하시겠습니까?");		
 		var matchNo = event.target.value;
 		var awayTeam = $("#awayTeamName").val();
+		
+		if(flag){
 		location.href = "${path}/match/matchOk.do?matchNo=" + matchNo
-				+ "&&awayTeam=" + awayTeam;
+		+ "&&awayTeam=" + awayTeam;	
+			}
 	}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

@@ -19,7 +19,7 @@
 </div>
             
 <div style="width:450px;">
-<h2><b>파일</b></h2>
+<h4><b>파일</b></h4>
 <div id="fileDiv">
 		<p>
 			<input type="file" class="form-control form-control-sm" id="file_0" name="upFile">
@@ -72,6 +72,14 @@ function fn_addFile(){
 
 function fn_deleteFile(obj){
 	obj.parent().remove();
+}
+
+function validate(){
+	var title=$("#title").val().trim();
+	if(title.length<1){
+		alert("제목을 입력하세요!")
+		return false;
+	}
 }
 
 

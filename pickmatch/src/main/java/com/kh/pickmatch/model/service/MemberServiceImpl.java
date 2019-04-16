@@ -211,29 +211,7 @@ public class MemberServiceImpl implements MemberService {
 				result.setProfile("");
 			}
 		}
-		
-		
-/*		if(!profile.isEmpty())
-		{
-			if(result.getProfile().equals("") || result.getProfile()!=null) 
-			{
-				String filename = result.getProfile();
-				File deleFile = new File(saveDir+"/"+filename);
-				boolean deleteResult = deleFile.delete();
-				logger.info("파일삭제 : "+deleteResult);
-			}
-			String oriFileName = profile.getOriginalFilename();
-			String ext = oriFileName.substring(oriFileName.indexOf("."));
-			String renamedFile = result.getMemberId()+ext;
-			result.setProfile(renamedFile);
-			try {
-				profile.transferTo(new File(saveDir + "/" + renamedFile));
-			}catch(IOException e)
-			{
-				e.printStackTrace();
-			}
-		}
-*/		
+				
 		updateResult = dao.updateMember(result);
 		return updateResult;
 	}
@@ -288,6 +266,11 @@ public class MemberServiceImpl implements MemberService {
 		int result = dao.updatePassword(m);
 		if(result>0) flag = true;
 		return flag;
+	}
+
+	@Override
+	public Member loginSelectOne(Member m) {
+		return dao.loginSelectOne(m);
 	}
 
 	

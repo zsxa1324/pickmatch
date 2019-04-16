@@ -26,6 +26,7 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.Score" alias="score"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.StatusMember" alias="statusMember"/>
 		<typeAlias type="com.kh.pickmatch.common.StringArrTypeHandler" alias="strArr"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.TeamBoardComment" alias="tbc"/>
 		
 		
 	</typeAliases>

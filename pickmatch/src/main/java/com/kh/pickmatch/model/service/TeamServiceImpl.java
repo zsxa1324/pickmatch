@@ -18,6 +18,7 @@ import com.kh.pickmatch.model.vo.Score;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamBoardAttachment;
+import com.kh.pickmatch.model.vo.TeamBoardComment;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
@@ -147,6 +148,24 @@ public class TeamServiceImpl implements TeamService {
 	public List<TeamNotice> selectListN(int cPage, int numPerPage, String teamName) {
 		// TODO Auto-generated method stub
 		return dao.selectListN(cPage, numPerPage, teamName);
+	}
+
+	@Override
+	public int deleteComment(int commentNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteComment(commentNo);
+	}
+
+	@Override
+	public int insertTeamBoardComment(int boardNoRef, String memberId, int commentNoRef, String commentContent) {
+		// TODO Auto-generated method stub
+		return dao.insertTeamBoardComment(boardNoRef, memberId, commentNoRef, commentContent);
+	}
+
+	@Override
+	public List<TeamBoardComment> tbcView(int boardNo) {
+		// TODO Auto-generated method stub
+		return dao.tbcView(boardNo);
 	}
 
 	@Override

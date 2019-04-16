@@ -21,6 +21,7 @@ import com.kh.pickmatch.model.vo.Score;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamBoardAttachment;
+import com.kh.pickmatch.model.vo.TeamBoardComment;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
@@ -157,6 +158,30 @@ public class TeamDaoImpl implements TeamDao {
 
 
 	
+
+	@Override
+	public int deleteComment(int commentNo) {
+		// TODO Auto-generated method stub
+		return session.delete("team.deleteComment", commentNo);
+	}
+
+	@Override
+	public int insertTeamBoardComment(int boardNoRef, String memberId, int commentNoRef, String commentContent) {
+		// TODO Auto-generated method stub
+		
+		TeamBoardComment tbc = new TeamBoardComment();
+		tbc.setCommentNoRef(commentNoRef);
+		tbc.setMemberId(memberId);
+		tbc.setBoardNoRef(boardNoRef);
+		tbc.setCommentContent(commentContent);
+		return session.insert("team.insertTeamBoardComment", tbc );
+	}
+
+	@Override
+	public List<TeamBoardComment> tbcView(int boardNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("team.tbcView", boardNo);
+	}
 
 	@Override
 	public int teambreakup(String teamName) {

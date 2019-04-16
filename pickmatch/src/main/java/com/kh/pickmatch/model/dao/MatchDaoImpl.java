@@ -110,6 +110,12 @@ public List<Map> matchindexContent(String today) {
 	return list;
 }
 
+@Override
+public Match selectOneMatch(int matchNo) {
+	// TODO Auto-generated method stub
+	return session.selectOne("match.selectOneMatch", matchNo);
+}
+
 
 
 

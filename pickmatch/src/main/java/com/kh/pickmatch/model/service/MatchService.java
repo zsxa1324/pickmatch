@@ -27,4 +27,5 @@ public interface MatchService {
 	public AwaySaInfo matchSaa(Map<String, Object> map);
 	public List<Map> matchindexContent(String today);
 	
+	public Match selectOneMatch(int matchNo);
 }

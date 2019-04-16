@@ -102,7 +102,12 @@ public class LoggerAspect {
 			messageService.insertTeamMessage(msg);
 			List<Map> matchRequestList = matchService.matchResponse(matchNo);
 			for (Map m : matchRequestList) {
-				logger.debug("" + m.get("TEAMNAME"));
+//				logger.debug("afterWork : matchRequest :: Teamname :" + m.get("TEAMNAME"));
+				String canceledTeamname = (String) m.get("TEAMNAME");
+				if (!canceledTeamname.equals(teamAway)) {
+					msg.setSender(canceledTeamname);
+//					msg.setMessageContent(messageContent);
+				}
 			}
 		}
 	}

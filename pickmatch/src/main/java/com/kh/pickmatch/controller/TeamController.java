@@ -43,6 +43,7 @@ import com.kh.pickmatch.model.vo.MoneyHistory;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamBoardAttachment;
+import com.kh.pickmatch.model.vo.TeamBoardComment;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
@@ -336,6 +337,7 @@ public class TeamController {
 		int totalList = service.selectCount();
 		Member member = (Member)session.getAttribute("loggedMember");
 		String teamName = member.getTeamName();
+		
 		List<TeamBoard> list = service.selectList(cPage, numPerPage, teamName);
 		System.out.println(list);
 		
@@ -542,10 +544,64 @@ public class TeamController {
 	public ModelAndView selectOne(int boardNo) {
 		
 		ModelAndView mv = new ModelAndView();
+		List<TeamBoardComment> tbclist = service.tbcView(boardNo);
 		mv.addObject("teamboard", service.selectTeamBoard(boardNo));
 		mv.addObject("attachmentList", service.selectAttachment(boardNo));
+		mv.addObject("tbclist", tbclist);
 		mv.setViewName("team/teamboardView");
 		return mv;
+	}
+	
+	//팀게시판 댓글작성
+	@RequestMapping("/team/insertTeamBoardComment.do")
+	public String insertTeamBoardComment(int boardNoRef, String memberId, int commentNoRef,String commentContent, Model m) {
+		
+
+		String msg = "";
+		String loc="/team/teamView.do?boardNo="+boardNoRef; //이동할 매핑값 써야됨
+		
+		int result = service.insertTeamBoardComment(boardNoRef, memberId, commentNoRef, commentContent);
+		
+
+		if(result > 0) {
+			msg = "코멘트 작성이 완료되었습니다.";
+		}
+		else {
+			msg = "코멘트 작성을 실패하였습니다";
+		}
+		
+		//msg loc 쓸려면 model같은거 필요함! 그리고 이렇게 넣어줘야함
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
+		
+		
+		
+		
+	}
+	
+	//팀게시판 댓글삭제
+	@RequestMapping("/deletecomment.do")
+	public String deleteComment(int commentNo,int boardNo, Model m) {
+		
+		String msg = "";
+		String loc="/team/teamView.do?boardNo="+boardNo; //이동할 매핑값 써야됨
+		int result = service.deleteComment(commentNo);
+		
+		if(result > 0) {
+			msg = "코멘트가 삭제되었습니다";
+		}
+		else {
+			msg = "코멘트 삭제에 실패하였습니다";
+		}
+		
+		//msg loc 쓸려면 model같은거 필요함! 그리고 이렇게 넣어줘야함
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
+		
 	}
 	
 	//팀 공지사항 보기
@@ -909,6 +965,8 @@ public class TeamController {
 				String authority = service.authority(member.getMemberId());
 				member.setAuthority(authority);
 				session.setAttribute("loggedMember", member);
+				logger.debug("멤버는 뭐니????"+member);
+				logger.debug("멤버등급뭐니"+authority);
 			}
 			else {
 				msg="팀장위임에 실패하였습니다";

@@ -22,6 +22,7 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.MemberRequest" alias="mbr"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.Notice" alias="notice"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.NoticeAttachment" alias="noticeAttachment"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.TeamBoardComment" alias="tbc"/>
 		
 		
 	</typeAliases>

@@ -84,7 +84,7 @@ public interface TeamService {
 	List<Mercenary> mercenaryranking(int cPage, int numPerPage);
 	int selectCountM();
 	//용병랭킹검색
-	Mercenary MercenarySearch(String search);
+	List<Mercenary> MercenarySearch(String search);
 	
 	//내팀정보 보여주기
 	List<Team> TeamView(String teamName);

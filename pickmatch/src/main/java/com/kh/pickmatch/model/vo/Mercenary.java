@@ -10,6 +10,7 @@ public class Mercenary {
 	private int goalCount;
 	private int rank;
 	private String introduce;
+	private String profile;
 	
 	
 	public Mercenary() {
@@ -80,6 +81,15 @@ public class Mercenary {
 
 	public void setGoalCount(int goalCount) {
 		this.goalCount = goalCount;
+	}
+
+	
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
 	}
 
 	@Override

@@ -46,8 +46,8 @@
 	</table>
 	
 	<c:if test="${loggedMember.teamName==null }">
-		<button id="teamJoin" class="btn btn-primary" onclick="teamjoin_btn()" style="width:300px; height:50px; margin-left: 50px; margin-top: 30px;"">팀 가입 신청</button>
-		<button id="teamCancel" class="btn btn-primary" onclick="teamCancel_btn()">팀 신청 취소</button>
+		<button id="teamJoin" class="btn btn-primary" onclick="teamjoin_btn()" style="width:300px; height:50px; margin-left: 50px; margin-top: 30px;">팀 가입 신청</button>
+		<button id="teamCancel" class="btn btn-primary" onclick="teamCancel_btn()" style="width:300px; height:50px; margin-left: 50px; margin-top: 30px;">팀 신청 취소</button>
 	</c:if>
 	<c:if test="${loggedMember.teamName==teamName&&(loggedMember.authority=='매니저'||loggedMember.authority=='팀원') }">
 		<button id="teamleave" value="${loggedMember.memberId }" onclick="teamleave()" class="btn btn-primary" onclick="teamleave_btn()" style="width:300px; height:50px; margin-left: 50px; margin-top: 30px;">팀 탈되</button>
@@ -200,7 +200,7 @@
 			<td>${k.count }</td>
 			<td>${j.memberId }</td>
 			<td>${j.position }</td>
-			<td>${j.requestDate }</td>
+			<td><fmt:formatDate type="date" dateStyle="short" value="${j.requestDate }"/></td>
 			
 			<c:if test="${loggedMember.teamName==teamName&&(loggedMember.authority=='팀장'||loggedMember.authority=='매니저')}">
 			<td> 

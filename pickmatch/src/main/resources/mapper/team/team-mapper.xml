@@ -104,7 +104,7 @@
  	
  	<!-- 용병검색 -->
  	<select id="MercenarySearch" resultType="mercenary">
- 		SELECT * FROM (SELECT ROWNUM AS rank, A.* FROM (SELECT * FROM mercenary join member using(memberid) ORDER BY goalcount DESC) A) mercenary where memberid=#{search}
+ 		SELECT * FROM (SELECT ROWNUM AS rank, A.* FROM (SELECT * FROM mercenary join member using(memberid) ORDER BY goalcount DESC) A) mercenary where memberid like '%'||#{search} ||'%' or teamName like '%'||#{search}||'%'
  	</select>
  	
  	<!-- 내팀정보 보여주기 -->

@@ -54,7 +54,7 @@
 	</select>
 		
 	<select id="selectMatchList" parameterType="string" resultType="match">
-		select * from match where teamhome = #{teamName} or teamaway = #{teamName} order by matchdate desc
+		select * from match where (teamhome = #{teamName} or teamaway = #{teamName}) and (teamhome is not null and teamaway is not null) order by matchdate desc
 	</select>
 
 	<insert id="insertMatchGoalResult" parameterType="mgr">
@@ -90,6 +90,44 @@
 		from member m
 		join mercenary mc using(memberid)
 		where teamname = #{teamName} and mc.status = 'Y'
+	</select>
+	
+	<select id="selectTeamEmblemOne" parameterType="string" resultType="string">
+		select teamemblem from team where teamname = #{teamName}
+	</select>
+	
+	<update id="updateTeamInfo" parameterType="com.kh.pickmatch.model.vo.Team">
+		update team set teamlocation = #{teamLocation}, teamfield = #{teamField}, teamType = #{teamType}, teamColor = #{teamColor}, teamcontent = #{teamContent} where teamname = #{teamName}
+	</update>
+	
+	<select id="selectMercenaryCount" parameterType="mercenary" resultType="_int">
+		select count(*) from mercenary where memberid = #{memberId} and teamname = #{teamName} and status = 'Y'
+	</select>
+	
+	<select id="selectMemberReuestList" parameterType="string" resultType="map">
+		select *
+		from memberrequest
+		join member using(memberid)
+		where teamname = #{teamName} and requesttype = '용병' order by requestdate desc
+	</select>
+	
+	<select id="selectMercenaryManagementList" parameterType="string" resultType="map">
+		select *
+		from mercenary m
+		join member using(memberid)
+		where teamname = #{teamName} and m.status = 'Y'
+	</select>
+	
+	<insert id="insertMercenary" parameterType="map">
+		insert into mercenary values(#{memberId}, #{teamName}, default, default)
+	</insert>
+	
+	<delete id="deleteTeamMercenary" parameterType="map">
+		delete from mercenary where memberid = #{memberId} and teamname = #{teamName}
+	</delete>
+	
+	<select id="selectMyTeamMercenaryList" parameterType="string" resultType="map">
+		select teamname, memberid, teamrating, teamlocation, teamtype, teamcolor, teamcontent, openingdate from mercenary join team using(teamname) where memberid = #{memberId} order by teamrating desc
 	</select>
 
 </mapper>

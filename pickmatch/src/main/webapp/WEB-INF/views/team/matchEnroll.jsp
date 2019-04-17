@@ -22,7 +22,10 @@
 	<div id='container'>
 		<div id="home">
 		
-			<div class='emblem'><c:if test="${homeTeam['teamEmblem'] ne null}"><img src="${homeTeam['teamEmblem']}"></c:if></div>
+			<div class='emblem'>
+				<c:if test="${homeEmblemArr ne null}"><img style="width: 120px; height: 120px; border-radius: 80px;" src="${path}/resources/upload/team-logo/${homeEmblemArr}"/></c:if>
+				<c:if test="${homeEmblemArr eq null}"><img width="120px;" height="120px;" src="${path}/resources/upload/team-logo/기본팀로고.png"/></c:if>
+			</div>
 			
 			<div id='hometeam'>${homeTeam['teamName']}</div>
 			
@@ -75,7 +78,10 @@
 		
 		<div id="away">
 	
-			<div class='emblem'><c:if test="${awayTeam['teamEmblem'] ne null}"><img src="${awayTeam['teamEmblem']}"></c:if></div>
+			<div class='emblem'>
+				<c:if test="${awayEmblemArr ne null}"><img style="width: 120px; height: 120px; border-radius: 80px;" src="${path}/resources/upload/team-logo/${awayEmblemArr}"/></c:if>
+				<c:if test="${awayEmblemArr eq null}"><img width="120px;" height="120px;" src="${path}/resources/upload/team-logo/기본팀로고.png"/></c:if>
+			</div>
 			
 			<div id='awayteam'>${awayTeam['teamName']}</div>
 			

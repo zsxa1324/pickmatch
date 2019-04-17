@@ -45,9 +45,13 @@
 	
 	</table>
 	
-	<c:if test="${loggedMember.teamName==null }">
+	<c:if test="${loggedMember.teamName==null}">
 		<button id="teamJoin" class="btn btn-primary" onclick="teamjoin_btn()">팀 가입 신청</button>
 		<button id="teamCancel" class="btn btn-primary" onclick="teamCancel_btn()">팀 신청 취소</button>
+	</c:if>
+	<c:if test="${loggedMember.teamName ne list[0].teamName}">
+		<button id="mercenaryApply" class="btn btn-primary" onclick="mercenaryApplyBtn()">용병 가입 신청</button>
+		<button id="mercenaryCancel" class="btn btn-primary" onclick="mercenaryCancelBtn()">용병 신청 취소</button>
 	</c:if>
 	<c:if test="${loggedMember.teamName==teamName&&(loggedMember.authority=='매니저'||loggedMember.authority=='팀원') }">
 		<button id="teamleave" value="${loggedMember.memberId }" onclick="teamleave()" class="btn btn-primary" onclick="teamleave_btn()">팀 탈되</button>
@@ -55,7 +59,9 @@
 	<c:if test="${loggedMember.teamName==teamName&&loggedMember.authority=='팀장' }">
 		<button id="teambreakup" value="${loggedMember.teamName }" onclick="teambreakup()" class="btn btn-primary" onclick="teambreakup()">팀 해체</button>
 	</c:if>
-	
+	<c:if test="${loggedMember.teamName==teamName&&loggedMember.authority=='팀장' }">
+		<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#teamInfoReviseModal">팀 정보수정</button>
+	</c:if>
 </div>	
 
 
@@ -214,8 +220,7 @@
 </c:if>
 </div>
 <script>
-		
-	
+
 		$(".ok_btn").click(function(){
 			/* console.log($(this).val());  */
 			location.href="${path}/teamOk.do?teamName=${loggedMember.teamName}&&memberId="+$(this).val(); 
@@ -290,7 +295,71 @@
 			})
 		}
 		
-	
+		
+		// 용병 버튼
+		$("#mercenaryApply").hide();
+		$("#mercenaryCancel").hide();
+		
+		$(function(){
+			$.ajax({
+				url:"${path}/team/memberRequestList",
+				data: {memberId:"${loggedMember.memberId}",teamName:"${teamName}"},
+				success:function(data)
+				{
+					console.log(data);
+					if(data.num == 1){
+						$("#mercenaryApply").hide();
+						$("#mercenaryCancel").hide();
+					} else if(data.num == 2){
+						$("#mercenaryApply").show();
+						$("#mercenaryCancel").hide();
+					} else if(data.num == 3) {
+						$("#mercenaryApply").hide();
+						$("#mercenaryCancel").show();
+					}
+				}
+			})
+		})
+		
+		function mercenaryApplyBtn() {
+			var member={memberId:"${loggedMember.memberId}",teamName:"${teamName}"}
+			
+			$.ajax({
+				url:"${path}/team/mercenaryApply",
+				type:"post",
+				data:member,
+				success:function(data){
+					console.log(data);
+					if(data.flag)
+					{
+						$("#mercenaryApply").hide();
+						$("#mercenaryCancel").show();
+						alert("용병신청이 되었습니다.");
+					}
+				}
+			})
+		}
+		
+		function mercenaryCancelBtn() {
+			
+			var member={memberId:"${loggedMember.memberId}",teamName:"${teamName}"}
+			$.ajax({
+				url:"${path}/mercenaryCancel",
+				type:"post",
+				data:member,
+				success:function(data){
+					if(data.flag)
+					{
+						$("#mercenaryApply").show();
+						$("#mercenaryCancel").hide();
+						alert("용병신청을 취소합니다.")
+					}
+				}
+			})
+		}	
+		
+		
+		
 
 </script>
 
@@ -298,6 +367,41 @@
 
 </div>
 </section>
+	<!-- 팀 정보수정 모달창 -->
+	<div id='teamInfoReviseModal' class="modal">
+		<div class="modal-dialog" role="document">
+	  		<div class="modal-content">
+	    		<div class="modal-header">
+	        		<h5 class="modal-title">팀 정보수정</h5>
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	        			<span aria-hidden="true">&times;</span>
+	      			</button>
+	      		</div>
+	      		<div class="modal-body">
+	      			<form action="${path}/team/teamInfoRevise" method="post">
+	      				<input type="hidden" name="teamName" value="${loggedMember.teamName}">
+				      	<label>팀명</label class="col-sm-2 col-form-label"><input style="outline: none;" type='text' value="${list[0].teamName}" readonly/><br/>
+						<label>지역</label class="col-sm-2 col-form-label"><input type='text' value="${list[0].teamLocation}" name="teamLocation" required/><br/>
+						<label>경기장</label class="col-sm-2 col-form-label"><input type='text' value="${list[0].teamField }" name="teamField" required/><br/>
+						<label>팀유형</label class="col-sm-2 col-form-label">
+						<select id="teamType" name="teamType" required>
+					    	<option value="청소년" ${list[0].teamType eq "청소년"}?"selected":"">청소년</option>
+					    	<option value="대학생" ${list[0].teamType eq "대학생"}?"selected":"">대학생</option>
+							<option value="일반인" ${list[0].teamType eq "일반인"}?"selected":"">일반인</option>
+						</select><br/>
+						<label>유니폼</label class="col-sm-2 col-form-label"><input type='text' value="${list[0].teamColor}" name="teamColor" required/><br/>
+						<label>팀 소개</label class="col-sm-2 col-form-label"><br/>
+						<textarea rows="4" cols="55" name="teamContent">${list[0].teamContent}</textarea>
+						<div class="modal-footer">
+					    	<input type="submit" class="btn btn-primary" value="수정"></button>
+					    	<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+			    		</div>
+					</form>
+		    	</div>
+	    	</div>
+		</div>
+	</div>
+
 
 
 <style>
@@ -311,13 +415,6 @@
 		height:30px;
 	}
 
- 	li{
-	/* float: left; */
-    width: 200px; height:8%;
-    /* border-top: 1px solid #e7e7e7; */
-	} 
-	
-		
 	#team{
 		color:black;
 		width:400px;
@@ -489,6 +586,26 @@
 		 width:150px; 
 	}
 
+
+
+	div#teamInfoReviseModal label {
+		text-align: right;
+		width: 12%;
+		margin-right: 15px;
+	}
+	
+	
+	div#teamInfoReviseModal div.modal-body input {
+		width: 80%;
+		border-radius: 3px;
+		float: right;
+	}
+	
+	div#teamInfoReviseModal div.modal-body select {
+		width: 80%;
+		float: right;
+		border-radius: 4px; 
+	}
 
 	
 </style>

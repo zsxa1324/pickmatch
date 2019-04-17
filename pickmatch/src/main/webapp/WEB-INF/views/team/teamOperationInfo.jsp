@@ -119,7 +119,7 @@
 					<tr>
 						<th>NO</th>
 						<th>이름(닉네임)</th>
-						<th>position</th>
+						<th>POSITION</th>
 						<th>직위</th>
 					</tr>
 				</thead>

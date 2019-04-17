@@ -56,9 +56,13 @@
    <c:if test="${loggedMember.teamName==teamName&&(loggedMember.authority=='매니저'||loggedMember.authority=='팀원') }">
       <button id="teamleave" value="${loggedMember.memberId }" onclick="teamleave()" class="btn btn-primary" onclick="teamleave_btn()" style="width:300px; height:50px; margin-left: 50px; margin-top: 30px;">팀 탈되</button>
    </c:if>
-   <c:if test="${loggedMember.teamName==teamName&&loggedMember.authority=='팀장' }">
+   
+   <c:if test="${loggedMember.teamName==teamName&&loggedMember.authority=='팀장' }" >
       <button id="teambreakup" value="${loggedMember.teamName }" onclick="teambreakup()" class="btn btn-primary" onclick="teambreakup()"  style="width:300px; height:50px; margin-left: 50px; margin-top: 30px;">팀 해체</button>
    </c:if>
+   <c:if test="${loggedMember.teamName==teamName&&loggedMember.authority=='팀장' }">
+		<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#teamInfoReviseModal" style="width:300px; height:50px; margin-left: 50px; margin-top: 30px;">팀 정보수정</button>
+	</c:if>
    
 </div>   
 
@@ -438,70 +442,60 @@
 	text-align:center;
 		width:200px;
 		height:80px;
-		border:1px solid black;
 	}
 	
  	#team-location{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
 	
 	}
 	#team-exercise{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
 	
 	} 
 		#team-uh{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
 	
 	} 
 		#team-age{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
 	
 	} 
 		#team-style{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
 	
 	} 
 		#team-uniform{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
 	
 	}
 		#team-membercount{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
 	
 	} 
 		#team-open{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
 	
 	}  
 		#team-introduce{
 		text-align:center;
 		width:200px;
 		height:150px;
-		border:1px solid black;
 	
 	} 
 	
@@ -509,7 +503,6 @@
 		color:black;
 		width:600px;
 		height:775px;
-		/* border:1px solid black; */
 		display:inline-block;
 		position: absolute;
 	

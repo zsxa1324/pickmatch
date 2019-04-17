@@ -2,6 +2,7 @@ package com.kh.pickmatch.model.service;
 
 import java.util.List;
 
+import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Message;
 
 public interface MessageService {
@@ -14,5 +15,6 @@ public interface MessageService {
 	public List<String> selectMemberList(String teamHome);
 	public int insertTeamMessage(Message msg);
 	public int updateMessageRead(String memberId);
+	public List<MemberByTeam> selectLeader(String teamName);
 	
 }

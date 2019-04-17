@@ -28,6 +28,11 @@ public interface CommunityService {
 
 	int deleteComment(int commentNo);
 
+	int deleteFreeBoardAttach(String rName);
+
+	int insertFreeBoardAttach(FreeBoard fb, List<FreeBoardAttachment> list);
+
+
 	
 
 }

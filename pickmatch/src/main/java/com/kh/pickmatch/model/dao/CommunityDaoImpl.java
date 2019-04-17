@@ -82,4 +82,10 @@ public class CommunityDaoImpl implements CommunityDao {
 		return session.delete("community.deleteComment", commentNo);
 	}
 
+	@Override
+	public int deleteFreeBoardAttach(String rName) {
+		// TODO Auto-generated method stub
+		return session.delete("community.deleteFreeBoardAttach", rName);
+	}
+
 }

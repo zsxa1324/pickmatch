@@ -27,7 +27,8 @@
 		<tr>
 			<td id="co-freeboard-table-id">${b.memberId }</td>
 			<td id="co-freeboard-table-title"><a href="${path}/board/noticeView.do?noticeNo=${b.noticeNo}">${b.noticeTitle }</a></td>
-			<td id="co-freeboard-table-date">${b.noticeDate }</td>
+			<%-- <td id="co-freeboard-table-date"><fmt:formatDate value="${b.noticeDate }" pattern="yyyy.MM.dd"/></td> --%>
+			<td id="co-freeboard-table-date"><fmt:formatDate type="date" value="${b.noticeDate }"/> <fmt:formatDate type="time" value="${b.noticeDate }"/></td>
 		</tr>
 		</c:forEach>
 		<!-- <tr>

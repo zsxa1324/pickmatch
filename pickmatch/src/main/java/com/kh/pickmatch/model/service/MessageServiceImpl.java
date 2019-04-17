@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.pickmatch.common.exception.MessageException;
 import com.kh.pickmatch.model.dao.MessageDao;
+import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Message;
 
 @Service
@@ -78,6 +79,12 @@ public class MessageServiceImpl implements MessageService {
 	public int updateMessageRead(String memberId) {
 		// TODO Auto-generated method stub
 		return dao.updateMessageRead(memberId);
+	}
+
+	@Override
+	public List<MemberByTeam> selectLeader(String teamName) {
+		// TODO Auto-generated method stub
+		return dao.selectLeader(teamName);
 	}
 
 	

@@ -10,6 +10,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Baloo|Baloo+Chettan|Changa|Concert+One|Cuprum|Days+One|Fredoka+One|Fugaz+One|Iceberg|Maven+Pro:700|Mitr|Passion+One|Permanent+Marker|Racing+Sans+One|Righteous|Viga|ZCOOL+XiaoWei" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Jua" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Acme|Amaranth:700i|Amatic+SC:700|Cuprum:700|Dosis:800|Francois+One|Fredoka+One|Jua|Lobster|Passion+One:400,700|Paytone+One|Yanone+Kaffeesatz:700" rel="stylesheet">
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" />
@@ -34,6 +35,9 @@
        margin: 0;
        padding: 0;
        scroll-behavior: smooth;
+    }
+    h1{
+    	font-family: Jua;
     }
 	body
 	{

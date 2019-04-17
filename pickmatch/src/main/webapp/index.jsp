@@ -7,7 +7,19 @@
 	<jsp:param value="Hello Spring" name="title" />
 </jsp:include>
 <c:set var="path" value="${pageContext.request.contextPath}" />
-
+<style>
+	section
+	{
+		margin : 40px;
+	}
+	
+	.section-div > h2
+	{
+		font-family: Jua;
+		font-size:40px;
+		margin-left: 25px;
+	}
+</style>
 <script>
 var date=new Date();
 var y=date.getFullYear();

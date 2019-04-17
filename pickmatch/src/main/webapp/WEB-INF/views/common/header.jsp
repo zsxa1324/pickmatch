@@ -299,6 +299,7 @@
 							<a href="${path }/team.do?teamName=${loggedMember.teamName}">팀 정보</a>
 							<a href="${path}/team/teamMatchList">팀 매치정보</a>
                     		<a href="${path}/team/teamOperationInfo">팀 운영정보</a>
+                    		<a href="${path}/team/teamMercenaryManagement">팀 용병관리</a>
 							</c:if>
 							<c:if test="${loggedMember.teamName!=null }">
 							<a href="${path}/freeboard.do">팀 자유게시판</a>
@@ -306,7 +307,7 @@
 							<c:if test="${loggedMember.teamName!=null }">
 							<a href="${path}/teamnotice.do?teamName=${loggedMember.teamName}">팀 공지사항</a>
 							</c:if>
-							<a href="${path}/teammercenary.do">내 용병팀 정보</a>
+							<a href="${path}/teammercenary.do?memberId=${loggedMember['memberId']}">내 용병팀 정보</a>
 							
 						</c:if>
 						</div>

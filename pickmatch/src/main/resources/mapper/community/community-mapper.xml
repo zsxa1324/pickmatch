@@ -25,4 +25,22 @@
   	<insert id="insertFreeAttachment" parameterType="freeBoardAttachment">
   		insert into freeboardattachment values(SEQ_TEAMBOARDATTACHMENTNO.nextval,#{originalFileName},#{renamedFileName},#{boardNoRef})
   	</insert>
+  	<delete id="deleteFreeBoard" parameterType="freeBoard">
+  		delete from freeboard where boardno=#{boardNo}
+  	</delete>
+  	<update id="updateFreeBoard" parameterType="freeBoard">
+  		update freeboard set boardTitle=#{boardTitle}, boardContent=#{boardContent}, boardDate=sysdate where boardno=#{boardNo}
+  	</update>
+  	<insert id="insertComment" parameterType="freeBoardComment">
+  		insert into freeboardcomment values (SEQ_FREEBOARDCOMMENTNO.nextval, #{memberId}, #{commentContent}, #{boardNoRef}, #{commentNoRef})
+  	</insert>
+  	<select id="selectComment" resultType="freeBoardComment" parameterType="_int">
+  		select * from freeboardcomment where boardnoref=#{boardNo}
+  	</select>
+  	<delete id="deleteComment" parameterType="_int">
+  		delete from freeboardcomment where commentno=#{commentNo}
+  	</delete>
+  	<delete id="deleteFreeBoardAttach" parameterType="string">
+  		delete from FREEBOARDATTACHMENT where renamedfilename=#{rName}
+  	</delete>
 </mapper>

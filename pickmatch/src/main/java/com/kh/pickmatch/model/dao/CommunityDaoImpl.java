@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.pickmatch.model.vo.FreeBoard;
 import com.kh.pickmatch.model.vo.FreeBoardAttachment;
+import com.kh.pickmatch.model.vo.FreeBoardComment;
 
 @Repository
 public class CommunityDaoImpl implements CommunityDao {
@@ -49,6 +50,42 @@ public class CommunityDaoImpl implements CommunityDao {
 	public int insertFreeAttachment(FreeBoardAttachment a) {
 		// TODO Auto-generated method stub
 		return session.insert("community.insertFreeAttachment",a);
+	}
+
+	@Override
+	public int deleteFreeBoard(FreeBoard fb) {
+		// TODO Auto-generated method stub
+		return session.delete("community.deleteFreeBoard", fb);
+	}
+
+	@Override
+	public int updateFreeBoard(FreeBoard result) {
+		// TODO Auto-generated method stub
+		return session.update("community.updateFreeBoard", result);
+	}
+
+	@Override
+	public int insertComment(FreeBoardComment comment) {
+		// TODO Auto-generated method stub
+		return session.insert("community.insertComment", comment);
+	}
+
+	@Override
+	public Object selectComment(int boardNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("community.selectComment", boardNo);
+	}
+
+	@Override
+	public int deleteComment(int commentNo) {
+		// TODO Auto-generated method stub
+		return session.delete("community.deleteComment", commentNo);
+	}
+
+	@Override
+	public int deleteFreeBoardAttach(String rName) {
+		// TODO Auto-generated method stub
+		return session.delete("community.deleteFreeBoardAttach", rName);
 	}
 
 }

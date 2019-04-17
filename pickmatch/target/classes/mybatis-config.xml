@@ -14,6 +14,7 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.EmailAuthkey" alias="emailAuthkey"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.FreeBoard" alias="freeBoard"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.FreeBoardAttachment" alias="freeBoardAttachment"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.FreeBoardComment" alias="freeBoardComment"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.TeamNotice" alias="teamnotice"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.Team" alias="teamcreate"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.Mercenary" alias="mercenary"/>
@@ -22,6 +23,11 @@
 		<typeAlias type="com.kh.pickmatch.model.vo.MemberRequest" alias="mbr"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.Notice" alias="notice"/>
 		<typeAlias type="com.kh.pickmatch.model.vo.NoticeAttachment" alias="noticeAttachment"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.MatchGoalResult" alias="mgr"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.Score" alias="score"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.StatusMember" alias="statusMember"/>
+		<typeAlias type="com.kh.pickmatch.common.StringArrTypeHandler" alias="strArr"/>
+		<typeAlias type="com.kh.pickmatch.model.vo.TeamBoardComment" alias="tbc"/>
 		
 		
 	</typeAliases>

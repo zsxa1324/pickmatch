@@ -5,71 +5,83 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-    <jsp:param value="" name="pageTitle"/>
+    <jsp:param value="매치 상세보기" name="pageTitle"/>
 </jsp:include>
-<section id="matchDetail" style="width: 100%; height: 800px;">
+<section id="matchEnroll">
 
-	<div style="width: 830px; height: 780px; margin: 50px 100px; background-color: yellow;">
-		<div id="home" style=" margin-top: 10px; text-align: center; float: left; display: inline-block;">
+	<div id='container'>
+		<div id="home">
 		
-			<div style="width: 120px; height: 120px; background-color: gray; border-radius: 80px; margin: 10px 40px"></div>
-			
-			<div style="width: 200px; height: 40px; background-color: blue; border-radius: 5px;">무적축구단</div>
-			
-			<div style="width: 80px; height: 40px; background-color: white; border-radius: 5px; margin: 10px 60px">승</div>
-			
-			<div style="width: 200px; height: 320px; background-color: green; border-radius: 5px;">
-			
-				<p>13` 왕찬웅</p>
-				<p>42` 왕찬웅</p>
-				<p>78` 왕찬웅</p>
-			
+			<div class='emblem'>
+				<c:if test="${homeEmblemArr ne null}"><img style="width: 120px; height: 120px; border-radius: 80px;" src="${path}/resources/upload/team-logo/${homeEmblemArr}"/></c:if>
+				<c:if test="${homeEmblemArr eq null}"><img width="120px;" height="120px;" src="${path}/resources/upload/team-logo/기본팀로고.png"/></c:if>
 			</div>
 			
-		</div>
-		
-		<div id="vs" style=" margin: 60px 0 0 30px; text-align: center; display: inline-block;">
-		
-			<div style="font-size: 3em; width: 80px; vertical-align: middel; line-height: 120px; float: left; background-color: gray; border-radius: 80px; margin: 10px 40px">3</div>
+			<div id='hometeam'>${match['teamHome']}</div>
 			
-			<div style="width: 40px; vertical-align: middle; line-height: 60px; background-color: white; border-radius: 5px; float: left; margin-top: 40px;">vs</div>
+			<div class='score'>${match['homeScore']}</div>
 			
-			<div style="vertical-align: middle; font-size: 3em; width: 80px; line-height: 120px; float: left; background-color: gray; border-radius: 80px; margin: 10px 40px">1</div>
+			<div class='field'>
 			
-			<div style="width: 200px; height: 60px; background-color: green; border-radius: 5px; margin-top: 200px; margin-left: 80px;">
-			
-				<p>2019-4-17(수) 15:00</p>
-				<p>종합운동장</p>
+				<div id='homescroll'>
+					<c:forEach var="list" items="${goalList}">
+						<c:if test="${list['TEAMNAME'] eq match['teamHome']}"><div class='goal'>${list['GOALTIME']}'`&nbsp;&nbsp;'${list['MEMBERNAME']}</div></c:if>
+					</c:forEach>
+				</div>
 				
-				<button class="btn btn-primary" type="button" onclick="location.href='${path}/team/teamMatchEnroll'">결과입력</button>
-				<button class="btn btn-primary" type="button" onclick="location.href='${path}/team/teamMatchEnroll'">결과수정</button>
-			
 			</div>
 			
 		</div>
 		
-		<div id="away" style=" margin-top: 10px; text-align: center; float: right; display: inline-block;">
+		<div id="vs">
+		
+			<input style="visibility: hidden;" id="leftscore" type="number" name="homescore" min="0" max="100" required/>
+			
+			<div style="visibility: hidden;" id="inputOn">vs</div>
+			
+			<input style="visibility: hidden;" id="rightscore" type="number" name="awayscore" min="0" max="100" required/>
+			
+			
+			<div id='placeinfo'>
+			
+				<p style="font-size: 21px;">${match['matchDate']}&nbsp;&nbsp;&nbsp;${match['matchTime']}</p>
+				<p style="font-size: 21px;">${match['playGround']}</p>
+				
+			</div>
+			
+			<div id="point">
+				득점
+			</div>
+			
+		</div>
+		
+		<div id="away">
 	
-			<div style="width: 120px; height: 120px; background-color: gray; border-radius: 80px; margin: 10px 40px"></div>
+			<div class='emblem'>
+				<c:if test="${awayEmblemArr ne null}"><img style="width: 120px; height: 120px; border-radius: 80px;" src="${path}/resources/upload/team-logo/${awayEmblemArr}"/></c:if>
+				<c:if test="${awayEmblemArr eq null}"><img width="120px;" height="120px;" src="${path}/resources/upload/team-logo/기본팀로고.png"/></c:if>
+			</div>
 			
-			<div style="width: 200px; height: 40px; background-color: blue; border-radius: 5px;">KH축구단</div>
+			<div id='awayteam'>${match['teamAway']}</div>
 			
-			<div style="width: 80px; height: 40px; background-color: white; border-radius: 5px; margin: 10px 60px">패</div>
+			<div class='score'>${match['awayScore']}</div>
 			
-			<div style="width: 200px; height: 320px; background-color: green; border-radius: 5px;">
+			<div class='field'>
 			
-				<p>13` 왕찬웅</p>
-				<p>42` 왕찬웅</p>
-				<p>78` 왕찬웅</p>
+				<div id='awayscroll'>
+					<c:forEach var="list" items="${goalList}">
+						<c:if test="${list['TEAMNAME'] eq match['teamAway']}"><div class='goal'>${list['GOALTIME']}'`&nbsp;&nbsp;'${list['MEMBERNAME']}</div></c:if>
+					</c:forEach>
+				</div>
 			
 			</div>
 			
 		</div>
-		<p style=" margin-top: 260px; background-color: red;">경기내용 상세입력</p>
-		<div style=" border-radius:8px; width: 830px; height: 140px; background-color: aqua; margin: 0"></div>	
+		<div id="ta">경기내용 상세입력</div>
+		<textarea style="outline: none;" id="textarea" name="textarea" readonly>${matchContent}</textarea>
 	</div>
-	
 	
 
 </section>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.pickmatch.common.exception.MessageException;
 import com.kh.pickmatch.model.dao.MessageDao;
+import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Message;
 
 @Service
@@ -29,11 +30,25 @@ public class MessageServiceImpl implements MessageService {
 		// TODO Auto-generated method stub
 		return dao.selectMessageList(memberId);
 	}
+	
+
+	@Override
+	public List<Message> selectMessageList(String memberId, int cPage, int numPerPage) {
+		// TODO Auto-generated method stub
+		return dao.selectMessageList(memberId, cPage, numPerPage);
+	}
+	
 
 	@Override
 	public int selectMessageTotalcount(String memberId) {
 		// TODO Auto-generated method stub
 		return dao.selectMessageTotalcount(memberId);
+	}
+	
+	@Override
+	public int selectMessageTotalcountNotRead(String memberId) {
+		// TODO Auto-generated method stub
+		return dao.selectMessageTotalcountNotRead(memberId);
 	}
 
 	@Override
@@ -58,6 +73,18 @@ public class MessageServiceImpl implements MessageService {
 				throw new MessageException();
 		}
 		return result;
+	}
+
+	@Override
+	public int updateMessageRead(String memberId) {
+		// TODO Auto-generated method stub
+		return dao.updateMessageRead(memberId);
+	}
+
+	@Override
+	public List<MemberByTeam> selectLeader(String teamName) {
+		// TODO Auto-generated method stub
+		return dao.selectLeader(teamName);
 	}
 
 	

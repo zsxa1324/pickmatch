@@ -102,7 +102,6 @@ p.vs {
 display: inline-block; 
 overflow: hidden; 
 border-radius: 50px;
-background-color: lightgray;
 }
 </style>
 <script>

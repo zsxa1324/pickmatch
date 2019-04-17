@@ -3,16 +3,17 @@
 import java.util.List;
 import java.util.Map;
 
-import com.kh.pickmatch.model.vo.FreeBoard;
-import com.kh.pickmatch.model.vo.FreeBoardAttachment;
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MatchGoalResult;
 import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.MemberRequest;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Score;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamBoardAttachment;
+import com.kh.pickmatch.model.vo.TeamBoardComment;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
@@ -21,18 +22,46 @@ public interface TeamService {
 	List<Map<String, String>> selectTMemberList(Map<String, String> map);
 	String selectTeamOne(String memberId);
 	TeamOperationAccount selectAccountOne(String teamName);
-	List<Map<String, Object>> selectMoneyHistoryList(String teamName);
+	List<Map<String, Object>> selectMoneyHistoryList(Map<String, String> map);
 	int updateTeamAccount(TeamOperationAccount toAccount);
 	int insertTeamAccount(TeamOperationAccount toAccount);
 	int insertMHistory(MoneyHistory mHistory);
-
+	List<Match> selectMatchList(String teamName, int cPage, int numPerPage);
+	int selectMatchCount(String teamName);
+	Match selectOneMatch(int matchNo);
+	Team selectOneHomeTeam(String teamHome);
+	Team selectOneAwayTeam(String teamAway);
+	int insertMatchGoalResult(MatchGoalResult mgr);
+	int updateScore(Score s);
+	int updateTeamRating(Map<String, Object> map);
+	int updateMatchScore(Map<String, Integer> matchScoreMap);
+	int insertMatchResultDetail(Map<String, Object> matchResultDetailMap);
+	List<Map<String, Object>> selectMatchGoalResultList(int matchNo);
+	String selectMatchResultDetail(int matchNo);
+	List<Map<String, String>> selectMercenaryList(Map<String, String> map);
+	String selectTeamAuthorityOne(String memberId);
+	String selectTeamEmblemOne(String teamName);
+	int updateTeamInfo(Team team);
+	int selectMercenaryCount(String memberId, String teamName);
+	List<Map<String, Object>> selectMemberReuestList(String teamName);
+	List<Map<String, Object>> selectMercenaryManagementList(String teamName);
+	int insertMercenary(String memberId, String teamName);
+	int deleteTeamMercenary(Map<String, String> map);
+	List<Map<String, Object>> selectMyTeamMercenaryList(String memberId);
+	
 	
 	
 	
 	//도원
 	
+	
+	
+	
+	
+	
+	
 	//팀게시판
-	List<TeamBoard> selectList(int cPage, int numPerPage);
+	List<TeamBoard> selectList(int cPage, int numPerPage, String teamName);
 	int selectCount();
 	Object selectTeamBoard(int boardNo);
 	Object selectAttachment(int boardNo);
@@ -62,14 +91,14 @@ public interface TeamService {
 	List<Team> selectTeamRanking(int cPage, int numPerPage);
 	int selectCountT();
 	//팀랭킹 검색
-	Team TeamSearch(String search);
+	List<Team> TeamSearch(String search);
 	
 	
 	//용병랭킹
 	List<Mercenary> mercenaryranking(int cPage, int numPerPage);
 	int selectCountM();
 	//용병랭킹검색
-	Mercenary MercenarySearch(String search);
+	List<Mercenary> MercenarySearch(String search);
 	
 	//내팀정보 보여주기
 	List<Team> TeamView(String teamName);
@@ -87,13 +116,13 @@ public interface TeamService {
 	int teamOk(String memberId, String teamName);
 	
 	//팀가입 거절
-	int teamNo(String memberId, String teamName);
+	int teamNo(String memberId, String teamName, String type);
 	
 	//팀가입 승인
 	int teamJoin(String memberId, String teamName, String position);
 	
 	//팀가입시 가입신청테이블 확인
-	MemberRequest memberRequestCk(String memberId, String teamName);
+	MemberRequest memberRequestCk(String memberId, String teamName, String type);
 	
 	//팀게시판 글쓰기
 	int insertFreeBoard(TeamBoard fb, List<TeamBoardAttachment> list);
@@ -122,6 +151,14 @@ public interface TeamService {
 	
 	//팀 해체
 	int teambreakup(String teamName);
+	
+	//팀게시판 댓글목록
+	List<TeamBoardComment> tbcView(int boardNo);
+	//팀게시판 댓글등록
+	int insertTeamBoardComment(int boardNoRef, String memberId, int commentNoRef, String commentContent);
+	//팀게시판 댓글 삭제
+	int deleteComment(int commentNo);
+
 
 	
 	

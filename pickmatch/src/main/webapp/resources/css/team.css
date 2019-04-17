@@ -1,9 +1,12 @@
 /* ---------------------- 팀 운영정보 ------------------------- */
 
-section#operationInfo div.operation_left {
+section#operationInfo div.operation_left, section#operationInfo div.operation_right {
 	display: inline-block;
 }
 section#operationInfo div.operation_right {
+	margin-left: -60px;
+	width:500px;
+	position: absolute;
 	float: right;
 }
 
@@ -17,13 +20,12 @@ section#operationInfo div.operation_left button#historyBtn {
 }
 
 section#operationInfo div.operation_left input{
-	margin-left: 300px;
+	margin-left: 180px;
 	margin-top: 15px;
 	
 }
 
 section#operationInfo div.operation_left table.account {
-	float: left;
 	margin-top: 40px;
 	margin-left: 30px;
 	margin-bottom: 20px;
@@ -116,22 +118,26 @@ section#operationInfo div.operation_right table.moneyCheck {
 }
 
 section#operationInfo div.operation_right table.moneyCheck thead th {
-	width: 100px;
+	width: 80px;
 	padding: 10px;
 	color: #369;
 	border-bottom: 3px solid #036;
 	background-color: #faf9f8;
 }
 
+section#operationInfo div.operation_right table.moneyCheck thead tr th:nth-child(2) {
+	width: 160px;
+}
+
 section#operationInfo div.operation_right table.moneyCheck tbody td {
-	width: 100px;
+	width: 80px;
 	padding: 10px;
 	vertical-align: top;
 	border-bottom: 1px solid #e2e2e2;
 }
 
 section#operationInfo div.operation_right table.moneyCheck tbody th {
-	width: 140px;
+	width: 160px;
 	padding: 10px;
 	vertical-align: top;
 	border-bottom: 1px solid #e2e2e2;
@@ -144,21 +150,226 @@ section#operationInfo div.operation_left div#scroll1 {
 }
 
 section#operationInfo div.operation_right div#scroll2 {
-	width: 84.5%;
+	width: 83.5%;
 	height: 500px;
 	overflow: auto;
-	margin-right: 90px;
 }
 
 section#operationInfo div.operation_right input {
 	margin-top: 50px;
 }
 
-section#matchEnroll div#scroll {
+
+/* ----------------------matchEnroll----------------------- */
+section#matchEnroll div#homescroll, section#matchEnroll div#awayscroll {
 	width: 100%;
 	height: 300px;
 	overflow: auto;
 }
+
+section#matchEnroll div#container {
+	width: 830px;
+	height: 780px;
+	margin: 50px 100px;
+}
+
+section#matchEnroll div#container div#home {
+	margin-top: 10px;
+	text-align: center;
+	float: left;
+	display: inline-block;
+}
+
+section#matchEnroll div#container div#home div.emblem {
+	width: 120px;
+	height: 120px;
+	background-color: gray;
+	border-radius: 80px;
+	margin: 10px 40px;
+}
+
+section#matchEnroll div#container div#home div#hometeam {
+	width: 200px;
+	line-height: 40px;
+	background-color: #2478FF;
+	border-radius: 5px;
+}
+
+section#matchEnroll div#container div#home div.score {
+	width: 80px;
+	height: 40px;
+	background-color: #f3f3f3;
+	border-radius: 5px;
+	margin: 10px 60px;
+	padding-top: 10px;
+}
+
+section#matchEnroll div#container div#home div.field {
+	width: 200px;
+	background-color: #00b000;
+	border-radius: 5px;
+}
+
+section#matchEnroll div#container div#home div.field div {
+	font-size: 20px;
+}
+
+section#matchEnroll div#container div#home div button {
+	float: right;
+	padding: 0px 10px;
+}
+
+section#matchEnroll div#container div#home div.field select#min {
+	width: 50px;
+	vertical-align: bottom;
+}
+
+section#matchEnroll div#container div#home div.field select#memberName {
+	width: 80px;
+	vertical-align: bottom;
+}
+
+section#matchEnroll div#container div#home div.field button#addbtn {
+	padding: 3px 10px;
+	line-height: 20px;
+	vertical-align: bottom;
+}
+
+section#matchEnroll div#container div#vs {
+	margin: 60px 0 0 30px;
+	text-align: center;
+	display: inline-block;
+}
+
+section#matchEnroll div#container div#vs div#inputOn {
+	width: 40px;
+	vertical-align: middle;
+	line-height: 60px;
+	background-color: white;
+	border-radius: 5px;
+	float: left;
+	margin-top: 40px;
+}
+
+section#matchEnroll div#container div#vs input#leftscore {
+	margin: 50px 55px;
+	float: left;
+	border-radius: 5px;
+	width: 60px;
+}
+
+section#matchEnroll div#container div#vs input#rightscore {
+	float: left;
+	border-radius: 5px;
+	margin: 50px 55px;
+	width: 60px;
+}
+
+section#matchEnroll div#container div#vs div#placeinfo {
+	height: 80px;
+	background-color: #00b000;
+	border-radius: 5px;
+	margin-top: 170px;
+	margin-left: -10px;
+}
+
+section#matchEnroll div#container div#vs div#point {
+	width: 150px;
+	line-height: 150px;
+	background-color: white;
+	margin: 40px 0 0 110px;
+	border-radius: 30px;
+}
+
+section#matchEnroll div#container div#away {
+	margin-top: 10px;
+	text-align: center;
+	float: right;
+	display: inline-block;
+}
+
+section#matchEnroll div#container div#away div.emblem {
+	width: 120px;
+	height: 120px;
+	background-color: gray;
+	border-radius: 80px;
+	margin: 10px 40px
+}
+
+section#matchEnroll div#container div#away div#awayteam {
+	width: 200px;
+	line-height: 40px;
+	background-color: #2478FF;
+	border-radius: 5px;
+}
+
+section#matchEnroll div#container div#away div.score {
+	width: 80px;
+	height: 40px;
+	background-color: #f3f3f3;
+	border-radius: 5px;
+	margin: 10px 60px;
+	padding-top: 10px;
+}
+
+section#matchEnroll div#container div#away div.field {
+	width: 200px;
+	background-color: #00b000;
+	border-radius: 5px;
+}
+
+section#matchEnroll div#container div#away div#awayscroll div {
+	font-size: 20px;
+}
+
+section#matchEnroll div#container div#awayscroll div button {
+	float: right;
+	padding: 0px 10px;
+}
+
+section#matchEnroll div#container div#away div.field select#min {
+	width: 50px;
+	vertical-align: bottom;
+}
+
+section#matchEnroll div#container div#away div.field select#memberId {
+	width: 80px;
+	vertical-align: bottom;
+}
+
+section#matchEnroll div#container div#away div.field button#addbtn {
+	padding: 3px 10px;
+	line-height: 20px;
+	vertical-align: bottom;
+}
+
+section#matchEnroll div#container div#ta {
+	margin-top: 90px;
+}
+
+section#matchEnroll div#container textarea {
+	border-radius: 8px;
+	width: 830px;
+	height: 140px;
+}
+
+section#matchEnroll div#container input#input {
+	float: right;
+}
+
+section#matchEnroll div#container button#cancel {
+	margin-right: 15px;
+	float: right;
+}
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 ﻿package com.kh.pickmatch.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,17 +11,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.pickmatch.model.vo.FreeBoard;
-import com.kh.pickmatch.model.vo.FreeBoardAttachment;
 import com.kh.pickmatch.model.vo.Match;
+import com.kh.pickmatch.model.vo.MatchGoalResult;
 import com.kh.pickmatch.model.vo.Member;
 import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.MemberRequest;
 import com.kh.pickmatch.model.vo.Mercenary;
 import com.kh.pickmatch.model.vo.MoneyHistory;
+import com.kh.pickmatch.model.vo.Score;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamBoardAttachment;
+import com.kh.pickmatch.model.vo.TeamBoardComment;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
@@ -49,8 +51,8 @@ public class TeamDaoImpl implements TeamDao {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectMoneyHistoryList(String teamName) {
-		return session.selectList("team.selectMoneyHistoryList", teamName);
+	public List<Map<String, Object>> selectMoneyHistoryList(Map<String, String> map) {
+		return session.selectList("team.selectMoneyHistoryList", map);
 	}
 
 	@Override
@@ -68,14 +70,144 @@ public class TeamDaoImpl implements TeamDao {
 		return session.insert("team.insertMHistory", mHistory);
 	}
 
+	@Override
+	public List<Match> selectMatchList(String teamName, int cPage, int numPerPgae) {
+		return session.selectList("team.selectMatchList", teamName, new RowBounds((cPage-1) * numPerPgae, numPerPgae));
+	}
+	
+	@Override
+	public int selectMatchCount(String teamName) {
+		return session.selectOne("team.selectMatchCount", teamName);
+	}
 
+	@Override
+	public int insertMatchGoalResult(MatchGoalResult mgr) {
+		return session.insert("team.insertMatchGoalResult", mgr);
 
+	}
 
+	@Override
+	public Match selectOneMatch(int matchNo) {
+		return session.selectOne("team.selectOneMatch", matchNo);
+	}
+	
+	@Override
+	public Team selectOneHomeTeam(String teamHome) {
+		return session.selectOne("team.selectOneHomeTeam", teamHome);
+	}
+
+	@Override
+	public Team selectOneAwayTeam(String teamAway) {
+		return session.selectOne("team.selectOneAwayTeam", teamAway);
+	}
+
+	@Override
+	public int updateScore(Score s) {
+		return session.update("team.updateScore", s);
+	}
+	
+	@Override
+	public int updateTeamRating(Map<String, Object> map) {
+		return session.update("team.updateTeamRating", map);
+	}
+	
+	@Override
+	public int updateMatchScore(Map<String, Integer> matchScoreMap) {
+		return session.update("team.updateMatchScore", matchScoreMap);
+	}
+
+	@Override
+	public int insertMatchResultDetail(Map<String, Object> matchResultDetailMap) {
+		return session.insert("team.insertMatchResultDetail", matchResultDetailMap);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectMatchGoalResultList(int matchNo) {
+		return session.selectList("team.selectMatchGoalResultList", matchNo);
+	}
+	
+	@Override
+	public String selectMatchResultDetail(int matchNo) {
+		return session.selectOne("team.selectMatchResultDetail", matchNo);
+	}
+	
+	@Override
+	public List<Map<String, String>> selectMercenaryList(Map<String, String> map) {
+		return session.selectList("team.selectMercenaryList",map);
+	}
+
+	@Override
+	public String selectTeamAuthorityOne(String memberId) {
+		return session.selectOne("team.selectTeamAuthorityOne", memberId);
+	}
+	
+	@Override
+	public String selectTeamEmblemOne(String teamName) {
+		return session.selectOne("team.selectTeamEmblemOne", teamName);
+	}
+	
+	@Override
+	public int updateTeamInfo(Team team) {
+		return session.update("team.updateTeamInfo", team);
+	}
+
+	@Override
+	public int selectMercenaryCount(String memberId, String teamName) {
+		
+		Mercenary m = new Mercenary();
+		m.setMemberId(memberId);
+		m.setTeamName(teamName);
+		
+		return session.selectOne("team.selectMercenaryCount", m);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectMemberReuestList(String teamName) {
+		return session.selectList("team.selectMemberReuestList", teamName);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectMercenaryManagementList(String teamName) {
+		return session.selectList("team.selectMercenaryManagementList", teamName);
+	}
+	
+	@Override
+	public int insertMercenary(String memberId, String teamName) {
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("memberId", memberId);
+		map.put("teamName", teamName);
+		
+		return session.insert("team.insertMercenary", map);
+	}
+	
+	@Override
+	public int deleteTeamMercenary(Map<String, String> map) {
+		return session.delete("team.deleteTeamMercenary", map);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectMyTeamMercenaryList(String memberId) {
+		return session.selectList("team.selectMyTeamMercenaryList", memberId);
+	}
+	
+	
+	
+	
 	
 	
 	//도원
 	
 	
+
+
+
+
+
+
+
+
+
 
 
 	@Override
@@ -84,8 +216,29 @@ public class TeamDaoImpl implements TeamDao {
 		return session.selectList("team.selectListN", teamName, new RowBounds((cPage-1)*numPerPage, numPerPage));
 	}
 
+	@Override
+	public int deleteComment(int commentNo) {
+		// TODO Auto-generated method stub
+		return session.delete("team.deleteComment", commentNo);
+	}
 
-	
+	@Override
+	public int insertTeamBoardComment(int boardNoRef, String memberId, int commentNoRef, String commentContent) {
+		// TODO Auto-generated method stub
+		
+		TeamBoardComment tbc = new TeamBoardComment();
+		tbc.setCommentNoRef(commentNoRef);
+		tbc.setMemberId(memberId);
+		tbc.setBoardNoRef(boardNoRef);
+		tbc.setCommentContent(commentContent);
+		return session.insert("team.insertTeamBoardComment", tbc );
+	}
+
+	@Override
+	public List<TeamBoardComment> tbcView(int boardNo) {
+		// TODO Auto-generated method stub
+		return session.selectList("team.tbcView", boardNo);
+	}
 
 	@Override
 	public int teambreakup(String teamName) {
@@ -175,13 +328,14 @@ public class TeamDaoImpl implements TeamDao {
 	}
 
 	@Override
-	public MemberRequest memberRequestCk(String memberId, String teamName) {
+	public MemberRequest memberRequestCk(String memberId, String teamName, String type) {
 		// TODO Auto-generated method stub
 		
-		Member member = new Member();
-		member.setMemberId(memberId);
-		member.setTeamName(teamName);
-		return session.selectOne("team.memberRequestCk", member);
+		MemberRequest mr = new MemberRequest();
+		mr.setMemberId(memberId);
+		mr.setTeamName(teamName);
+		mr.setRequestType(type);
+		return session.selectOne("team.memberRequestCk", mr);
 	}
 
 	@Override
@@ -196,12 +350,13 @@ public class TeamDaoImpl implements TeamDao {
 	}
 
 	@Override
-	public int teamNo(String memberId, String teamName) {
+	public int teamNo(String memberId, String teamName, String type) {
 		// TODO Auto-generated method stub
-		MemberByTeam mbt = new MemberByTeam();
-		mbt.setTeamName(teamName);
-		mbt.setMemberId(memberId);
-		return session.delete("team.teamNo",mbt);
+		MemberRequest mr = new MemberRequest();
+		mr.setTeamName(teamName);
+		mr.setMemberId(memberId);
+		mr.setRequestType(type);
+		return session.delete("team.teamNo",mr);
 	}
 
 	@Override
@@ -245,16 +400,16 @@ public class TeamDaoImpl implements TeamDao {
 	}
 
 	@Override
-	public Team TeamSearch(String search) {
+	public List<Team> TeamSearch(String search) {
 		// TODO Auto-generated method stub
-		return session.selectOne("team.TeamSearch",search);
+		return session.selectList("team.TeamSearch",search);
 	}
 
 	@Override
-	public Mercenary MercenarySearch(String search) {
+	public List<Mercenary> MercenarySearch(String search) {
 		// TODO Auto-generated method stub
 		//logger.debug("서치::::::"+search);
-		return session.selectOne("team.MercenarySearch",search);
+		return session.selectList("team.MercenarySearch",search);
 	}
 
 	@Override
@@ -341,9 +496,9 @@ public class TeamDaoImpl implements TeamDao {
 	}
 	
 	@Override
-	public List<TeamBoard> selectList(int cPage, int numPerPage) {
+	public List<TeamBoard> selectList(int cPage, int numPerPage, String teamName) {
 		// TODO Auto-generated method stub;
-		return session.selectList("team.selectList", null, new RowBounds((cPage-1)*numPerPage, numPerPage));
+		return session.selectList("team.selectList", teamName, new RowBounds((cPage-1)*numPerPage, numPerPage));
 	}
 
 	@Override

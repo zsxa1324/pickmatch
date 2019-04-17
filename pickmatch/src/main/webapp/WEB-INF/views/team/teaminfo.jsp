@@ -15,7 +15,7 @@
 
 <div id="myteam"  style="margin-top: 50px; margin-bottom: 300px;">
 <div id="team" style="margin-right: 20px;">
-	<table id="team-info" >
+	<table id="team-info"  >
 	<tr id="team-info-img">
 	<c:if test="${empty list[0].teamEmblem }">
 		<td colspan="2"><img src="${path }/resources/upload/team-logo/기본팀로고.png" style="width:400px;height:300px;"> </td>
@@ -25,13 +25,13 @@
 	</c:if>
 	</tr>
 	<tr id="team-name">
-		<td colspan="2">${list[0].teamName }</td>
+		<td colspan="2" style="font-size: 30px; background-color: rgba(0,0,0,0.05);">${list[0].teamName }</td>
 	</tr>
 		<tr>
 			<td id="team-location">지역 :${list[0].teamLocation }</td>
 			<td id="team-exercise">경기장 : ${list[0].teamField }</td>
 		</tr>
-		<tr>
+		<tr style="background-color: rgba(0,0,0,0.05);">
 			<td id="team-uh">팀유형 : ${list[0].teamType }</td>
 			<td id="team-uniform">유니폼: ${list[0].teamColor }</td>
 		</tr>
@@ -39,21 +39,21 @@
 			<td id="team-membercount">팀원수 : ${memberCount }</td>
 			<td id="team-open">팀 개설일 : ${list[0].openingDate }</td>
 		</tr>
-		<tr>
+		<tr style="background-color: rgba(0,0,0,0.05);">
 			<td id="team-introduce" colspan="2">팀소개 : ${list[0].teamContent }</td>
 		</tr>
 	
 	</table>
 	
 	<c:if test="${loggedMember.teamName==null }">
-		<button id="teamJoin" class="btn btn-primary" onclick="teamjoin_btn()">팀 가입 신청</button>
-		<button id="teamCancel" class="btn btn-primary" onclick="teamCancel_btn()">팀 신청 취소</button>
+		<button id="teamJoin" class="btn btn-primary" onclick="teamjoin_btn()" style="width:300px; height:50px; margin-left: 50px; margin-top: 30px;">팀 가입 신청</button>
+		<button id="teamCancel" class="btn btn-primary" onclick="teamCancel_btn()" style="width:300px; height:50px; margin-left: 50px; margin-top: 30px;">팀 신청 취소</button>
 	</c:if>
 	<c:if test="${loggedMember.teamName==teamName&&(loggedMember.authority=='매니저'||loggedMember.authority=='팀원') }">
-		<button id="teamleave" value="${loggedMember.memberId }" onclick="teamleave()" class="btn btn-primary" onclick="teamleave_btn()">팀 탈되</button>
+		<button id="teamleave" value="${loggedMember.memberId }" onclick="teamleave()" class="btn btn-primary" onclick="teamleave_btn()" style="width:300px; height:50px; margin-left: 50px; margin-top: 30px;">팀 탈되</button>
 	</c:if>
 	<c:if test="${loggedMember.teamName==teamName&&loggedMember.authority=='팀장' }">
-		<button id="teambreakup" value="${loggedMember.teamName }" onclick="teambreakup()" class="btn btn-primary" onclick="teambreakup()">팀 해체</button>
+		<button id="teambreakup" value="${loggedMember.teamName }" onclick="teambreakup()" class="btn btn-primary" onclick="teambreakup()"  style="width:300px; height:50px; margin-left: 50px; margin-top: 30px;">팀 해체</button>
 	</c:if>
 	
 </div>	
@@ -76,7 +76,12 @@
 		<c:forEach  items="${result }" var="i">
 		<tr>
 			<td>${i.no }</td>
+			<c:if test="${i.status=='K' }">
+			<td>${i.memberName }</td>
+			</c:if>
+			<c:if test="${i.status=='Y'}">
 			<td>${i.memberId }</td>
+			</c:if>
 			<td>${i.position }</td>
 			<td>${i.goalCount }</td>
 			<td>${i.authority }</td>
@@ -110,7 +115,9 @@
 	
 
 <div id="match-container" align="center">
+	<c:if test="${loggedMember.authority=='팀장'||loggedMember.authority=='매니저' }">
 	<button class="btn btn-primary" onclick="matchenroll_btn()">매치등록</button>
+	</c:if>
 	<button class="btn btn-primary" onclick="match_check()" style="margin-left: 60px;">매치검색</button>
 </div>
 <script>
@@ -193,7 +200,7 @@
 			<td>${k.count }</td>
 			<td>${j.memberId }</td>
 			<td>${j.position }</td>
-			<td>${j.requestDate }</td>
+			<td><fmt:formatDate type="date" dateStyle="short" value="${j.requestDate }"/></td>
 			
 			<c:if test="${loggedMember.teamName==teamName&&(loggedMember.authority=='팀장'||loggedMember.authority=='매니저')}">
 			<td> 
@@ -306,11 +313,7 @@
 		height:30px;
 	}
 
- 	li{
-	/* float: left; */
-    width: 200px; height:8%;
-    /* border-top: 1px solid #e7e7e7; */
-	} 
+ 
 	
 		
 	#team{
@@ -327,6 +330,7 @@
 		width:400px;
 		height:700px;
 		border-collapse: collapse;
+	
 	}
 	
 
@@ -344,70 +348,70 @@
 	text-align:center;
 		width:200px;
 		height:80px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	}
 	
  	#team-location{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	}
 	#team-exercise{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	} 
 		#team-uh{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	} 
 		#team-age{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	} 
 		#team-style{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	} 
 		#team-uniform{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	}
 		#team-membercount{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	} 
 		#team-open{
 		text-align:center;
 		width:200px;
 		height:60px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	}  
 		#team-introduce{
 		text-align:center;
 		width:200px;
 		height:150px;
-		border:1px solid black;
+		/* border:1px solid black; */
 	
 	} 
 	

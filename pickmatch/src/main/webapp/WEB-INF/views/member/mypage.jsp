@@ -190,7 +190,7 @@
 		<div class="mypage-body">
 			<div class="member-update-wrapper">
 
-				<form action="${path }/member/memberUpdateEnd.do" method="post" class="member-update-frm" autocomplete="off" enctype="multipart/form-data" >
+				<form action="${path }/member/memberUpdateEnd.do" method="post" class="member-update-frm" onsubmit="valSubmit_update()" autocomplete="off" enctype="multipart/form-data" >
 					<div>
 						<div>아이디</div>
 						<div>
@@ -232,7 +232,7 @@
 					<div>
 						<div>전화번호</div>
 						<div>
-							<input type="tel" name="phone" id="new-phone" value="${loggedMember.phone }">
+							<input type="tel" name="phone" id="new-phone" value="${loggedMember.phone }" maxlength="11">
 						</div>
 					</div>
 					<div>
@@ -326,6 +326,8 @@
 	
 	$("#new-password").blur(function newpasswordCheck(){
 		var passwordCheck = /^(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])(?=.*[0-9]).{8,16}$/;
+		var newPassword = $('#new-password').val();
+
 		if(!passwordCheck.test($('#new-password').val()))
 		{
 			$("#val-pass-ok-up").hide();
@@ -335,6 +337,13 @@
 		else
 		{
 			$("#val-pass-ok-up").show();
+			$("#val-pass-no-up").hide();
+			onsubmit_pass = 1;
+		}
+		if(newPassword=='')
+		{
+			console.log("password공란");
+			$("#val-pass-ok-up").hide();
 			$("#val-pass-no-up").hide();
 			onsubmit_pass = 1;
 		}
@@ -377,6 +386,13 @@
 
 	});
 	
+	$("#new-phone").keyup(function(event){
+
+	    var inputVal = $(this).val();
+	    $(this).val(inputVal.replace(/[^0-9]/gi,''));
+
+	});
+	
 	
 	//파일선택시 미리보기
 	function LoadImg(value){
@@ -393,6 +409,16 @@
 		$('#oldProfile').val('');
 		$('#profileImg').attr('src', '${path }/resources/images/user.png');
 		
+	}
+	
+	function valSubmit_update()
+	{
+		console.log(onsubmit_nick);
+		console.log(onsubmit_pass);
+		if(onsubmit_nick!=1 || onsubmit_pass!=1)
+		{
+			return false;
+		}
 	}
 
 </script>

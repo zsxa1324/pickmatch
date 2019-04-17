@@ -20,6 +20,10 @@
 <title>메인화면</title>
 
 <style>
+	@font-face{
+		font-family: 'Bloomer';
+		src : url('${path}/resources/css/BloomerDEMO.otf');
+	}
 	.form-control
 	{
 		margin:3px auto;
@@ -75,14 +79,16 @@
 	
 	#header-logo > img
 	{
-		margin : 0 -2px 0 10px;
+		margin : 0 0 0 10px;
 	}
 	
 	#header-logo > a
 	{
-		font-family: Amaranth;
-		font-size:46px;
+		font-family: Bloomer;
+		letter-spacing:0.08em;
+		font-size:50px;
 		cursor: default;
+		margin : 1.5px;
 	}
 	
 	#login-modal > span
@@ -196,12 +202,17 @@
 <script>
 	function valSubmit()
 	{
+		console.log(onsubmit_id);
+		console.log(onsubmit_mail);
+		console.log(onsubmit_pass);
+		console.log(onsubmit_nick);
+		
 		if(onsubmit_id !=1 || onsubmit_mail!=1 || onsubmit_pass!=1 || onsubmit_nick!=1)
 		{
 			alert('회원가입양식을 맞춰주세요.');
 			return false;
 		}
-		return false;
+		return true;
 	}
 </script>
 </head>
@@ -288,6 +299,7 @@
 							<a href="${path }/team.do?teamName=${loggedMember.teamName}">팀 정보</a>
 							<a href="${path}/team/teamMatchList">팀 매치정보</a>
                     		<a href="${path}/team/teamOperationInfo">팀 운영정보</a>
+                    		<a href="${path}/team/teamMercenaryManagement">팀 용병관리</a>
 							</c:if>
 							<c:if test="${loggedMember.teamName!=null }">
 							<a href="${path}/freeboard.do">팀 자유게시판</a>
@@ -295,7 +307,7 @@
 							<c:if test="${loggedMember.teamName!=null }">
 							<a href="${path}/teamnotice.do?teamName=${loggedMember.teamName}">팀 공지사항</a>
 							</c:if>
-							<a href="${path}/teammercenary.do">내 용병팀 정보</a>
+							<a href="${path}/teammercenary.do?memberId=${loggedMember['memberId']}">내 용병팀 정보</a>
 							
 						</c:if>
 						</div>
@@ -315,7 +327,7 @@
 					<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a>
 						<div class="dropdown">
 							<a href="${path }/community/freeboard.do">자유게시판</a>
-							<a href="${path }/board/recruit">모집게시판</a>
+							<%-- <a href="${path }/board/recruit">모집게시판</a> --%>
 						</div>
 					</li>
 					<li class="nav-item"><a class="nav-link" href="#">랭킹</a>
@@ -582,6 +594,9 @@
 					alert('인증번호가 일치하지 않습니다.');
 					onsubmit_mail = 0;
 				}
+			},
+			error: data =>{
+				alert('일치하는 인증번호가 아닙니다.');
 			}
 				
 		});

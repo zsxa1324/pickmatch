@@ -1,100 +1,3 @@
-<!--<section>
-	<div id="freeboard-write">
-		<form name="freeboardFrm"
-			action="${pageContext.request.contextPath}/community/freeboardUpdateEnd.do"
-			method="post" onsubmit="return validate();"
-			enctype="multipart/form-data">
-			<input type="hidden" name="boardNo" value="${freeboard.boardNo}"/>
-			<input type="hidden" name="memberId" value="${loggedMember.memberId}"/>
-			<div class="form-group form-group-sm" style="margin-top: 50px;">
-				<label for="title"
-					style="display: inline-block; margin-right: 30px; margin-left: 20px;">제목</label>
-				<input type="text" class="form-control" id="title" name="boardTitle"
-					style="display: inline-block; width: 300px;" value="${freeboard.boardTitle }">
-			</div>
-
-
-			<div class="form-group ">
-				<label
-					style="margin-right: 30px; margin-left: 20px; margin-top: 30px;">내용</label>
-				<textarea class="form-control" rows="3"
-					style="width: 380px; margin-right: 30px; margin-left: 20px;" name="boardContent">${freeboard.boardContent }</textarea>
-			</div>
-
-			<div>
-				<h2><b>파일</b></h2>
-				<div id="fileDiv">
-					<p>
-						<input type="file" class="form-control form-control-sm" id="file_0" name="upFile">
-						<a href="#this" class="btn btn-primary btn-sm" id="delete" name="delete">삭제</a>
-					</p>
-				</div>
-			</div>
-			<a href="#this" class="btn btn-primary btn-sm" id="addFile">파일추가</a>
-
-			<div id="freeboard-btn" style="margin-left: 50px;">
-				<input type="submit" class="btn btn-outline-success" value="저장"
-					style="margin-right: 150px;"> <input type="button"
-					class="btn btn-outline-success" onclick="location.href='${path}/community/freeboardView.do?boardNo='+${freeboard.boardNo}" value="취소"/>
-			</div>
-			
-
-		</form>
-
-	</div>
-
-</section>
-<style>
-	#upload1{
-		width:400px;
-		height:40px;
-		margin-right: 50px;
-	}
-	
-	#upload2{
-		width:400px;
-		height:40px;
-		margin-top: 5px;
-	}
-	
-	#upload3{
-		width:400px;
-		height:40px;
-		margin-top: 5px;
-	}
-
-</style>
-
-<script>
-	var attach_count = 1;
-	$(document).ready(function(){
-		$("#addFile").on("click", function(e){
-			e.preventDefault();
-			fn_addFile();
-		});
-		$("a[name='delete']").on("click", function(e){
-			e.preventDefault();
-			fn_deleteFile($(this));
-		});
-	});
-	
-	function fn_addFile(){
-		var str = "<p><input type='file' name='upFile' id='file_"+(attach_count++)+"'><a href='#this' class='btn' name='delete'>삭제</a></p>";
-		$("#fileDiv").append(str);
-		$("a[name='delete']").on("click",function(e){
-			e.preventDefault();
-			fn_deleteFile($(this));
-		})
-	}
-	
-	function fn_deleteFile(obj){
-		obj.parent().remove();
-	}
- </script>
-
-<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include> 
--->
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -132,7 +35,7 @@
 	
 	.freeboard-content-element > div
 	{
-		margin : 3px 15px;
+		margin : 4px 15px;
 	}
 	
 	.freeboard-content-element > div:nth-of-type(1)
@@ -153,6 +56,17 @@
 		opacity: 0.8;
 		width : 50%;
 		margin-left: 0;
+	}
+	
+	.freeboard-attach-dele-box
+	{
+		display: flex;
+		flex-flow: row;
+	}
+	
+	.freeboard-attach-dele-box > div
+	{
+		margin : 3px;
 	}
 	
 	.freeboard-attach
@@ -185,6 +99,11 @@
 	{
 		text-align: right;
 		margin-right: 50px;	
+	}
+	
+	.freeboard-btn-box
+	{
+		margin : 30px auto;
 	}
 	
 	.freeboard-btn-box > input:nth-of-type(1)
@@ -225,36 +144,28 @@
 									required="required" rows="7">${freeboard.boardContent }</textarea>
 							</div>
 						</div>
-	<c:if test="${attachmentList != '[]' }">
-		<div class="freeboard-attach-download">
-			<div>
-				첨부파일 수정
-			</div>
-			<div>
-				<c:forEach items="${attachmentList}" var="a" varStatus="vs">
-				<div>
-			    	<button type="button" class="btn btn-outline-success" onclick="fileDelete('${a.originalFileName}','${a.renamedFileName }');"><%--  첨부파일${vs.count} -  --%>${a.originalFileName }
-			        </button>
-		   		</div>
-		   		</c:forEach>
-		   	</div>	
-		</div>
-	</c:if>
-					<div class="freeboard-content-element">
-							<div>파일 첨부</div>
-							<div class="freeboard-attach"  id="fileDiv">
-								<div class="attach-file">
-									<div>
-										<input type="file" class="form-control form-control-sm" id="file_0" name="upFile">
-									</div>
-									<div>
-										<a href="#this" class="btn btn-primary btn-sm" id="delete" name="delete">삭제</a>
+						<div class="freeboard-content-element freeboard-attach-download">
+							<div>
+								파일 삭제
+							</div>
+							<div id="freeboard-attach-delete-box" class="freeboard-attach-dele-box">
+						   	</div>	
+						</div>
+						<div class="freeboard-content-element">
+								<div>파일 첨부</div>
+								<div class="freeboard-attach"  id="fileDiv">
+									<div class="attach-file">
+										<div>
+											<input type="file" class="form-control form-control-sm" id="file_0" name="upFile">
+										</div>
+										<div>
+											<a href="#this" class="btn btn-primary btn-sm" id="delete" name="delete">삭제</a>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
 				<div class="attah-add">
 					<a href="#this" class="btn btn-primary btn-sm" id="addFile">파일추가</a>
@@ -262,7 +173,7 @@
 				
 				<div class="freeboard-btn-box">
 					<input type="submit" class="btn btn-warning" value="수정"/> 
-					<input type="button" class="btn btn-secondary"  onclick="location.href='${path}/community/freeboard.do'" value="취소"/>
+					<input type="button" class="btn btn-secondary"  onclick="location.href='${path}/community/freeboardView.do?boardNo=${freeboard.boardNo }'" value="취소"/>
 				</div>
 			</form>
 		</div>
@@ -283,8 +194,41 @@
 			console.log('dele');
 			fn_deleteFile($(this));
 			console.log($(this));
-		});
+		});		
 	});
+	
+	$(function(){
+		selectAttachAjax(${freeboard.boardNo});
+	});
+
+	function selectAttachAjax(boardNo){
+		$('#freeboard-attach-delete-box').children().remove();
+		$.ajax({
+           	url: '${path}/community/freeboardSelectAttach.do?boardNo='+boardNo,
+           	type: 'get',
+           	dataType: 'json',
+           	success: data => {
+           		appendData(data);
+           	},
+           	error : data => { console.log('에러');}
+           });
+	}
+	
+	function appendData(data){
+		if(data.length==0)
+		{
+			var nofileStr = "<div>해당 게시물에 첨부한 파일이 없습니다.</div>";
+			$('#freeboard-attach-delete-box').append(nofileStr);
+		}
+		else{
+		for(var i=0 ; i<data.length ; i++)
+		{
+			console.log("'fileDelete(\'"+data[i].originalFileName+"\',\'"+data[i].renamedFileName+"\');'");
+			var fileStr = "<div><button type='button' class='btn btn-outline-success' onclick='fileDelete(\""+data[i].originalFileName+"\",\""+data[i].renamedFileName+"\");'>"+data[i].originalFileName+"</button></div>";
+			$('#freeboard-attach-delete-box').append(fileStr);
+		}
+		}
+	}
 	
 	function fn_addFile(){
 		var str = "<div class='attach-file'><div><input type='file' name='upFile' class='form-control form-control-sm' id='file_"+(attach_count++)+"'></div><div><a href='#this' class='btn btn-primary btn-sm' name='delete'>삭제</a></div></div>";
@@ -304,7 +248,7 @@
 	
 	function fileDelete(oName,rName)
 	{
-		var flag = confirm("정말 삭제하시겠습니까?");		
+		var flag = confirm("해당 게시물에서 선택한 파일을 정말 삭제하시겠습니까?");		
 		
 		if(flag==true){
 			
@@ -324,10 +268,14 @@
            	type: 'get',
            	dataType: 'text',
            	success: data => {
-           		
+           		console.log("되나?");
+           		if(data=='true')
+           		{
+           			selectAttachAjax(${freeboard.boardNo});
+           		}
            	}
            });
-	});
+	};
 	
 	
 

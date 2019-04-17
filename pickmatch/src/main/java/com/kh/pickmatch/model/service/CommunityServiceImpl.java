@@ -58,6 +58,23 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
+	public int insertFreeBoardAttach(FreeBoard fb, List<FreeBoardAttachment> list) {
+		int result = 0;
+		
+		if(list.size() > 0 )
+		{
+			for(FreeBoardAttachment a : list)
+			{
+				a.setBoardNoRef(fb.getBoardNo());
+				System.out.println(a);
+				result = dao.insertFreeAttachment(a);
+				if(result == 0) throw new BoardException();
+			}
+		}
+		return result;
+	}
+
+	@Override
 	public int deleteFreeBoard(FreeBoard fb) {
 		// TODO Auto-generated method stub
 		return dao.deleteFreeBoard(fb);
@@ -85,6 +102,12 @@ public class CommunityServiceImpl implements CommunityService {
 	public int deleteComment(int commentNo) {
 		// TODO Auto-generated method stub
 		return dao.deleteComment(commentNo);
+	}
+
+	@Override
+	public int deleteFreeBoardAttach(String rName) {
+		// TODO Auto-generated method stub
+		return dao.deleteFreeBoardAttach(rName);
 	}
 
 

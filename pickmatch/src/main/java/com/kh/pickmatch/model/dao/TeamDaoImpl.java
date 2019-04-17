@@ -1,5 +1,6 @@
 ﻿package com.kh.pickmatch.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -140,9 +141,59 @@ public class TeamDaoImpl implements TeamDao {
 		return session.selectOne("team.selectTeamAuthorityOne", memberId);
 	}
 	
+	@Override
+	public String selectTeamEmblemOne(String teamName) {
+		return session.selectOne("team.selectTeamEmblemOne", teamName);
+	}
+	
+	@Override
+	public int updateTeamInfo(Team team) {
+		return session.update("team.updateTeamInfo", team);
+	}
 
+	@Override
+	public int selectMercenaryCount(String memberId, String teamName) {
+		
+		Mercenary m = new Mercenary();
+		m.setMemberId(memberId);
+		m.setTeamName(teamName);
+		
+		return session.selectOne("team.selectMercenaryCount", m);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectMemberReuestList(String teamName) {
+		return session.selectList("team.selectMemberReuestList", teamName);
+	}
 
-
+	@Override
+	public List<Map<String, Object>> selectMercenaryManagementList(String teamName) {
+		return session.selectList("team.selectMercenaryManagementList", teamName);
+	}
+	
+	@Override
+	public int insertMercenary(String memberId, String teamName) {
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("memberId", memberId);
+		map.put("teamName", teamName);
+		
+		return session.insert("team.insertMercenary", map);
+	}
+	
+	@Override
+	public int deleteTeamMercenary(Map<String, String> map) {
+		return session.delete("team.deleteTeamMercenary", map);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectMyTeamMercenaryList(String memberId) {
+		return session.selectList("team.selectMyTeamMercenaryList", memberId);
+	}
+	
+	
+	
+	
 	
 	
 	//도원
@@ -150,14 +201,20 @@ public class TeamDaoImpl implements TeamDao {
 	
 
 
+
+
+
+
+
+
+
+
+
 	@Override
 	public List<TeamNotice> selectListN(int cPage, int numPerPage, String teamName) {
 		// TODO Auto-generated method stub
 		return session.selectList("team.selectListN", teamName, new RowBounds((cPage-1)*numPerPage, numPerPage));
 	}
-
-
-	
 
 	@Override
 	public int deleteComment(int commentNo) {
@@ -271,13 +328,14 @@ public class TeamDaoImpl implements TeamDao {
 	}
 
 	@Override
-	public MemberRequest memberRequestCk(String memberId, String teamName) {
+	public MemberRequest memberRequestCk(String memberId, String teamName, String type) {
 		// TODO Auto-generated method stub
 		
-		Member member = new Member();
-		member.setMemberId(memberId);
-		member.setTeamName(teamName);
-		return session.selectOne("team.memberRequestCk", member);
+		MemberRequest mr = new MemberRequest();
+		mr.setMemberId(memberId);
+		mr.setTeamName(teamName);
+		mr.setRequestType(type);
+		return session.selectOne("team.memberRequestCk", mr);
 	}
 
 	@Override
@@ -292,12 +350,13 @@ public class TeamDaoImpl implements TeamDao {
 	}
 
 	@Override
-	public int teamNo(String memberId, String teamName) {
+	public int teamNo(String memberId, String teamName, String type) {
 		// TODO Auto-generated method stub
-		MemberByTeam mbt = new MemberByTeam();
-		mbt.setTeamName(teamName);
-		mbt.setMemberId(memberId);
-		return session.delete("team.teamNo",mbt);
+		MemberRequest mr = new MemberRequest();
+		mr.setTeamName(teamName);
+		mr.setMemberId(memberId);
+		mr.setRequestType(type);
+		return session.delete("team.teamNo",mr);
 	}
 
 	@Override

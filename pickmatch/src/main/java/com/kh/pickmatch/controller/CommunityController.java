@@ -63,6 +63,14 @@ public class CommunityController {
 	    return mv;
 	}
 	
+	@RequestMapping("/community/freeboardSelectAttach.do")
+	@ResponseBody
+	public Object freeboardSelectAttach(int boardNo) {
+		Object list = new ArrayList<>();
+		list = service.selectAttachment(boardNo);
+		return list;
+	}
+	
 	@RequestMapping("/community/freeboardForm.do")
 	public String freeboardForm() {
 		return "community/co-freeboardForm";
@@ -106,13 +114,15 @@ public class CommunityController {
 		if(result>0)
 		{
 			msg = "게시글이 등록되었습니다.";
-			loc = "/community/freeboard.do";
+			loc = "/community/freeboardView.do?boardNo="+fb.getBoardNo();
 		}
 		else
 		{
 			msg = "게시글 등록이 실패했습니다. 다시 등록해주세요.";
 			loc = "/community/freeboard.do";
 		}
+		mv.addObject("msg",msg);
+		mv.addObject("loc",loc);
 		mv.setViewName("common/msg");
 		return mv;
 	}
@@ -170,9 +180,14 @@ public class CommunityController {
 	
 	//게시판 글 수정시 첨부파일 클릭 삭제
 	@RequestMapping("/community/freeboardAttachDelete.do")
-	public void fileDelete(String oName, String rName, HttpServletRequest request, HttpServletResponse response)
+	@ResponseBody
+	public boolean fileDelete(String oName, String rName, HttpServletRequest request, HttpServletResponse response)
 	{
-		int updateResult = 0;
+		int result = 0;
+		boolean deleteResult = false;
+		
+		//DB attachment delete
+		result = service.deleteFreeBoardAttach(rName);
 		
 		String saveDir = request.getSession().getServletContext().getRealPath("/resources/upload/community-freeboard");
 
@@ -181,12 +196,12 @@ public class CommunityController {
 		{
 			dir.mkdirs();
 		}
-		
-		
-		
-		File deleFile = new File(saveDir+"/"+rName);
-		boolean deleteResult = deleFile.delete();
-		logger.info("파일삭제 : "+deleteResult);
+		if(result>0) {
+			File deleFile = new File(saveDir+"/"+rName);
+			deleteResult = deleFile.delete();
+			logger.info("파일삭제 : "+deleteResult);
+		}
+		return deleteResult;
 	}
 	
 	@RequestMapping("/community/freeboardDelete.do")
@@ -223,7 +238,7 @@ public class CommunityController {
 		ModelAndView mv = new ModelAndView();
 		
 		mv.addObject("freeboard", service.selectOneFreeBoard(boardNo));
-	    mv.addObject("attachmentList", service.selectAttachment(boardNo));
+	    /*mv.addObject("attachmentList", service.selectAttachment(boardNo));*/
 	    mv.addObject("commentList", service.selectComment(boardNo));
 	    logger.info(service.selectComment(boardNo)+"");
 		mv.setViewName("community/co-freeboardUpdate");
@@ -232,7 +247,7 @@ public class CommunityController {
 	}
 	
 	@RequestMapping("/community/freeboardUpdateEnd.do")
-	public ModelAndView freeBoardUpdateEnd(FreeBoard fb)
+	public ModelAndView freeBoardUpdateEnd(FreeBoard fb, MultipartFile[] upFile, HttpServletRequest re)
 	{
 		ModelAndView mv = new ModelAndView();
 		FreeBoard result = (FreeBoard)service.selectOneFreeBoard(fb.getBoardNo());
@@ -242,10 +257,41 @@ public class CommunityController {
 		String msg = "";
 		String loc = "";
 		
+		String saveDir = re.getSession().getServletContext().getRealPath("/resources/upload/community-freeboard");
+		File dir = new File(saveDir);
+		if(!dir.exists())
+		{
+			dir.mkdirs();
+		}
+		List<FreeBoardAttachment> list = new ArrayList<>();
+		for(MultipartFile f : upFile)
+		{
+			if(!f.isEmpty())
+			{
+				String oriFileName = f.getOriginalFilename();
+				String ext = oriFileName.substring(oriFileName.indexOf("."));
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+				int rndNum = (int)(Math.random()*1000);
+				String renamedFile = sdf.format(new Date(System.currentTimeMillis())) + "_" + rndNum + ext;
+				try
+				{
+					f.transferTo(new File(saveDir + "/" + renamedFile));
+				}catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+				FreeBoardAttachment a = new FreeBoardAttachment();
+				a.setOriginalFileName(oriFileName);
+				a.setRenamedFileName(renamedFile);
+				list.add(a);
+			}
+		}
+		
 		logger.info("updateEnd fb : " + fb);
 		logger.info(""+result);
 		
 		int Updateresult = service.updateFreeBoard(result);
+		service.insertFreeBoardAttach(fb, list);
 		if(Updateresult > 0)
 		{
 			msg = "게시물이 수정되었습니다.";

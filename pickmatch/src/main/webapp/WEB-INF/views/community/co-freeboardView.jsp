@@ -124,15 +124,25 @@
 	.comment-write-div > div:nth-of-type(1){flex: 10 1 0; align-self: center;}
 	.comment-write-div > div:nth-of-type(2){flex: 1 1 0; display: flex; justify-content: flex-end; align-self: center;}
 	
+	.button-box
+	{
+		border-top: 2px rgba(0,0,0,0.1) solid;
+	}
+	
 	.button-box > button
 	{
-		margin : 2px;
+		margin : 5px 2px;
 		float : right;
 	}
 	
 	.freeboard-comment-wrapper
 	{
 		margin : 25px 0;
+	}
+	
+	.btn-group
+	{
+		margin : 70px 0 0 0;
 	}
 </style>
 
@@ -191,12 +201,6 @@
 		   	</div>	
 		</div>
 	</c:if>
-	<c:if test="${loggedMember.memberId==freeboard.memberId  || loggedMember.memberId == 'admin'}">
-		<div class="button-box">
-			<button class="btn btn-outline-danger" onclick="freeboard_delete();">삭제</button>
-			<button class="btn btn-outline-primary" onclick="freeboard_update();">수정</button>
-		</div>
-	</c:if>
 	<div class="freeboard-comment-wrapper">
 		<div class="comment-container">
 			<c:if test="${commentList != '[]' }">
@@ -231,6 +235,18 @@
 			</div>
 		</c:if>
 	</div>
+	<c:if test="${loggedMember.memberId==freeboard.memberId  || loggedMember.memberId == 'admin'}">
+		<div class="button-box">
+			<button class="btn btn-outline-danger" onclick="freeboard_delete();">삭제</button>
+			<button class="btn btn-outline-primary" onclick="freeboard_update();">수정</button>
+		</div>
+	</c:if>
+	
+<%-- 	<div class="btn-group" role="group" aria-label="Basic example">
+	  <button type="button" class="btn btn-secondary" onclick="location.href='${path}/community/freeboardView.do?boardNo=${freeboard.boardNo-1}'">이전글</button>
+	  <button type="button" class="btn btn-secondary">목록</button>
+	  <button type="button" class="btn btn-secondary">다음글</button>
+	</div> --%>
 </div>
 
 </section>

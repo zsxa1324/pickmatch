@@ -74,7 +74,7 @@
 		<tr>
 			<td id="team-freeboard-table-id">${b.memberId }</td>
 			<td id="team-freeboard-table-title"><a href="${path }/community/freeboardView.do?boardNo=${b.boardNo}">${b.boardTitle }</a></td>
-			<td id="team-freeboard-table-date"><fmt:formatDate type="date" dateStyle="short" value="${b.boardDate }"/></td>
+			<td id="team-freeboard-table-date"><fmt:formatDate type="date" value="${b.boardDate }"/> <fmt:formatDate type="time" value="${b.boardDate }"/></td>
 		</tr>
 		</c:forEach>	
 	</table>

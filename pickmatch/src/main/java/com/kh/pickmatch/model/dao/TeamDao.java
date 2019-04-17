@@ -13,6 +13,7 @@ import com.kh.pickmatch.model.vo.Score;
 import com.kh.pickmatch.model.vo.Team;
 import com.kh.pickmatch.model.vo.TeamBoard;
 import com.kh.pickmatch.model.vo.TeamBoardAttachment;
+import com.kh.pickmatch.model.vo.TeamBoardComment;
 import com.kh.pickmatch.model.vo.TeamNotice;
 import com.kh.pickmatch.model.vo.TeamOperationAccount;
 
@@ -95,7 +96,7 @@ public interface TeamDao {
 	int selectCountM();
 	
 	//용병랭킹 검색
-	Mercenary MercenarySearch(String search);
+	List<Mercenary> MercenarySearch(String search);
 	
 	//내팀정보 보여주기
 	List<Team> TeamView(String teamName);
@@ -155,6 +156,13 @@ public interface TeamDao {
 	int teamleave(String memberId);
 	//팀해체
 	int teambreakup(String teamName);
+	
+	//팀게시판 댓글리스트
+	List<TeamBoardComment> tbcView(int boardNo);
+	//팀게시판 댓글작성
+	int insertTeamBoardComment(int boardNoRef, String memberId, int commentNoRef, String commentContent);
+	//팀게시판 댓글 삭제
+	int deleteComment(int commentNo);
 	
 	
 	

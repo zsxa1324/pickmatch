@@ -28,7 +28,7 @@
 		<tr>
 			<td id="team-freeboard-table-id">${b.memberId }</td>
 			<td id="team-freeboard-table-title"><a href="${path}/team/teamView.do?boardNo=${b.boardNo}">${b.boardTitle }</a></td>
-			<td id="team-freeboard-table-date">${b.boardDate }</td>
+			<td id="team-freeboard-table-date"><fmt:formatDate type="date" dateStyle="short" value="${b.boardDate }"/></td>
 		</tr>
 		</c:forEach>
 		<!-- <tr>
@@ -62,7 +62,7 @@
 		margin: auto;
 	}
 	#team-freeboard-table tr,td{
-		text-align:left;
+		text-align:center;
 		width:800px;
 		height:20px;
 		

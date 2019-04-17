@@ -38,10 +38,12 @@ $(function(){
 })
 </script>
 
-<section style="height: 800px;" >
+<section style="height: 800px; overflow-y:scroll;" >
 	<article class="index-article">
 		<div class="index-div" style="background-color:white;">
-		
+			<div>
+			
+			</div>
 		</div>
 	</article>
 </section>

@@ -51,6 +51,7 @@ public class MemberController {
 		m.setEmail(email);
 		m.setMemberName(nickname);
 		m.setNickname(nickname);
+		if(profile == null) {profile="";}
 		m.setProfile(profile);
 		
 		Member result = service.selectOne(m);
@@ -76,8 +77,10 @@ public class MemberController {
 	@RequestMapping("/member/login.do")
 	public String login(Member m, Model model, HttpSession session)
 	{
-		Member result = service.selectOne(m);
-		logger.info(result+"");
+		Member result = service.loginSelectOne(m);
+		logger.info("로그인시 id : " + m.getMemberId());
+		logger.info("로그인시 pw : " + m.getPassword());
+
 		String msg="";
 		String loc="/";
 		if(result != null)
@@ -94,7 +97,7 @@ public class MemberController {
 		}
 		else
 		{
-			msg = "존재하지 않는 아이디입니다.";
+			msg = "존재하지 않거나 탈퇴된 아이디입니다.";
 		}
 		model.addAttribute("msg",msg);
 		model.addAttribute("loc",loc);
@@ -246,7 +249,7 @@ public class MemberController {
 	{
 		ModelAndView mv = new ModelAndView();
 		logger.info(memberId);
-		logger.info(password);
+		logger.info("mypage-password : " + password);
 		Member m = new Member();
 		m.setMemberId(memberId);
 		m.setPassword(password);
@@ -286,13 +289,15 @@ public class MemberController {
 		ModelAndView mv = new ModelAndView();
 
 		//Member m = new Member(memberId, bcEncoder.encode(password),memberName, nickname, phone, email, "", "", position, location, null, "","","",0);
+		logger.info("memberUpdate password : "+password);
 		Member m = new Member();
 		m.setMemberId(memberId);
 		Member result = service.selectOne(m);
 		
-		logger.info(result+"");
+		logger.info("update시 id로 회원조회결과 : "+ result);
 		
 		//비밀번호가 넘어온 경우 암호화처리해서 set.
+		
 		if(password!=null && !password.equals("")) 
 		{
 			result.setPassword(bcEncoder.encode(password));

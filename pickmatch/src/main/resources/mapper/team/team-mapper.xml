@@ -104,7 +104,7 @@
  	
  	<!-- 용병검색 -->
  	<select id="MercenarySearch" resultType="mercenary">
- 		SELECT * FROM (SELECT ROWNUM AS rank, A.* FROM (SELECT * FROM mercenary join member using(memberid) ORDER BY goalcount DESC) A) mercenary where memberid=#{search}
+ 		SELECT * FROM (SELECT ROWNUM AS rank, A.* FROM (SELECT * FROM mercenary join member using(memberid) ORDER BY goalcount DESC) A) mercenary where memberid like '%'||#{search} ||'%' or teamName like '%'||#{search}||'%'
  	</select>
  	
  	<!-- 내팀정보 보여주기 -->
@@ -194,7 +194,7 @@
  		update memberbyteam set authority='매니저' where memberid=#{beforeleader}
  	</update>
  	<select id="authority" resultType="String">
- 		select memberId from memberbyteam where memberid=#{memberId}
+ 		select authority from memberbyteam where memberid=#{memberId}
  	</select>
  	
  	<!-- 팀탈퇴 -->
@@ -206,5 +206,20 @@
  	<update id="teambreakup">
  		update team set teamstatus='N' where teamname=#{teamName}
  	</update>
+ 	
+ 	<!-- 팀게시판 댓글리스트 -->
+ 	<select id="tbcView" resultType="tbc">
+ 		select * from teamboardcomment where boardnoref=#{boardNo}
+ 	</select>
+ 	
+ 	<!-- 팀게시판 댓글insert -->
+ 	<insert id="insertTeamBoardComment" parameterType="tbc">
+ 		insert into teamboardcomment values(SEQ_TEAMBOARDCOMMENTNO.nextval,#{memberId},#{commentContent},#{boardNoRef},#{commentNoRef})
+ 	</insert>
+ 	
+ 	<!-- 팀게시판 댓글 삭제 -->
+ 	<delete id="deleteComment">
+ 		delete from teamboardcomment where commentNo=#{commentNo}
+ 	</delete>
  	
 </mapper>

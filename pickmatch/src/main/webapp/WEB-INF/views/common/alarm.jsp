@@ -19,7 +19,7 @@
 			<td id="team-freeboard-table-date">${b.boardDate }</td>
 		</tr>
 		</c:forEach> --%>
-		<c:forEach  items="${list }" var="i" varStatus="vs">
+		<c:forEach  items="${alarmList }" var="i" varStatus="vs">
 		<tr>
 			<td>${i.messageType }</td>
 			<td>${vs.count }</td>
@@ -29,5 +29,9 @@
 		</c:forEach>
 	
 	</table>
+</div>
+
+<div class="AlarmPagecontainer" style="margin-top: 50px;">
+     	${alarmPageBar }
 </div>	
 	    

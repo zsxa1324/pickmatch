@@ -28,11 +28,12 @@
   	<textarea rows=10px  class="form-control" id="title-area" readonly>${teamnotice.noticeContent }</textarea>
   </div>
   
-  
-  <div>
-  	<input type="submit" class="btn btn-outline-success" id="white_btn" value="수정" style="margin-right: 150px;">
+  <c:if test="${loggedMember.memberId==teamnotice.memberId }">
+  <div align="right">
+  	<input type="submit" class="btn btn-outline-success" id="white_btn" value="수정">
 	<input type="button" class="btn btn-outline-success" value="삭제" onclick="delete_btn()"> 
   </div>
+  </c:if>
     
 </div>
 

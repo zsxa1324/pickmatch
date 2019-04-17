@@ -4,79 +4,236 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
-  
-<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-
-
-<section id="team-create-container">
+<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <style>
-	.form-group {
-		margin : auto 30px;
-	}
-</style>
-<form style="margin-top: 20px;" action="${pageContext.request.contextPath}/board/noticeUpdateEnd"
-			method="post" enctype="multipart/form-data">
-	<input type="hidden" name="noticeNo" value="${notice.noticeNo }"/>
-  <div class="form-group form-group-sm">
-    <label for="noticeTitle" style="display: inline-block; margin-right: 30px; margin-left: 20px;">제목</label>
-    <input type="text" class="form-control" id="noticeTitle" name="noticeTitle" value="${notice.noticeTitle }"  style="display: inline-block; width: 300px;"  >
-  </div>
-  <div class="form-group form-group-sm">
-    <label for="memberId" style="display: inline-block; margin-right: 30px; margin-left: 20px;">작성자</label>
-    <label for="memberId" style="display: inline-block; margin-right: 30px;">${notice.memberId }</label>
-    <input type="hidden" name="memberId" value="${notice.memberId }"/>
-  </div>
-  <div class="form-group form-group-sm">
-    <label for="stadium" style="margin-right: 45px; margin-left: 20px;">파일</label>
-    <c:forEach items="${attachmentList}" var="a" varStatus="vs">
-       <button type="button" 
-               class="btn btn-outline-success"
-               onclick="fileDownload('${a.originalFileName}','${a.renamedFileName }');"> 첨부파일${vs.count} - ${a.originalFileName }
-        </button>
-    </c:forEach>
-  </div>
-  		
-  <div class="form-group">
-  	<label style="margin-right: 30px; margin-left: 20px; display:inline-block;">내용</label>
-  	<textarea name="noticeContent" class="form-control" rows="10" style="width:600px; margin-right: 30px; margin-left: 20px">${notice.noticeContent }</textarea>
-  </div>
-  
-  <div class="attach-file-console">
-  	<c:if test="${attachmentList !=null }">
-  		<c:forEach items="${attachmentList }" var="attach">
-  			<c:if test="${fn:substringAfter(attach.renamedFileName,'.')== 'jpg'
-  			}">
-  			<img src="${path }/resources/upload/notice/${attach.renamedFileName}" width="70px">
-  			</c:if> 
-  			<c:if test="${fn:substringAfter(attach.renamedFileName,'.')== 'jpeg'}">
-  			<img src="${path }/resources/upload/notice/${attach.renamedFileName}" width="70px">
-  			</c:if> 
-  			<c:if test="${fn:substringAfter(attach.renamedFileName,'.')== 'png' || fn:substringAfter(attach.renamedFileName,'.')== 'PNG'}">
-  			<img src="${path }/resources/upload/notice/${attach.renamedFileName}" width="70px">
-  			</c:if> 
-  			
-  		</c:forEach>
-  	</c:if>
-  </div>
-  
-  <div id="freeboard-btn" style="margin-left: 50px;">
-				<input type="submit" class="btn btn-outline-success" value="수정"
-					style="margin-right: 150px;"> <input type="button"
-					class="btn btn-outline-success" value="취소">
-  </div>
-
-
-
-
-</form>
-</section>
-<script>
-	function fileDownload(oName,rName)
+	.freeboard-write-header
 	{
-		oName = encodeURIComponent(oName);
-		location.href='${path}/board/noticeDown.do?oName='+oName+'&rName='+rName;
+		margin : 20px auto;
+		text-align: center;
+		font-size: 37px;
+		font-weight: bold;
 	}
-</script>
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-</body>
-</html>
+	
+	.freeboard-write-wrapper
+	{
+		display:flex;
+		width : 80%;
+		flex-flow: column;
+		margin : 30px auto 100px;
+	}
+	
+	.freeboard-write-form
+	{
+		margin : 20px 0;
+	}
+	
+	.freeboard-content-element
+	{
+		display: flex;
+		flex-flow: row;
+	}
+	
+	.freeboard-content-element > div
+	{
+		margin : 3px 15px;
+	}
+	
+	.freeboard-content-element > div:nth-of-type(1)
+	{
+		flex : 1 0 0; 
+		align-self: center;
+		text-align: right;
+		margin-right: 8px;
+		
+	}
+	.freeboard-content-element > div:nth-of-type(2)
+	{
+		flex : 7 0 0;
+	}
+	
+	.form-control[readonly]
+	{
+		opacity: 0.8;
+		width : 50%;
+		margin-left: 0;
+	}
+	
+	.freeboard-attach
+	{
+		display: flex;
+		flex-direction: column;
+	}
+	
+
+	.attach-file
+	{
+		display: flex;
+		flex-flow: row;
+		align-items: center;
+	}
+	
+	.attach-file > div:nth-of-type(1)
+	{
+		flex : 5 1 0;
+	}
+	
+	.attach-file > div:nth-of-type(2)
+	{ 
+		text-align : right;
+		margin-right: 35px;
+		flex : 1 1 0;
+	}
+
+	.attah-add
+	{
+		text-align: right;
+		margin-right: 50px;	
+	}
+	
+	.freeboard-btn-box > input:nth-of-type(1)
+	{
+		margin-left:340px;
+	}
+	
+</style>
+
+<section>
+	<div class="freeboard-write-wrapper">
+		<div class="freeboard-write-header">
+			<span>공지사항 글 수정</span>
+		</div>
+		<div class="freeboard-write-form">
+			<form name="freeboardFrm" action="${pageContext.request.contextPath}/board/noticeUpdateEnd"	method="post" onsubmit="return validate();"	enctype="multipart/form-data">
+				<input type="hidden" name="noticeNo" value="${notice.noticeNo }"/>
+				<div class="freeboard-write-body">
+					<div class="freeboard-write-content">
+						<div class="freeboard-content-element">
+							<div>작성자</div>
+							<div>
+								<input type="text" name="memberId" class="form-control"
+									value="${notice.memberId }" readonly />
+							</div>
+						</div>
+						<div class="freeboard-content-element">
+							<div>제목</div>
+							<div>
+								<input type="text" name="noticeTitle" class="form-control"
+									required="required" value="${notice.noticeTitle }"/>
+							</div>
+						</div>
+						<div class="freeboard-content-element">
+							<div>내용</div>
+							<div>
+								<textarea class="form-control" name="noticeContent"
+									required="required" rows="7">${notice.noticeContent }</textarea>
+							</div>
+						</div>
+	<c:if test="${attachmentList != '[]' }">
+		<div class="freeboard-attach-download">
+			<div>
+				첨부파일 수정
+			</div>
+			<div>
+				<c:forEach items="${attachmentList}" var="a" varStatus="vs">
+				<div>
+			    	<button type="button" class="btn btn-outline-success" onclick="fileDelete('${a.originalFileName}','${a.renamedFileName }');"><%--  첨부파일${vs.count} -  --%>${a.originalFileName }
+			        </button>
+		   		</div>
+		   		</c:forEach>
+		   	</div>	
+		</div>
+	</c:if>
+					<div class="freeboard-content-element">
+							<div>파일 첨부</div>
+							<div class="freeboard-attach"  id="fileDiv">
+								<div class="attach-file">
+									<div>
+										<input type="file" class="form-control form-control-sm" id="file_0" name="upFile">
+									</div>
+									<div>
+										<a href="#this" class="btn btn-primary btn-sm" id="delete" name="delete">삭제</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="attah-add">
+					<a href="#this" class="btn btn-primary btn-sm" id="addFile">파일추가</a>
+				</div>
+				
+				<div class="freeboard-btn-box">
+					<input type="submit" class="btn btn-warning" value="수정"/> 
+					<input type="button" class="btn btn-secondary"  onclick="location.href='${path}/board/notice'" value="취소"/>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+</section>
+
+<script>
+	var attach_count = 1;
+	$(document).ready(function(){
+		$("#addFile").on("click", function(e){
+			e.preventDefault();
+			fn_addFile();
+		});
+		$("a[name='delete']").on("click", function(e){
+			e.preventDefault();
+			console.log('dele');
+			fn_deleteFile($(this));
+			console.log($(this));
+		});
+	});
+	
+	function fn_addFile(){
+		var str = "<div class='attach-file'><div><input type='file' name='upFile' class='form-control form-control-sm' id='file_"+(attach_count++)+"'></div><div><a href='#this' class='btn btn-primary btn-sm' name='delete'>삭제</a></div></div>";
+		$("#fileDiv").append(str);
+
+		$("a[name='delete']").on("click",function(e){
+			e.preventDefault();
+			console.log('dele2');
+			fn_deleteFile($(this));
+		})
+		
+	}
+	
+	function fn_deleteFile(obj){
+		obj.parent().parent().remove();
+	}
+	
+	function fileDelete(oName,rName)
+	{
+		var flag = confirm("정말 삭제하시겠습니까?");		
+		
+		if(flag==true){
+			
+			fileDeleteAjax(oName,rName);
+		}
+		else{
+			return false;
+		}
+	}
+	
+	function fileDeleteAjax(oName,rName){
+		
+		oName = encodeURIComponent(oName);
+		
+		$.ajax({
+           	url: '${path}/board/noticeAttachDelete.do?oName='+oName+'&rName='+rName,
+           	type: 'get',
+           	dataType: 'text',
+           	success: data => {
+           		
+           	}
+           });
+	});
+	
+	
+
+ </script>
+
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

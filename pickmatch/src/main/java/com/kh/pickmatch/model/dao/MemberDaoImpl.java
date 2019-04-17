@@ -19,6 +19,12 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
+	public Member loginSelectOne(Member m) {
+		// TODO Auto-generated method stub
+		return session.selectOne("member.loginSelectOne",m);
+	}
+
+	@Override
 	public int insertMember(Member m) {
 		return session.insert("member.insertMember",m);
 	}

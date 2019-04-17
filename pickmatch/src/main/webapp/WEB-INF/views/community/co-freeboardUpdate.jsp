@@ -1,3 +1,100 @@
+<!--<section>
+	<div id="freeboard-write">
+		<form name="freeboardFrm"
+			action="${pageContext.request.contextPath}/community/freeboardUpdateEnd.do"
+			method="post" onsubmit="return validate();"
+			enctype="multipart/form-data">
+			<input type="hidden" name="boardNo" value="${freeboard.boardNo}"/>
+			<input type="hidden" name="memberId" value="${loggedMember.memberId}"/>
+			<div class="form-group form-group-sm" style="margin-top: 50px;">
+				<label for="title"
+					style="display: inline-block; margin-right: 30px; margin-left: 20px;">제목</label>
+				<input type="text" class="form-control" id="title" name="boardTitle"
+					style="display: inline-block; width: 300px;" value="${freeboard.boardTitle }">
+			</div>
+
+
+			<div class="form-group ">
+				<label
+					style="margin-right: 30px; margin-left: 20px; margin-top: 30px;">내용</label>
+				<textarea class="form-control" rows="3"
+					style="width: 380px; margin-right: 30px; margin-left: 20px;" name="boardContent">${freeboard.boardContent }</textarea>
+			</div>
+
+			<div>
+				<h2><b>파일</b></h2>
+				<div id="fileDiv">
+					<p>
+						<input type="file" class="form-control form-control-sm" id="file_0" name="upFile">
+						<a href="#this" class="btn btn-primary btn-sm" id="delete" name="delete">삭제</a>
+					</p>
+				</div>
+			</div>
+			<a href="#this" class="btn btn-primary btn-sm" id="addFile">파일추가</a>
+
+			<div id="freeboard-btn" style="margin-left: 50px;">
+				<input type="submit" class="btn btn-outline-success" value="저장"
+					style="margin-right: 150px;"> <input type="button"
+					class="btn btn-outline-success" onclick="location.href='${path}/community/freeboardView.do?boardNo='+${freeboard.boardNo}" value="취소"/>
+			</div>
+			
+
+		</form>
+
+	</div>
+
+</section>
+<style>
+	#upload1{
+		width:400px;
+		height:40px;
+		margin-right: 50px;
+	}
+	
+	#upload2{
+		width:400px;
+		height:40px;
+		margin-top: 5px;
+	}
+	
+	#upload3{
+		width:400px;
+		height:40px;
+		margin-top: 5px;
+	}
+
+</style>
+
+<script>
+	var attach_count = 1;
+	$(document).ready(function(){
+		$("#addFile").on("click", function(e){
+			e.preventDefault();
+			fn_addFile();
+		});
+		$("a[name='delete']").on("click", function(e){
+			e.preventDefault();
+			fn_deleteFile($(this));
+		});
+	});
+	
+	function fn_addFile(){
+		var str = "<p><input type='file' name='upFile' id='file_"+(attach_count++)+"'><a href='#this' class='btn' name='delete'>삭제</a></p>";
+		$("#fileDiv").append(str);
+		$("a[name='delete']").on("click",function(e){
+			e.preventDefault();
+			fn_deleteFile($(this));
+		})
+	}
+	
+	function fn_deleteFile(obj){
+		obj.parent().remove();
+	}
+ </script>
+
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include> 
+-->
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -100,32 +197,32 @@
 <section>
 	<div class="freeboard-write-wrapper">
 		<div class="freeboard-write-header">
-			<span>공지사항 글 수정</span>
+			<span>자유게시판 글 수정</span>
 		</div>
 		<div class="freeboard-write-form">
-			<form name="freeboardFrm" action="${pageContext.request.contextPath}/board/noticeUpdateEnd"	method="post" onsubmit="return validate();"	enctype="multipart/form-data">
-				<input type="hidden" name="noticeNo" value="${notice.noticeNo }"/>
+			<form name="freeboardFrm" action="${pageContext.request.contextPath}/community/freeboardUpdateEnd.do"	method="post" onsubmit="return validate();"	enctype="multipart/form-data">
+				<input type="hidden" name="boardNo" value="${freeboard.boardNo}"/>
 				<div class="freeboard-write-body">
 					<div class="freeboard-write-content">
 						<div class="freeboard-content-element">
 							<div>작성자</div>
 							<div>
 								<input type="text" name="memberId" class="form-control"
-									value="${notice.memberId }" readonly />
+									value="${freeboard.memberId }" readonly />
 							</div>
 						</div>
 						<div class="freeboard-content-element">
 							<div>제목</div>
 							<div>
-								<input type="text" name="noticeTitle" class="form-control"
-									required="required" value="${notice.noticeTitle }"/>
+								<input type="text" name="boardTitle" class="form-control"
+									required="required" value="${freeboard.boardTitle }"/>
 							</div>
 						</div>
 						<div class="freeboard-content-element">
 							<div>내용</div>
 							<div>
-								<textarea class="form-control" name="noticeContent"
-									required="required" rows="7">${notice.noticeContent }</textarea>
+								<textarea class="form-control" name="boardContent"
+									required="required" rows="7">${freeboard.boardContent }</textarea>
 							</div>
 						</div>
 	<c:if test="${attachmentList != '[]' }">
@@ -165,7 +262,7 @@
 				
 				<div class="freeboard-btn-box">
 					<input type="submit" class="btn btn-warning" value="수정"/> 
-					<input type="button" class="btn btn-secondary"  onclick="location.href='${path}/board/notice'" value="취소"/>
+					<input type="button" class="btn btn-secondary"  onclick="location.href='${path}/community/freeboard.do'" value="취소"/>
 				</div>
 			</form>
 		</div>
@@ -223,7 +320,7 @@
 		oName = encodeURIComponent(oName);
 		
 		$.ajax({
-           	url: '${path}/board/noticeAttachDelete.do?oName='+oName+'&rName='+rName,
+           	url: '${path}/community/freeboardAttachDelete.do?oName='+oName+'&rName='+rName,
            	type: 'get',
            	dataType: 'text',
            	success: data => {

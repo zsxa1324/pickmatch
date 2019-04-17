@@ -329,6 +329,7 @@ border-bottom: 1px solid #D8D8D8;
 				tr.style.backgroundColor=(t.checked) ? "lightgray" : "white";
 			}
 			
+			
 		function allCheckFunc( obj ) {
 				$("[name=checkOne]").prop("checked", $(obj).prop("checked") );
 		}

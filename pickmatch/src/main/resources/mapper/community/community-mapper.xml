@@ -43,4 +43,7 @@
   	<delete id="deleteFreeBoardAttach" parameterType="string">
   		delete from FREEBOARDATTACHMENT where renamedfilename=#{rName}
   	</delete>
+  	<select id="selectFreeBoardListAll" resultType="freeBoard">
+  		select * from freeboard order by boarddate desc
+  	</select>
 </mapper>

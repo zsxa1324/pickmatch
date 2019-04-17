@@ -241,12 +241,11 @@
 			<button class="btn btn-outline-primary" onclick="freeboard_update();">수정</button>
 		</div>
 	</c:if>
-	
-<%-- 	<div class="btn-group" role="group" aria-label="Basic example">
-	  <button type="button" class="btn btn-secondary" onclick="location.href='${path}/community/freeboardView.do?boardNo=${freeboard.boardNo-1}'">이전글</button>
-	  <button type="button" class="btn btn-secondary">목록</button>
-	  <button type="button" class="btn btn-secondary">다음글</button>
-	</div> --%>
+ 	<div class="btn-group" role="group" aria-label="Basic example">
+	  <button type="button" class="btn btn-secondary" onclick="location.href='${path}/community/freeboardView.do?boardNo=${prev}'">이전글</button>
+	  <button type="button" class="btn btn-secondary" onclick="location.href='${path}/community/freeboard.do?'">목록</button>
+	  <button type="button" class="btn btn-secondary" onclick="location.href='${path}/community/freeboardView.do?boardNo=${next}'">다음글</button>
+	</div>
 </div>
 
 </section>

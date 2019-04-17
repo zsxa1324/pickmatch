@@ -32,6 +32,8 @@ public interface CommunityService {
 
 	int insertFreeBoardAttach(FreeBoard fb, List<FreeBoardAttachment> list);
 
+	List<FreeBoard> selectFreeBoardListAll();
+
 
 	
 

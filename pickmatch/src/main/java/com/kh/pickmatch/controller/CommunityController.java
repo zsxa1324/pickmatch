@@ -35,23 +35,35 @@ public class CommunityController {
 
 	private Logger logger = LoggerFactory.getLogger(CommunityController.class);
 	
+	private List<Integer> boardNoList=new ArrayList();
+	private int prev=0;
+	private int next=0;
 	@Autowired
 	CommunityService service;
 	
 	@RequestMapping("/community/freeboard.do")
 	public ModelAndView freeboard(@RequestParam(value="cPage", required=false, defaultValue="1")int cPage) {
+		
 		int numPerPage = 10;
 		ModelAndView mv = new ModelAndView();
 		List<FreeBoard> list = service.selectFreeBoardList(cPage, numPerPage);
 		int totalList = service.selectFreeBoardCount();
-	
+			
 		mv.addObject("list", list);
 		mv.addObject("totalList", totalList);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalList, cPage, numPerPage, "/pickmatch/community/freeboard.do"));
 		mv.setViewName("community/co-freeboard");
+		boardNoSetting();
 		return mv;
 	}
-	
+	private void boardNoSetting()
+	{
+		boardNoList.clear();
+		List<FreeBoard> list=service.selectFreeBoardListAll();
+		for(int i=0;i<list.size();i++) {
+			boardNoList.add(list.get(i).getBoardNo());
+		}
+	}
 	@RequestMapping("/community/freeboardView.do")
 	public ModelAndView freeboardView(@RequestParam(value="boardNo", defaultValue="1") int boardNo) {
 		ModelAndView mv = new ModelAndView();
@@ -59,6 +71,18 @@ public class CommunityController {
 	    mv.addObject("attachmentList", service.selectAttachment(boardNo));
 	    mv.addObject("commentList", service.selectComment(boardNo));
 	    logger.info(service.selectComment(boardNo)+"");
+	    for(int i=0;i<boardNoList.size();i++)
+	    {
+	    	if(boardNo==boardNoList.get(i))
+	    	{
+	    		if(i!=0) { next=boardNoList.get(i-1);}
+	    		else { next=boardNoList.get(i);}
+	    		if(i!=(boardNoList.size()-1)) {prev=boardNoList.get(i+1);}
+	    		else {prev=boardNoList.get(i);}
+	    	}
+	    }
+	    mv.addObject("prev",prev);
+	    mv.addObject("next",next);
 	    mv.setViewName("community/co-freeboardView");
 	    return mv;
 	}

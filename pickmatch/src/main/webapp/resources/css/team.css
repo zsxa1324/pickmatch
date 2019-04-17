@@ -198,7 +198,7 @@ section#matchEnroll div#container div#home div#hometeam {
 section#matchEnroll div#container div#home div.score {
 	width: 80px;
 	height: 40px;
-	background-color: white;
+	background-color: #f3f3f3;
 	border-radius: 5px;
 	margin: 10px 60px;
 	padding-top: 10px;
@@ -306,7 +306,7 @@ section#matchEnroll div#container div#away div#awayteam {
 section#matchEnroll div#container div#away div.score {
 	width: 80px;
 	height: 40px;
-	background-color: white;
+	background-color: #f3f3f3;
 	border-radius: 5px;
 	margin: 10px 60px;
 	padding-top: 10px;

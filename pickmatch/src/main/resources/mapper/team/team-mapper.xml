@@ -131,18 +131,18 @@
  	</insert>
  	
  	<!-- 팀가입 거절 -->
- 	<delete id="teamNo" parameterType="mbt">
- 		delete from memberrequest where memberid=#{memberId}
+ 	<delete id="teamNo" parameterType="mbr">
+ 		delete from memberrequest where memberid=#{memberId} and teamname = #{teamName} and requesttype = #{requestType}
  	</delete>
  	
  	<!-- 팀가입 신청 -->
  	<insert id="teamJoin" parameterType="member">
- 		insert into memberrequest values(#{memberId},#{teamName},sysdate,'팀')
+ 		insert into memberrequest values(seq_memberrequest_no.nextval, #{memberId},#{teamName},sysdate,#{position})
  	</insert>
  	
  	<!-- 팀가입신청시 멤버리퀘스트테이블 비교 -->
- 	<select id="memberRequestCk" parameterType="member" resultType="mbr">
- 		select * from memberrequest where memberid=#{memberId} and teamname=#{teamName}
+ 	<select id="memberRequestCk" parameterType="mbr" resultType="mbr">
+ 		select * from memberrequest where memberid=#{memberId} and teamname=#{teamName} and requesttype = #{requestType}
  	</select>
  	
  	<!-- 팀게시판 글쓰기 -->

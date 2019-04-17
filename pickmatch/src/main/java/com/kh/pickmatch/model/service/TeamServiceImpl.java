@@ -133,14 +133,63 @@ public class TeamServiceImpl implements TeamService {
 		return dao.selectTeamAuthorityOne(memberId);
 	}
 	
+	@Override
+	public String selectTeamEmblemOne(String teamName) {
+		return dao.selectTeamEmblemOne(teamName);
+	}
+	
+	@Override
+	public int updateTeamInfo(Team team) {
+		return dao.updateTeamInfo(team);
+	}
+	
+	@Override
+	public int selectMercenaryCount(String memberId, String teamName) {
+		return dao.selectMercenaryCount(memberId, teamName);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectMemberReuestList(String teamName) {
+		return dao.selectMemberReuestList(teamName);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectMercenaryManagementList(String teamName) {
+		return dao.selectMercenaryManagementList(teamName);
+	}
+	
+	@Override
+	public int insertMercenary(String memberId, String teamName) {
+		return dao.insertMercenary(memberId, teamName);
+	}
+	
+	@Override
+	public int deleteTeamMercenary(Map<String, String> map) {
+		return dao.deleteTeamMercenary(map);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectMyTeamMercenaryList(String memberId) {
+		return dao.selectMyTeamMercenaryList(memberId);
+	}
+	
+	
 	
 	
 	
 	
 	//도원
 	
-	
-	
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -250,9 +299,9 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public MemberRequest memberRequestCk(String memberId, String teamName) {
+	public MemberRequest memberRequestCk(String memberId, String teamName, String type) {
 		// TODO Auto-generated method stub
-		return dao.memberRequestCk(memberId, teamName);
+		return dao.memberRequestCk(memberId, teamName, type);
 	}
 
 	@Override
@@ -262,9 +311,9 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public int teamNo(String memberId, String teamName) {
+	public int teamNo(String memberId, String teamName, String type) {
 		// TODO Auto-generated method stub
-		return dao.teamNo(memberId, teamName);
+		return dao.teamNo(memberId, teamName, type);
 	}
 
 	@Override

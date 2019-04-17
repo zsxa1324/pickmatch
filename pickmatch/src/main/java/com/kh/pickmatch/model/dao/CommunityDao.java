@@ -30,4 +30,6 @@ public interface CommunityDao {
 
 	int deleteComment(int commentNo);
 
+	int deleteFreeBoardAttach(String rName);
+
 }

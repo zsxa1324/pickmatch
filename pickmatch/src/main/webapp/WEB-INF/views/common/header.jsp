@@ -20,6 +20,10 @@
 <title>메인화면</title>
 
 <style>
+	@font-face{
+		font-family: 'Bloomer';
+		src : url('${path}/resources/css/BloomerDEMO.otf');
+	}
 	.form-control
 	{
 		margin:3px auto;
@@ -75,14 +79,16 @@
 	
 	#header-logo > img
 	{
-		margin : 0 -2px 0 10px;
+		margin : 0 0 0 10px;
 	}
 	
 	#header-logo > a
 	{
-		font-family: Amaranth;
-		font-size:46px;
+		font-family: Bloomer;
+		letter-spacing:0.08em;
+		font-size:50px;
 		cursor: default;
+		margin : 1.5px;
 	}
 	
 	#login-modal > span
@@ -196,12 +202,17 @@
 <script>
 	function valSubmit()
 	{
+		console.log(onsubmit_id);
+		console.log(onsubmit_mail);
+		console.log(onsubmit_pass);
+		console.log(onsubmit_nick);
+		
 		if(onsubmit_id !=1 || onsubmit_mail!=1 || onsubmit_pass!=1 || onsubmit_nick!=1)
 		{
 			alert('회원가입양식을 맞춰주세요.');
 			return false;
 		}
-		return false;
+		return true;
 	}
 </script>
 </head>
@@ -582,6 +593,9 @@
 					alert('인증번호가 일치하지 않습니다.');
 					onsubmit_mail = 0;
 				}
+			},
+			error: data =>{
+				alert('일치하는 인증번호가 아닙니다.');
 			}
 				
 		});

@@ -35,7 +35,7 @@
 	
 	.freeboard-content-element > div
 	{
-		margin : 3px 15px;
+		margin : 4px 15px;
 	}
 	
 	.freeboard-content-element > div:nth-of-type(1)
@@ -88,6 +88,11 @@
 	{
 		text-align: right;
 		margin-right: 50px;	
+	}
+	
+	.freeboard-btn-box
+	{
+		margin : 30px auto;
 	}
 	
 	.freeboard-btn-box > input:nth-of-type(1)

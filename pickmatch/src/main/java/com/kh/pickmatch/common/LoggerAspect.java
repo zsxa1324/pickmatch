@@ -23,6 +23,7 @@ import com.kh.pickmatch.model.service.MatchService;
 import com.kh.pickmatch.model.service.MessageService;
 import com.kh.pickmatch.model.vo.Match;
 import com.kh.pickmatch.model.vo.Member;
+import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Message;
 
 
@@ -42,7 +43,10 @@ public class LoggerAspect {
 			+ "execution(* com.kh.pickmatch.model.service.MatchService.matchOk(..))")
 	public void matchPointcut() {}
 	
-	@Pointcut("execution(* com.kh.pickmatch.model.service.TeamService.InsertTeam(..))")
+	@Pointcut("execution(* com.kh.pickmatch.model.service.TeamService.teamJoin(..)) ||"
+			+ "execution(* com.kh.pickmatch.model.service.TeamService.teamNo(..)) || "
+			+ "execution(* com.kh.pickmatch.model.service.TeamService.teamCancel(..)) ||"
+			+ "execution(* com.kh.pickmatch.model.service.TeamService.teamOk(..))" ) 
 	public void teamPointcut() {}
 	
 	@Pointcut("execution(* com.kh.pickmatch.controller.MemberController.login(..))")
@@ -72,7 +76,7 @@ public class LoggerAspect {
 		String type = sig.getDeclaringTypeName(); // 클래스 이름
 		String method = sig.getName(); // 메소드 이름, 넘어가는 String 시점의 메소드
 		Message msg = new Message();
-		
+		int result = 0;
 		if (method.contains("insertMatch")) {
 			Match match = (Match) joinPoint.getArgs()[0];
 			logger.warn("[afterWork : aspect : insertMatch ::::]" + type + "." + method + "()");
@@ -102,7 +106,13 @@ public class LoggerAspect {
 			messageService.insertTeamMessage(msg);
 			List<Map> matchRequestList = matchService.matchResponse(matchNo);
 			for (Map m : matchRequestList) {
-				logger.debug("" + m.get("TEAMNAME"));
+//				logger.debug("afterWork : matchRequest :: Teamname :" + m.get("TEAMNAME"));
+				String canceledTeamname = (String) m.get("TEAMNAME");
+				if (!canceledTeamname.equals(teamAway)) {
+					msg.setSender(canceledTeamname);
+					msg.setMessageContent(teamHome + "팀과의 " + matchDate + " 매치가 실패하였습니다.");
+					messageService.insertTeamMessage(msg);
+				}
 			}
 		}
 	}
@@ -114,11 +124,65 @@ public class LoggerAspect {
 		String method = sig.getName(); // 메소드 이름, 넘어가는 String 시점의 메소드
 		Message msg = new Message();
 		logger.warn("[afterWorkTeam beforeFilter:::::]" + type + "." + method + "()");
-		if (method.contains("InsertTeam")) {
-			logger.warn("[afterWork : aspect : InsertTeam ::::]" + type + "." + method + "()");
-//			logger.debug("afterWork : team ::::" + team);
+		String memberId = "";
+		String teamName = "";
+		if (method.contains("teamJoin")) { 
+			// 팀가입신청  teamJoin(String memberId, String teamName, String position)
+			logger.warn("[afterWork : aspect : teamJoin ::::]" + type + "." + method + "()");
 			logger.debug("afterWork : joinPoint.getArgs()[0] ::::" + joinPoint.getArgs()[0]);
-		} 
+			logger.debug("afterWork : joinPoint.getArgs()[0] ::::" + joinPoint.getArgs()[1]);
+			memberId = (String) joinPoint.getArgs()[0];
+			teamName = (String) joinPoint.getArgs()[1];
+			List<MemberByTeam> leader = messageService.selectLeader(teamName);
+			if (leader.size() > 0) {
+				for (MemberByTeam mt: leader) {
+					msg.setSender("admin");
+					msg.setReceiver(mt.getMemberId());
+					msg.setMessageContent(memberId + "님이 가입을 신청하였습니다");
+					msg.setMessageType("팀");
+					messageService.insertMessage(msg);
+				}
+			}
+		} else if (method.contains("teamNo")) {
+			// 팀가입 거절 teamNo(String memberId, String teamName)
+			logger.warn("[afterWork : aspect : teamNo ::::]" + type + "." + method + "()");
+			logger.debug("afterWork : joinPoint.getArgs()[0] ::::" + joinPoint.getArgs()[0]);
+			logger.debug("afterWork : joinPoint.getArgs()[0] ::::" + joinPoint.getArgs()[1]);
+			memberId = (String) joinPoint.getArgs()[0];
+			teamName = (String) joinPoint.getArgs()[1];
+			msg.setSender(teamName);
+			msg.setReceiver(memberId);
+			msg.setMessageContent(teamName + "의 가입이 거절되었습니다.");
+			msg.setMessageType("개인");
+			messageService.insertMessage(msg);
+		} else if (method.contains("teamCancel")) {  //가입신청 취소 teamCancel(String memberId, String teamName)
+			logger.warn("[afterWork : aspect : teamCancel ::::]" + type + "." + method + "()");
+			logger.debug("afterWork : joinPoint.getArgs()[0] ::::" + joinPoint.getArgs()[0]);
+			logger.debug("afterWork : joinPoint.getArgs()[0] ::::" + joinPoint.getArgs()[1]);
+			msg.setSender("admin");
+			List<MemberByTeam> leader = messageService.selectLeader(teamName);
+			if (leader.size() > 0) {
+				for (MemberByTeam mt: leader) {
+					msg.setSender("admin");
+					msg.setReceiver(mt.getMemberId());
+					msg.setMessageContent(memberId + "님의 가입 신청이 취소되었습니다.");
+					msg.setMessageType("팀");
+					messageService.insertMessage(msg);
+				}
+			}
+			
+		} else if (method.contains("teamOk")) {  // teamOk(String memberId, String teamName, Model m)
+			logger.warn("[afterWork : aspect : teamOk ::::]" + type + "." + method + "()");
+			logger.debug("afterWork : joinPoint.getArgs()[0] ::::" + joinPoint.getArgs()[0]);
+			logger.debug("afterWork : joinPoint.getArgs()[0] ::::" + joinPoint.getArgs()[1]);
+			memberId = (String) joinPoint.getArgs()[0];
+			teamName = (String) joinPoint.getArgs()[1];
+			msg.setSender(teamName);
+			msg.setReceiver(memberId);
+			msg.setMessageContent(teamName + "에 들어오신 것을 환영합니다");
+			msg.setMessageType("개인");
+			messageService.insertMessage(msg);
+		}   
 	}
 	
 	// 어드바이스 : 실행시점 지정, 부가기능 모듈인 aspect가 무엇을 언제 할 지 정의 ex) Around : 메소드 실행 전 후 

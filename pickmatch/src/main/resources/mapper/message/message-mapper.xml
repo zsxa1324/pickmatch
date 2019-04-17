@@ -34,6 +34,10 @@
 		SELECT memberid FROM MEMBERBYTEAM WHERE TEAMNAME = #{teamHome}
 	</select>
 	
+	<select id="selectLeader" parameterType="String" resultType="mt">
+		select memberId from memberbyteam where teamname = #{teamName} and authority IN ('팀장', '매니저')
+	</select>
+	
 	<update id="updateMessageRead">
 		UPDATE MESSAGE SET MESSAGECHECK = 'Y' WHERE RECEIVER = #{memberId}
 	</update>

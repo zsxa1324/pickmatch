@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.pickmatch.model.vo.MemberByTeam;
 import com.kh.pickmatch.model.vo.Message;
 
 @Repository
@@ -64,7 +65,12 @@ public class MessageDaoImpl implements MessageDao {
 		// TODO Auto-generated method stub
 		return session.update("message.updateMessageRead", memberId);
 	}
-	
+
+	@Override
+	public List<MemberByTeam> selectLeader(String teamName) {
+		// TODO Auto-generated method stub
+		return session.selectList("message.selectLeader", teamName);
+	}
 	
 
 }

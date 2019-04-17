@@ -18,7 +18,7 @@
    <input type="hidden" name="teamName" value="${loggedMember.teamName}"/>
    <input type="hidden" name="boardNo" value="${teamboard.boardNo }"/>
 
-   <div style="display: block;">
+   <div align="left" style="display: block;">
     <label for="memberId" style="display: inline-block; margin-right: 30px; margin-left: 20px;">작성자</label>
     <input type="text" class="form-control" id="memberId" value="${teamboard.memberId }" style="display: inline-block; width: 300px;" readonly >
    </div>

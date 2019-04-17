@@ -10,71 +10,83 @@
 
 <section id="team-board-view">
 
-<form action="${pageContext.request.contextPath}/team/whiteTeamBoard.do" method="post" onsubmit="return validate();">
-<input type="hidden" name="boardNo" value="${teamboard.boardNo }"/>
 
-  <div class="form-group form-group-sm">
-    <div style="display: block;">
-    <label for="memberId" style="display: inline-block; margin-right: 30px; margin-left: 20px;">작성자</label>
-    <input type="text" class="form-control" id="memberId" value="${teamboard.memberId }" style="display: inline-block; width: 300px;" readonly >
-   </div>
-   <div style="display: block;">
-    <label for="boardTitle" style="display: inline-block; margin-right: 30px; margin-left: 20px;">제목</label>
-    <input type="text" class="form-control" id="boardTitle" value="${teamboard.boardTitle }" name="boardTitle" style="display: inline-block; width: 300px;">
-   </div>
-  </div>
-  <div class="form-group form-group-sm">
-    <label for="stadium" style="margin-right: 45px; margin-left: 20px;">파일</label>
-    <c:forEach items="${attachmentList}" var="a" varStatus="vs">
-       <button type="button" style="width:300px;"
-               class="btn btn-outline-success btn-block"
-               onclick="fileDownload('${a.originalFileName}','${a.renamedFileName }');"> 첨부파일${vs.count} - ${a.originalFileName }
-        </button>
-    </c:forEach>
-  </div>
-  
-<div style="width:450px;">
-<h2><b>파일</b></h2>
-<div id="fileDiv">
-		<p>
-			<input type="file" class="form-control form-control-sm" id="file_0" name="upFile">
-			<a href="#this" class="btn btn-primary btn-sm" id="delete" name="delete">삭제</a>
-		</p>
+<div class="freeboard-write-wrapper">
+		<div class="freeboard-write-header">
+			<span>자유게시판 글 수정</span>
+		</div>
+		<div class="freeboard-write-form">
+			<form action="${pageContext.request.contextPath}/team/whiteTeamBoard.do" method="post" onsubmit="return validate();">
+				<input type="hidden" name="boardNo" value="${teamboard.boardNo}"/>
+				<div class="freeboard-write-body">
+					<div class="freeboard-write-content">
+						<div class="freeboard-content-element">
+							<div>작성자</div>
+							<div>
+								<input type="text" name="memberId" class="form-control"
+									value="${teamboard.memberId }" readonly />
+							</div>
+						</div>
+						<div class="freeboard-content-element">
+							<div>제목</div>
+							<div>
+								<input type="text" name="boardTitle" class="form-control"
+									required="required" value="${teamboard.boardTitle }"/>
+							</div>
+						</div>
+						<div class="freeboard-content-element">
+							<div>내용</div>
+							<div>
+								<textarea class="form-control" name="boardContent"
+									required="required" rows="7">${teamboard.boardContent }</textarea>
+							</div>
+						</div>
+	<c:if test="${attachmentList != '[]' }">
+		<div class="freeboard-attach-download">
+			<div>
+				첨부파일 수정
+			</div>
+			<div>
+				<c:forEach items="${attachmentList}" var="a" varStatus="vs">
+				<div>
+			    	<button type="button" class="btn btn-outline-success" onclick="fileDelete('${a.originalFileName}','${a.renamedFileName }');"><%--  첨부파일${vs.count} -  --%>${a.originalFileName }
+			        </button>
+		   		</div>
+		   		</c:forEach>
+		   	</div>	
+		</div>
+	</c:if>
+					<div class="freeboard-content-element">
+							<div>파일 첨부</div>
+							<div class="freeboard-attach"  id="fileDiv">
+								<div class="attach-file">
+									<div>
+										<input type="file" class="form-control form-control-sm" id="file_0" name="upFile">
+									</div>
+									<div>
+										<a href="#this" class="btn btn-primary btn-sm" id="delete" name="delete">삭제</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="attah-add">
+					<a href="#this" class="btn btn-primary btn-sm" id="addFile">파일추가</a>
+				</div>
+				
+				<div class="freeboard-btn-box" style="margin-left: 300px; margin-top:30px;">
+					<input type="submit" class="btn btn-warning" value="수정"/> 
+					<input type="button" class="btn btn-outline-success" value="취소" onclick="cancel_btn()"> 
+				</div>
+			</form>
+		</div>
 	</div>
-</div>
-<a href="#this" class="btn btn-primary btn-sm" id="addFile">파일추가</a>
   
   
 
-  <div class="form-group">
-  	<label style="margin-right: 30px; margin-left: 20px; display:inline-block;">내용</label>
-  	<textarea class="form-control" name="boardContent" rows="10" style="width:600px; margin-right: 30px; margin-left: 20px">${teamboard.boardContent }</textarea>
-  </div>
 
-
-  <div class="attach-file-console">
-  	<c:if test="${attachmentList !=null }">
-  		<c:forEach items="${attachmentList }" var="attach">
-  			<c:if test="${fn:substringAfter(attach.renamedFileName,'.')== 'jpg'}">
-  			<img src="${path }/resources/upload/team-freeboard/${attach.renamedFileName}" width="70px">
-  			</c:if> 
-  			<c:if test="${fn:substringAfter(attach.renamedFileName,'.')== 'jpeg'}">
-  			<img src="${path }/resources/upload/team-freeboard/${attach.renamedFileName}" width="70px">
-  			</c:if> 
-  			<c:if test="${fn:substringAfter(attach.renamedFileName,'.')== 'png'}">
-  			<img src="${path }/resources/upload/team-freeboard/${attach.renamedFileName}" width="70px">
-  			</c:if> 
-  		</c:forEach>
-  	</c:if>
-  </div>
-  
-   <div>
-  	<input type="submit" class="btn btn-outline-success" id="white_btn" value="수정" style="margin-right: 150px;">
-	<input type="button" class="btn btn-outline-success" value="취소" onclick="cancel_btn()"> 
-  </div>
-  
-
-</form>
 </section>
 
 
@@ -84,32 +96,141 @@
 	} 
  	
 
- 	var attach_count = 1;
- 	$(document).ready(function(){
- 		$("#addFile").on("click", function(e){
- 			e.preventDefault();
- 			fn_addFile();
- 		});
- 		$("a[name='delete']").on("click", function(e){
- 			e.preventDefault();
- 			fn_deleteFile($(this));
- 		});
- 	});
+	var attach_count = 1;
+	$(document).ready(function(){
+		$("#addFile").on("click", function(e){
+			e.preventDefault();
+			fn_addFile();
+		});
+		$("a[name='delete']").on("click", function(e){
+			e.preventDefault();
+			console.log('dele');
+			fn_deleteFile($(this));
+			console.log($(this));
+		});
+	});
+	
+	function fn_addFile(){
+		var str = "<div class='attach-file'><div><input type='file' name='upFile' class='form-control form-control-sm' id='file_"+(attach_count++)+"'></div><div><a href='#this' class='btn btn-primary btn-sm' name='delete'>삭제</a></div></div>";
+		$("#fileDiv").append(str);
 
- 	function fn_addFile(){
- 		var str = "<p><input type='file' name='upFile' id='file_"+(attach_count++)+"'><a href='#this' class='btn' name='delete'>삭제</a></p>";
- 		$("#fileDiv").append(str);
- 		$("a[name='delete']").on("click",function(e){
- 			e.preventDefault();
- 			fn_deleteFile($(this));
- 		})
- 	}
-
- 	function fn_deleteFile(obj){
- 		obj.parent().remove();
- 	}
+		$("a[name='delete']").on("click",function(e){
+			e.preventDefault();
+			console.log('dele2');
+			fn_deleteFile($(this));
+		})
+		
+	}
+	
+	function fn_deleteFile(obj){
+		obj.parent().parent().remove();
+	}
+	
+	function fileDelete(oName,rName)
+	{
+		var flag = confirm("정말 삭제하시겠습니까?");		
+		
+		if(flag==true){
+			
+			fileDeleteAjax(oName,rName);
+		}
+		else{
+			return false;
+		}
+	}
 
 </script>
+
+<style>
+	.freeboard-write-header
+	{
+		margin : 20px auto;
+		text-align: center;
+		font-size: 37px;
+		font-weight: bold;
+	}
+	
+	.freeboard-write-wrapper
+	{
+		display:flex;
+		width : 80%;
+		flex-flow: column;
+		margin : 30px auto 100px;
+	}
+	
+	.freeboard-write-form
+	{
+		margin : 20px 0;
+	}
+	
+	.freeboard-content-element
+	{
+		display: flex;
+		flex-flow: row;
+	}
+	
+	.freeboard-content-element > div
+	{
+		margin : 3px 15px;
+	}
+	
+	.freeboard-content-element > div:nth-of-type(1)
+	{
+		flex : 1 0 0; 
+		align-self: center;
+		text-align: right;
+		margin-right: 8px;
+		
+	}
+	.freeboard-content-element > div:nth-of-type(2)
+	{
+		flex : 7 0 0;
+	}
+	
+	.form-control[readonly]
+	{
+		opacity: 0.8;
+		width : 50%;
+		margin-left: 0;
+	}
+	
+	.freeboard-attach
+	{
+		display: flex;
+		flex-direction: column;
+	}
+	
+
+	.attach-file
+	{
+		display: flex;
+		flex-flow: row;
+		align-items: center;
+	}
+	
+	.attach-file > div:nth-of-type(1)
+	{
+		flex : 5 1 0;
+	}
+	
+	.attach-file > div:nth-of-type(2)
+	{ 
+		text-align : right;
+		margin-right: 35px;
+		flex : 1 1 0;
+	}
+
+	.attah-add
+	{
+		text-align: right;
+		margin-right: 50px;	
+	}
+	
+	.freeboard-btn-box > input:nth-of-type(1)
+	{
+		margin-left:340px;
+	}
+</style>
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

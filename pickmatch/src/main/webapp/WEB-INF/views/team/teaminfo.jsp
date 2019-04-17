@@ -187,9 +187,9 @@
 
 	<table id="team-application-table" class="table table-striped table-hover">
 		<tr>
-			<th id="team-application-table-no">no</th>
+			<th id="team-application-table-no" style="width:100px;">no</th>
 			<th id="team-application-table-name">id</th>
-			<th id="team-application-table-position">position</th>
+			<th id="team-application-table-position" style="width:50px;">position</th>
 			<th id="team-application-table-date">date</th>
 			<c:if test="${loggedMember.teamName==teamName&&(loggedMember.authority=='팀장'||loggedMember.authority=='매니저')}">
 			<th id="team-application-table-others">비고</th>
@@ -197,10 +197,10 @@
 		</tr>
 		<c:forEach  items="${memberrequest }" var="j" varStatus="k">
 		<tr>
-			<td>${k.count }</td>
+			<td style="width:100px;">${k.count }</td>
 			<td>${j.memberId }</td>
-			<td>${j.position }</td>
-			<td><fmt:formatDate type="date" dateStyle="short" value="${j.requestDate }"/></td>
+			<td style="width:50px;">${j.position }</td>
+			<td><fmt:formatDate type="date" value="${j.requestDate }"/> <fmt:formatDate type="time" value="${j.requestDate }"/></td>
 			
 			<c:if test="${loggedMember.teamName==teamName&&(loggedMember.authority=='팀장'||loggedMember.authority=='매니저')}">
 			<td> 

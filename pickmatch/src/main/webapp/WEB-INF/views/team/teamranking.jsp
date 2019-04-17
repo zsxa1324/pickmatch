@@ -95,9 +95,18 @@
 	}
 	
 	
-	
-	
 	</style>
+	<script>
+		function validate(){
+		
+			var search=$("#searchkey").val().trim();
+			if(search.length<1){
+				alert("검색어를 입력하세요!");
+				return false;
+		}
+		
+	}
+	</script>
 
 
 

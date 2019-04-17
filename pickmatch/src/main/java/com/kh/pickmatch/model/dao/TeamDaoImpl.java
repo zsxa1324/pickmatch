@@ -347,10 +347,10 @@ public class TeamDaoImpl implements TeamDao {
 	}
 
 	@Override
-	public Mercenary MercenarySearch(String search) {
+	public List<Mercenary> MercenarySearch(String search) {
 		// TODO Auto-generated method stub
 		//logger.debug("서치::::::"+search);
-		return session.selectOne("team.MercenarySearch",search);
+		return session.selectList("team.MercenarySearch",search);
 	}
 
 	@Override

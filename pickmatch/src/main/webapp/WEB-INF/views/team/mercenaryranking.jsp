@@ -12,7 +12,7 @@
 
 <form action="${path }/mercenary/search.do" method="post" onsubmit="return validate()">
  <div align="center" style="margin-bottom: 100px; margin-top: 50px;">
-       &nbsp;<input class="form-control" type="text" id="searchkey" placeholder="용병검색" name="search" style="display:inline-block; width: 300px;">&nbsp;
+       &nbsp;<input class="form-control" type="text" id="searchkey" placeholder="닉네임, 팀명 입력" name="search" style="display:inline-block; width: 300px;">&nbsp;
        		 <button type="submit" id="searchbtn" name="searchbtn" class="btn btn-secondary" style="display:inline-block; width:100px;">검색</button>
 </div>
 </form>
@@ -22,7 +22,12 @@
 <div class="card" style="display: inline-block; margin-left: 20px; margin-right:20px; margin-bottom: 50px; ">
 <h5>${r.rank}</h5> 
 <div id="rankimg" style="margin-bottom: 20px;">
-  <img src="https://image.fmkorea.com/files/attach/new/20180417/486616/41170129/1021006724/554449902566a4417eee09a4fdb7bd79.jpg" class="img-circle" style="width:250px; height:200px;">
+<c:if test="${r.profile==null }">
+	<img src="https://data.ac-illust.com/data/thumbnails/78/7877e8c81ac0a942265a9b65a049b784_t.jpeg" class="img-circle" style="width:250px; height:200px;">
+</c:if>
+<c:if test="${r.profile!=null }">
+  <img src="${path }/resources/upload/member-profile/${r.profile}" class="img-circle" style="width:250px; height:200px;">
+ </c:if>
   </div>
   <h5 style="margin-bottom: 10px;">${r.memberId }</h5>
   <p style="height: 100px; width:250px;">${r.introduce }</p>
@@ -39,6 +44,7 @@
 			<th id="mercenaryranking-table-info-ranking">순위</th>
 			<th id="mercenaryranking-table-info-membername">회원명</th>
 			<th id="mercenaryranking-table-info-score">득점</th>
+			<th id="mercenaryranking-table-info-teamname">팀명</th>
 			<th id="mercenaryranking-table-info-introduce">소개</th>
 		</tr>
 
@@ -48,6 +54,7 @@
 				<td id="mercenaryranking-table-info-ranking">${b.rank }</td>
 				<td id="mercenaryranking-table-info-membername">${b.memberId}</td>
 				<td id="mercenaryranking-table-info-score">${b.goalCount }</td>
+				<td id="mercenaryranking-table-info-teamname">${b.teamName }</td>
 				<td id="mercenaryranking-table-info-introduce">${b.introduce }</td>
 			</tr>
 			</c:forEach>
@@ -105,6 +112,9 @@
 }
 #mercenaryranking-table-info-introduce{
 	width:550px;
+}
+#mercenaryranking-table-info-teamname{
+	width:200px;
 }
 
 

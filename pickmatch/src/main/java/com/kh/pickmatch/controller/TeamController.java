@@ -731,7 +731,7 @@ public class TeamController {
 		
 		int result = service.updateTeamBoard(boardTitle, boardContent, boardNo);
 		String msg="";
-		String loc="";
+		String loc="/freeboard.do";
 		
 		if(result>0) {
 			msg="수정되었습니다";
@@ -1088,6 +1088,7 @@ public class TeamController {
 		ModelAndView mv = new ModelAndView();
 		List<Mercenary> list = service.mercenaryranking(cPage, numPerPage);
 		List<Mercenary> top3 = service.mercenaryranking(1, numPerPage);
+		
 		int totalList = service.selectCountM();
 
 		
@@ -1104,10 +1105,10 @@ public class TeamController {
 	public ModelAndView MercenarySearch(String search, Model m) {
 		
 		ModelAndView mv = new ModelAndView();
-		Mercenary temp = service.MercenarySearch(search);
+		
 		List<Mercenary> top3 = service.mercenaryranking(1, 10);
-		List<Mercenary> result = new ArrayList<>();
-		result.add(temp);
+		List<Mercenary> result =  service.MercenarySearch(search);
+		
 		String msg="";
 		String loc="";
 		
@@ -1115,7 +1116,7 @@ public class TeamController {
 		
 		//logger.debug("리졀트"+result);
 		
-		if(temp==null) {
+		if(result==null) {
 			msg="검색결과가 없습니다!";
 			loc="/mercenaryranking.do";
 			mv.addObject("msg", msg);

@@ -29,8 +29,8 @@
   </div>
   
   
-  <div>
-  	<input type="submit" class="btn btn-outline-success" id="white_btn" value="수정" style="margin-right: 150px;">
+  <div align="right">
+  	<input type="submit" class="btn btn-outline-success" id="white_btn" value="수정">
 	<input type="button" class="btn btn-outline-success" value="취소" onclick="cancel_btn()"> 
   </div>
     

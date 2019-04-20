@@ -213,7 +213,17 @@ public class TeamController {
 		
 		List<Match> list = service.selectMatchList(teamName, cPage, numPerPage);
 		
+		String[] homeEmblemArr = new String[list.size()];
+		String[] awayEmblemArr = new String[list.size()];
+		
+		for(int i = 0; i < list.size(); i++) {
+			homeEmblemArr[i] = service.selectTeamEmblemOne(list.get(i).getTeamHome());
+			if(list.get(i).getTeamAway() != null) awayEmblemArr[i] = service.selectTeamEmblemOne(list.get(i).getTeamAway());
+		}
+		
 		mv.addObject("list", list);
+		mv.addObject("homeEmblemArr", homeEmblemArr);
+		mv.addObject("awayEmblemArr", awayEmblemArr);
 		mv.addObject("authority", authority);		
 		mv.addObject("totalCount", totalCount);
 		mv.addObject("pageBar", PageBarFactory.getPageBar(totalCount, cPage, numPerPage, "/pickmatch/team/teamMatchList"));
@@ -288,10 +298,14 @@ public class TeamController {
 		List<Map<String, String>> homemercenaryList = service.selectMercenaryList(homeMap);
 		List<Map<String, String>> awaymercenaryList = service.selectMercenaryList(awayMap);
 		
-		System.out.println("매치의 어웨이 : " + m.getTeamAway());
-		System.out.println("어웨이 팀 정보 : " + awayTeam);
+		String homeEmblemArr = service.selectTeamEmblemOne(m.getTeamHome());
+		String awayEmblemArr = "";
+		if(m.getTeamAway() != null) awayEmblemArr = service.selectTeamEmblemOne(m.getTeamAway());
+		else awayEmblemArr = null;
 		
 		mv.addObject("m", m);
+		mv.addObject("homeEmblemArr", homeEmblemArr);
+		mv.addObject("awayEmblemArr", awayEmblemArr);
 		mv.addObject("matchNo", matchNo);
 		mv.addObject("teamName", teamName);
 		mv.addObject("homeTeam", homeTeam);
@@ -308,92 +322,92 @@ public class TeamController {
 	@RequestMapping("/team/teamMatchEnrollEnd")
 	public ModelAndView matchEnrollEnd(int matchNo, int homescore, int awayscore, String homeTeam, String awayTeam, String textarea, String homeMinarr, String awayMinarr, String homeNamearr, String awayNamearr) {
 
-			System.out.println("홈분 : " + homeMinarr);
-			System.out.println("어웨이 분 : " + awayMinarr);
-			System.out.println("홈 사람 : " + homeNamearr);
-			System.out.println("어웨이 사람 : " + awayNamearr);
-			
-			String[] hma = homeMinarr.split(",");
-			String[] ama = awayMinarr.split(",");
-			String[] hna = homeNamearr.split(",");
-			String[] ana = awayNamearr.split(",");
-			
-			MatchGoalResult mgr = null;
-			if(hna[0].trim() != "") {
-				for(int i = 0; i < hna.length; i++) {
-					mgr = new MatchGoalResult(0, homeTeam, matchNo, hna[i], Integer.parseInt(hma[i]));
-					service.insertMatchGoalResult(mgr);
-				}
-			}
-			if(ana[0].trim() != "") {
-				for(int i = 0; i < ana.length; i++) {
-					mgr = new MatchGoalResult(0, awayTeam, matchNo, ana[i], Integer.parseInt(ama[i]));
-					service.insertMatchGoalResult(mgr);
-				}
-			}
-			
-			Score homeS = null;
-			Score awayS = null;
-			Team homeT = service.selectOneHomeTeam(homeTeam);
-			Team awayT = service.selectOneAwayTeam(awayTeam);
-			Map<String, Object> homeMap = new HashMap<String, Object>();
-			Map<String, Object> awayMap = new HashMap<String, Object>();
-			
-			if(homescore > awayscore) {
-				homeS = new Score(homeTeam, 1, 1, 0, 0);
-				awayS = new Score(awayTeam, 1, 0, 0, 1);
-				
-				homeMap.put("teamName", homeTeam);
-				homeMap.put("teamRating", 20);
-				awayMap.put("teamName", awayTeam);
-				awayMap.put("teamRating", -20);
-				
-				service.updateTeamRating(homeMap);
-				service.updateTeamRating(awayMap);
-				
-				service.updateScore(homeS);
-				service.updateScore(awayS);
-			} else if(homescore < awayscore) {
-				homeS = new Score(homeTeam, 1, 0, 0, 1);
-				awayS = new Score(awayTeam, 1, 1, 0, 0);
-				
-				homeMap.put("teamName", homeTeam);
-				homeMap.put("teamRating", -20);
-				awayMap.put("teamName", awayTeam);
-				awayMap.put("teamRating", 20);
-				
-				service.updateScore(homeS);
-				service.updateScore(awayS);
-			} else {
-				homeS = new Score(homeTeam, 1, 0, 1, 0);
-				awayS = new Score(awayTeam, 1, 0, 1, 0);
-				
-				homeMap.put("teamName", homeTeam);
-				homeMap.put("teamRating", 5);
-				awayMap.put("teamName", awayTeam);
-				awayMap.put("teamRating", 5);
-				
-				service.updateScore(homeS);
-				service.updateScore(awayS);
-			}
-			
-			Map<String, Integer> matchScoreMap = new HashMap<String, Integer>();
-			matchScoreMap.put("matchNo", matchNo);
-			matchScoreMap.put("homeScore", homescore);
-			matchScoreMap.put("awayScore", awayscore);
-			
-			service.updateMatchScore(matchScoreMap);
-			
-			Map<String, Object> matchResultDetailMap = new HashMap<String, Object>();
-			
-			matchResultDetailMap.put("matchNo", matchNo);
-			matchResultDetailMap.put("matchContent", textarea);
-			
-			service.insertMatchResultDetail(matchResultDetailMap);
-			
-			ModelAndView mv = new ModelAndView();
-			mv.setViewName("team/teamMatchList");
+		ModelAndView mv = new ModelAndView();
+		System.out.println("홈분 : " + homeMinarr);
+		System.out.println("어웨이 분 : " + awayMinarr);
+		System.out.println("홈 사람 : " + homeNamearr);
+		System.out.println("어웨이 사람 : " + awayNamearr);
 		
+		String[] hma = homeMinarr.split(",");
+		String[] ama = awayMinarr.split(",");
+		String[] hna = homeNamearr.split(",");
+		String[] ana = awayNamearr.split(",");
+		
+		MatchGoalResult mgr = null;
+		if(hna[0].trim() != "") {
+			for(int i = 0; i < hna.length; i++) {
+				mgr = new MatchGoalResult(0, homeTeam, matchNo, hna[i], Integer.parseInt(hma[i]));
+				service.insertMatchGoalResult(mgr);
+			}
+		}
+		if(ana[0].trim() != "") {
+			for(int i = 0; i < ana.length; i++) {
+				mgr = new MatchGoalResult(0, awayTeam, matchNo, ana[i], Integer.parseInt(ama[i]));
+				service.insertMatchGoalResult(mgr);
+			}
+		}
+		
+		Score homeS = null;
+		Score awayS = null;
+		Team homeT = service.selectOneHomeTeam(homeTeam);
+		Team awayT = service.selectOneAwayTeam(awayTeam);
+		Map<String, Object> homeMap = new HashMap<String, Object>();
+		Map<String, Object> awayMap = new HashMap<String, Object>();
+		
+		if(homescore > awayscore) {
+			homeS = new Score(homeTeam, 1, 1, 0, 0);
+			awayS = new Score(awayTeam, 1, 0, 0, 1);
+			
+			homeMap.put("teamName", homeTeam);
+			homeMap.put("teamRating", 20);
+			awayMap.put("teamName", awayTeam);
+			awayMap.put("teamRating", -20);
+			
+			service.updateTeamRating(homeMap);
+			service.updateTeamRating(awayMap);
+			
+			service.updateScore(homeS);
+			service.updateScore(awayS);
+		} else if(homescore < awayscore) {
+			homeS = new Score(homeTeam, 1, 0, 0, 1);
+			awayS = new Score(awayTeam, 1, 1, 0, 0);
+			
+			homeMap.put("teamName", homeTeam);
+			homeMap.put("teamRating", -20);
+			awayMap.put("teamName", awayTeam);
+			awayMap.put("teamRating", 20);
+			
+			service.updateScore(homeS);
+			service.updateScore(awayS);
+		} else {
+			homeS = new Score(homeTeam, 1, 0, 1, 0);
+			awayS = new Score(awayTeam, 1, 0, 1, 0);
+			
+			homeMap.put("teamName", homeTeam);
+			homeMap.put("teamRating", 5);
+			awayMap.put("teamName", awayTeam);
+			awayMap.put("teamRating", 5);
+			
+			service.updateScore(homeS);
+			service.updateScore(awayS);
+		}
+		
+		Map<String, Integer> matchScoreMap = new HashMap<String, Integer>();
+		matchScoreMap.put("matchNo", matchNo);
+		matchScoreMap.put("homeScore", homescore);
+		matchScoreMap.put("awayScore", awayscore);
+		
+		service.updateMatchScore(matchScoreMap);
+		
+		Map<String, Object> matchResultDetailMap = new HashMap<String, Object>();
+		
+		matchResultDetailMap.put("matchNo", matchNo);
+		matchResultDetailMap.put("matchContent", textarea);
+		
+		service.insertMatchResultDetail(matchResultDetailMap);
+		logger.debug("matchEnrollEnd:::::AfterinsertMatchResultDetail");
+		mv.setViewName("team/teamMatchList");
+		logger.debug("matchEnrollEnd:::::After::::mv.setViewName");
 		return mv;
 	}
 	
@@ -406,11 +420,257 @@ public class TeamController {
 		List<Map<String, Object>> goalList = service.selectMatchGoalResultList(matchNo);
 		String matchContent = service.selectMatchResultDetail(matchNo);
 		
-		
+		String homeEmblemArr = service.selectTeamEmblemOne(match.getTeamHome());
+		String awayEmblemArr = "";
+		if(match.getTeamAway() != null) awayEmblemArr = service.selectTeamEmblemOne(match.getTeamAway());
+		else awayEmblemArr = null;
 		mv.addObject("match", match);
+		mv.addObject("homeEmblemArr", homeEmblemArr);
+		mv.addObject("awayEmblemArr", awayEmblemArr);
 		mv.addObject("goalList", goalList);
 		mv.addObject("matchContent", matchContent);
 		mv.setViewName("team/matchDetail");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/team/teamInfoRevise")
+	public String teamInfoRevise(String teamName, Team team, Model m) {
+		
+		String msg = "";
+		String loc = "team/teaminfo?teamName=" + teamName;
+		System.out.println(team);
+		int result = service.updateTeamInfo(team);
+		
+		if(result != 0) {
+			msg = "팀 정보가 수정되었습니다.";
+		} else {
+			msg = "업데이트중 오류발생!";
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
+	}
+	
+	@RequestMapping("/team/memberRequestList")
+	@ResponseBody
+	public Map<String,Object> memberRequestList(String memberId, String teamName) {
+		
+		int mercenaryResult = service.selectMercenaryCount(memberId, teamName);
+		MemberRequest mbr = service.memberRequestCk(memberId, teamName, "용병");
+		Map<String,Object> map = new HashMap<String, Object>();
+		int num = 0;
+		
+		if(mercenaryResult > 0) num = 1;
+		else if(mbr == null) num = 2;
+		else if(mbr != null) num = 3;
+		 
+		map.put("num", num);
+		 
+		return map;
+	}
+	
+	//용병가입 신청
+	@RequestMapping("/team/mercenaryApply")
+	@ResponseBody
+	public Map<String, Object> mercenaryApply(String memberId, String teamName) {
+		
+		String msg = "";
+		boolean flag;
+		
+		int result = service.teamJoin(memberId, teamName, "용병");
+		if(result>0) {
+			msg="용병 가입을 신청하였습니다!";
+			flag=true;
+		}
+		else {
+			flag=false;
+			msg="용병 가입을 실패하였습니다!";
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("msg", msg);
+		map.put("flag", flag);
+		return map;
+	}
+		
+	//용병가입 취소
+	@RequestMapping("/mercenaryCancel")
+	@ResponseBody
+	public Map<String, Object> mercenaryCancel(String memberId, String teamName){
+		
+		String msg = "";
+		boolean flag;
+		int result = service.teamNo(memberId, teamName, "용병");
+		if(result>0) {
+			msg="용병 가입신청을 취소하였습니다!";
+			flag=true;
+		}
+		else {
+			flag=false;
+			msg="용병 가입신청취로를 실패하였습니다!";
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("msg", msg);
+		map.put("flag", flag);
+		return map;
+		
+	}
+	
+	@RequestMapping("/team/teamMercenaryManagement")
+	public ModelAndView mercenaryManagement(HttpSession session) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		String msg = "";
+		String loc = "";
+		String teamName = "";
+		Member m = null;
+		String memberId = "";
+		
+		if(session.getAttribute("loggedMember") == null) {
+			msg = "로그인 후 이용가능합니다.";
+			loc = "/";
+			
+			mv.setViewName("common/msg");
+			mv.addObject("msg", msg);
+			mv.addObject("loc", loc);
+			return mv;
+			
+		} else {
+			m = (Member)session.getAttribute("loggedMember");
+			memberId = m.getMemberId();
+			teamName = service.selectTeamOne(memberId);
+			if(teamName == null) {
+				msg = "소속된 팀이 없습니다.";
+				loc = "/";
+				
+				mv.setViewName("common/msg");
+				mv.addObject("msg", msg);
+				mv.addObject("loc", loc);
+				return mv;
+				
+			}
+		}
+		
+		List<Map<String, Object>> mrList = service.selectMemberReuestList(teamName);
+		List<Map<String, Object>> mList = service.selectMercenaryManagementList(teamName);
+		
+		
+		mv.addObject("mrList", mrList);
+		mv.addObject("mList", mList);
+		mv.setViewName("team/mercenaryList");
+		
+		return mv;
+	}
+	
+	//용병 가입 거절
+	@RequestMapping("/team/teamMercenaryNo")
+	public String teamMercenaryNo(String memberId, String teamName, Model m) {
+		
+		String msg = "";
+		String loc="/team/teamMercenaryManagement?teamName="+teamName; //이동할 매핑값 써야됨
+		
+		int result = service.teamNo(memberId, teamName, "용병");
+		if(result>0) {
+			msg="가입을 거절하였습니다!";
+		}
+		else {
+			msg="거절에 실패하였습니다!";
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+			
+		
+		return "common/msg";
+	}
+	
+	//팀가입 승인
+	@RequestMapping("/team/teamMercenaryYes")
+	public String teamMercenaryYes(String memberId, String teamName, Model m) {
+		
+		String msg = "";
+		String loc = "/team/teamMercenaryManagement?teamName=" + teamName; //이동할 매핑값 써야됨
+		
+		int result = service.insertMercenary(memberId, teamName);
+		if(result > 0) {
+			msg = "승인 완료!";
+		}
+		else {
+			msg = "승인 실패!";
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
+	}
+	
+	@RequestMapping("/team/teamMercenarydelete")
+	public String teamMercenarydelete(String memberId, String teamName, Model m) {
+		
+		String msg = "";
+		String loc = "/team/teamMercenaryManagement?teamName=" + teamName; //이동할 매핑값 써야됨
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("memberId", memberId);
+		map.put("teamName", teamName);
+		
+		int result = service.deleteTeamMercenary(map);
+		
+		if(result > 0) {
+			msg = "추방 완료!";
+		}
+		else {
+			msg = "추방 실패!";
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
+		
+	}
+	
+	@RequestMapping("/team/teamMercenarySelfdelete")
+	public String teamMercenarySelfdelete(String memberId, String teamName, Model m) {
+		
+		String msg = "";
+		String loc = "/teammercenary.do?memberId=" + memberId; //이동할 매핑값 써야됨
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("memberId", memberId);
+		map.put("teamName", teamName);
+		
+		int result = service.deleteTeamMercenary(map);
+		
+		if(result > 0) {
+			msg = "탈퇴 완료!";
+		}
+		else {
+			msg = "탈퇴 실패!";
+		}
+		
+		m.addAttribute("msg", msg);
+		m.addAttribute("loc", loc);
+		
+		return "common/msg";
+		
+	}
+	
+	@RequestMapping("/teammercenary.do")
+	public ModelAndView teammercenary(String memberId) {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		List<Map<String, Object>> mercenaryList = service.selectMyTeamMercenaryList(memberId);
+		
+		mv.addObject("mercenaryList", mercenaryList);
+		mv.setViewName("team/teammercenary");
 		
 		return mv;
 	}
@@ -420,9 +680,14 @@ public class TeamController {
 	
 	
 	
-	
-	
 	//도원
+	
+	
+	
+	
+	
+	
+	
 	
 	//내팀정보!!
 	@RequestMapping("/team.do")
@@ -476,7 +741,7 @@ public class TeamController {
 	public Map<String,Object> memberRequestCk(String memberId, String teamName) {
 		
 		
-		 MemberRequest mbr = service.memberRequestCk(memberId, teamName);
+		 MemberRequest mbr = service.memberRequestCk(memberId, teamName, "팀");
 		 Map<String,Object> map = new HashMap<String, Object>();
 		 boolean flag;
 		 
@@ -499,7 +764,7 @@ public class TeamController {
 		String msg = "";
 		String loc="/team.do?teamName="+teamName; //이동할 매핑값 써야됨
 		
-		int result = service.teamNo(memberId, teamName);
+		int result = service.teamNo(memberId, teamName, "팀");
 		if(result>0) {
 			msg="가입을 거절하였습니다!";
 		}
@@ -525,7 +790,7 @@ public class TeamController {
 		boolean flag;
 		String loc="/team.do?teamName="+teamName; //이동할 매핑값 써야됨
 		
-		int result = service.teamJoin(memberId, teamName, position);
+		int result = service.teamJoin(memberId, teamName, "팀");
 		if(result>0) {
 			msg="팀 가입을 신청하였습니다!";
 			flag=true;
@@ -550,7 +815,7 @@ public class TeamController {
 		String msg = "";
 		boolean flag;
 		String loc="/team.do?teamName="+teamName; //이동할 매핑값 써야됨
-		int result = service.teamNo(memberId, teamName);
+		int result = service.teamNo(memberId, teamName, "팀");
 		if(result>0) {
 			msg="팀 가입신청을 취소하였습니다!";
 			flag=true;
@@ -566,12 +831,6 @@ public class TeamController {
 		return map;
 		
 		
-	}
-	
-	//지우면안됨!
-	@RequestMapping("/teammercenary.do")
-	public String teammercenary() {
-		return "team/teammercenary";
 	}
 	
 	//팀 게시판 리스트보기

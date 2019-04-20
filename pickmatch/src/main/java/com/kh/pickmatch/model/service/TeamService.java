@@ -40,11 +40,25 @@ public interface TeamService {
 	String selectMatchResultDetail(int matchNo);
 	List<Map<String, String>> selectMercenaryList(Map<String, String> map);
 	String selectTeamAuthorityOne(String memberId);
-
+	String selectTeamEmblemOne(String teamName);
+	int updateTeamInfo(Team team);
+	int selectMercenaryCount(String memberId, String teamName);
+	List<Map<String, Object>> selectMemberReuestList(String teamName);
+	List<Map<String, Object>> selectMercenaryManagementList(String teamName);
+	int insertMercenary(String memberId, String teamName);
+	int deleteTeamMercenary(Map<String, String> map);
+	List<Map<String, Object>> selectMyTeamMercenaryList(String memberId);
+	
 	
 	
 	
 	//도원
+	
+	
+	
+	
+	
+	
 	
 	//팀게시판
 	List<TeamBoard> selectList(int cPage, int numPerPage, String teamName);
@@ -102,13 +116,13 @@ public interface TeamService {
 	int teamOk(String memberId, String teamName);
 	
 	//팀가입 거절
-	int teamNo(String memberId, String teamName);
+	int teamNo(String memberId, String teamName, String type);
 	
 	//팀가입 승인
 	int teamJoin(String memberId, String teamName, String position);
 	
 	//팀가입시 가입신청테이블 확인
-	MemberRequest memberRequestCk(String memberId, String teamName);
+	MemberRequest memberRequestCk(String memberId, String teamName, String type);
 	
 	//팀게시판 글쓰기
 	int insertFreeBoard(TeamBoard fb, List<TeamBoardAttachment> list);

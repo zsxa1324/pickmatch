@@ -40,10 +40,28 @@ public interface TeamDao {
 	String selectMatchResultDetail(int matchNo);
 	List<Map<String, String>> selectMercenaryList(Map<String, String> map);
 	String selectTeamAuthorityOne(String memberId);
-
+	String selectTeamEmblemOne(String teamName);
+	int updateTeamInfo(Team team);
+	int selectMercenaryCount(String memberId, String teamName);
+	List<Map<String, Object>> selectMemberReuestList(String teamName);
+	List<Map<String, Object>> selectMercenaryManagementList(String teamName);
+	int insertMercenary(String memberId, String teamName);
+	int deleteTeamMercenary(Map<String, String> map);
+	List<Map<String, Object>> selectMyTeamMercenaryList(String memberId);
+	
+	
+	
+	
 	
 	
 	//도원
+	
+	
+	
+	
+	
+	
+	
 	int selectCount();
 	List<TeamBoard> selectList(int cPage, int numPerPage, String teamName);
 	Object selectTeamBoard(int boardNo);
@@ -99,13 +117,13 @@ public interface TeamDao {
 	int teamOk(String memberId, String teamName);
 	
 	//팀가입 거절
-	int teamNo(String memberId, String teamName);
+	int teamNo(String memberId, String teamName, String type);
 	
 	//팀가입 승인
 	int teamJoin(String memberId, String teamName, String position);
 	
 	//팀가입신청시 멤버리퀘스트테이블 비교
-	MemberRequest memberRequestCk(String memberId, String teamName);
+	MemberRequest memberRequestCk(String memberId, String teamName, String type);
 	
 	
 	//팀게시판 글쓰기

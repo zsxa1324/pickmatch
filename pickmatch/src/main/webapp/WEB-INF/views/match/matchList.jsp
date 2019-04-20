@@ -30,11 +30,11 @@ html,body {
 
 <script>
 var d = new Date();
+console.log(d);
 var fYear = d.getFullYear();
 var pMonth = d.getMonth()+1;
 var gDate = d.getDate();
 var today1 =fYear+"-"+pMonth+"-"+gDate; 
-
 $(document).ready(function(){
 	
 	$("#matchEnrollFormBtn").click(function(){
@@ -104,8 +104,6 @@ $(document).ready(function(){
 			var gDate2 = d2.getDate();
 			var today3 =fYear2+"-"+pMonth2+"-"+gDate2;
 			var id=event.event.id;
-			console.log(id);
-			console.log(today3);
 			
 			$.ajax({
 				url:"${path}/match/matchContent",
@@ -137,9 +135,11 @@ $(document).ready(function(){
   }
 </style> 
 <section>
- <div id='calendar'></div>
+
+
+ <div id='calendar' style="background-color: white;"></div>
  
- <div id="result"></div>
+ <div id="result" style="background-color: white; padding-bottom: 10px;"></div>
 </section>
 
 

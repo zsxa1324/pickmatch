@@ -26,12 +26,20 @@
 	.copyright-logo
 	{
 		position : absolute;
-		left : 0;
+		left : 14px;
+		top : 25px;
 	}
+	
+	.copyright-logo > p
+	{
+		font-family: Amaranth;
+		font-size:35px;
+	}
+	
 	.copyright-btn
 	{
 		overflow : hidden;
-		padding-left: 170px;
+		padding-left: 190px;
 	}
 	.copyright-btn li:first-child
 	{
@@ -61,7 +69,7 @@
 	.copyright-txt
 	{
 		position : relative;
-		padding-left: 170px;
+		padding-left: 190px;
 	}
 	
 	.copyright-txt address
@@ -82,7 +90,7 @@
 	<div id="copyright">
 		<div class="web-size">
 			<div class="copyright-logo">
-				<img src="" alt="logo">
+				<p>pickmatch</p>
 			</div>
 			<div class="copyright-btn">
 				<ul>

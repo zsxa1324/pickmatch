@@ -1,4 +1,4 @@
-package com.kh.pickmatch.model.vo;
+﻿package com.kh.pickmatch.model.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -15,7 +15,37 @@ public class MemberByTeam implements Serializable{
 	private Date enrollDate;
 	private Date exitDate;
 	private int goalCount;
+	private String position;
+	private int no;
+	private String status;
+	private String memberName;
 	
+	
+	
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
 	public MemberByTeam() {}
 
 	public MemberByTeam(String memberId, String teamName, String authority, Date enrollDate, Date exitDate,
@@ -27,6 +57,14 @@ public class MemberByTeam implements Serializable{
 		this.enrollDate = enrollDate;
 		this.exitDate = exitDate;
 		this.goalCount = goalCount;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getMemberId() {

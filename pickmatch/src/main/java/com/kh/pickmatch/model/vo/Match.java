@@ -1,4 +1,4 @@
-package com.kh.pickmatch.model.vo;
+﻿package com.kh.pickmatch.model.vo;
 
 import java.sql.Date;
 
@@ -12,13 +12,13 @@ public class Match {
 	private int cost;
 	private String matchContent;
 	private double lat, lng;
+	private String result;
 	
-	public Match() {
-		// TODO Auto-generated constructor stub
-	}
-
+	public Match() {}
+	
 	public Match(int matchNo, String teamHome, String teamAway, Date matchDate, String matchTime, String matchType,
-			String playGround, int homeScore, int awayScore, int cost, String matchContent, double lat, double lng) {
+			String playGround, int homeScore, int awayScore, int cost, String matchContent, double lat, double lng,
+			String result) {
 		super();
 		this.matchNo = matchNo;
 		this.teamHome = teamHome;
@@ -33,6 +33,7 @@ public class Match {
 		this.matchContent = matchContent;
 		this.lat = lat;
 		this.lng = lng;
+		this.result = result;
 	}
 
 	public int getMatchNo() {
@@ -139,13 +140,20 @@ public class Match {
 		this.lng = lng;
 	}
 
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
 	@Override
 	public String toString() {
 		return "Match [matchNo=" + matchNo + ", teamHome=" + teamHome + ", teamAway=" + teamAway + ", matchDate="
 				+ matchDate + ", matchTime=" + matchTime + ", matchType=" + matchType + ", playGround=" + playGround
 				+ ", homeScore=" + homeScore + ", awayScore=" + awayScore + ", cost=" + cost + ", matchContent="
-				+ matchContent + ", lat=" + lat + ", lng=" + lng + "]";
+				+ matchContent + ", lat=" + lat + ", lng=" + lng + ", result=" + result + "]";
 	}
-	
 	
 }

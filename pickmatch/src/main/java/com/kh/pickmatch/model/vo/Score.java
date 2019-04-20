@@ -1,10 +1,10 @@
-package com.kh.pickmatch.model.vo;
+﻿package com.kh.pickmatch.model.vo;
 
 public class Score {
 	
 	
 	private String teamName;
-	private int teamScore;
+	private int totalPlayCount;
 	private int win;
 	private int draw;
 	private int lose;
@@ -13,10 +13,10 @@ public class Score {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Score(String teamName, int teamScore, int win, int draw, int lose) {
+	public Score(String teamName, int totalPlayCount, int win, int draw, int lose) {
 		super();
 		this.teamName = teamName;
-		this.teamScore = teamScore;
+		this.totalPlayCount = totalPlayCount;
 		this.win = win;
 		this.draw = draw;
 		this.lose = lose;
@@ -30,12 +30,12 @@ public class Score {
 		this.teamName = teamName;
 	}
 
-	public int getTeamScore() {
-		return teamScore;
+	public int getTotalPlayCount() {
+		return totalPlayCount;
 	}
 
-	public void setTeamScore(int teamScore) {
-		this.teamScore = teamScore;
+	public void setTotalPlayCount(int totalPlayCount) {
+		this.totalPlayCount = totalPlayCount;
 	}
 
 	public int getWin() {
@@ -64,7 +64,7 @@ public class Score {
 
 	@Override
 	public String toString() {
-		return "Score [teamName=" + teamName + ", teamScore=" + teamScore + ", win=" + win + ", draw=" + draw
+		return "Score [teamName=" + teamName + ", totalPlayCount=" + totalPlayCount + ", win=" + win + ", draw=" + draw
 				+ ", lose=" + lose + "]";
 	}
 	

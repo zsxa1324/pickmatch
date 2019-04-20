@@ -1,10 +1,10 @@
-package com.kh.pickmatch.model.vo;
+﻿package com.kh.pickmatch.model.vo;
 
 public class TeamBoardAttachment {
 
 	
 	private int attachmentNo;
-	private String originamFileName;
+	private String originalFileName;
 	private int boardNoRef;
 	private String renamedFileName;
 	
@@ -12,10 +12,10 @@ public class TeamBoardAttachment {
 		// TODO Auto-generated constructor stub
 	}
 
-	public TeamBoardAttachment(int attachmentNo, String originamFileName, int boardNoRef, String renamedFileName) {
+	public TeamBoardAttachment(int attachmentNo, String originalFileName, int boardNoRef, String renamedFileName) {
 		super();
 		this.attachmentNo = attachmentNo;
-		this.originamFileName = originamFileName;
+		this.originalFileName = originalFileName;
 		this.boardNoRef = boardNoRef;
 		this.renamedFileName = renamedFileName;
 	}
@@ -28,12 +28,12 @@ public class TeamBoardAttachment {
 		this.attachmentNo = attachmentNo;
 	}
 
-	public String getOriginamFileName() {
-		return originamFileName;
+	public String getOriginalFileName() {
+		return originalFileName;
 	}
 
-	public void setOriginamFileName(String originamFileName) {
-		this.originamFileName = originamFileName;
+	public void setOriginalFileName(String originalFileName) {
+		this.originalFileName = originalFileName;
 	}
 
 	public int getBoardNoRef() {
@@ -54,7 +54,7 @@ public class TeamBoardAttachment {
 
 	@Override
 	public String toString() {
-		return "TeamBoardAttachment [attachmentNo=" + attachmentNo + ", originamFileName=" + originamFileName
+		return "TeamBoardAttachment [attachmentNo=" + attachmentNo + ", originalFileName=" + originalFileName
 				+ ", boardNoRef=" + boardNoRef + ", renamedFileName=" + renamedFileName + "]";
 	}
 	

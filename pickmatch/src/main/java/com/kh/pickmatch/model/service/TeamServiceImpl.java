@@ -304,7 +304,7 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public Mercenary MercenarySearch(String search) {
+	public List<Mercenary> MercenarySearch(String search) {
 		// TODO Auto-generated method stub
 		return dao.MercenarySearch(search);
 	}

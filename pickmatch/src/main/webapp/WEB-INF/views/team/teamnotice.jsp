@@ -27,7 +27,7 @@
 		<tr>
 			<td id="team-notice-table-id">${b.memberId }</td>
 			<td id="team-notice-table-title"><a href="${path}/team/noticeView.do?noticeNo=${b.noticeNo}">${b.noticeTitle }</a></td>
-			<td id="team-notice-table-date">${b.noticeDate }</td>
+			<td id="team-notice-table-date"><fmt:formatDate type="date" dateStyle="short" value="${b.noticeDate }"/></td>
 		</tr>
 		</c:forEach>
 	

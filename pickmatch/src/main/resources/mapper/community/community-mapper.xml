@@ -40,4 +40,7 @@
   	<delete id="deleteComment" parameterType="_int">
   		delete from freeboardcomment where commentno=#{commentNo}
   	</delete>
+  	<delete id="deleteFreeBoardAttach" parameterType="string">
+  		delete from FREEBOARDATTACHMENT where renamedfilename=#{rName}
+  	</delete>
 </mapper>

@@ -75,6 +75,12 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
+	public List<FreeBoard> selectFreeBoardListAll() {
+		// TODO Auto-generated method stub
+		return dao.selectFreeBoardListAll();
+	}
+
+	@Override
 	public int deleteFreeBoard(FreeBoard fb) {
 		// TODO Auto-generated method stub
 		return dao.deleteFreeBoard(fb);

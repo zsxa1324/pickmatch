@@ -18,7 +18,18 @@ public class MemberByTeam implements Serializable{
 	private String position;
 	private int no;
 	private String status;
+	private String memberName;
 	
+	
+	
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
 	public int getNo() {
 		return no;
 	}

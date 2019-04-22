@@ -113,8 +113,7 @@
 		match.teamaway=#{matchAway} and match.matchno=#{matchNo}
 	</select>
 	<select id="matchindexContent" resultType="map" parameterType="string">
-	<!-- select * from match where to_char(matchdate,'YYYY-MM-DD')=#{today} and teamaway is not null -->
-	select m.*,(select teamemblem from team where m.teamhome=teamname)as homeemblem,(select teamemblem from team where m.teamaway=teamname) as awayemblem from match m where to_char(matchdate,'YYYY-MM-DD')=#{today} and teamaway is not null
+	select * from match where to_char(matchdate,'YYYY-MM-DD')=#{today} and teamaway is not null
 	</select>
 	
 	<select id="selectOneMatch" parameterType="_int" resultType="match">

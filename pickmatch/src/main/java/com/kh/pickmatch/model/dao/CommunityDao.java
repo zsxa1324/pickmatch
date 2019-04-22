@@ -32,4 +32,6 @@ public interface CommunityDao {
 
 	int deleteFreeBoardAttach(String rName);
 
+	List<FreeBoard> selectFreeBoardListAll();
+
 }

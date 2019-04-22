@@ -88,4 +88,11 @@ public class CommunityDaoImpl implements CommunityDao {
 		return session.delete("community.deleteFreeBoardAttach", rName);
 	}
 
+	@Override
+	public List<FreeBoard> selectFreeBoardListAll() {
+		// TODO Auto-generated method stub
+		return session.selectList("community.selectFreeBoardListAll");
+	}
+	
+
 }
